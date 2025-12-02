@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+    <!-- Privacy Manifest for PitBox Racing App -->
+    <!-- Required for @capacitor/filesystem and App Store submission -->
+
+    <!-- File Timestamp Access -->
+    <key>NSPrivacyAccessedAPICategories</key>
+    <array>
+        <dict>
+            <key>NSPrivacyAccessedAPICategory</key>
+            <string>NSPrivacyAccessedAPICategoryFileTimestamp</string>
+            <key>NSPrivacyAccessedAPITypeReasons</key>
+            <array>
+                <!-- C617.1: Accessing files within app container or cache -->
+                <string>C617.1</string>
+            </array>
+        </dict>
+    </array>
+
+    <!-- Data Collection -->
+    <key>NSPrivacyCollectedDataTypes</key>
+    <array>
+        <!--
+            Setup sharing feature does NOT collect personal data:
+            - Setups are shared via user's own communication channels (email, AirDrop)
+            - No data sent to our servers
+            - No third-party tracking
+            - User-initiated sharing only
+        -->
+    </array>
+
+    <!-- Tracking -->
+    <key>NSPrivacyTracking</key>
+    <false/>
+
+    <!-- Tracking Domains (empty - no tracking) -->
+    <key>NSPrivacyTrackingDomains</key>
+    <array/>
+</dict>
+</plist>
