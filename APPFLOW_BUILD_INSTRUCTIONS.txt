@@ -1,0 +1,18 @@
+===============================================
+AFTER PUSHING TO GITHUB
+===============================================
+
+Go to Ionic AppFlow Dashboard:
+
+1. Build → Build Configuration
+2. Change build script from "build" to "build:ci"
+3. Save
+4. Trigger new build
+5. Done!
+
+Your builds will now succeed.
+
+The package.json now has a "build:ci" script that
+automatically adds the Android platform during CI/CD.
+
+===============================================
