@@ -1,252 +1,875 @@
-================================================================================
-           PITBOX ANDROID APP - BUILD INSTRUCTIONS FOR WINDOWS
-================================================================================
+===============================================
+COMPLETE ANDROID BUILD INSTRUCTIONS
+PIT-BOX App - One File, All Steps
+===============================================
 
-📦 YOUR DOWNLOAD FILE: PitBox-Android-Complete.tar.gz
+This file contains EVERYTHING you need to build your Android app.
+Follow these steps in order. Don't skip any steps!
 
-================================================================================
-STEP 1: INSTALL REQUIRED SOFTWARE
-================================================================================
+===============================================
+TABLE OF CONTENTS
+===============================================
 
-1.1 Install Java Development Kit (JDK) 17 or higher
-   - Download from: https://adoptium.net/
-   - Choose: Windows x64, JDK 17 LTS
-   - Run installer and follow prompts
-   - IMPORTANT: Check "Set JAVA_HOME variable" during installation
+1. Prerequisites & Downloads
+2. First Time Setup (Step-by-Step)
+3. Fix Gradle Warning
+4. Build Debug APK
+5. Create Release Build (Google Play Store)
+6. Keystore Information Template
+7. Build Script (Copy & Use)
+8. Common Problems & Solutions
+9. Testing Checklist
+10. Quick Reference Commands
 
-1.2 Install Android Studio
-   - Download from: https://developer.android.com/studio
-   - Choose: Android Studio for Windows
-   - Run installer (android-studio-xxxx.exe)
-   - Follow installation wizard
-   - When prompted, install:
-     ✓ Android SDK
-     ✓ Android SDK Platform
-     ✓ Android Virtual Device
-   - This will take 10-20 minutes
+===============================================
+SECTION 1: PREREQUISITES & DOWNLOADS
+===============================================
 
-1.3 Verify Java Installation
-   - Open Command Prompt (cmd)
-   - Type: java -version
-   - You should see Java 17 or higher
-   - If not, restart your computer and try again
+WHAT YOU NEED TO INSTALL:
 
-================================================================================
-STEP 2: EXTRACT THE ANDROID PROJECT
-================================================================================
+1. NODE.JS (v16 or higher)
+   Download: https://nodejs.org/
+   Get the LTS (Long Term Support) version
 
-2.1 Extract the Archive
-   - You need 7-Zip or WinRAR to extract .tar.gz files
-   - Download 7-Zip: https://www.7-zip.org/
-   - Right-click PitBox-Android-Complete.tar.gz
-   - Select "7-Zip" → "Extract Here"
-   - This creates a folder called "android"
+2. ANDROID STUDIO (latest version)
+   Download: https://developer.android.com/studio
+   Full download, not just SDK tools
 
-2.2 Move to a Good Location
-   - Move the "android" folder to: C:\PitBox\android
-   - AVOID: OneDrive, Google Drive, or paths with spaces
-   - GOOD: C:\PitBox\android
-   - BAD: C:\Users\Your Name\OneDrive\android
+3. JDK 17 (Java Development Kit)
+   Download: https://adoptium.net/
+   Choose: Temurin 17 (LTS)
+   DO NOT use JDK 20 or higher!
 
-================================================================================
-STEP 3: OPEN PROJECT IN ANDROID STUDIO
-================================================================================
+HOW TO CHECK IF INSTALLED:
 
-3.1 Launch Android Studio
-   - Find Android Studio in Start Menu
-   - Click to open (first launch takes a minute)
+Open Terminal/Command Prompt and run:
 
-3.2 Open the Project
-   - Click "Open" on the welcome screen
-   - Navigate to: C:\PitBox\android
-   - Click "OK"
-   - Android Studio will start loading the project
+  node --version
+  # Should show: v16.x.x or higher
 
-3.3 Wait for Gradle Sync
-   - Bottom right: You'll see "Syncing..." progress
-   - This takes 5-10 minutes the FIRST time
-   - Don't click anything, just wait
-   - When done, you'll see "Gradle sync finished" in bottom status bar
+  npm --version
+  # Should show: 8.x.x or higher
 
-3.4 If Prompted to Update Gradle
-   - If a popup asks to update Gradle, click "Update"
-   - Wait for it to finish
+===============================================
+SECTION 2: FIRST TIME SETUP (STEP-BY-STEP)
+===============================================
 
-================================================================================
-STEP 4: CONFIGURE ANDROID SDK (IF NEEDED)
-================================================================================
+STEP 1: Open Terminal/Command Prompt
+--------------------------------------
+- Windows: Press Win+R, type "cmd", press Enter
+- Mac: Press Cmd+Space, type "terminal", press Enter
+- Linux: Press Ctrl+Alt+T
 
-4.1 Check SDK Installation
-   - Go to: File → Settings → Appearance & Behavior → System Settings → Android SDK
-   - SDK Platforms tab: Make sure "Android 13.0 (Tiramisu)" is checked
-   - SDK Tools tab: Make sure these are checked:
-     ✓ Android SDK Build-Tools
-     ✓ Android SDK Platform-Tools
-     ✓ Android SDK Tools
-     ✓ Google Play Services
-   - Click "Apply" if you made changes
-   - Wait for downloads to complete
+STEP 2: Navigate to Your Project Folder
+----------------------------------------
+Type this command (replace with your actual path):
 
-================================================================================
-STEP 5: BUILD THE APK
-================================================================================
+  cd /path/to/your/project
 
-5.1 Start the Build
-   - Top menu: Build → Build Bundle(s) / APK(s) → Build APK(s)
-   - Bottom panel shows build progress
-   - Wait 2-5 minutes for build to complete
+Example Windows:
+  cd C:\Users\YourName\Documents\pitbox-app
 
-5.2 Find Your APK
-   - When build finishes, you'll see: "APK(s) generated successfully"
-   - Click "locate" in the notification
-   - OR manually go to: C:\PitBox\android\app\build\outputs\apk\debug\
-   - File name: app-debug.apk
+Example Mac:
+  cd /Users/yourname/Documents/pitbox-app
 
-5.3 APK File Location
-   - Full path: C:\PitBox\android\app\build\outputs\apk\debug\app-debug.apk
-   - File size: ~50-100 MB
-   - This is your Android app!
+STEP 3: Install Dependencies
+-----------------------------
+Run this command:
 
-================================================================================
-STEP 6: INSTALL APK ON YOUR ANDROID DEVICE
-================================================================================
+  npm install
 
-6.1 Method A: USB Transfer (Recommended)
-   - Connect your Android phone to PC with USB cable
-   - On phone: Allow file transfer when prompted
-   - Copy app-debug.apk to your phone's Downloads folder
-   - On phone: Open Files app → Downloads
-   - Tap app-debug.apk
-   - If prompted, enable "Install from Unknown Sources"
-   - Tap "Install"
+Wait 1-3 minutes. You'll see packages installing.
+When done, you'll see: "added X packages"
 
-6.2 Method B: Email/Cloud
-   - Email the app-debug.apk file to yourself
-   - On phone: Download the attachment
-   - Tap to install (enable Unknown Sources if prompted)
+STEP 4: Build Your Web App
+---------------------------
+Run this command:
 
-6.3 Enable Unknown Sources (First Time Only)
-   - When you tap the APK, Android may block it
-   - Tap "Settings" in the warning
-   - Toggle "Allow from this source" ON
-   - Go back and tap the APK again
-   - Now tap "Install"
+  npm run build
 
-================================================================================
-STEP 7: RUN THE APP
-================================================================================
+Wait 30-60 seconds. You'll see: "✓ built in X seconds"
+This creates a "dist" folder with your compiled app.
 
-7.1 Launch PitBox
-   - After installation, tap "Open"
-   - OR find "PitBox" icon in your app drawer
-   - First launch may take 10-20 seconds
+⚠️ IMPORTANT: Always run "npm run build" before syncing to Android!
 
-7.2 Grant Permissions
-   - The app will ask for permissions:
-     ✓ Location (for track detection)
-     ✓ Camera (for photos)
-     ✓ Storage (for saving data)
-   - Tap "Allow" for each one
+STEP 5: Add Android Platform (ONCE ONLY!)
+------------------------------------------
+Run this command (ONLY THE FIRST TIME):
 
-================================================================================
-TROUBLESHOOTING
-================================================================================
+  npx cap add android
 
-❌ Problem: "Gradle sync failed"
-✅ Solution:
-   - File → Invalidate Caches → Invalidate and Restart
-   - Wait for Android Studio to restart
-   - Let Gradle sync again
+Wait 10-30 seconds. You'll see: "✓ Adding native android project"
+This creates an "android" folder in your project.
 
-❌ Problem: "JAVA_HOME is not set"
-✅ Solution:
-   - Open Command Prompt as Administrator
-   - Type: setx JAVA_HOME "C:\Program Files\Eclipse Adoptium\jdk-17.0.x"
-   - Replace x with your version number
-   - Restart Android Studio
+⚠️ WARNING: Only run this command ONCE! Don't run it again!
 
-❌ Problem: "SDK location not found"
-✅ Solution:
-   - Create file: C:\PitBox\android\local.properties
-   - Add this line: sdk.dir=C\:\\Users\\YourName\\AppData\\Local\\Android\\Sdk
-   - Replace YourName with your Windows username
-   - Sync Gradle again
+STEP 6: Sync to Android
+------------------------
+Run this command:
 
-❌ Problem: Build fails with "Could not find..."
-✅ Solution:
-   - File → Settings → Build → Gradle
-   - Change "Gradle JDK" to "Embedded JDK"
-   - Click "Apply"
-   - Click "OK"
-   - Build → Clean Project
-   - Build → Rebuild Project
+  npx cap sync android
 
-❌ Problem: APK won't install on phone
-✅ Solution:
-   - Settings → Security → Install Unknown Apps
-   - Find your file manager app
-   - Enable "Allow from this source"
+Wait 5-10 seconds. You'll see: "✓ copy web"
+This copies your web app into the Android project.
 
-================================================================================
-BUILDING FOR RELEASE (Optional - For App Store)
-================================================================================
+🔄 NOTE: Run this command every time you make code changes!
 
-To create a release APK for Google Play Store:
+STEP 7: Open in Android Studio
+-------------------------------
+Run this command:
 
-1. Generate Signing Key
-   - Build → Generate Signed Bundle / APK
-   - Choose "APK"
-   - Click "Create new..."
-   - Fill in all fields (save this info!)
-   - Choose password (NEVER lose this!)
+  npx cap open android
 
-2. Build Release APK
-   - Select your keystore
-   - Enter passwords
-   - Choose "release" build variant
-   - Click "Finish"
-   - APK will be in: app\release\app-release.apk
+Android Studio will open automatically.
 
-3. This release APK can be uploaded to Google Play Store
+OR manually:
+1. Open Android Studio
+2. Click "Open"
+3. Navigate to your project folder
+4. Select the "android" folder (NOT the root!)
+5. Click "OK"
 
-================================================================================
-QUICK REFERENCE
-================================================================================
+STEP 8: Wait for Gradle Sync
+-----------------------------
+First time takes 5-10 minutes. BE PATIENT!
 
-Project Location: C:\PitBox\android
-APK Output: C:\PitBox\android\app\build\outputs\apk\debug\app-debug.apk
-Min Android Version: Android 7.0 (API 24)
-Target Android Version: Android 13.0 (API 33)
+You'll see at the bottom:
+- "Syncing... 1/5"
+- "Syncing... 2/5"
+- etc.
 
-Build Command (From Project Directory):
-   gradlew assembleDebug
+When done: "Gradle sync finished in Xs"
 
-Clean Build:
-   gradlew clean assembleDebug
+✅ If you see green checkmark at bottom right: SUCCESS!
+❌ If you see red errors: Check Section 8 (Common Problems)
 
-================================================================================
-NEED HELP?
-================================================================================
+===============================================
+SECTION 3: FIX GRADLE WARNING
+===============================================
 
-Android Studio Documentation:
-https://developer.android.com/studio/build/building-cmdline
+YOU MIGHT SEE THIS WARNING:
 
-Capacitor Documentation:
-https://capacitorjs.com/docs/android
+  "We recommend upgrading to Gradle version 9.0-milestone-1.
+   The minimum compatible Gradle version is 8.5.
+   The maximum compatible Gradle JVM version is 19."
 
-Common Issues:
-https://capacitorjs.com/docs/android/troubleshooting
+HOW TO FIX IT:
 
-================================================================================
-                             YOU'RE ALL SET! 🚀
-================================================================================
+STEP 1: Open Gradle Wrapper File
+---------------------------------
+In Android Studio:
+1. Click dropdown at top left (says "Android")
+2. Change it to "Project"
+3. Navigate to: android → gradle → wrapper → gradle-wrapper.properties
+4. Double-click to open
 
-Your PitBox Android app is ready to build and install. Follow the steps above
-and you'll have it running on your Android device in about 30-45 minutes.
+OR open this file manually in any text editor:
+  android/gradle/wrapper/gradle-wrapper.properties
 
-The longest parts are:
-- Installing Android Studio (15-20 min)
-- First Gradle sync (5-10 min)
-- Building APK (2-5 min)
+STEP 2: Update Gradle Version
+------------------------------
+Find this line (might say different version):
 
-Good luck!
+  distributionUrl=https\://services.gradle.org/distributions/gradle-7.6.3-bin.zip
+
+Change it to:
+
+  distributionUrl=https\://services.gradle.org/distributions/gradle-8.5-bin.zip
+
+Save the file!
+
+STEP 3: Sync Project
+--------------------
+In Android Studio:
+- Look for yellow banner at top: "Gradle files have changed"
+- Click "Sync Now"
+
+OR manually:
+- Menu: File → Sync Project with Gradle Files
+
+Wait 2-5 minutes for first sync with new Gradle version.
+
+STEP 4: Verify JVM Version
+---------------------------
+In Android Studio:
+1. Menu: File → Project Structure (or Ctrl+Alt+Shift+S)
+2. Click "SDK Location" on left
+3. Look at "JDK location"
+4. Should show: JDK 17 or JDK 19 (NOT 20 or higher!)
+
+If wrong JDK version:
+1. Download JDK 17 from: https://adoptium.net/
+2. Install it
+3. Go back to File → Project Structure → SDK Location
+4. Click "..." next to JDK location
+5. Browse to your JDK 17 installation
+6. Click "Apply" then "OK"
+7. Sync project again
+
+✅ Warning should now be gone!
+
+===============================================
+SECTION 4: BUILD DEBUG APK (FOR TESTING)
+===============================================
+
+After syncing and Gradle finishing:
+
+STEP 1: Start Build
+--------------------
+In Android Studio:
+Menu: Build → Build Bundle(s) / APK(s) → Build APK(s)
+
+STEP 2: Wait for Build
+-----------------------
+First build: 5-10 minutes (downloads dependencies)
+Subsequent builds: 30 seconds - 2 minutes
+
+Watch bottom right for progress:
+"Gradle build running... 50%"
+
+STEP 3: Build Success
+---------------------
+You'll see notification bottom right:
+"APK(s) generated successfully"
+
+Click the "locate" link in the notification.
+
+STEP 4: Find Your APK
+----------------------
+File location:
+android/app/build/outputs/apk/debug/app-debug.apk
+
+File size: ~50-100 MB
+
+STEP 5: Install on Phone
+-------------------------
+1. Copy APK to your phone (USB, email, cloud, etc.)
+2. On phone: Settings → Security → Enable "Install Unknown Apps"
+3. Tap the APK file
+4. Tap "Install"
+5. Tap "Open" to launch app
+
+✅ Your app is now installed for testing!
+
+===============================================
+SECTION 5: CREATE RELEASE BUILD (PLAY STORE)
+===============================================
+
+⚠️ CRITICAL: You need a KEYSTORE to sign release builds!
+⚠️ NEVER LOSE YOUR KEYSTORE! You can't update your app without it!
+
+PART A: CREATE KEYSTORE (FIRST TIME ONLY)
+------------------------------------------
+
+STEP 1: Start Signing Process
+------------------------------
+In Android Studio:
+Menu: Build → Generate Signed Bundle / APK...
+
+STEP 2: Choose Bundle Type
+---------------------------
+Select: "Android App Bundle" (AAB) - for Play Store
+Click: "Next"
+
+STEP 3: Create New Keystore
+----------------------------
+Click: "Create new..." button (next to Key store path)
+
+STEP 4: Fill Out Keystore Info
+-------------------------------
+
+Key store path:
+- Click folder icon
+- Navigate OUTSIDE your project folder
+- Example: C:\Users\YourName\Documents\pitbox-release-key.jks
+- Example: /Users/yourname/Documents/pitbox-release-key.jks
+- Type filename: pitbox-release-key.jks
+- Click "OK"
+
+⚠️ NEVER save inside your project folder!
+⚠️ NEVER commit to Git!
+
+Password:
+- Create strong password (min 6 chars)
+- Example: PitBox2024Secure!
+- ⚠️ WRITE THIS DOWN NOW in Section 6 below!
+
+Confirm:
+- Re-enter same password
+
+Alias:
+- Enter: pitbox-key
+- ⚠️ WRITE THIS DOWN NOW in Section 6 below!
+
+Password (for alias):
+- Can be same as keystore password
+- Or create different one (your choice)
+- ⚠️ WRITE THIS DOWN NOW in Section 6 below!
+
+Confirm:
+- Re-enter same password
+
+Validity (years):
+- Leave default: 25 years (or set to 50)
+
+Certificate Information:
+- First and Last Name: Your full name
+- Organizational Unit: PIT-BOX
+- Organization: PIT-BOX App
+- City: Your city
+- State: Your state
+- Country Code: US (or your 2-letter code)
+
+Click: "OK"
+
+STEP 5: IMMEDIATELY FILL OUT SECTION 6!
+----------------------------------------
+⚠️ DO THIS NOW! Don't wait! Fill out Section 6 completely!
+⚠️ Make backup copies of Section 6 and your keystore file!
+
+PART B: BUILD RELEASE AAB
+--------------------------
+
+STEP 1: Select Your Keystore
+-----------------------------
+After creating keystore (or if you already have one):
+
+Menu: Build → Generate Signed Bundle / APK...
+Select: "Android App Bundle"
+Click: "Next"
+
+Key store path: Browse to your pitbox-release-key.jks
+Key store password: Enter your password
+Key alias: Select "pitbox-key"
+Key password: Enter your key password
+
+Check: "Remember passwords" (optional)
+Click: "Next"
+
+STEP 2: Configure Build
+------------------------
+Build Variant: Select "release"
+Signature Versions: Check BOTH V1 and V2
+Click: "Finish"
+
+STEP 3: Wait for Build
+-----------------------
+First time: 5-15 minutes
+Watch progress at bottom
+
+STEP 4: Build Complete
+-----------------------
+Notification: "Generate Signed Bundle completed"
+Click: "locate"
+
+Output file:
+android/app/build/outputs/bundle/release/app-release.aab
+
+File size: ~30-60 MB
+
+✅ This AAB file is ready for Google Play Store!
+
+===============================================
+SECTION 6: KEYSTORE INFORMATION TEMPLATE
+===============================================
+
+⚠️⚠️⚠️ FILL THIS OUT NOW! ⚠️⚠️⚠️
+⚠️⚠️⚠️ MAKE BACKUP COPIES! ⚠️⚠️⚠️
+
+KEYSTORE FILE LOCATION:
+_________________________________________________
+
+KEYSTORE PASSWORD:
+_________________________________________________
+
+KEY ALIAS:
+_________________________________________________
+
+KEY PASSWORD:
+_________________________________________________
+
+FIRST AND LAST NAME:
+_________________________________________________
+
+ORGANIZATIONAL UNIT:
+_________________________________________________
+
+ORGANIZATION:
+_________________________________________________
+
+CITY:
+_________________________________________________
+
+STATE:
+_________________________________________________
+
+COUNTRY CODE:
+_________________________________________________
+
+DATE CREATED:
+_________________________________________________
+
+BACKUP LOCATIONS:
+1. _________________________________________________
+2. _________________________________________________
+3. _________________________________________________
+
+⚠️ IF YOU LOSE THIS INFORMATION:
+- You CANNOT update your app on Google Play Store
+- You must create NEW app with NEW package name
+- You LOSE all reviews, ratings, and downloads
+- THIS IS IRREVERSIBLE!
+
+✅ BACKUP CHECKLIST:
+[ ] Filled out all fields above
+[ ] Saved this file in safe location
+[ ] Copied keystore file to backup location #1
+[ ] Copied keystore file to backup location #2
+[ ] Added *.jks to .gitignore (never commit keystore!)
+[ ] Tested that I can sign an APK with this keystore
+
+===============================================
+SECTION 7: BUILD SCRIPT (COPY & USE)
+===============================================
+
+Save this as: android-build.sh
+
+To make executable: chmod +x android-build.sh
+
+Then use: ./android-build.sh build
+
+--- COPY FROM HERE ---
+#!/bin/bash
+
+###############################################
+# PIT-BOX Android Build Helper Script
+###############################################
+
+set -e
+
+# Colors
+RED='\033[0;31m'
+GREEN='\033[0;32m'
+YELLOW='\033[1;33m'
+BLUE='\033[0;34m'
+NC='\033[0m'
+
+print_header() {
+    echo -e "${BLUE}========================================${NC}"
+    echo -e "${BLUE}$1${NC}"
+    echo -e "${BLUE}========================================${NC}"
+}
+
+print_success() {
+    echo -e "${GREEN}✓ $1${NC}"
+}
+
+print_error() {
+    echo -e "${RED}✗ $1${NC}"
+}
+
+print_warning() {
+    echo -e "${YELLOW}⚠ $1${NC}"
+}
+
+print_info() {
+    echo -e "${BLUE}ℹ $1${NC}"
+}
+
+check_dependencies() {
+    if [ ! -d "node_modules" ]; then
+        print_error "node_modules not found!"
+        print_info "Run: npm install"
+        exit 1
+    fi
+}
+
+build_web() {
+    print_header "Building Web App"
+    if npm run build; then
+        print_success "Web app built successfully"
+    else
+        print_error "Web app build failed"
+        exit 1
+    fi
+}
+
+setup_android() {
+    print_header "Setting Up Android (First Time)"
+    check_dependencies
+
+    if [ -d "android" ]; then
+        print_warning "Android folder already exists"
+        read -p "Remove and start fresh? (y/N): " -n 1 -r
+        echo
+        if [[ $REPLY =~ ^[Yy]$ ]]; then
+            print_info "Removing android folder..."
+            rm -rf android
+        else
+            print_info "Keeping existing android folder"
+            return 0
+        fi
+    fi
+
+    build_web
+
+    print_info "Adding Android platform..."
+    if npx cap add android; then
+        print_success "Android platform added"
+    else
+        print_error "Failed to add Android platform"
+        exit 1
+    fi
+
+    print_info "Syncing..."
+    if npx cap sync android; then
+        print_success "Initial sync complete"
+    else
+        print_error "Sync failed"
+        exit 1
+    fi
+
+    print_success "Android setup complete!"
+    print_info "Next: ./android-build.sh open"
+}
+
+build_and_sync() {
+    print_header "Building and Syncing Android"
+
+    if [ ! -d "android" ]; then
+        print_error "Android folder not found!"
+        print_info "Run: ./android-build.sh setup"
+        exit 1
+    fi
+
+    check_dependencies
+    build_web
+
+    print_info "Syncing to Android..."
+    if npx cap sync android; then
+        print_success "Synced successfully"
+    else
+        print_error "Sync failed"
+        exit 1
+    fi
+
+    print_success "Build complete!"
+    print_info "APK: android/app/build/outputs/apk/debug/app-debug.apk"
+    print_info "Next: ./android-build.sh open"
+}
+
+open_android_studio() {
+    print_header "Opening Android Studio"
+
+    if [ ! -d "android" ]; then
+        print_error "Android folder not found!"
+        print_info "Run: ./android-build.sh setup"
+        exit 1
+    fi
+
+    if npx cap open android; then
+        print_success "Android Studio opened"
+    else
+        print_error "Failed to open Android Studio"
+        print_info "Try: File → Open → Select 'android' folder"
+        exit 1
+    fi
+}
+
+clean_build() {
+    print_header "Cleaning Build Files"
+
+    print_info "Cleaning dist..."
+    rm -rf dist
+    print_success "dist/ cleaned"
+
+    if [ -d "android" ]; then
+        print_info "Cleaning Android build..."
+        rm -rf android/app/build
+        print_success "android/app/build/ cleaned"
+
+        print_info "Cleaning Gradle cache..."
+        cd android
+        if command -v ./gradlew &> /dev/null; then
+            ./gradlew clean
+            print_success "Gradle cleaned"
+        else
+            print_warning "Gradle wrapper not found"
+        fi
+        cd ..
+    fi
+
+    print_success "Clean complete!"
+    print_info "Run: ./android-build.sh build"
+}
+
+show_help() {
+    echo ""
+    echo "PIT-BOX Android Build Helper"
+    echo ""
+    echo "Usage: ./android-build.sh [command]"
+    echo ""
+    echo "Commands:"
+    echo "  setup  - First time Android setup"
+    echo "  build  - Build and sync (most common)"
+    echo "  open   - Open in Android Studio"
+    echo "  clean  - Clean build files"
+    echo "  help   - Show this help"
+    echo ""
+    echo "Workflow:"
+    echo "  1. First time: ./android-build.sh setup"
+    echo "  2. Every change: ./android-build.sh build"
+    echo "  3. Then: ./android-build.sh open"
+    echo "  4. In Android Studio: Build → Build APK"
+    echo ""
+    echo "Quick: ./android-build.sh build && ./android-build.sh open"
+    echo ""
+}
+
+main() {
+    if [ ! -f "capacitor.config.ts" ]; then
+        print_error "Not in project root!"
+        print_info "Run from project root folder"
+        exit 1
+    fi
+
+    case "$1" in
+        setup)
+            setup_android
+            ;;
+        build)
+            build_and_sync
+            ;;
+        open)
+            open_android_studio
+            ;;
+        clean)
+            clean_build
+            ;;
+        help|--help|-h|"")
+            show_help
+            ;;
+        *)
+            print_error "Unknown command: $1"
+            show_help
+            exit 1
+            ;;
+    esac
+}
+
+main "$@"
+
+--- COPY TO HERE ---
+
+===============================================
+SECTION 8: COMMON PROBLEMS & SOLUTIONS
+===============================================
+
+PROBLEM 1: "Gradle sync failed"
+SOLUTION:
+- Wait longer (first sync takes 5-10 minutes)
+- Check internet connection
+- File → Invalidate Caches / Restart
+- Update Gradle to 8.5 (see Section 3)
+
+PROBLEM 2: "SDK not found"
+SOLUTION:
+- File → Project Structure → SDK Location
+- Point to Android SDK (usually in AppData/Android/sdk)
+- Or click "Download Android SDK"
+
+PROBLEM 3: Build errors "package does not exist"
+SOLUTION:
+- Run: npm run build
+- Run: npx cap sync android
+- In Android Studio: Build → Clean Project
+- Then: Build → Rebuild Project
+
+PROBLEM 4: App crashes on phone
+SOLUTION:
+- Check Android version (need 5.0+, recommend 8.0+)
+- Check phone permissions (Camera, Location, Storage)
+- Connect phone via USB and check Logcat for errors
+- Rebuild: npm run build && npx cap sync android
+
+PROBLEM 5: Camera/Location not working
+SOLUTION:
+- Phone Settings → Apps → PIT-BOX → Permissions
+- Enable Camera and Location
+- For Android 10+: Location needs "Allow all the time"
+
+PROBLEM 6: "Keystore password incorrect"
+SOLUTION:
+- Check Section 6 for your passwords
+- Passwords are case-sensitive
+- If lost: YOU CANNOT RECOVER IT
+  - Must create new keystore
+  - Must publish as NEW app
+
+PROBLEM 7: "Could not find gradle"
+SOLUTION:
+- Update Gradle wrapper (see Section 3)
+- Check android/build.gradle has correct plugin version
+- Check internet connection
+
+PROBLEM 8: Build takes forever
+SOLUTION:
+- First build is slow (5-10 minutes is normal)
+- Subsequent builds are faster (30s-2min)
+- Close other programs
+- Check antivirus isn't scanning android folder
+
+===============================================
+SECTION 9: TESTING CHECKLIST
+===============================================
+
+SETUP PHONE FOR TESTING:
+
+Enable Developer Mode:
+1. Phone Settings → About Phone
+2. Tap "Build Number" 7 times rapidly
+3. See: "You are now a developer!"
+
+Enable USB Debugging:
+1. Settings → Developer Options
+2. Turn on "USB Debugging"
+3. Connect phone via USB
+4. Allow USB debugging popup on phone
+
+TEST THESE FEATURES:
+
+Authentication:
+[ ] Sign up works
+[ ] Login works
+[ ] Logout works
+
+Camera/Media:
+[ ] Camera opens
+[ ] Can take photos
+[ ] Photos save correctly
+
+Location/GPS:
+[ ] Gets current location
+[ ] Location is accurate
+[ ] Maps work
+
+Core Features:
+[ ] App launches without crashing
+[ ] All navigation works
+[ ] Setup sheets save and load
+[ ] Data syncs with database
+
+Social Features:
+[ ] Can view community feed
+[ ] Can create posts
+[ ] Messages work
+[ ] Friend requests work
+
+Performance:
+[ ] App feels responsive
+[ ] No lag when scrolling
+[ ] Images load quickly
+[ ] Battery drain is reasonable
+
+Visual/UI:
+[ ] Looks good on your phone
+[ ] Text is readable
+[ ] Buttons work
+[ ] Icons display properly
+
+===============================================
+SECTION 10: QUICK REFERENCE COMMANDS
+===============================================
+
+FIRST TIME SETUP:
+-----------------
+npm install
+npm run build
+npx cap add android
+npx cap sync android
+npx cap open android
+
+EVERY TIME YOU MAKE CHANGES:
+-----------------------------
+npm run build
+npx cap sync android
+npx cap open android
+
+ALL IN ONE:
+-----------
+npm run build && npx cap sync android && npx cap open android
+
+USING BUILD SCRIPT:
+-------------------
+./android-build.sh setup     # First time only
+./android-build.sh build     # Every change
+./android-build.sh open      # Open Android Studio
+./android-build.sh clean     # Clean build files
+
+QUICK BUILD:
+------------
+./android-build.sh build && ./android-build.sh open
+
+UPDATE CAPACITOR:
+-----------------
+npm install @capacitor/core@latest @capacitor/cli@latest
+npm install @capacitor/android@latest
+npx cap sync android
+
+FILE LOCATIONS:
+---------------
+Debug APK:    android/app/build/outputs/apk/debug/app-debug.apk
+Release APK:  android/app/build/outputs/apk/release/app-release.apk
+Release AAB:  android/app/build/outputs/bundle/release/app-release.aab
+Gradle Props: android/gradle/wrapper/gradle-wrapper.properties
+Keystore:     (save OUTSIDE project, e.g., ~/Documents/pitbox-release-key.jks)
+
+===============================================
+HELPFUL LINKS
+===============================================
+
+Official Documentation:
+- Capacitor: https://capacitorjs.com/docs/android
+- Android Studio: https://developer.android.com/studio
+- App Signing: https://developer.android.com/studio/publish/app-signing
+
+Downloads:
+- Node.js: https://nodejs.org/
+- Android Studio: https://developer.android.com/studio
+- JDK 17: https://adoptium.net/
+
+Support:
+- Capacitor Discord: https://discord.gg/UPYYRhtyzp
+- Stack Overflow: Tag with 'capacitor' and 'android'
+
+===============================================
+FINAL REMINDERS
+===============================================
+
+✅ ALWAYS run "npm run build" before syncing to Android
+✅ BACKUP your keystore file and passwords (Section 6)
+✅ NEVER commit keystore to Git (add *.jks to .gitignore)
+✅ TEST on real device, not just emulator
+✅ For Play Store: Use AAB format, not APK
+✅ UPDATE Gradle to 8.5+ (Section 3)
+✅ Use JDK 17 or 19 (NOT 20 or higher)
+
+===============================================
+YOU'RE READY! 🚀
+===============================================
+
+Follow this guide step by step and you'll have your Android app built successfully!
+
+First-time setup can be challenging, but once configured, rebuilding is quick and easy.
+
+Good luck with your Android build!
+
+===============================================
+END OF GUIDE
+===============================================
+
+Document Version: 1.0 Complete
+Created for: PIT-BOX App v3.0.0
+Last Updated: December 2024
+
+===============================================
