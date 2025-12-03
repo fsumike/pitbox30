@@ -6,6 +6,7 @@
   "scripts": {
     "dev": "vite",
     "build": "vite build",
+    "build:ci": "npx cap add android && vite build && npx cap sync android",
     "lint": "eslint .",
     "preview": "vite preview",
     "cap:init": "cap init PitBox com.pitbox.app --web-dir=dist",
