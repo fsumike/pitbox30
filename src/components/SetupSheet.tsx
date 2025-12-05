@@ -79,6 +79,11 @@ function SetupSheet({
   const [customFields, setCustomFields] = useState<Record<string, CustomField[]>>({});
   const [showAddFieldModal, setShowAddFieldModal] = useState<string | null>(null);
   const [newFieldName, setNewFieldName] = useState('');
+  const [selectedCustomField, setSelectedCustomField] = useState<{
+    sectionKey: string;
+    fieldId: string;
+    fieldName: string;
+  } | null>(null);
 
   // Initialize setup data from loaded setup
   useEffect(() => {
@@ -224,6 +229,24 @@ function SetupSheet({
         f.id === fieldId ? { ...f, value } : f
       )
     }));
+  };
+
+  const handleCustomFieldClick = (sectionKey: string, fieldId: string, fieldName: string) => {
+    setSelectedCustomField({
+      sectionKey,
+      fieldId,
+      fieldName
+    });
+  };
+
+  const handleCustomFieldValueChange = (value: string) => {
+    if (!selectedCustomField) return;
+    handleCustomFieldValueUpdate(selectedCustomField.sectionKey, selectedCustomField.fieldId, value);
+  };
+
+  const getCustomFieldValue = (sectionKey: string, fieldId: string): string => {
+    const field = customFields[sectionKey]?.find(f => f.id === fieldId);
+    return field?.value || '';
   };
 
   const handleCustomFieldCommentUpdate = (sectionKey: string, fieldId: string, comment: string) => {
@@ -494,13 +517,14 @@ function SetupSheet({
                             <X className="w-4 h-4 text-red-500" />
                           </button>
                         </div>
-                        <input
-                          type="text"
-                          value={customField.value}
-                          onChange={(e) => handleCustomFieldValueUpdate(sectionKey, customField.id, e.target.value)}
-                          placeholder="Enter value"
-                          className="w-full p-3 bg-white dark:bg-gray-800 rounded-lg border-2 border-brand-gold/50 dark:border-brand-gold/30 focus:border-brand-gold focus:ring-2 focus:ring-brand-gold/20 transition-colors shadow-sm"
-                        />
+                        <button
+                          onClick={() => handleCustomFieldClick(sectionKey, customField.id, customField.name)}
+                          className="w-full p-3 text-left bg-white dark:bg-gray-800 rounded-lg border-2 border-brand-gold/50 dark:border-brand-gold/30 hover:border-brand-gold hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors shadow-sm font-medium"
+                        >
+                          <span className={customField.value ? 'text-gray-900 dark:text-gray-100' : 'text-gray-500 dark:text-gray-400'}>
+                            {customField.value || 'Click to enter value'}
+                          </span>
+                        </button>
                         <textarea
                           value={customField.comment || ''}
                           onChange={(e) => handleCustomFieldCommentUpdate(sectionKey, customField.id, e.target.value)}
@@ -528,13 +552,23 @@ function SetupSheet({
         })}
       </div>
 
-      {/* Number Input Modal */}
+      {/* Number Input Modal - Regular Fields */}
       {selectedField && (
         <NumberInput
           value={getFieldValue(selectedField.sectionKey, selectedField.fieldKey)}
           onChange={handleFieldUpdate}
           title={selectedField.title}
           onClose={() => setSelectedField(null)}
+        />
+      )}
+
+      {/* Number Input Modal - Custom Fields */}
+      {selectedCustomField && (
+        <NumberInput
+          value={getCustomFieldValue(selectedCustomField.sectionKey, selectedCustomField.fieldId)}
+          onChange={handleCustomFieldValueChange}
+          title={`Enter ${selectedCustomField.fieldName}`}
+          onClose={() => setSelectedCustomField(null)}
         />
       )}
 
