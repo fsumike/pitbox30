@@ -102,6 +102,9 @@ function SetupSheet({
   useEffect(() => {
     if (!customFieldTemplates || Object.keys(customFieldTemplates).length === 0) return;
 
+    // Don't overwrite if we already loaded saved values from initialSetup
+    if (initialSetup?.custom_fields) return;
+
     // Merge templates with existing values
     const mergedFields: Record<string, CustomField[]> = {};
 
@@ -122,7 +125,7 @@ function SetupSheet({
     });
 
     setCustomFields(mergedFields);
-  }, [customFieldTemplates]);
+  }, [customFieldTemplates, initialSetup]);
 
   // Initialize setup data from loaded setup or localStorage draft
   useEffect(() => {
@@ -135,20 +138,38 @@ function SetupSheet({
         setRaceType(initialSetup.race_type);
       }
       if (initialSetup?.custom_fields) {
-        // Merge saved values with templates
+        // Load saved custom fields directly from database
         const savedFields = initialSetup.custom_fields as Record<string, CustomField[]>;
-        setCustomFields(prev => {
-          const merged: Record<string, CustomField[]> = { ...prev };
-          Object.keys(savedFields).forEach(sectionKey => {
-            if (merged[sectionKey]) {
-              merged[sectionKey] = merged[sectionKey].map(field => {
-                const saved = savedFields[sectionKey]?.find(f => f.id === field.id);
-                return saved ? { ...field, value: saved.value, comment: saved.comment || '' } : field;
+
+        // Merge with templates to ensure all template fields are present
+        const mergedFields: Record<string, CustomField[]> = {};
+
+        // First, add all saved fields
+        Object.keys(savedFields).forEach(sectionKey => {
+          mergedFields[sectionKey] = savedFields[sectionKey];
+        });
+
+        // Then, add any template fields that aren't in saved fields
+        Object.keys(customFieldTemplates || {}).forEach(sectionKey => {
+          const templates = customFieldTemplates[sectionKey] || [];
+          const existingInSection = mergedFields[sectionKey] || [];
+
+          templates.forEach(template => {
+            const exists = existingInSection.find(f => f.id === template.id);
+            if (!exists) {
+              existingInSection.push({
+                id: template.id,
+                name: template.name,
+                value: '',
+                comment: ''
               });
             }
           });
-          return merged;
+
+          mergedFields[sectionKey] = existingInSection;
         });
+
+        setCustomFields(mergedFields);
       }
     } else if (user) {
       // Load draft setup data from localStorage if no saved setup
@@ -171,25 +192,42 @@ function SetupSheet({
       if (savedDraft) {
         try {
           const draftFields = JSON.parse(savedDraft);
-          setCustomFields(prev => {
-            const merged: Record<string, CustomField[]> = { ...prev };
-            Object.keys(draftFields).forEach(sectionKey => {
-              if (merged[sectionKey]) {
-                merged[sectionKey] = merged[sectionKey].map(field => {
-                  const draft = draftFields[sectionKey]?.find((f: CustomField) => f.id === field.id);
-                  return draft ? { ...field, value: draft.value, comment: draft.comment || '' } : field;
+
+          // Merge draft values with templates
+          const mergedFields: Record<string, CustomField[]> = {};
+
+          // First, add all draft fields
+          Object.keys(draftFields).forEach(sectionKey => {
+            mergedFields[sectionKey] = draftFields[sectionKey];
+          });
+
+          // Then, add any template fields that aren't in draft fields
+          Object.keys(customFieldTemplates || {}).forEach(sectionKey => {
+            const templates = customFieldTemplates[sectionKey] || [];
+            const existingInSection = mergedFields[sectionKey] || [];
+
+            templates.forEach(template => {
+              const exists = existingInSection.find((f: CustomField) => f.id === template.id);
+              if (!exists) {
+                existingInSection.push({
+                  id: template.id,
+                  name: template.name,
+                  value: '',
+                  comment: ''
                 });
               }
             });
-            return merged;
+
+            mergedFields[sectionKey] = existingInSection;
           });
+
+          setCustomFields(mergedFields);
         } catch (err) {
           console.error('Error loading draft custom fields:', err);
         }
       }
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [initialSetup?.id, carType]);
+  }, [initialSetup, carType, user, customFieldTemplates]);
 
   // Prevent body scroll when delete confirmation modal is open (for mobile)
   useEffect(() => {
