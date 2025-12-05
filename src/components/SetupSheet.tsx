@@ -668,23 +668,25 @@ function SetupSheet({
                   </div>
 
                   {/* Add New Field Button */}
-                  <div className="flex gap-2">
+                  <div className="flex flex-col sm:flex-row gap-3">
                     <button
                       onClick={() => setShowAddFieldModal(sectionKey)}
-                      className="mt-4 flex-1 py-3 px-4 bg-brand-gold/10 hover:bg-brand-gold/20 border-2 border-dashed border-brand-gold rounded-lg transition-colors flex items-center justify-center gap-2 text-brand-gold font-medium"
+                      className="mt-4 flex-1 min-h-[48px] py-3 px-4 bg-brand-gold/10 active:bg-brand-gold/20 border-2 border-dashed border-brand-gold rounded-lg transition-colors flex items-center justify-center gap-2 text-brand-gold font-medium touch-manipulation"
+                      style={{ WebkitTapHighlightColor: 'transparent' }}
                     >
                       <Plus className="w-5 h-5" />
-                      Add New Field
+                      <span className="text-sm sm:text-base">Add New Field</span>
                     </button>
 
                     {/* Save New Fields Button - only show if there are custom fields */}
                     {(customFields[sectionKey] || []).length > 0 && (
                       <button
                         onClick={handleSaveNewFields}
-                        className="mt-4 py-3 px-6 bg-brand-gold hover:bg-brand-gold-dark text-white rounded-lg transition-colors flex items-center justify-center gap-2 font-medium shadow-lg"
+                        className="mt-4 min-h-[48px] py-3 px-6 bg-brand-gold active:bg-brand-gold-dark text-white rounded-lg transition-colors flex items-center justify-center gap-2 font-medium shadow-lg touch-manipulation whitespace-nowrap"
+                        style={{ WebkitTapHighlightColor: 'transparent' }}
                       >
                         <Save className="w-5 h-5" />
-                        Save New Fields
+                        <span className="text-sm sm:text-base">Save New Fields</span>
                       </button>
                     )}
                   </div>
@@ -826,14 +828,14 @@ function SetupSheet({
             <div className="flex gap-3 pt-2">
               <button
                 onClick={() => setDeleteCustomFieldConfirm(null)}
-                className="flex-1 px-4 py-3 bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-gray-200 rounded-lg active:bg-gray-300 dark:active:bg-gray-600 transition-colors font-medium touch-manipulation min-h-[44px]"
+                className="flex-1 px-4 py-3 min-h-[48px] bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-gray-200 rounded-lg active:bg-gray-300 dark:active:bg-gray-600 transition-colors font-medium touch-manipulation"
                 style={{ WebkitTapHighlightColor: 'transparent' }}
               >
                 Cancel
               </button>
               <button
                 onClick={confirmDeleteCustomField}
-                className="flex-1 px-4 py-3 bg-red-500 text-white rounded-lg active:bg-red-600 transition-colors font-medium touch-manipulation min-h-[44px]"
+                className="flex-1 px-4 py-3 min-h-[48px] bg-red-500 text-white rounded-lg active:bg-red-600 transition-colors font-medium touch-manipulation"
                 style={{ WebkitTapHighlightColor: 'transparent' }}
               >
                 Yes, Delete
@@ -879,14 +881,16 @@ function SetupSheet({
                   setShowAddFieldModal(null);
                   setNewFieldName('');
                 }}
-                className="flex-1 px-4 py-2 bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-gray-200 rounded-lg hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors font-medium"
+                className="flex-1 px-4 py-3 min-h-[48px] bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-gray-200 rounded-lg active:bg-gray-300 dark:active:bg-gray-600 transition-colors font-medium touch-manipulation"
+                style={{ WebkitTapHighlightColor: 'transparent' }}
               >
                 Cancel
               </button>
               <button
                 onClick={() => handleAddCustomField(showAddFieldModal)}
                 disabled={!newFieldName.trim()}
-                className="flex-1 px-4 py-2 bg-brand-gold text-white rounded-lg hover:bg-brand-gold-dark transition-colors font-medium disabled:opacity-50 disabled:cursor-not-allowed"
+                className="flex-1 px-4 py-3 min-h-[48px] bg-brand-gold text-white rounded-lg active:bg-brand-gold-dark transition-colors font-medium disabled:opacity-50 disabled:cursor-not-allowed touch-manipulation"
+                style={{ WebkitTapHighlightColor: 'transparent' }}
               >
                 Add Field
               </button>
