@@ -634,17 +634,17 @@ function SetupSheet({
                     {/* New Fields */}
                     {(customFields[sectionKey] || []).map((customField) => (
                       <div key={customField.id} className="space-y-2">
-                        <div className="flex items-center justify-between">
+                        <div className="flex items-center justify-between min-h-[20px]">
                           <label className="block text-sm font-medium text-brand-gold">
                             {customField.name} <span className="text-xs text-gray-500">(New Field)</span>
                           </label>
                           <button
                             onClick={() => handleDeleteCustomField(sectionKey, customField.id)}
-                            className="p-2 min-w-[44px] min-h-[44px] flex items-center justify-center active:bg-red-100 dark:active:bg-red-900/30 rounded transition-colors touch-manipulation"
+                            className="p-1 min-w-[32px] min-h-[32px] flex items-center justify-center active:bg-red-100 dark:active:bg-red-900/30 rounded transition-colors touch-manipulation -mr-1"
                             title="Delete field"
                             style={{ WebkitTapHighlightColor: 'transparent' }}
                           >
-                            <X className="w-5 h-5 text-red-500" />
+                            <X className="w-4 h-4 text-red-500" />
                           </button>
                         </div>
                         <button
