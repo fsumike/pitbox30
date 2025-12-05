@@ -90,6 +90,7 @@ function SetupSheet({
     fieldId: string;
     fieldName: string;
   } | null>(null);
+  const [savedFieldId, setSavedFieldId] = useState<string | null>(null);
 
   // Initialize setup data from loaded setup or localStorage draft
   useEffect(() => {
@@ -252,6 +253,8 @@ function SetupSheet({
       const lapTimeValue = bestLapTime ? parseFloat(bestLapTime) : null;
       const raceTypeValue = raceType || null;
 
+      console.log('Saving setup with custom fields:', customFields);
+
       // Pass savedSetupId to update existing setup or create new one
       const result = await saveSetup(
         carType,
@@ -263,6 +266,8 @@ function SetupSheet({
       );
 
       if (result) {
+        console.log('Setup saved successfully with ID:', result.id);
+        console.log('Custom fields saved:', result.custom_fields);
         setSavedSetupId(result.id);
         setSaveSuccess(true);
         setTimeout(() => setSaveSuccess(false), 3000);
@@ -354,6 +359,18 @@ function SetupSheet({
         f.id === fieldId ? { ...f, comment } : f
       )
     }));
+  };
+
+  const handleSaveCustomField = (sectionKey: string, fieldId: string) => {
+    // Save to localStorage
+    if (user) {
+      const draftKey = `setup_draft_custom_fields_${carType}_${user.id}`;
+      localStorage.setItem(draftKey, JSON.stringify(customFields));
+    }
+
+    // Show success feedback
+    setSavedFieldId(fieldId);
+    setTimeout(() => setSavedFieldId(null), 2000);
   };
 
   const toggleSection = (sectionKey: string) => {
@@ -492,8 +509,8 @@ function SetupSheet({
             </button>
           </div>
           {Object.values(customFields).some(fields => fields.length > 0) && (
-            <p className="text-xs text-gray-600 dark:text-gray-400 mt-2">
-              Save Setup will save all fields including your custom fields
+            <p className="text-sm text-blue-600 dark:text-blue-400 mt-2 bg-blue-50 dark:bg-blue-900/20 p-2 rounded">
+              <strong>Important:</strong> Click "Save Setup" to save all fields (including new fields) to your database
             </p>
           )}
         </div>
@@ -645,6 +662,28 @@ function SetupSheet({
                           className="w-full p-3 text-sm bg-gray-50 dark:bg-gray-800 rounded-lg border-2 border-gray-300 dark:border-gray-600 focus:border-brand-gold focus:ring-2 focus:ring-brand-gold/20 transition-colors shadow-sm placeholder:text-gray-400"
                           rows={2}
                         />
+                        {(customField.value || customField.comment) && (
+                          <button
+                            onClick={() => handleSaveCustomField(sectionKey, customField.id)}
+                            className={`w-full py-2 px-4 rounded-lg transition-colors flex items-center justify-center gap-2 font-medium ${
+                              savedFieldId === customField.id
+                                ? 'bg-green-600 text-white'
+                                : 'bg-green-500 hover:bg-green-600 text-white'
+                            }`}
+                          >
+                            {savedFieldId === customField.id ? (
+                              <>
+                                <CheckCircle className="w-4 h-4" />
+                                Saved!
+                              </>
+                            ) : (
+                              <>
+                                <Save className="w-4 h-4" />
+                                Save Field
+                              </>
+                            )}
+                          </button>
+                        )}
                       </div>
                     ))}
                   </div>
@@ -657,7 +696,7 @@ function SetupSheet({
                       style={{ WebkitTapHighlightColor: 'transparent' }}
                     >
                       <Plus className="w-5 h-5" />
-                      <span className="text-sm sm:text-base">Add Custom Field</span>
+                      <span className="text-sm sm:text-base">Add New Field</span>
                     </button>
                   </div>
                   </div>
