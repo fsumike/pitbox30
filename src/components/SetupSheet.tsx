@@ -297,29 +297,6 @@ function SetupSheet({
     setShowAddFieldModal(null);
   };
 
-  const handleSaveNewFields = async () => {
-    if (!user || !savedSetupId) {
-      // If no saved setup yet, just save the entire setup
-      await handleSave();
-      return;
-    }
-
-    try {
-      // Update only the custom fields for an existing setup
-      const { error } = await supabase
-        .from('setups')
-        .update({ custom_fields: customFields })
-        .eq('id', savedSetupId)
-        .eq('user_id', user.id);
-
-      if (error) throw error;
-
-      setSaveSuccess(true);
-      setTimeout(() => setSaveSuccess(false), 2000);
-    } catch (err) {
-      console.error('Error saving new fields:', err);
-    }
-  };
 
   const handleDeleteCustomField = (sectionKey: string, fieldId: string) => {
     const field = customFields[sectionKey]?.find(f => f.id === fieldId);
@@ -514,6 +491,11 @@ function SetupSheet({
               )}
             </button>
           </div>
+          {Object.values(customFields).some(fields => fields.length > 0) && (
+            <p className="text-xs text-gray-600 dark:text-gray-400 mt-2">
+              Save Setup will save all fields including your custom fields
+            </p>
+          )}
         </div>
 
         {/* Best Lap Time Input */}
@@ -668,27 +650,15 @@ function SetupSheet({
                   </div>
 
                   {/* Add New Field Button */}
-                  <div className="flex flex-col sm:flex-row gap-3">
+                  <div className="col-span-full mt-2">
                     <button
                       onClick={() => setShowAddFieldModal(sectionKey)}
-                      className="mt-4 flex-1 min-h-[48px] py-3 px-4 bg-brand-gold/10 active:bg-brand-gold/20 border-2 border-dashed border-brand-gold rounded-lg transition-colors flex items-center justify-center gap-2 text-brand-gold font-medium touch-manipulation"
+                      className="w-full min-h-[48px] py-3 px-4 bg-brand-gold/10 active:bg-brand-gold/20 border-2 border-dashed border-brand-gold rounded-lg transition-colors flex items-center justify-center gap-2 text-brand-gold font-medium touch-manipulation"
                       style={{ WebkitTapHighlightColor: 'transparent' }}
                     >
                       <Plus className="w-5 h-5" />
-                      <span className="text-sm sm:text-base">Add New Field</span>
+                      <span className="text-sm sm:text-base">Add Custom Field</span>
                     </button>
-
-                    {/* Save New Fields Button - only show if there are custom fields */}
-                    {(customFields[sectionKey] || []).length > 0 && (
-                      <button
-                        onClick={handleSaveNewFields}
-                        className="mt-4 min-h-[48px] py-3 px-6 bg-brand-gold active:bg-brand-gold-dark text-white rounded-lg transition-colors flex items-center justify-center gap-2 font-medium shadow-lg touch-manipulation whitespace-nowrap"
-                        style={{ WebkitTapHighlightColor: 'transparent' }}
-                      >
-                        <Save className="w-5 h-5" />
-                        <span className="text-sm sm:text-base">Save New Fields</span>
-                      </button>
-                    )}
                   </div>
                   </div>
                 </div>
