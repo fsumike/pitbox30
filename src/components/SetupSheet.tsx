@@ -106,6 +106,20 @@ function SetupSheet({
     }
   }, [initialSetup]);
 
+  // Prevent body scroll when delete confirmation modal is open (for mobile)
+  useEffect(() => {
+    if (deleteCustomFieldConfirm) {
+      document.body.style.overflow = 'hidden';
+      document.body.style.position = 'fixed';
+      document.body.style.width = '100%';
+      return () => {
+        document.body.style.overflow = '';
+        document.body.style.position = '';
+        document.body.style.width = '';
+      };
+    }
+  }, [deleteCustomFieldConfirm]);
+
   // Sync car number, track name, and date from parent props
   useEffect(() => {
     if (carNumber !== undefined || trackName !== undefined || date !== undefined) {
@@ -531,10 +545,11 @@ function SetupSheet({
                           </label>
                           <button
                             onClick={() => handleDeleteCustomField(sectionKey, customField.id)}
-                            className="p-1 hover:bg-red-100 dark:hover:bg-red-900/30 rounded transition-colors"
+                            className="p-2 min-w-[44px] min-h-[44px] flex items-center justify-center active:bg-red-100 dark:active:bg-red-900/30 rounded transition-colors touch-manipulation"
                             title="Delete custom field"
+                            style={{ WebkitTapHighlightColor: 'transparent' }}
                           >
-                            <X className="w-4 h-4 text-red-500" />
+                            <X className="w-5 h-5 text-red-500" />
                           </button>
                         </div>
                         <button
@@ -679,13 +694,21 @@ function SetupSheet({
 
       {/* Delete Custom Field Confirmation Modal */}
       {deleteCustomFieldConfirm && (
-        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
-          <div className="bg-white dark:bg-gray-800 rounded-lg shadow-xl max-w-md w-full p-6 space-y-4">
+        <div
+          className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4 overflow-y-auto"
+          onClick={(e) => {
+            if (e.target === e.currentTarget) {
+              setDeleteCustomFieldConfirm(null);
+            }
+          }}
+          style={{ WebkitTapHighlightColor: 'transparent' }}
+        >
+          <div className="bg-white dark:bg-gray-800 rounded-lg shadow-xl max-w-md w-full p-6 space-y-4 my-auto">
             <div className="flex items-start gap-3">
               <AlertCircle className="w-6 h-6 text-red-500 flex-shrink-0 mt-1" />
               <div>
                 <h3 className="text-xl font-bold mb-2">Delete Custom Field</h3>
-                <p className="text-gray-600 dark:text-gray-300">
+                <p className="text-gray-600 dark:text-gray-300 select-none">
                   Are you sure you want to delete <span className="font-semibold text-gray-900 dark:text-gray-100">"{deleteCustomFieldConfirm.fieldName}"</span>? This will remove the field and its data permanently.
                 </p>
               </div>
@@ -694,13 +717,15 @@ function SetupSheet({
             <div className="flex gap-3 pt-2">
               <button
                 onClick={() => setDeleteCustomFieldConfirm(null)}
-                className="flex-1 px-4 py-2 bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-gray-200 rounded-lg hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors font-medium"
+                className="flex-1 px-4 py-3 bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-gray-200 rounded-lg active:bg-gray-300 dark:active:bg-gray-600 transition-colors font-medium touch-manipulation min-h-[44px]"
+                style={{ WebkitTapHighlightColor: 'transparent' }}
               >
                 Cancel
               </button>
               <button
                 onClick={confirmDeleteCustomField}
-                className="flex-1 px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600 transition-colors font-medium"
+                className="flex-1 px-4 py-3 bg-red-500 text-white rounded-lg active:bg-red-600 transition-colors font-medium touch-manipulation min-h-[44px]"
+                style={{ WebkitTapHighlightColor: 'transparent' }}
               >
                 Yes, Delete
               </button>
