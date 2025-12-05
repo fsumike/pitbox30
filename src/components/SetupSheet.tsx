@@ -483,8 +483,10 @@ function SetupSheet({
       const draftKey = `setup_draft_custom_fields_${carType}_${user.id}`;
       localStorage.setItem(draftKey, JSON.stringify(customFields));
 
-      // Keep the saved state (don't auto-clear it)
-      // The button will remain hidden because savedFieldId stays set
+      // Clear the saved state after 2 seconds
+      setTimeout(() => {
+        setSavedFieldId(null);
+      }, 2000);
     } catch (err) {
       console.error('Error in handleSaveCustomField:', err);
       setSavedFieldId(null);
@@ -780,13 +782,27 @@ function SetupSheet({
                           className="w-full p-3 text-sm bg-gray-50 dark:bg-gray-800 rounded-lg border-2 border-gray-300 dark:border-gray-600 focus:border-brand-gold focus:ring-2 focus:ring-brand-gold/20 transition-colors shadow-sm placeholder:text-gray-400"
                           rows={2}
                         />
-                        {(customField.value || customField.comment) && savedFieldId !== customField.id && (
+                        {(customField.value || customField.comment) && (
                           <button
                             onClick={() => handleSaveCustomField(sectionKey, customField.id)}
-                            className="w-full py-2 px-4 rounded-lg transition-colors flex items-center justify-center gap-2 font-medium bg-green-500 hover:bg-green-600 text-white"
+                            disabled={savedFieldId === customField.id}
+                            className={`w-full py-2 px-4 rounded-lg transition-colors flex items-center justify-center gap-2 font-medium ${
+                              savedFieldId === customField.id
+                                ? 'bg-green-600 text-white cursor-default'
+                                : 'bg-green-500 hover:bg-green-600 text-white'
+                            }`}
                           >
-                            <Save className="w-4 h-4" />
-                            Save Field
+                            {savedFieldId === customField.id ? (
+                              <>
+                                <CheckCircle className="w-4 h-4" />
+                                Saved!
+                              </>
+                            ) : (
+                              <>
+                                <Save className="w-4 h-4" />
+                                Save Field
+                              </>
+                            )}
                           </button>
                         )}
                       </div>
