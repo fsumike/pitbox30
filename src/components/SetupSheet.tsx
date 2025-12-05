@@ -3,6 +3,7 @@ import { Settings, Save, Loader2, CheckCircle, AlertCircle, Sliders, Eye, EyeOff
 import { useAuth } from '../contexts/AuthContext';
 import { useSetups } from '../hooks/useSetups';
 import { useSetupCustomization } from '../hooks/useSetupCustomization';
+import { useCustomFieldTemplates } from '../hooks/useCustomFieldTemplates';
 import NumberInput from './NumberInput';
 import CustomizeFieldsModal from './CustomizeFieldsModal';
 import CollapsibleShockSelector from './CollapsibleShockSelector';
@@ -62,6 +63,11 @@ function SetupSheet({
     saveCustomization,
     resetCustomization
   } = useSetupCustomization(carType);
+  const {
+    templates: customFieldTemplates,
+    loading: templatesLoading,
+    saveTemplates: saveCustomFieldTemplates
+  } = useCustomFieldTemplates(carType);
 
   const [setupData, setSetupData] = useState<Record<string, Record<string, SetupValue>>>(initialSetupData);
   const [selectedField, setSelectedField] = useState<{
@@ -92,6 +98,32 @@ function SetupSheet({
   } | null>(null);
   const [savedFieldId, setSavedFieldId] = useState<string | null>(null);
 
+  // Initialize custom fields from templates
+  useEffect(() => {
+    if (!customFieldTemplates || Object.keys(customFieldTemplates).length === 0) return;
+
+    // Merge templates with existing values
+    const mergedFields: Record<string, CustomField[]> = {};
+
+    Object.keys(customFieldTemplates).forEach(sectionKey => {
+      const templates = customFieldTemplates[sectionKey] || [];
+      const existingFields = customFields[sectionKey] || [];
+
+      // Create fields from templates, preserving existing values
+      mergedFields[sectionKey] = templates.map(template => {
+        const existing = existingFields.find(f => f.id === template.id);
+        return {
+          id: template.id,
+          name: template.name,
+          value: existing?.value || '',
+          comment: existing?.comment || ''
+        };
+      });
+    });
+
+    setCustomFields(mergedFields);
+  }, [customFieldTemplates]);
+
   // Initialize setup data from loaded setup or localStorage draft
   useEffect(() => {
     if (initialSetup?.setup_data) {
@@ -103,7 +135,20 @@ function SetupSheet({
         setRaceType(initialSetup.race_type);
       }
       if (initialSetup?.custom_fields) {
-        setCustomFields(initialSetup.custom_fields as Record<string, CustomField[]>);
+        // Merge saved values with templates
+        const savedFields = initialSetup.custom_fields as Record<string, CustomField[]>;
+        setCustomFields(prev => {
+          const merged: Record<string, CustomField[]> = { ...prev };
+          Object.keys(savedFields).forEach(sectionKey => {
+            if (merged[sectionKey]) {
+              merged[sectionKey] = merged[sectionKey].map(field => {
+                const saved = savedFields[sectionKey]?.find(f => f.id === field.id);
+                return saved ? { ...field, value: saved.value, comment: saved.comment || '' } : field;
+              });
+            }
+          });
+          return merged;
+        });
       }
     } else if (user) {
       // Load draft setup data from localStorage if no saved setup
@@ -120,12 +165,24 @@ function SetupSheet({
         }
       }
 
-      // Load draft custom fields from localStorage if no saved setup
+      // Load draft custom field values from localStorage if no saved setup
       const draftKey = `setup_draft_custom_fields_${carType}_${user.id}`;
       const savedDraft = localStorage.getItem(draftKey);
       if (savedDraft) {
         try {
-          setCustomFields(JSON.parse(savedDraft));
+          const draftFields = JSON.parse(savedDraft);
+          setCustomFields(prev => {
+            const merged: Record<string, CustomField[]> = { ...prev };
+            Object.keys(draftFields).forEach(sectionKey => {
+              if (merged[sectionKey]) {
+                merged[sectionKey] = merged[sectionKey].map(field => {
+                  const draft = draftFields[sectionKey]?.find((f: CustomField) => f.id === field.id);
+                  return draft ? { ...field, value: draft.value, comment: draft.comment || '' } : field;
+                });
+              }
+            });
+            return merged;
+          });
         } catch (err) {
           console.error('Error loading draft custom fields:', err);
         }
@@ -283,7 +340,7 @@ function SetupSheet({
     }
   };
 
-  const handleAddCustomField = (sectionKey: string) => {
+  const handleAddCustomField = async (sectionKey: string) => {
     if (!newFieldName.trim()) return;
 
     const newField: CustomField = {
@@ -293,10 +350,22 @@ function SetupSheet({
       comment: ''
     };
 
-    setCustomFields(prev => ({
-      ...prev,
-      [sectionKey]: [...(prev[sectionKey] || []), newField]
-    }));
+    const updatedFields = {
+      ...customFields,
+      [sectionKey]: [...(customFields[sectionKey] || []), newField]
+    };
+
+    setCustomFields(updatedFields);
+
+    // Save to templates so it persists across sessions
+    const newTemplates = {
+      ...customFieldTemplates,
+      [sectionKey]: [
+        ...(customFieldTemplates[sectionKey] || []),
+        { id: newField.id, name: newField.name }
+      ]
+    };
+    await saveCustomFieldTemplates(newTemplates);
 
     setNewFieldName('');
     setShowAddFieldModal(null);
@@ -314,16 +383,25 @@ function SetupSheet({
     }
   };
 
-  const confirmDeleteCustomField = () => {
+  const confirmDeleteCustomField = async () => {
     if (!deleteCustomFieldConfirm) return;
+
+    const { sectionKey, fieldId } = deleteCustomFieldConfirm;
 
     setCustomFields(prev => ({
       ...prev,
-      [deleteCustomFieldConfirm.sectionKey]: (prev[deleteCustomFieldConfirm.sectionKey] || []).filter(f => f.id !== deleteCustomFieldConfirm.fieldId)
+      [sectionKey]: (prev[sectionKey] || []).filter(f => f.id !== fieldId)
     }));
 
+    // Remove from templates so it doesn't come back
+    const newTemplates = {
+      ...customFieldTemplates,
+      [sectionKey]: (customFieldTemplates[sectionKey] || []).filter(t => t.id !== fieldId)
+    };
+    await saveCustomFieldTemplates(newTemplates);
+
     // Clear saved state if this field was marked as saved
-    if (savedFieldId === deleteCustomFieldConfirm.fieldId) {
+    if (savedFieldId === fieldId) {
       setSavedFieldId(null);
     }
 
@@ -383,33 +461,8 @@ function SetupSheet({
       // Show saving state
       setSavedFieldId(fieldId);
 
-      // If we don't have a saved setup yet, save the entire setup first
-      if (!savedSetupId) {
-        const lapTimeValue = bestLapTime ? parseFloat(bestLapTime) : null;
-        const raceTypeValue = raceType || null;
-
-        const result = await saveSetup(
-          carType,
-          setupData,
-          customFields,
-          lapTimeValue,
-          raceTypeValue,
-          null
-        );
-
-        if (result) {
-          setSavedSetupId(result.id);
-          // Clear localStorage drafts after successful save
-          const draftDataKey = `setup_draft_data_${carType}_${user.id}`;
-          const draftFieldsKey = `setup_draft_custom_fields_${carType}_${user.id}`;
-          localStorage.removeItem(draftDataKey);
-          localStorage.removeItem(draftFieldsKey);
-        } else {
-          setSavedFieldId(null);
-          return;
-        }
-      } else {
-        // If we have a saved setup, update it immediately with the new custom fields
+      // If we have a saved setup, update it immediately with the custom field values
+      if (savedSetupId) {
         const { error } = await supabase
           .from('setups')
           .update({
@@ -425,6 +478,10 @@ function SetupSheet({
           return;
         }
       }
+
+      // Save to localStorage for draft values
+      const draftKey = `setup_draft_custom_fields_${carType}_${user.id}`;
+      localStorage.setItem(draftKey, JSON.stringify(customFields));
 
       // Keep the saved state (don't auto-clear it)
       // The button will remain hidden because savedFieldId stays set
