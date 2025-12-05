@@ -84,6 +84,11 @@ function SetupSheet({
     fieldId: string;
     fieldName: string;
   } | null>(null);
+  const [deleteCustomFieldConfirm, setDeleteCustomFieldConfirm] = useState<{
+    sectionKey: string;
+    fieldId: string;
+    fieldName: string;
+  } | null>(null);
 
   // Initialize setup data from loaded setup
   useEffect(() => {
@@ -216,10 +221,25 @@ function SetupSheet({
   };
 
   const handleDeleteCustomField = (sectionKey: string, fieldId: string) => {
+    const field = customFields[sectionKey]?.find(f => f.id === fieldId);
+    if (field) {
+      setDeleteCustomFieldConfirm({
+        sectionKey,
+        fieldId,
+        fieldName: field.name
+      });
+    }
+  };
+
+  const confirmDeleteCustomField = () => {
+    if (!deleteCustomFieldConfirm) return;
+
     setCustomFields(prev => ({
       ...prev,
-      [sectionKey]: (prev[sectionKey] || []).filter(f => f.id !== fieldId)
+      [deleteCustomFieldConfirm.sectionKey]: (prev[deleteCustomFieldConfirm.sectionKey] || []).filter(f => f.id !== deleteCustomFieldConfirm.fieldId)
     }));
+
+    setDeleteCustomFieldConfirm(null);
   };
 
   const handleCustomFieldValueUpdate = (sectionKey: string, fieldId: string, value: string) => {
@@ -651,6 +671,38 @@ function SetupSheet({
                 className="flex-1 px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600 transition-colors font-medium"
               >
                 Reset All Data
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Delete Custom Field Confirmation Modal */}
+      {deleteCustomFieldConfirm && (
+        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
+          <div className="bg-white dark:bg-gray-800 rounded-lg shadow-xl max-w-md w-full p-6 space-y-4">
+            <div className="flex items-start gap-3">
+              <AlertCircle className="w-6 h-6 text-red-500 flex-shrink-0 mt-1" />
+              <div>
+                <h3 className="text-xl font-bold mb-2">Delete Custom Field</h3>
+                <p className="text-gray-600 dark:text-gray-300">
+                  Are you sure you want to delete <span className="font-semibold text-gray-900 dark:text-gray-100">"{deleteCustomFieldConfirm.fieldName}"</span>? This will remove the field and its data permanently.
+                </p>
+              </div>
+            </div>
+
+            <div className="flex gap-3 pt-2">
+              <button
+                onClick={() => setDeleteCustomFieldConfirm(null)}
+                className="flex-1 px-4 py-2 bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-gray-200 rounded-lg hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors font-medium"
+              >
+                Cancel
+              </button>
+              <button
+                onClick={confirmDeleteCustomField}
+                className="flex-1 px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600 transition-colors font-medium"
+              >
+                Yes, Delete
               </button>
             </div>
           </div>
