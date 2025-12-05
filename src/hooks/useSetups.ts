@@ -104,7 +104,8 @@ export function useSetups() {
     setupData: Record<string, any>,
     customFields: Record<string, any> = {},
     bestLapTime: number | null = null,
-    raceType: string | null = null
+    raceType: string | null = null,
+    setupId?: string | null
   ) => {
     if (!user) {
       setError('You must be signed in to save setups');
@@ -161,11 +162,28 @@ export function useSetups() {
         location_captured_at: locationData?.timestamp || null
       };
 
-      const { data, error } = await supabase
-        .from('setups')
-        .insert([setupToSave])
-        .select()
-        .single();
+      let data, error;
+
+      // Update existing setup or create new one
+      if (setupId) {
+        const result = await supabase
+          .from('setups')
+          .update(setupToSave)
+          .eq('id', setupId)
+          .eq('user_id', user.id)
+          .select()
+          .single();
+        data = result.data;
+        error = result.error;
+      } else {
+        const result = await supabase
+          .from('setups')
+          .insert([setupToSave])
+          .select()
+          .single();
+        data = result.data;
+        error = result.error;
+      }
 
       if (error) throw error;
       return data;

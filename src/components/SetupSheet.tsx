@@ -90,21 +90,47 @@ function SetupSheet({
     fieldName: string;
   } | null>(null);
 
-  // Initialize setup data from loaded setup
+  // Initialize setup data from loaded setup or localStorage draft
   useEffect(() => {
     if (initialSetup?.setup_data) {
       setSetupData(initialSetup.setup_data);
+      if (initialSetup?.best_lap_time) {
+        setBestLapTime(initialSetup.best_lap_time.toString());
+      }
+      if (initialSetup?.race_type) {
+        setRaceType(initialSetup.race_type);
+      }
+      if (initialSetup?.custom_fields) {
+        setCustomFields(initialSetup.custom_fields as Record<string, CustomField[]>);
+      }
+    } else if (user) {
+      // Load draft setup data from localStorage if no saved setup
+      const draftDataKey = `setup_draft_data_${carType}_${user.id}`;
+      const savedDraftData = localStorage.getItem(draftDataKey);
+      if (savedDraftData) {
+        try {
+          const draft = JSON.parse(savedDraftData);
+          if (draft.setupData) setSetupData(draft.setupData);
+          if (draft.bestLapTime) setBestLapTime(draft.bestLapTime);
+          if (draft.raceType) setRaceType(draft.raceType);
+        } catch (err) {
+          console.error('Error loading draft setup data:', err);
+        }
+      }
+
+      // Load draft custom fields from localStorage if no saved setup
+      const draftKey = `setup_draft_custom_fields_${carType}_${user.id}`;
+      const savedDraft = localStorage.getItem(draftKey);
+      if (savedDraft) {
+        try {
+          setCustomFields(JSON.parse(savedDraft));
+        } catch (err) {
+          console.error('Error loading draft custom fields:', err);
+        }
+      }
     }
-    if (initialSetup?.best_lap_time) {
-      setBestLapTime(initialSetup.best_lap_time.toString());
-    }
-    if (initialSetup?.race_type) {
-      setRaceType(initialSetup.race_type);
-    }
-    if (initialSetup?.custom_fields) {
-      setCustomFields(initialSetup.custom_fields as Record<string, CustomField[]>);
-    }
-  }, [initialSetup]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [initialSetup?.id, carType]);
 
   // Prevent body scroll when delete confirmation modal is open (for mobile)
   useEffect(() => {
@@ -119,6 +145,26 @@ function SetupSheet({
       };
     }
   }, [deleteCustomFieldConfirm]);
+
+  // Save custom fields to localStorage as draft (auto-save)
+  useEffect(() => {
+    if (!initialSetup && user) {
+      const draftKey = `setup_draft_custom_fields_${carType}_${user.id}`;
+      localStorage.setItem(draftKey, JSON.stringify(customFields));
+    }
+  }, [customFields, carType, user, initialSetup]);
+
+  // Save setup data to localStorage as draft (auto-save)
+  useEffect(() => {
+    if (!initialSetup && user) {
+      const draftKey = `setup_draft_data_${carType}_${user.id}`;
+      localStorage.setItem(draftKey, JSON.stringify({
+        setupData,
+        bestLapTime,
+        raceType
+      }));
+    }
+  }, [setupData, bestLapTime, raceType, carType, user, initialSetup]);
 
   // Sync car number, track name, and date from parent props
   useEffect(() => {
@@ -204,11 +250,27 @@ function SetupSheet({
     try {
       const lapTimeValue = bestLapTime ? parseFloat(bestLapTime) : null;
       const raceTypeValue = raceType || null;
-      const result = await saveSetup(carType, setupData, customFields, lapTimeValue, raceTypeValue);
+
+      // Pass savedSetupId to update existing setup or create new one
+      const result = await saveSetup(
+        carType,
+        setupData,
+        customFields,
+        lapTimeValue,
+        raceTypeValue,
+        savedSetupId
+      );
+
       if (result) {
         setSavedSetupId(result.id);
         setSaveSuccess(true);
         setTimeout(() => setSaveSuccess(false), 3000);
+
+        // Clear localStorage drafts after successful save
+        const draftDataKey = `setup_draft_data_${carType}_${user.id}`;
+        const draftFieldsKey = `setup_draft_custom_fields_${carType}_${user.id}`;
+        localStorage.removeItem(draftDataKey);
+        localStorage.removeItem(draftFieldsKey);
       }
     } catch (err) {
       console.error('Error saving setup:', err);
@@ -371,9 +433,18 @@ function SetupSheet({
   const handleRestoreDefaults = () => {
     setSetupData(initialSetupData);
     setBestLapTime('');
+    setRaceType('');
     setCustomFields({});
     setShowResetConfirm(false);
     setSaveSuccess(false);
+
+    // Clear localStorage drafts when resetting
+    if (user) {
+      const draftDataKey = `setup_draft_data_${carType}_${user.id}`;
+      const draftFieldsKey = `setup_draft_custom_fields_${carType}_${user.id}`;
+      localStorage.removeItem(draftDataKey);
+      localStorage.removeItem(draftFieldsKey);
+    }
   };
 
   return (
