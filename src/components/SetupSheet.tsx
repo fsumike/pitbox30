@@ -782,27 +782,13 @@ function SetupSheet({
                           className="w-full p-3 text-sm bg-gray-50 dark:bg-gray-800 rounded-lg border-2 border-gray-300 dark:border-gray-600 focus:border-brand-gold focus:ring-2 focus:ring-brand-gold/20 transition-colors shadow-sm placeholder:text-gray-400"
                           rows={2}
                         />
-                        {(customField.value || customField.comment) && (
+                        {(customField.value || customField.comment) && savedFieldId !== customField.id && (
                           <button
                             onClick={() => handleSaveCustomField(sectionKey, customField.id)}
-                            disabled={savedFieldId === customField.id}
-                            className={`w-full py-2 px-4 rounded-lg transition-colors flex items-center justify-center gap-2 font-medium ${
-                              savedFieldId === customField.id
-                                ? 'bg-green-600 text-white cursor-default'
-                                : 'bg-green-500 hover:bg-green-600 text-white'
-                            }`}
+                            className="w-full py-2 px-4 rounded-lg transition-colors flex items-center justify-center gap-2 font-medium bg-green-500 hover:bg-green-600 text-white"
                           >
-                            {savedFieldId === customField.id ? (
-                              <>
-                                <CheckCircle className="w-4 h-4" />
-                                Saved!
-                              </>
-                            ) : (
-                              <>
-                                <Save className="w-4 h-4" />
-                                Save Field
-                              </>
-                            )}
+                            <Save className="w-4 h-4" />
+                            Save Field
                           </button>
                         )}
                       </div>
