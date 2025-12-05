@@ -96,7 +96,7 @@ function SetupSheet({
     fieldId: string;
     fieldName: string;
   } | null>(null);
-  const [savedFieldId, setSavedFieldId] = useState<string | null>(null);
+  const [savedFieldIds, setSavedFieldIds] = useState<Set<string>>(new Set());
 
   // Initialize custom fields from templates
   useEffect(() => {
@@ -401,9 +401,11 @@ function SetupSheet({
     await saveCustomFieldTemplates(newTemplates);
 
     // Clear saved state if this field was marked as saved
-    if (savedFieldId === fieldId) {
-      setSavedFieldId(null);
-    }
+    setSavedFieldIds(prev => {
+      const newSet = new Set(prev);
+      newSet.delete(fieldId);
+      return newSet;
+    });
 
     setDeleteCustomFieldConfirm(null);
   };
@@ -417,9 +419,11 @@ function SetupSheet({
     }));
 
     // Clear saved state when field is modified
-    if (savedFieldId === fieldId) {
-      setSavedFieldId(null);
-    }
+    setSavedFieldIds(prev => {
+      const newSet = new Set(prev);
+      newSet.delete(fieldId);
+      return newSet;
+    });
   };
 
   const handleCustomFieldClick = (sectionKey: string, fieldId: string, fieldName: string) => {
@@ -449,17 +453,19 @@ function SetupSheet({
     }));
 
     // Clear saved state when field is modified
-    if (savedFieldId === fieldId) {
-      setSavedFieldId(null);
-    }
+    setSavedFieldIds(prev => {
+      const newSet = new Set(prev);
+      newSet.delete(fieldId);
+      return newSet;
+    });
   };
 
   const handleSaveCustomField = async (sectionKey: string, fieldId: string) => {
     if (!user) return;
 
     try {
-      // Show saving state
-      setSavedFieldId(fieldId);
+      // Add to saved fields set
+      setSavedFieldIds(prev => new Set(prev).add(fieldId));
 
       // If we have a saved setup, update it immediately with the custom field values
       if (savedSetupId) {
@@ -474,7 +480,11 @@ function SetupSheet({
 
         if (error) {
           console.error('Error saving custom field to database:', error);
-          setSavedFieldId(null);
+          setSavedFieldIds(prev => {
+            const newSet = new Set(prev);
+            newSet.delete(fieldId);
+            return newSet;
+          });
           return;
         }
       }
@@ -482,14 +492,13 @@ function SetupSheet({
       // Save to localStorage for draft values
       const draftKey = `setup_draft_custom_fields_${carType}_${user.id}`;
       localStorage.setItem(draftKey, JSON.stringify(customFields));
-
-      // Clear the saved state after 2 seconds
-      setTimeout(() => {
-        setSavedFieldId(null);
-      }, 2000);
     } catch (err) {
       console.error('Error in handleSaveCustomField:', err);
-      setSavedFieldId(null);
+      setSavedFieldIds(prev => {
+        const newSet = new Set(prev);
+        newSet.delete(fieldId);
+        return newSet;
+      });
     }
   };
 
@@ -782,10 +791,10 @@ function SetupSheet({
                           className="w-full p-3 text-sm bg-gray-50 dark:bg-gray-800 rounded-lg border-2 border-gray-300 dark:border-gray-600 focus:border-brand-gold focus:ring-2 focus:ring-brand-gold/20 transition-colors shadow-sm placeholder:text-gray-400"
                           rows={2}
                         />
-                        {(customField.value || customField.comment) && savedFieldId !== customField.id && (
+                        {(customField.value || customField.comment) && !savedFieldIds.has(customField.id) && (
                           <button
                             onClick={() => {
-                              setSavedFieldId(customField.id);
+                              setSavedFieldIds(prev => new Set(prev).add(customField.id));
                               handleSaveCustomField(sectionKey, customField.id);
                             }}
                             className="w-full py-2 px-4 rounded-lg transition-colors flex items-center justify-center gap-2 font-medium bg-green-500 hover:bg-green-600 text-white"
