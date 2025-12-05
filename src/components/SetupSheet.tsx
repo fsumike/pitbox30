@@ -8,7 +8,6 @@ import CustomizeFieldsModal from './CustomizeFieldsModal';
 import CollapsibleShockSelector from './CollapsibleShockSelector';
 import type { Setup } from '../lib/supabase';
 import { RACE_TYPE_OPTIONS } from '../types';
-import { decimalToFraction } from '../utils/validation';
 
 interface SetupValue {
   feature: string;
@@ -408,7 +407,7 @@ function SetupSheet({
                             className="w-full p-3 text-left bg-white dark:bg-gray-800 rounded-lg border-2 border-gray-300 dark:border-gray-600 hover:border-brand-gold hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors shadow-sm font-medium"
                           >
                             <span className={value ? 'text-gray-900 dark:text-gray-100' : 'text-gray-500 dark:text-gray-400'}>
-                              {value ? decimalToFraction(value) : 'Click to enter value'}
+                              {value || 'Click to enter value'}
                             </span>
                           </button>
                           <textarea
