@@ -6,6 +6,7 @@ import { useSetupCustomization } from '../hooks/useSetupCustomization';
 import NumberInput from './NumberInput';
 import CustomizeFieldsModal from './CustomizeFieldsModal';
 import CollapsibleShockSelector from './CollapsibleShockSelector';
+import { supabase } from '../lib/supabase';
 import type { Setup } from '../lib/supabase';
 import { RACE_TYPE_OPTIONS } from '../types';
 
@@ -294,6 +295,30 @@ function SetupSheet({
 
     setNewFieldName('');
     setShowAddFieldModal(null);
+  };
+
+  const handleSaveNewFields = async () => {
+    if (!user || !savedSetupId) {
+      // If no saved setup yet, just save the entire setup
+      await handleSave();
+      return;
+    }
+
+    try {
+      // Update only the custom fields for an existing setup
+      const { error } = await supabase
+        .from('setups')
+        .update({ custom_fields: customFields })
+        .eq('id', savedSetupId)
+        .eq('user_id', user.id);
+
+      if (error) throw error;
+
+      setSaveSuccess(true);
+      setTimeout(() => setSaveSuccess(false), 2000);
+    } catch (err) {
+      console.error('Error saving new fields:', err);
+    }
   };
 
   const handleDeleteCustomField = (sectionKey: string, fieldId: string) => {
@@ -607,17 +632,17 @@ function SetupSheet({
                       );
                     })}
 
-                    {/* Custom Fields */}
+                    {/* New Fields */}
                     {(customFields[sectionKey] || []).map((customField) => (
-                      <div key={customField.id} className="space-y-2 relative">
+                      <div key={customField.id} className="space-y-2">
                         <div className="flex items-center justify-between">
                           <label className="block text-sm font-medium text-brand-gold">
-                            {customField.name}
+                            {customField.name} <span className="text-xs text-gray-500">(New Field)</span>
                           </label>
                           <button
                             onClick={() => handleDeleteCustomField(sectionKey, customField.id)}
                             className="p-2 min-w-[44px] min-h-[44px] flex items-center justify-center active:bg-red-100 dark:active:bg-red-900/30 rounded transition-colors touch-manipulation"
-                            title="Delete custom field"
+                            title="Delete field"
                             style={{ WebkitTapHighlightColor: 'transparent' }}
                           >
                             <X className="w-5 h-5 text-red-500" />
@@ -642,14 +667,27 @@ function SetupSheet({
                     ))}
                   </div>
 
-                  {/* Add Custom Field Button */}
-                  <button
-                    onClick={() => setShowAddFieldModal(sectionKey)}
-                    className="mt-4 w-full py-3 px-4 bg-brand-gold/10 hover:bg-brand-gold/20 border-2 border-dashed border-brand-gold rounded-lg transition-colors flex items-center justify-center gap-2 text-brand-gold font-medium"
-                  >
-                    <Plus className="w-5 h-5" />
-                    Add Custom Field
-                  </button>
+                  {/* Add New Field Button */}
+                  <div className="flex gap-2">
+                    <button
+                      onClick={() => setShowAddFieldModal(sectionKey)}
+                      className="mt-4 flex-1 py-3 px-4 bg-brand-gold/10 hover:bg-brand-gold/20 border-2 border-dashed border-brand-gold rounded-lg transition-colors flex items-center justify-center gap-2 text-brand-gold font-medium"
+                    >
+                      <Plus className="w-5 h-5" />
+                      Add New Field
+                    </button>
+
+                    {/* Save New Fields Button - only show if there are custom fields */}
+                    {(customFields[sectionKey] || []).length > 0 && (
+                      <button
+                        onClick={handleSaveNewFields}
+                        className="mt-4 py-3 px-6 bg-brand-gold hover:bg-brand-gold-dark text-white rounded-lg transition-colors flex items-center justify-center gap-2 font-medium shadow-lg"
+                      >
+                        <Save className="w-5 h-5" />
+                        Save New Fields
+                      </button>
+                    )}
+                  </div>
                   </div>
                 </div>
               )}
@@ -668,7 +706,7 @@ function SetupSheet({
         />
       )}
 
-      {/* Number Input Modal - Custom Fields */}
+      {/* Number Input Modal - New Fields */}
       {selectedCustomField && (
         <NumberInput
           value={getCustomFieldValue(selectedCustomField.sectionKey, selectedCustomField.fieldId)}
@@ -763,7 +801,7 @@ function SetupSheet({
         </div>
       )}
 
-      {/* Delete Custom Field Confirmation Modal */}
+      {/* Delete New Field Confirmation Modal */}
       {deleteCustomFieldConfirm && (
         <div
           className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4 overflow-y-auto"
@@ -778,7 +816,7 @@ function SetupSheet({
             <div className="flex items-start gap-3">
               <AlertCircle className="w-6 h-6 text-red-500 flex-shrink-0 mt-1" />
               <div>
-                <h3 className="text-xl font-bold mb-2">Delete Custom Field</h3>
+                <h3 className="text-xl font-bold mb-2">Delete New Field</h3>
                 <p className="text-gray-600 dark:text-gray-300 select-none">
                   Are you sure you want to delete <span className="font-semibold text-gray-900 dark:text-gray-100">"{deleteCustomFieldConfirm.fieldName}"</span>? This will remove the field and its data permanently.
                 </p>
@@ -805,16 +843,16 @@ function SetupSheet({
         </div>
       )}
 
-      {/* Add Custom Field Modal */}
+      {/* Add New Field Modal */}
       {showAddFieldModal && (
         <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
           <div className="bg-white dark:bg-gray-800 rounded-lg shadow-xl max-w-md w-full p-6 space-y-4">
             <div className="flex items-start gap-3">
               <Plus className="w-6 h-6 text-brand-gold flex-shrink-0 mt-1" />
               <div className="flex-1">
-                <h3 className="text-xl font-bold mb-2">Add Custom Field</h3>
+                <h3 className="text-xl font-bold mb-2">Add New Field</h3>
                 <p className="text-gray-600 dark:text-gray-300 text-sm mb-4">
-                  Enter a name for your custom field
+                  Enter a name for your new field
                 </p>
                 <input
                   type="text"
