@@ -83,10 +83,15 @@ export function useSetupCustomization(carType: string) {
       });
       
       if (result?.customization) {
-        setSavedCustomization(result.customization as FieldGroup[]);
-        return result.customization as FieldGroup[];
+        const customization = result.customization as any;
+        // Check if it's the new format with nested fieldGroups
+        const fieldGroups = Array.isArray(customization)
+          ? customization
+          : (customization.fieldGroups || null);
+        setSavedCustomization(fieldGroups);
+        return fieldGroups;
       }
-      
+
       return null;
     } catch (err) {
       console.error('Error loading customization:', err);
@@ -120,6 +125,25 @@ export function useSetupCustomization(carType: string) {
             throw new Error('Database connection failed: ' + healthCheckError.message);
           }
 
+          // Fetch existing customization to preserve customFieldTemplates
+          const { data: existing, error: fetchError } = await supabase
+            .from('setup_customizations')
+            .select('customization')
+            .eq('user_id', user.id)
+            .eq('car_type', carType)
+            .maybeSingle()
+            .abortSignal(controller.signal);
+
+          if (fetchError && fetchError.code !== 'PGRST116') {
+            throw new Error('Database connection failed: ' + fetchError.message);
+          }
+
+          const currentCustomization = (existing?.customization as any) || {};
+          const updatedCustomization = {
+            ...currentCustomization,
+            fieldGroups: customization
+          };
+
           // Use upsert with proper conflict resolution
           const { error: upsertError } = await supabase
             .from('setup_customizations')
@@ -127,7 +151,7 @@ export function useSetupCustomization(carType: string) {
               {
                 user_id: user.id,
                 car_type: carType,
-                customization: customization,
+                customization: updatedCustomization,
                 updated_at: new Date().toISOString()
               },
               {

@@ -248,7 +248,7 @@ function SetupSheet({
 
   // Apply customization when loaded
   useEffect(() => {
-    if (savedCustomization) {
+    if (savedCustomization && Array.isArray(savedCustomization)) {
       setFieldGroups(savedCustomization);
     } else {
       // Create default field groups
