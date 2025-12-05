@@ -784,7 +784,10 @@ function SetupSheet({
                         />
                         {(customField.value || customField.comment) && savedFieldId !== customField.id && (
                           <button
-                            onClick={() => handleSaveCustomField(sectionKey, customField.id)}
+                            onClick={() => {
+                              setSavedFieldId(customField.id);
+                              handleSaveCustomField(sectionKey, customField.id);
+                            }}
                             className="w-full py-2 px-4 rounded-lg transition-colors flex items-center justify-center gap-2 font-medium bg-green-500 hover:bg-green-600 text-white"
                           >
                             <Save className="w-4 h-4" />
