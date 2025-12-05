@@ -69,9 +69,13 @@ const NumberInput: React.FC<NumberInputProps> = ({
     const segments = displayValue.split(' ');
     const lastSegment = segments[segments.length - 1];
 
-    // Don't allow slash if the current segment has a decimal point
-    // or if there's already a slash in the current segment
-    if (!lastSegment.includes('.') && !lastSegment.includes('/')) {
+    // If the last segment has a decimal, convert it to space + fraction
+    // e.g., "1.1" becomes "1 1/" when user types slash
+    if (lastSegment.includes('.') && !lastSegment.includes('/')) {
+      const updatedValue = displayValue.replace(/\.([^.\s]*)$/, ' $1');
+      setDisplayValue(updatedValue + '/');
+    } else if (!lastSegment.includes('/')) {
+      // Only add slash if there isn't already one
       setDisplayValue(displayValue + '/');
     }
   };
