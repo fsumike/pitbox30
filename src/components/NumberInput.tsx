@@ -101,7 +101,9 @@ const NumberInput: React.FC<NumberInputProps> = ({
 
   const handleOK = () => {
     onChange(displayValue);
-    onClose?.();
+    setTimeout(() => {
+      onClose?.();
+    }, 0);
   };
 
   const handleCancel = () => {

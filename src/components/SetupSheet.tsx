@@ -147,7 +147,6 @@ function SetupSheet({
         }
       }
     }));
-    setSelectedField(null);
   };
 
   const handleCommentUpdate = (sectionKey: string, fieldKey: string, comment: string) => {
