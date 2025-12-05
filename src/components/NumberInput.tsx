@@ -54,13 +54,24 @@ const NumberInput: React.FC<NumberInputProps> = ({
   };
 
   const handleDecimalPoint = () => {
-    if (!displayValue.includes('.') && !displayValue.includes('/')) {
+    // Get the last number segment (after the last space)
+    const segments = displayValue.split(' ');
+    const lastSegment = segments[segments.length - 1];
+
+    // Don't allow decimal if the current segment has a decimal or slash
+    if (!lastSegment.includes('.') && !lastSegment.includes('/')) {
       setDisplayValue(displayValue + '.');
     }
   };
 
   const handleSlash = () => {
-    if (!displayValue.includes('/')) {
+    // Get the last number segment (after the last space)
+    const segments = displayValue.split(' ');
+    const lastSegment = segments[segments.length - 1];
+
+    // Don't allow slash if the current segment has a decimal point
+    // or if there's already a slash in the current segment
+    if (!lastSegment.includes('.') && !lastSegment.includes('/')) {
       setDisplayValue(displayValue + '/');
     }
   };
