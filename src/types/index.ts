@@ -104,6 +104,8 @@ export interface Setup {
     };
   };
   setup_data: Record<string, SetupValue>;
+  custom_fields?: Record<string, any>;
+  best_lap_time?: number | null;
   created_at: string;
   updated_at: string;
 }

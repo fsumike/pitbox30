@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Settings, Save, Loader2, CheckCircle, AlertCircle, Sliders, Eye, EyeOff, Clock, RotateCcw } from 'lucide-react';
+import { Settings, Save, Loader2, CheckCircle, AlertCircle, Sliders, Eye, EyeOff, Clock, RotateCcw, Plus, X } from 'lucide-react';
 import { useAuth } from '../contexts/AuthContext';
 import { useSetups } from '../hooks/useSetups';
 import { useSetupCustomization } from '../hooks/useSetupCustomization';
@@ -12,6 +12,13 @@ import { RACE_TYPE_OPTIONS } from '../types';
 interface SetupValue {
   feature: string;
   comment: string;
+}
+
+interface CustomField {
+  id: string;
+  name: string;
+  value: string;
+  comment?: string;
 }
 
 interface SetupSection {
@@ -69,6 +76,9 @@ function SetupSheet({
   const [raceType, setRaceType] = useState<string>('');
   const [showResetConfirm, setShowResetConfirm] = useState(false);
   const [savedSetupId, setSavedSetupId] = useState<string | null>(initialSetup?.id || null);
+  const [customFields, setCustomFields] = useState<Record<string, CustomField[]>>({});
+  const [showAddFieldModal, setShowAddFieldModal] = useState<string | null>(null);
+  const [newFieldName, setNewFieldName] = useState('');
 
   // Initialize setup data from loaded setup
   useEffect(() => {
@@ -80,6 +90,9 @@ function SetupSheet({
     }
     if (initialSetup?.race_type) {
       setRaceType(initialSetup.race_type);
+    }
+    if (initialSetup?.custom_fields) {
+      setCustomFields(initialSetup.custom_fields as Record<string, CustomField[]>);
     }
   }, [initialSetup]);
 
@@ -167,7 +180,7 @@ function SetupSheet({
     try {
       const lapTimeValue = bestLapTime ? parseFloat(bestLapTime) : null;
       const raceTypeValue = raceType || null;
-      const result = await saveSetup(carType, setupData, {}, lapTimeValue, raceTypeValue);
+      const result = await saveSetup(carType, setupData, customFields, lapTimeValue, raceTypeValue);
       if (result) {
         setSavedSetupId(result.id);
         setSaveSuccess(true);
@@ -176,6 +189,50 @@ function SetupSheet({
     } catch (err) {
       console.error('Error saving setup:', err);
     }
+  };
+
+  const handleAddCustomField = (sectionKey: string) => {
+    if (!newFieldName.trim()) return;
+
+    const newField: CustomField = {
+      id: crypto.randomUUID(),
+      name: newFieldName.trim(),
+      value: '',
+      comment: ''
+    };
+
+    setCustomFields(prev => ({
+      ...prev,
+      [sectionKey]: [...(prev[sectionKey] || []), newField]
+    }));
+
+    setNewFieldName('');
+    setShowAddFieldModal(null);
+  };
+
+  const handleDeleteCustomField = (sectionKey: string, fieldId: string) => {
+    setCustomFields(prev => ({
+      ...prev,
+      [sectionKey]: (prev[sectionKey] || []).filter(f => f.id !== fieldId)
+    }));
+  };
+
+  const handleCustomFieldValueUpdate = (sectionKey: string, fieldId: string, value: string) => {
+    setCustomFields(prev => ({
+      ...prev,
+      [sectionKey]: (prev[sectionKey] || []).map(f =>
+        f.id === fieldId ? { ...f, value } : f
+      )
+    }));
+  };
+
+  const handleCustomFieldCommentUpdate = (sectionKey: string, fieldId: string, comment: string) => {
+    setCustomFields(prev => ({
+      ...prev,
+      [sectionKey]: (prev[sectionKey] || []).map(f =>
+        f.id === fieldId ? { ...f, comment } : f
+      )
+    }));
   };
 
   const toggleSection = (sectionKey: string) => {
@@ -257,6 +314,7 @@ function SetupSheet({
   const handleRestoreDefaults = () => {
     setSetupData(initialSetupData);
     setBestLapTime('');
+    setCustomFields({});
     setShowResetConfirm(false);
     setSaveSuccess(false);
   };
@@ -420,7 +478,48 @@ function SetupSheet({
                         </div>
                       );
                     })}
+
+                    {/* Custom Fields */}
+                    {(customFields[sectionKey] || []).map((customField) => (
+                      <div key={customField.id} className="space-y-2 relative">
+                        <div className="flex items-center justify-between">
+                          <label className="block text-sm font-medium text-brand-gold">
+                            {customField.name}
+                          </label>
+                          <button
+                            onClick={() => handleDeleteCustomField(sectionKey, customField.id)}
+                            className="p-1 hover:bg-red-100 dark:hover:bg-red-900/30 rounded transition-colors"
+                            title="Delete custom field"
+                          >
+                            <X className="w-4 h-4 text-red-500" />
+                          </button>
+                        </div>
+                        <input
+                          type="text"
+                          value={customField.value}
+                          onChange={(e) => handleCustomFieldValueUpdate(sectionKey, customField.id, e.target.value)}
+                          placeholder="Enter value"
+                          className="w-full p-3 bg-white dark:bg-gray-800 rounded-lg border-2 border-brand-gold/50 dark:border-brand-gold/30 focus:border-brand-gold focus:ring-2 focus:ring-brand-gold/20 transition-colors shadow-sm"
+                        />
+                        <textarea
+                          value={customField.comment || ''}
+                          onChange={(e) => handleCustomFieldCommentUpdate(sectionKey, customField.id, e.target.value)}
+                          placeholder="Add notes or comments..."
+                          className="w-full p-3 text-sm bg-gray-50 dark:bg-gray-800 rounded-lg border-2 border-gray-300 dark:border-gray-600 focus:border-brand-gold focus:ring-2 focus:ring-brand-gold/20 transition-colors shadow-sm placeholder:text-gray-400"
+                          rows={2}
+                        />
+                      </div>
+                    ))}
                   </div>
+
+                  {/* Add Custom Field Button */}
+                  <button
+                    onClick={() => setShowAddFieldModal(sectionKey)}
+                    className="mt-4 w-full py-3 px-4 bg-brand-gold/10 hover:bg-brand-gold/20 border-2 border-dashed border-brand-gold rounded-lg transition-colors flex items-center justify-center gap-2 text-brand-gold font-medium"
+                  >
+                    <Plus className="w-5 h-5" />
+                    Add Custom Field
+                  </button>
                   </div>
                 </div>
               )}
@@ -518,6 +617,58 @@ function SetupSheet({
                 className="flex-1 px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600 transition-colors font-medium"
               >
                 Reset All Data
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Add Custom Field Modal */}
+      {showAddFieldModal && (
+        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
+          <div className="bg-white dark:bg-gray-800 rounded-lg shadow-xl max-w-md w-full p-6 space-y-4">
+            <div className="flex items-start gap-3">
+              <Plus className="w-6 h-6 text-brand-gold flex-shrink-0 mt-1" />
+              <div className="flex-1">
+                <h3 className="text-xl font-bold mb-2">Add Custom Field</h3>
+                <p className="text-gray-600 dark:text-gray-300 text-sm mb-4">
+                  Enter a name for your custom field
+                </p>
+                <input
+                  type="text"
+                  value={newFieldName}
+                  onChange={(e) => setNewFieldName(e.target.value)}
+                  onKeyDown={(e) => {
+                    if (e.key === 'Enter') {
+                      handleAddCustomField(showAddFieldModal);
+                    } else if (e.key === 'Escape') {
+                      setShowAddFieldModal(null);
+                      setNewFieldName('');
+                    }
+                  }}
+                  placeholder="e.g., Left Front Panhard Bar"
+                  className="w-full px-4 py-3 bg-white dark:bg-gray-700 border-2 border-gray-300 dark:border-gray-600 rounded-lg focus:border-brand-gold focus:ring-2 focus:ring-brand-gold/20 transition-colors"
+                  autoFocus
+                />
+              </div>
+            </div>
+
+            <div className="flex gap-3 pt-2">
+              <button
+                onClick={() => {
+                  setShowAddFieldModal(null);
+                  setNewFieldName('');
+                }}
+                className="flex-1 px-4 py-2 bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-gray-200 rounded-lg hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors font-medium"
+              >
+                Cancel
+              </button>
+              <button
+                onClick={() => handleAddCustomField(showAddFieldModal)}
+                disabled={!newFieldName.trim()}
+                className="flex-1 px-4 py-2 bg-brand-gold text-white rounded-lg hover:bg-brand-gold-dark transition-colors font-medium disabled:opacity-50 disabled:cursor-not-allowed"
+              >
+                Add Field
               </button>
             </div>
           </div>

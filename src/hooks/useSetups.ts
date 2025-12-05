@@ -102,7 +102,7 @@ export function useSetups() {
   const saveSetup = async (
     carType: string,
     setupData: Record<string, any>,
-    trackConditions: Record<string, any>,
+    customFields: Record<string, any> = {},
     bestLapTime: number | null = null,
     raceType: string | null = null
   ) => {
@@ -149,8 +149,9 @@ export function useSetups() {
         car_type: carType,
         car_number: setupData.general?.car_number?.feature || null,
         track_name: trackName,
-        track_conditions: trackConditions,
+        track_conditions: {},
         setup_data: setupData,
+        custom_fields: customFields,
         best_lap_time: bestLapTime,
         race_type: raceType || null,
         latitude: locationData?.latitude || null,
