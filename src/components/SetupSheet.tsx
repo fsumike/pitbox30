@@ -322,6 +322,11 @@ function SetupSheet({
       [deleteCustomFieldConfirm.sectionKey]: (prev[deleteCustomFieldConfirm.sectionKey] || []).filter(f => f.id !== deleteCustomFieldConfirm.fieldId)
     }));
 
+    // Clear saved state if this field was marked as saved
+    if (savedFieldId === deleteCustomFieldConfirm.fieldId) {
+      setSavedFieldId(null);
+    }
+
     setDeleteCustomFieldConfirm(null);
   };
 
@@ -332,6 +337,11 @@ function SetupSheet({
         f.id === fieldId ? { ...f, value } : f
       )
     }));
+
+    // Clear saved state when field is modified
+    if (savedFieldId === fieldId) {
+      setSavedFieldId(null);
+    }
   };
 
   const handleCustomFieldClick = (sectionKey: string, fieldId: string, fieldName: string) => {
@@ -359,18 +369,69 @@ function SetupSheet({
         f.id === fieldId ? { ...f, comment } : f
       )
     }));
+
+    // Clear saved state when field is modified
+    if (savedFieldId === fieldId) {
+      setSavedFieldId(null);
+    }
   };
 
-  const handleSaveCustomField = (sectionKey: string, fieldId: string) => {
-    // Save to localStorage
-    if (user) {
-      const draftKey = `setup_draft_custom_fields_${carType}_${user.id}`;
-      localStorage.setItem(draftKey, JSON.stringify(customFields));
-    }
+  const handleSaveCustomField = async (sectionKey: string, fieldId: string) => {
+    if (!user) return;
 
-    // Show success feedback
-    setSavedFieldId(fieldId);
-    setTimeout(() => setSavedFieldId(null), 2000);
+    try {
+      // Show saving state
+      setSavedFieldId(fieldId);
+
+      // If we don't have a saved setup yet, save the entire setup first
+      if (!savedSetupId) {
+        const lapTimeValue = bestLapTime ? parseFloat(bestLapTime) : null;
+        const raceTypeValue = raceType || null;
+
+        const result = await saveSetup(
+          carType,
+          setupData,
+          customFields,
+          lapTimeValue,
+          raceTypeValue,
+          null
+        );
+
+        if (result) {
+          setSavedSetupId(result.id);
+          // Clear localStorage drafts after successful save
+          const draftDataKey = `setup_draft_data_${carType}_${user.id}`;
+          const draftFieldsKey = `setup_draft_custom_fields_${carType}_${user.id}`;
+          localStorage.removeItem(draftDataKey);
+          localStorage.removeItem(draftFieldsKey);
+        } else {
+          setSavedFieldId(null);
+          return;
+        }
+      } else {
+        // If we have a saved setup, update it immediately with the new custom fields
+        const { error } = await supabase
+          .from('setups')
+          .update({
+            custom_fields: customFields,
+            updated_at: new Date().toISOString()
+          })
+          .eq('id', savedSetupId)
+          .eq('user_id', user.id);
+
+        if (error) {
+          console.error('Error saving custom field to database:', error);
+          setSavedFieldId(null);
+          return;
+        }
+      }
+
+      // Keep the saved state (don't auto-clear it)
+      // The button will remain hidden because savedFieldId stays set
+    } catch (err) {
+      console.error('Error in handleSaveCustomField:', err);
+      setSavedFieldId(null);
+    }
   };
 
   const toggleSection = (sectionKey: string) => {
@@ -662,26 +723,13 @@ function SetupSheet({
                           className="w-full p-3 text-sm bg-gray-50 dark:bg-gray-800 rounded-lg border-2 border-gray-300 dark:border-gray-600 focus:border-brand-gold focus:ring-2 focus:ring-brand-gold/20 transition-colors shadow-sm placeholder:text-gray-400"
                           rows={2}
                         />
-                        {(customField.value || customField.comment) && (
+                        {(customField.value || customField.comment) && savedFieldId !== customField.id && (
                           <button
                             onClick={() => handleSaveCustomField(sectionKey, customField.id)}
-                            className={`w-full py-2 px-4 rounded-lg transition-colors flex items-center justify-center gap-2 font-medium ${
-                              savedFieldId === customField.id
-                                ? 'bg-green-600 text-white'
-                                : 'bg-green-500 hover:bg-green-600 text-white'
-                            }`}
+                            className="w-full py-2 px-4 rounded-lg transition-colors flex items-center justify-center gap-2 font-medium bg-green-500 hover:bg-green-600 text-white"
                           >
-                            {savedFieldId === customField.id ? (
-                              <>
-                                <CheckCircle className="w-4 h-4" />
-                                Saved!
-                              </>
-                            ) : (
-                              <>
-                                <Save className="w-4 h-4" />
-                                Save Field
-                              </>
-                            )}
+                            <Save className="w-4 h-4" />
+                            Save Field
                           </button>
                         )}
                       </div>
