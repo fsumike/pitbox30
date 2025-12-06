@@ -170,6 +170,17 @@ function SetupSheet({
         });
 
         setCustomFields(mergedFields);
+
+        // Mark all loaded custom fields with values as saved
+        const loadedFieldIds = new Set<string>();
+        Object.values(mergedFields).forEach(fields => {
+          fields.forEach(field => {
+            if (field.value || field.comment) {
+              loadedFieldIds.add(field.id);
+            }
+          });
+        });
+        setSavedFieldIds(loadedFieldIds);
       }
     } else if (user) {
       // Load draft setup data from localStorage if no saved setup
@@ -222,6 +233,17 @@ function SetupSheet({
           });
 
           setCustomFields(mergedFields);
+
+          // Mark all draft custom fields with values as saved
+          const draftFieldIds = new Set<string>();
+          Object.values(mergedFields).forEach(fields => {
+            fields.forEach((field: CustomField) => {
+              if (field.value || field.comment) {
+                draftFieldIds.add(field.id);
+              }
+            });
+          });
+          setSavedFieldIds(draftFieldIds);
         } catch (err) {
           console.error('Error loading draft custom fields:', err);
         }
@@ -366,6 +388,17 @@ function SetupSheet({
         setSavedSetupId(result.id);
         setSaveSuccess(true);
         setTimeout(() => setSaveSuccess(false), 3000);
+
+        // Mark all custom fields with values as saved
+        const allSavedFieldIds = new Set<string>();
+        Object.values(customFields).forEach(fields => {
+          fields.forEach(field => {
+            if (field.value || field.comment) {
+              allSavedFieldIds.add(field.id);
+            }
+          });
+        });
+        setSavedFieldIds(allSavedFieldIds);
 
         // Clear localStorage drafts after successful save
         const draftDataKey = `setup_draft_data_${carType}_${user.id}`;
@@ -621,6 +654,7 @@ function SetupSheet({
     setBestLapTime('');
     setRaceType('');
     setCustomFields({});
+    setSavedFieldIds(new Set());
     setShowResetConfirm(false);
     setSaveSuccess(false);
 
