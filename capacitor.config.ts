@@ -27,6 +27,12 @@ const config: CapacitorConfig = {
     },
     PushNotifications: {
       presentationOptions: ["badge", "sound", "alert"]
+    },
+    CapawesomeLiveUpdate: {
+      appId: 'YOUR_CAPAWESOME_APP_ID',
+      enabled: true,
+      autoUpdate: true,
+      resetOnUpdate: false
     }
   }
 };
