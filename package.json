@@ -15,7 +15,10 @@
     "cap:sync": "cap sync",
     "cap:open:android": "cap open android",
     "cap:open:ios": "cap open ios",
-    "build:mobile": "npm run build && npm run cap:sync"
+    "build:mobile": "npm run build && npm run cap:sync",
+    "deploy:bundle": "npm run build && npx @capawesome/cli apps:bundles:create --app-id 8251f381-4aed-4b20-ac20-a3aad250cbb8 --path dist",
+    "capawesome:login": "npx @capawesome/cli login",
+    "capawesome:whoami": "npx @capawesome/cli whoami"
   },
   "dependencies": {
     "@capacitor/android": "^5.7.0",

@@ -17,16 +17,14 @@ Your app is now configured and ready to use Capawesome Live Updates!
 
 ## Next Steps
 
-### 1. Install Capawesome CLI
+### 1. Capawesome CLI Status
 
-```bash
-npm install -g @capawesome/cli
-```
+✅ **INSTALLED** - Version 3.8.0
 
 ### 2. Login to Capawesome
 
 ```bash
-capawesome login
+npx @capawesome/cli login
 ```
 
 This will open your browser to authenticate with your Capawesome account.
@@ -52,7 +50,7 @@ Edit any file (e.g., change a color or text in `src/pages/Home.tsx`).
 ```bash
 npm run build
 
-capawesome bundle upload \
+npx @capawesome/cli apps:bundles:create \
   --app-id 8251f381-4aed-4b20-ac20-a3aad250cbb8 \
   --path dist
 ```
@@ -86,7 +84,7 @@ npx cap open android
 npm run build:mobile
 
 # Upload bundle to Capawesome
-capawesome bundle upload \
+npx @capawesome/cli apps:bundles:create \
   --app-id 8251f381-4aed-4b20-ac20-a3aad250cbb8 \
   --path dist
 ```

@@ -44,17 +44,14 @@ npm run build
 ```
 
 ### Step 3: Upload to Capawesome Cloud
-You'll need to use the Capawesome CLI to upload your bundle:
+The Capawesome CLI is already installed. Use it to upload your bundle:
 
 ```bash
-# Install Capawesome CLI (if not already installed)
-npm install -g @capawesome/cli
-
-# Login to your account
-capawesome login
+# Login to your account (first time only)
+npx @capawesome/cli login
 
 # Upload the new bundle
-capawesome bundle upload \
+npx @capawesome/cli apps:bundles:create \
   --app-id 8251f381-4aed-4b20-ac20-a3aad250cbb8 \
   --path dist
 ```
@@ -82,7 +79,7 @@ In the Capawesome Cloud dashboard:
 
 3. **Upload New Bundle**
    ```bash
-   capawesome bundle upload \
+   npx @capawesome/cli apps:bundles:create \
      --app-id 8251f381-4aed-4b20-ac20-a3aad250cbb8 \
      --path dist
    ```
