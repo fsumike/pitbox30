@@ -8,7 +8,7 @@ export class CapawesomeLiveUpdateService {
     if (this.pluginLoaded) return;
 
     try {
-      const module = await import('@capawesome-team/capacitor-live-update');
+      const module = await import('@capawesome/capacitor-live-update');
       this.LiveUpdate = module.LiveUpdate;
       this.pluginLoaded = true;
     } catch (error) {

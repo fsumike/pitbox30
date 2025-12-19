@@ -11,6 +11,7 @@ import { useAuth } from './contexts/AuthContext';
 import { TrackDetectionBanner } from './components/TrackDetectionBanner';
 import { usePushNotifications } from './hooks/usePushNotifications';
 import VideoSplash from './components/VideoSplash';
+import { liveUpdateService } from './lib/capawesome-live-update';
 
 // Critical pages loaded immediately
 import Landing from './pages/Landing';
@@ -169,6 +170,10 @@ function App() {
   const isLandingPage = location.pathname === '/';
 
   usePushNotifications();
+
+  useEffect(() => {
+    liveUpdateService.initialize();
+  }, []);
 
   useEffect(() => {
     const seen = sessionStorage.getItem('hasSeenVideoSplash');
