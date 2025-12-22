@@ -96,15 +96,31 @@ Password: PitBox2024Review!
 ## 💳 In-App Purchase Details
 
 ### Subscription Model
-- **Monthly Premium**: $4.99/month
-- **Yearly Premium**: $49.99/year (16% savings)
 
-### What Premium Includes
-- Unlimited setup saves (vs. 5 for free users)
-- Advanced motor health analytics
-- Shock inventory management
+**Basic Setup Access:**
+- Monthly: $9.99/month
+- Quarterly: $24.99 (3 months)
+- Yearly: $99.99/year (17% savings)
+
+**Encrypted Setup Access (Premium):**
+- Monthly: $12.99/month
+- Quarterly: $34.99 (3 months)
+- Yearly: $134.99/year (17% savings)
+
+### What Basic Includes
+- Unlimited setup saves
+- Access on all devices
+- Basic setup templates
+- Full community access
+- All professional tools (calculators, trackers)
+- Swap Meet marketplace access
+
+### What Premium Adds
+- All Basic features
+- End-to-end encryption for setups
+- Advanced setup templates
 - Priority support
-- Ad-free experience
+- Early access to new features
 
 ### Purchase Implementation
 - **iOS**: Apple In-App Purchase via StoreKit
@@ -334,7 +350,7 @@ PitBox v3.0.0 is production-ready and has been thoroughly tested. All App Store 
 
 ---
 
-*Document Version: 1.0*
-*Last Updated: 2025-11-17*
+*Document Version: 1.1*
+*Last Updated: 2025-12-22*
 *App Version: 3.0.0*
 *Submission Ready: YES ✅*
