@@ -14,6 +14,7 @@ The error you encountered was due to outdated Gradle and Android Gradle Plugin (
 6. **Added Java 17 Compatibility**: Required for AGP 8.2.1
 7. **Updated AndroidX Dependencies**: Latest stable versions
 8. **Added Gradle Properties**: Enabled Jetifier and fixed resource handling
+9. **Fixed BuildConfig Deprecation**: Moved `buildConfig = true` to module-level build.gradle (no more deprecation warning!)
 
 ## How to Use in Android Studio
 
@@ -86,8 +87,8 @@ Once Gradle sync succeeds:
 - `android/build.gradle` - Updated AGP and Google Services
 - `android/gradle/wrapper/gradle-wrapper.properties` - Updated Gradle version
 - `android/variables.gradle` - Updated SDK versions and dependencies
-- `android/gradle.properties` - Added compatibility flags
-- `android/app/build.gradle` - Added Java 17 compatibility
+- `android/gradle.properties` - Added compatibility flags (WITHOUT deprecated buildConfig setting)
+- `android/app/build.gradle` - Added Java 17 compatibility + fixed buildConfig deprecation
 
 ## Still Having Issues?
 
