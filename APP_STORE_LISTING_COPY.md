@@ -14,7 +14,7 @@ PitBox - Racing Setup Manager
 
 ## 📝 Subtitle
 ```
-Professional Racing Tools & Community
+ Racing Tools & Community
 ```
 *Character limit: 30 characters (38 used - needs shortening)*
 
@@ -174,8 +174,8 @@ Used by professional racing teams, weekend warriors, and championship drivers. W
 
 STAY CONNECTED
 
-• Website: https://pitboxapp.com
-• Support: support@pitboxapp.com
+• Website: https://pit-boxapp.com
+• Support: support@pit-boxapp.com
 • Follow us on social media @pitboxapp
 
 Start your 7-day free trial and see why champions choose PitBox. Download now and get faster!
