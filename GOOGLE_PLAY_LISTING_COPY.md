@@ -188,9 +188,9 @@ Download PitBox now and join thousands of racers using the most comprehensive ra
 
 📧 SUPPORT & CONTACT
 
-Website: https://pitboxapp.com
-Email: support@pitboxapp.com
-Follow us: @pitboxapp
+Email: pitboxcom@gmail.com
+Phone: (279) 245-0737
+Follow us: @pitbox2025 / @pitbox25
 
 🏁 Race faster. Track better. Win more with PitBox!
 ```
@@ -311,25 +311,27 @@ https://www.youtube.com/watch?v=[VIDEO_ID]
 
 ## 🌐 Website and Contact
 
-**Website:**
-```
-https://pitboxapp.com
-```
-
 **Email:**
 ```
-support@pitboxapp.com
+pitboxcom@gmail.com
+```
+
+**Phone:**
+```
+(279) 245-0737
 ```
 
 **Privacy Policy:**
 ```
-https://pitboxapp.com/privacy
+https://yourdeployedapp.com/privacy
 ```
+*Use your actual deployed web app URL. The privacy page is already built at /privacy*
 
 **Terms of Service:**
 ```
-https://pitboxapp.com/terms
+https://yourdeployedapp.com/terms
 ```
+*Use your actual deployed web app URL. The terms page is already built at /terms*
 
 ---
 
@@ -401,7 +403,7 @@ BUG FIXES:
 • Better error handling
 • Optimized battery usage
 
-Thanks for using PitBox! Questions? Email support@pitboxapp.com
+Thanks for using PitBox! Questions? Email pitboxcom@gmail.com
 ```
 
 ---
@@ -417,12 +419,12 @@ PitBox Racing Technologies
 
 **Developer Email:**
 ```
-support@pitboxapp.com
+pitboxcom@gmail.com
 ```
 
-**Developer Website:**
+**Developer Phone:**
 ```
-https://pitboxapp.com
+(279) 245-0737
 ```
 
 **Developer Physical Address:**
@@ -533,17 +535,17 @@ https://pitboxapp.com
 
 **Positive Review:**
 ```
-Thanks for the great review! We're thrilled PitBox helps you race faster. Got feature requests? Email us at support@pitboxapp.com - we love hearing from racers! 🏁
+Thanks for the great review! We're thrilled PitBox helps you race faster. Got feature requests? Email us at pitboxcom@gmail.com - we love hearing from racers! 🏁
 ```
 
 **Negative Review:**
 ```
-We're sorry you had a poor experience. We take all feedback seriously and would love to make this right. Please email support@pitboxapp.com with details so we can help. Thanks for giving us a chance to improve!
+We're sorry you had a poor experience. We take all feedback seriously and would love to make this right. Please email pitboxcom@gmail.com with details so we can help. Thanks for giving us a chance to improve!
 ```
 
 **Feature Request:**
 ```
-Great suggestion! We're always looking to improve PitBox based on racer feedback. We've added this to our feature roadmap. Follow our updates on social @pitboxapp to see what's coming next!
+Great suggestion! We're always looking to improve PitBox based on racer feedback. We've added this to our feature roadmap. Follow our updates on social @pitbox2025 / @pitbox25 to see what's coming next!
 ```
 
 ---

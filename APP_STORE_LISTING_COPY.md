@@ -174,9 +174,9 @@ Used by professional racing teams, weekend warriors, and championship drivers. W
 
 STAY CONNECTED
 
-• Website: https://pit-boxapp.com
-• Support: support@pit-boxapp.com
-• Follow us on social media @pitboxapp
+• Support: pitboxcom@gmail.com
+• Phone: (279) 245-0737
+• Follow us on social media @pitbox2025 / @pitbox25
 
 Start your 7-day free trial and see why champions choose PitBox. Download now and get faster!
 ```
@@ -204,18 +204,21 @@ racing setup,sprint car,dirt track,late model,racing community,motor sports,setu
 
 **Support URL:**
 ```
-https://pitboxapp.com/support
+mailto:pitboxcom@gmail.com
 ```
+*Note: Apple requires a URL. Use your deployed web app URL with /contact page. Example: https://yourapp.com/contact*
 
 **Marketing URL:**
 ```
-https://pitboxapp.com
+https://yourdeployedapp.com
 ```
+*Use your actual deployed web app URL*
 
 **Privacy Policy URL:**
 ```
-https://pitboxapp.com/privacy
+https://yourdeployedapp.com/privacy
 ```
+*Your privacy page is already built at /privacy in the app*
 
 ---
 
@@ -270,7 +273,7 @@ BUG FIXES:
 • Enhanced security
 • Better error handling
 
-Thanks for using PitBox! Questions or feedback? Email support@pitboxapp.com
+Thanks for using PitBox! Questions or feedback? Email pitboxcom@gmail.com
 ```
 
 ---
