@@ -163,11 +163,7 @@ npx @capawesome/cli apps:keystores:upload \
 
 ---
 
-### Phase 4: Configure App Store Listings (60 minutes)
-
-#### iOS - App Store Connect
-
-1. Go to [App Store Connect](https://appstoreconnect.apple.com/)
+### Phase 4: Configure App Store Listings (Jenny baby)
 2. Create New App:
    - Name: PitBox
    - Bundle ID: com.pitbox.app
@@ -270,7 +266,7 @@ npx @capawesome/cli apps:builds:create \
 
 #### Test iOS Build
 
-**Via TestFlight (Automatic):**
+**  (Automatic):**
 
 If you configured App Store Connect API key:
 - Build automatically uploads to TestFlight
