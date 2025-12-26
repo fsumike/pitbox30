@@ -10,6 +10,15 @@ import { useAuth } from '../contexts/AuthContext';
 import { motion } from 'framer-motion';
 import SubscriptionGate from '../components/SubscriptionGate';
 
+const categoryImages: Record<string, string> = {
+  'Sprint Cars': 'https://images.pexels.com/photos/12801/pexels-photo-12801.jpeg?auto=compress&cs=tinysrgb&w=800',
+  'Midget Cars': 'https://images.pexels.com/photos/12789/pexels-photo-12789.jpeg?auto=compress&cs=tinysrgb&w=800',
+  'Modifieds': 'https://images.pexels.com/photos/1149137/pexels-photo-1149137.jpeg?auto=compress&cs=tinysrgb&w=800',
+  'Late Models': 'https://images.pexels.com/photos/3608263/pexels-photo-3608263.jpeg?auto=compress&cs=tinysrgb&w=800',
+  'Stock Cars': 'https://images.pexels.com/photos/12800/pexels-photo-12800.jpeg?auto=compress&cs=tinysrgb&w=800',
+  'Youth Racing / Kart': 'https://images.pexels.com/photos/51177/go-kart-racing-go-kart-51177.jpeg?auto=compress&cs=tinysrgb&w=800',
+};
+
 function Home() {
   const navigate = useNavigate();
   const { user } = useAuth();
@@ -108,20 +117,38 @@ function Home() {
               <div className="space-y-4 transition-all duration-500 opacity-100 max-h-[2000px] mb-48">
                 {vehicleCategories.Vehicles.map((category) => (
                   <div key={category.name} className="pl-4">
-                    <button 
-                      className="w-full glass-panel p-4 cursor-pointer bg-gradient-to-br from-brand-gold/5 to-brand-gold-dark/5 hover:from-brand-gold/10 hover:to-brand-gold-dark/10 transition-all duration-300"
+                    <button
+                      className="w-full rounded-xl overflow-hidden cursor-pointer transition-all duration-300 hover:scale-[1.02] hover:shadow-xl relative group"
                       onClick={() => setActiveCategory(activeCategory === category.name ? null : category.name)}
                     >
-                      <div className="flex items-center justify-between">
-                        <div className="flex items-center gap-3">
-                          <Car className="w-6 h-6 text-brand-gold" />
-                          <span className="text-xl font-semibold">Setup Tools: {category.name}</span>
-                        </div>
-                        <ChevronDown 
-                          className={`w-5 h-5 transition-transform duration-300 ${
-                            activeCategory === category.name ? 'rotate-180' : ''
-                          }`} 
+                      <div className="relative h-32 sm:h-40">
+                        <img
+                          src={categoryImages[category.name]}
+                          alt={category.name}
+                          className="absolute inset-0 w-full h-full object-cover"
                         />
+                        <div className="absolute inset-0 bg-gradient-to-r from-black/80 via-black/60 to-black/40 group-hover:from-black/70 group-hover:via-black/50 group-hover:to-black/30 transition-all duration-300" />
+                        <div className="absolute inset-0 flex items-center justify-between p-6">
+                          <div className="flex items-center gap-4">
+                            <div className="w-12 h-12 rounded-full bg-brand-gold/20 backdrop-blur-sm flex items-center justify-center border border-brand-gold/30">
+                              <Car className="w-6 h-6 text-brand-gold" />
+                            </div>
+                            <div className="text-left">
+                              <span className="text-2xl font-bold text-white drop-shadow-lg">{category.name}</span>
+                              <p className="text-sm text-gray-200 mt-1">Setup Tools & Configurations</p>
+                            </div>
+                          </div>
+                          <div className="flex items-center gap-2">
+                            <span className="text-brand-gold font-medium hidden sm:block">
+                              {category.subcategories.length} Classes
+                            </span>
+                            <ChevronDown
+                              className={`w-6 h-6 text-brand-gold transition-transform duration-300 ${
+                                activeCategory === category.name ? 'rotate-180' : ''
+                              }`}
+                            />
+                          </div>
+                        </div>
                       </div>
                     </button>
 
