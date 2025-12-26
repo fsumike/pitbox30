@@ -11,12 +11,12 @@ import { motion } from 'framer-motion';
 import SubscriptionGate from '../components/SubscriptionGate';
 
 const categoryImages: Record<string, string> = {
-  'Sprint Cars': 'https://images.pexels.com/photos/12801/pexels-photo-12801.jpeg?auto=compress&cs=tinysrgb&w=800',
-  'Midget Cars': 'https://images.pexels.com/photos/12789/pexels-photo-12789.jpeg?auto=compress&cs=tinysrgb&w=800',
-  'Modifieds': 'https://images.pexels.com/photos/1149137/pexels-photo-1149137.jpeg?auto=compress&cs=tinysrgb&w=800',
-  'Late Models': 'https://images.pexels.com/photos/3608263/pexels-photo-3608263.jpeg?auto=compress&cs=tinysrgb&w=800',
-  'Stock Cars': 'https://images.pexels.com/photos/12800/pexels-photo-12800.jpeg?auto=compress&cs=tinysrgb&w=800',
-  'Youth Racing / Kart': 'https://images.pexels.com/photos/51177/go-kart-racing-go-kart-51177.jpeg?auto=compress&cs=tinysrgb&w=800',
+  'Sprint Cars': 'https://upload.wikimedia.org/wikipedia/commons/thumb/9/9e/Sprint_Race_Car_%283665142295%29.jpg/1280px-Sprint_Race_Car_%283665142295%29.jpg',
+  'Midget Cars': 'https://upload.wikimedia.org/wikipedia/commons/thumb/a/a2/63_Kyle_Larson_USAC_Midget_2012_Angell_Park_Speedway.jpg/1280px-63_Kyle_Larson_USAC_Midget_2012_Angell_Park_Speedway.jpg',
+  'Modifieds': 'https://upload.wikimedia.org/wikipedia/commons/thumb/e/e6/Kenny_Wallace_Dirt_Modified_Car.jpg/1280px-Kenny_Wallace_Dirt_Modified_Car.jpg',
+  'Late Models': 'https://upload.wikimedia.org/wikipedia/commons/thumb/4/48/RickEckertWoOLM2018PlymouthWI.jpg/1280px-RickEckertWoOLM2018PlymouthWI.jpg',
+  'Stock Cars': 'https://upload.wikimedia.org/wikipedia/commons/thumb/8/8e/BrennanPoole2008%28Cropped%29.png/1280px-BrennanPoole2008%28Cropped%29.png',
+  'Youth Racing / Kart': 'https://upload.wikimedia.org/wikipedia/commons/thumb/5/5e/Karting.jpg/1280px-Karting.jpg',
 };
 
 function Home() {
