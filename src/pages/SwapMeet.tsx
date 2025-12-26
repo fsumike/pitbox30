@@ -411,7 +411,7 @@ function SwapMeet() {
           <div className="flex-shrink-0 relative">
             <div className="absolute -inset-4 bg-brand-gold/20 rounded-full blur-2xl animate-pulse" />
             <img 
-              src="/android-icon-512-512.png" 
+              src="/ggggggg.png" 
               alt="PIT-BOX.COM Swap Meet" 
               className="w-48 h-48 object-contain drop-shadow-xl transform hover:scale-105 transition-transform duration-300 relative z-10"
             />

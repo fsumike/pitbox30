@@ -64,7 +64,7 @@ function Affiliates() {
         <div className="max-w-4xl mx-auto">
           <div className="flex flex-col items-center mb-12">
             <img 
-              src="/android-icon-512-512.png" 
+              src="/ggggggg.png" 
               alt="PIT-BOX.COM Logo" 
               className="w-full max-w-lg mb-8 drop-shadow-2xl transform hover:scale-105 transition-transform duration-300" 
             />

@@ -38,7 +38,7 @@ function Home() {
           <div className="mx-auto max-w-4xl text-center">
             <div className="relative w-full max-w-lg mx-auto mb-8">
               <img 
-                src="/android-icon-512-512.png" 
+                src="/ggggggg.png" 
                 alt="PIT-BOX.COM Logo" 
                 width="800"
                 height="240"
