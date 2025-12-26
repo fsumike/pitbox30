@@ -273,7 +273,7 @@ function Affiliates() {
                 </div>
               </div>
 
-              <div className="mb-4 bg-gray-900 rounded-lg p-4">
+              <div className="mb-4">
                 <img
                   src="https://cdn.myracepass.com/v1/siteresources/35514/v1/img/logo.png"
                   alt="Silver Dollar Speedway"
@@ -313,7 +313,7 @@ function Affiliates() {
                 </div>
               </div>
 
-              <div className="mb-4 bg-gray-900 rounded-lg p-4">
+              <div className="mb-4">
                 <img
                   src="https://www.thunderbowlraceway.com/wp-content/uploads/2020/01/Logo.png"
                   alt="Thunderbowl Raceway"
