@@ -273,11 +273,11 @@ function Affiliates() {
                 </div>
               </div>
 
-              <div className="mb-4">
+              <div className="mb-4 flex items-center justify-center">
                 <img
                   src="https://cdn.myracepass.com/v1/siteresources/35514/v1/img/logo.png"
                   alt="Silver Dollar Speedway"
-                  className="w-full h-auto object-contain max-h-32"
+                  className="w-full h-auto object-contain max-h-32 dark:mix-blend-lighten mix-blend-multiply bg-transparent"
                 />
               </div>
 
@@ -313,11 +313,11 @@ function Affiliates() {
                 </div>
               </div>
 
-              <div className="mb-4">
+              <div className="mb-4 flex items-center justify-center">
                 <img
                   src="https://www.thunderbowlraceway.com/wp-content/uploads/2020/01/Logo.png"
                   alt="Thunderbowl Raceway"
-                  className="w-full h-auto object-contain max-h-32"
+                  className="w-full h-auto object-contain max-h-32 dark:mix-blend-lighten mix-blend-multiply bg-transparent"
                 />
               </div>
 
