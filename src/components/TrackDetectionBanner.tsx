@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { useTrackDetection } from '../hooks/useTrackDetection';
-import { MapPin, X, Navigation, Clock, Thermometer } from 'lucide-react';
+import { MapPin, X, Navigation } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import { supabase } from '../lib/supabase';
 
 export const TrackDetectionBanner: React.FC = () => {
   const {
@@ -32,7 +33,6 @@ export const TrackDetectionBanner: React.FC = () => {
   const loadSetupCount = async () => {
     if (!currentTrack) return;
 
-    const { supabase } = await import('../lib/supabase');
     const { data: { user } } = await supabase.auth.getUser();
     if (!user) return;
 
