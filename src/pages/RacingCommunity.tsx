@@ -369,7 +369,7 @@ function RacingCommunity() {
           <div className="flex items-center justify-center">
             <div className="flex items-center gap-2">
               <img
-                src="/android-icon-192-192.png"
+                src="/ggggggg.png"
                 alt="PIT-BOX.COM"
                 className="w-10 h-10 sm:w-12 sm:h-12 object-contain flex-shrink-0"
               />

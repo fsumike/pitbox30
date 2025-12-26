@@ -47,7 +47,7 @@ function ChatWindow({ recipientId, onClose, isMinimized = false, onMinimize }: C
 
     const notification = new Notification('New Message from ' + (recipient?.username || 'Someone'), {
       body: message.content,
-      icon: '/android-icon-192-192.png',
+      icon: '/ggggggg.png',
       badge: '/android-icon-96-96.png',
       tag: 'chat-message',
       vibrate: [200, 100, 200],

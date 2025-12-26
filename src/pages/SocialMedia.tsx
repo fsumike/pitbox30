@@ -76,7 +76,7 @@ function SocialMedia() {
         <div className="text-center mb-8">
           <div className="flex items-center justify-center gap-3 mb-4">
             <img
-              src="/android-icon-192-192.png"
+              src="/ggggggg.png"
               alt="PIT-BOX.COM"
               className="w-16 h-16 sm:w-20 sm:h-20 object-contain"
             />

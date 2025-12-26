@@ -198,7 +198,7 @@ function SignIn() {
         <div className="glass-panel p-8 bg-white/95 dark:bg-gray-800/95">
           <div className="text-center mb-8">
             <img
-              src="/android-icon-192-192.png"
+              src="/ggggggg.png"
               alt="PIT-BOX.COM"
               className="w-24 h-24 mx-auto mb-4"
             />

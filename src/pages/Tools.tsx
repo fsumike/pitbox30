@@ -164,7 +164,7 @@ export default function Tools() {
           </button>
           <div className="flex-1 min-w-0 flex items-center gap-3">
             <img
-              src="/android-icon-192-192.png"
+              src="/ggggggg.png"
               alt="PIT-BOX.COM"
               className="w-16 h-16 sm:w-20 sm:h-20 object-contain flex-shrink-0"
             />

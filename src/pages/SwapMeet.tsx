@@ -1179,11 +1179,11 @@ function SwapMeet() {
                 </div>
               </div>
 
-              <div className="mb-4 flex items-center justify-center">
+              <div className="mb-4">
                 <img
                   src="https://cdn.myracepass.com/v1/siteresources/35514/v1/img/logo.png"
                   alt="Silver Dollar Speedway"
-                  className="w-full h-auto object-contain max-h-24 md:max-h-32 mx-auto dark:mix-blend-lighten mix-blend-multiply bg-transparent"
+                  className="w-full h-auto object-contain max-h-24 md:max-h-32 mx-auto"
                 />
               </div>
 
@@ -1219,11 +1219,11 @@ function SwapMeet() {
                 </div>
               </div>
 
-              <div className="mb-4 flex items-center justify-center">
+              <div className="mb-4">
                 <img
                   src="https://www.thunderbowlraceway.com/wp-content/uploads/2020/01/Logo.png"
                   alt="Thunderbowl Raceway"
-                  className="w-full h-auto object-contain max-h-24 md:max-h-32 mx-auto dark:mix-blend-lighten mix-blend-multiply bg-transparent"
+                  className="w-full h-auto object-contain max-h-24 md:max-h-32 mx-auto"
                 />
               </div>
 

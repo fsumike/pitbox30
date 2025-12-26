@@ -273,11 +273,11 @@ function Affiliates() {
                 </div>
               </div>
 
-              <div className="mb-4 flex items-center justify-center">
+              <div className="mb-4">
                 <img
                   src="https://cdn.myracepass.com/v1/siteresources/35514/v1/img/logo.png"
                   alt="Silver Dollar Speedway"
-                  className="w-full h-auto object-contain max-h-32 dark:mix-blend-lighten mix-blend-multiply bg-transparent"
+                  className="w-full h-auto object-contain max-h-32"
                 />
               </div>
 
@@ -313,11 +313,11 @@ function Affiliates() {
                 </div>
               </div>
 
-              <div className="mb-4 flex items-center justify-center">
+              <div className="mb-4">
                 <img
                   src="https://www.thunderbowlraceway.com/wp-content/uploads/2020/01/Logo.png"
                   alt="Thunderbowl Raceway"
-                  className="w-full h-auto object-contain max-h-32 dark:mix-blend-lighten mix-blend-multiply bg-transparent"
+                  className="w-full h-auto object-contain max-h-32"
                 />
               </div>
 
@@ -344,7 +344,7 @@ function Affiliates() {
       <div className="glass-panel p-8 bg-gradient-to-br from-brand-gold/10 to-brand-gold-dark/10 text-center">
         <div className="flex flex-col items-center">
           <img
-            src="/android-icon-192-192.png"
+            src="/ggggggg.png"
             alt="PIT-BOX.COM Logo"
             className="w-48 h-auto mb-8 drop-shadow-xl"
           />

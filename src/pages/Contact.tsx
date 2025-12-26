@@ -63,7 +63,7 @@ function Contact() {
           </div>
           <div className="flex-shrink-0">
             <img 
-              src="/android-icon-192-192.png" 
+              src="/ggggggg.png" 
               alt="PIT-BOX.COM Logo" 
               className="w-48 h-auto drop-shadow-xl"
             />

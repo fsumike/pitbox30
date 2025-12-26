@@ -280,7 +280,7 @@ function App() {
                     className="flex items-center transition-transform hover:scale-105"
                   >
                     <img 
-                      src="/android-icon-192-192.png" 
+                      src="/ggggggg.png" 
                       alt="PIT-BOX.COM Logo" 
                       className="h-10 w-auto drop-shadow-lg"
                     />
