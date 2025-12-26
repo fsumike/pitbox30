@@ -1,0 +1,40 @@
+╔═══════════════════════════════════════════════════════════╗
+║                 iOS FOLDER QUICK RESTORE                  ║
+╚═══════════════════════════════════════════════════════════╝
+
+📁 PROBLEM: ios/ folder missing after reboot?
+
+⚡ SOLUTION: Run this ONE command:
+
+    tar -xzf ios-platform-backup.tar.gz
+
+✅ DONE! iOS folder restored in 2 seconds.
+
+────────────────────────────────────────────────────────────
+
+📦 What's included:
+   • Complete Xcode project
+   • All 14 Capacitor/Cordova plugins
+   • Web assets (dist folder synced)
+   • App icons & splash screens
+   • 197 files total (782KB archive)
+
+────────────────────────────────────────────────────────────
+
+🚀 NEXT STEPS after restore:
+
+1. Check it's there:
+   ls -la ios/
+
+2. Make changes to web app:
+   npm run build
+
+3. Sync changes to iOS:
+   npx cap sync ios
+
+4. Deploy to Capawesome:
+   npm run capawesome:build:ios
+
+────────────────────────────────────────────────────────────
+
+📚 Full docs: IOS_FOLDER_SOLUTION.md

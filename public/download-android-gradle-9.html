@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Download Android Project - Gradle 9.0</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .container {
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            max-width: 600px;
+            width: 100%;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+        }
+
+        h1 {
+            color: #333;
+            margin-bottom: 10px;
+            font-size: 28px;
+        }
+
+        .version {
+            color: #667eea;
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 20px;
+        }
+
+        .info {
+            background: #f7fafc;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 30px;
+        }
+
+        .info h2 {
+            color: #2d3748;
+            font-size: 16px;
+            margin-bottom: 15px;
+        }
+
+        .info ul {
+            list-style: none;
+        }
+
+        .info li {
+            color: #4a5568;
+            padding: 8px 0;
+            padding-left: 25px;
+            position: relative;
+        }
+
+        .info li:before {
+            content: "✓";
+            position: absolute;
+            left: 0;
+            color: #48bb78;
+            font-weight: bold;
+        }
+
+        .download-btn {
+            display: block;
+            width: 100%;
+            padding: 16px 24px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            text-align: center;
+            text-decoration: none;
+            border-radius: 10px;
+            font-weight: 600;
+            font-size: 16px;
+            transition: transform 0.2s, box-shadow 0.2s;
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+        }
+
+        .download-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(102, 126, 234, 0.6);
+        }
+
+        .instructions {
+            margin-top: 30px;
+            padding-top: 30px;
+            border-top: 2px solid #e2e8f0;
+        }
+
+        .instructions h3 {
+            color: #2d3748;
+            margin-bottom: 15px;
+            font-size: 18px;
+        }
+
+        .instructions ol {
+            padding-left: 20px;
+        }
+
+        .instructions li {
+            color: #4a5568;
+            margin-bottom: 10px;
+            line-height: 1.6;
+        }
+
+        .code {
+            background: #2d3748;
+            color: #68d391;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-family: 'Courier New', monospace;
+            font-size: 14px;
+        }
+
+        .file-size {
+            color: #718096;
+            font-size: 14px;
+            text-align: center;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>PitBox Android Project</h1>
+        <div class="version">Gradle 8.11.1 + AGP 8.7.3</div>
+
+        <div class="info">
+            <h2>What's Included:</h2>
+            <ul>
+                <li>Gradle 8.11.1 (latest stable)</li>
+                <li>Android Gradle Plugin 8.7.3</li>
+                <li>Android SDK 34 (Android 14)</li>
+                <li>Java 17 compatibility</li>
+                <li>Optimized build configuration</li>
+                <li>All Capacitor plugins configured</li>
+            </ul>
+        </div>
+
+        <a href="android-gradle-8.11.tar.gz" class="download-btn" download>
+            Download Android Project
+        </a>
+        <div class="file-size">229 KB • .tar.gz</div>
+
+        <div class="instructions">
+            <h3>Installation Instructions:</h3>
+            <ol>
+                <li>Download the <span class="code">android-gradle-8.11.tar.gz</span> file</li>
+                <li>Extract it to your project root directory:
+                    <br><span class="code">tar -xzf android-gradle-8.11.tar.gz</span>
+                </li>
+                <li>Open Android Studio and select "Open an Existing Project"</li>
+                <li>Navigate to the <span class="code">android</span> folder</li>
+                <li>Let Gradle sync (it will download Gradle 8.11.1 automatically)</li>
+                <li>Build your APK/AAB as normal!</li>
+            </ol>
+        </div>
+    </div>
+</body>
+</html>

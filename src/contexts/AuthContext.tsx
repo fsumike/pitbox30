@@ -1,0 +1,282 @@
+import React, { createContext, useContext, useEffect, useState } from 'react';
+import { User } from '@supabase/supabase-js';
+import { supabase, testSupabaseConnection } from '../lib/supabase';
+import { useRetry } from '../hooks/useRetry';
+
+interface AuthContextType {
+  user: User | null;
+  loading: boolean;
+  connectionError: string | null;
+  hasPremium: boolean;
+  refreshPremiumStatus: () => Promise<void>;
+  signIn: (email: string, password: string) => Promise<{
+    error: Error | null;
+    success: boolean;
+  }>;
+  signUp: (email: string, password: string) => Promise<{
+    error: Error | null;
+    success: boolean;
+  }>;
+  signOut: () => Promise<void>;
+  retryConnection: () => Promise<void>;
+}
+
+const AuthContext = createContext<AuthContextType | undefined>(undefined);
+
+export function AuthProvider({ children }: { children: React.ReactNode }) {
+  const [user, setUser] = useState<User | null>(null);
+  const [loading, setLoading] = useState(true);
+  const [connectionError, setConnectionError] = useState<string | null>(null);
+  const [hasPremium, setHasPremium] = useState(false);
+  const { executeWithRetry } = useRetry();
+
+  const refreshPremiumStatus = async () => {
+    if (!user) {
+      setHasPremium(false);
+      return;
+    }
+
+    try {
+      const { data, error } = await supabase
+        .from('profiles')
+        .select('has_premium')
+        .eq('id', user.id)
+        .maybeSingle();
+
+      if (error) {
+        console.error('Error fetching premium status:', error);
+        setHasPremium(false);
+        return;
+      }
+
+      setHasPremium(data?.has_premium || false);
+    } catch (err) {
+      console.error('Error refreshing premium status:', err);
+      setHasPremium(false);
+    }
+  };
+
+  const retryConnection = async () => {
+    setConnectionError(null);
+    const result = await executeWithRetry(async () => {
+      return await testSupabaseConnection();
+    });
+    if (!result.success) {
+      setConnectionError(result.error || 'Connection failed');
+    }
+  };
+
+  useEffect(() => {
+    // Initialize auth state
+    const initializeAuth = async () => {
+      try {
+        setConnectionError(null);
+        
+        // Test connection first with retry mechanism
+        const connectionTest = await executeWithRetry(async () => {
+          return await testSupabaseConnection();
+        });
+        
+        if (!connectionTest.success) {
+          setConnectionError(connectionTest.error || 'Failed to connect to Supabase');
+          setLoading(false);
+          return;
+        }
+
+        // Get current session with retry mechanism
+        const { data, error } = await executeWithRetry(async () => {
+          try {
+            const result = await supabase.auth.getSession();
+            return result;
+          } catch (err) {
+            if (err instanceof DOMException && err.name === 'AbortError') {
+              throw new Error('Request timed out. Please try again.');
+            }
+            // Handle network errors specifically
+            if (err instanceof TypeError && err.message === 'Failed to fetch') {
+              throw new Error('Network connection failed. Please check your internet connection.');
+            }
+            throw err;
+          }
+        });
+        
+        if (error) {
+          if (error.message === 'Invalid Refresh Token: Refresh Token Not Found') {
+            // Handle invalid refresh token by signing out
+            await supabase.auth.signOut();
+            setUser(null);
+          } else {
+            console.error('Error getting session:', error.message);
+            setConnectionError(`Authentication error: ${error.message}`);
+            setUser(null);
+          }
+        } else {
+          setUser(data?.session?.user ?? null);
+          if (data?.session?.user) {
+            await refreshPremiumStatus();
+          }
+        }
+      } catch (err) {
+        console.error('Error initializing auth:', err);
+        const errorMessage = err instanceof Error ? err.message : 'Unknown initialization error';
+        setConnectionError(errorMessage);
+        setUser(null);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    initializeAuth();
+
+    // Listen for auth state changes
+    const { data: { subscription } } = supabase.auth.onAuthStateChange(async (event, session) => {
+      if (event === 'SIGNED_OUT' || event === 'TOKEN_REFRESHED') {
+        setUser(session?.user ?? null);
+      } else {
+        setUser(session?.user ?? null);
+      }
+
+      // Clear connection error on successful auth events
+      if (event === 'SIGNED_IN' || event === 'TOKEN_REFRESHED') {
+        setConnectionError(null);
+      }
+
+      // Refresh premium status when user changes
+      if (session?.user) {
+        await refreshPremiumStatus();
+      } else {
+        setHasPremium(false);
+      }
+
+      setLoading(false);
+    });
+
+    return () => {
+      subscription.unsubscribe();
+    };
+  }, []);
+
+  const signIn = async (email: string, password: string) => {
+    try {
+      setConnectionError(null);
+      
+      // Test connection before attempting sign in with retry
+      const connectionTest = await executeWithRetry(async () => {
+        return await testSupabaseConnection();
+      });
+      
+      if (!connectionTest.success) {
+        throw new Error(connectionTest.error || 'Cannot connect to authentication service');
+      }
+
+      const { data, error } = await executeWithRetry(async () => {
+        try {
+          return await supabase.auth.signInWithPassword({
+            email,
+            password,
+          });
+        } catch (err) {
+          if (err instanceof DOMException && err.name === 'AbortError') {
+            throw new Error('Sign in request timed out. Please try again.');
+          }
+          // Handle network errors specifically
+          if (err instanceof TypeError && err.message === 'Failed to fetch') {
+            throw new Error('Network connection failed. Please check your internet connection and try again.');
+          }
+          throw err;
+        }
+      });
+
+      if (error) throw error;
+
+      return { error: null, success: true };
+    } catch (error) {
+      console.error('Sign in error:', error);
+      const errorMessage = error instanceof Error ? error.message : 'Unknown sign in error';
+      setConnectionError(errorMessage);
+      return { error: error as Error, success: false };
+    }
+  };
+
+  const signUp = async (email: string, password: string) => {
+    try {
+      setConnectionError(null);
+      
+      // Test connection before attempting sign up with retry
+      const connectionTest = await executeWithRetry(async () => {
+        return await testSupabaseConnection();
+      });
+      
+      if (!connectionTest.success) {
+        throw new Error(connectionTest.error || 'Cannot connect to authentication service');
+      }
+
+      const { data, error } = await executeWithRetry(async () => {
+        try {
+          return await supabase.auth.signUp({
+            email,
+            password,
+            options: {
+              emailRedirectTo: window.location.origin,
+            },
+          });
+        } catch (err) {
+          if (err instanceof DOMException && err.name === 'AbortError') {
+            throw new Error('Sign up request timed out. Please try again.');
+          }
+          // Handle network errors specifically
+          if (err instanceof TypeError && err.message === 'Failed to fetch') {
+            throw new Error('Network connection failed. Please check your internet connection and try again.');
+          }
+          throw err;
+        }
+      });
+
+      if (error) throw error;
+
+      return { error: null, success: true };
+    } catch (error) {
+      const errorMessage = error instanceof Error ? error.message : 'Unknown sign up error';
+      setConnectionError(errorMessage);
+      return { error: error as Error, success: false };
+    }
+  };
+
+  const signOut = async () => {
+    try {
+      const { error } = await supabase.auth.signOut();
+      if (error) {
+        console.error('Error signing out:', error.message);
+      }
+      setUser(null);
+      setConnectionError(null);
+    } catch (err) {
+      console.error('Error during sign out:', err);
+      setUser(null);
+    }
+  };
+
+  return (
+    <AuthContext.Provider value={{
+      user,
+      loading,
+      connectionError,
+      hasPremium,
+      refreshPremiumStatus,
+      signIn,
+      signUp,
+      signOut,
+      retryConnection
+    }}>
+      {children}
+    </AuthContext.Provider>
+  );
+}
+
+export function useAuth() {
+  const context = useContext(AuthContext);
+  if (context === undefined) {
+    throw new Error('useAuth must be used within an AuthProvider');
+  }
+  return context;
+}

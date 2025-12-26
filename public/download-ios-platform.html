@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Download iOS Platform - PitBox</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+        .container {
+            background: white;
+            border-radius: 12px;
+            padding: 40px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+        }
+        h1 {
+            color: #333;
+            border-bottom: 3px solid #667eea;
+            padding-bottom: 15px;
+        }
+        .download-btn {
+            display: inline-block;
+            background: #667eea;
+            color: white;
+            padding: 15px 30px;
+            text-decoration: none;
+            border-radius: 8px;
+            font-weight: bold;
+            margin: 20px 0;
+            font-size: 18px;
+            transition: all 0.3s;
+        }
+        .download-btn:hover {
+            background: #764ba2;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 20px rgba(118, 75, 162, 0.4);
+        }
+        .instructions {
+            background: #f8f9fa;
+            border-left: 4px solid #667eea;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 4px;
+        }
+        .command {
+            background: #1e1e1e;
+            color: #dcdcdc;
+            padding: 15px;
+            border-radius: 6px;
+            font-family: 'Courier New', monospace;
+            margin: 10px 0;
+            overflow-x: auto;
+        }
+        .step {
+            margin: 25px 0;
+            padding-left: 30px;
+            position: relative;
+        }
+        .step-number {
+            position: absolute;
+            left: 0;
+            top: 0;
+            background: #667eea;
+            color: white;
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 14px;
+        }
+        .warning {
+            background: #fff3cd;
+            border-left: 4px solid #ffc107;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 4px;
+        }
+        .success {
+            background: #d4edda;
+            border-left: 4px solid #28a745;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>📱 iOS Platform for PitBox</h1>
+
+        <p>This package contains the complete Capacitor iOS platform needed for Capawesome Cloud builds.</p>
+
+        <a href="PitBox-iOS-Platform.tar.gz" class="download-btn" download>⬇ Download iOS Platform (PitBox-iOS-Platform.tar.gz)</a>
+
+        <div class="warning">
+            <strong>⚠️ Important:</strong> This iOS platform folder MUST be committed to your GitHub repository for Capawesome Cloud builds to work.
+        </div>
+
+        <h2>Installation Instructions</h2>
+
+        <div class="instructions">
+            <div class="step">
+                <div class="step-number">1</div>
+                <strong>Download the file above</strong>
+                <p>Save <code>PitBox-iOS-Platform.tar.gz</code> to your computer</p>
+            </div>
+
+            <div class="step">
+                <div class="step-number">2</div>
+                <strong>Navigate to your project directory</strong>
+                <div class="command">cd /path/to/pitbox30</div>
+            </div>
+
+            <div class="step">
+                <div class="step-number">3</div>
+                <strong>Extract the iOS platform</strong>
+                <div class="command">tar -xzf ~/Downloads/PitBox-iOS-Platform.tar.gz</div>
+                <p><small>Note: Adjust the path if you downloaded to a different location</small></p>
+            </div>
+
+            <div class="step">
+                <div class="step-number">4</div>
+                <strong>Verify the folder was created</strong>
+                <div class="command">ls -la ios/</div>
+                <p>You should see folders like: App, App.xcodeproj, App.xcworkspace</p>
+            </div>
+
+            <div class="step">
+                <div class="step-number">5</div>
+                <strong>Add to Git</strong>
+                <div class="command">git add ios/</div>
+            </div>
+
+            <div class="step">
+                <div class="step-number">6</div>
+                <strong>Commit the changes</strong>
+                <div class="command">git commit -m "Add iOS platform for Capawesome Cloud builds"</div>
+            </div>
+
+            <div class="step">
+                <div class="step-number">7</div>
+                <strong>Push to GitHub</strong>
+                <div class="command">git push origin main</div>
+            </div>
+
+            <div class="step">
+                <div class="step-number">8</div>
+                <strong>Verify on GitHub</strong>
+                <p>Visit <a href="https://github.com/fsumike/pitbox30" target="_blank">https://github.com/fsumike/pitbox30</a></p>
+                <p>Confirm the <code>ios/</code> folder is visible in your repository</p>
+            </div>
+        </div>
+
+        <div class="success">
+            <strong>✅ Next Step:</strong> Once the ios/ folder is pushed to GitHub, trigger a new build in Capawesome Cloud. The build will now find the iOS platform and proceed successfully!
+        </div>
+
+        <h2>What's Included</h2>
+        <ul>
+            <li>Native iOS project structure (Xcode workspace)</li>
+            <li>Capacitor iOS bridge configuration</li>
+            <li>CocoaPods Podfile for native dependencies</li>
+            <li>13 Capacitor plugins configured</li>
+            <li>1 Cordova plugin (cordova-plugin-purchase)</li>
+        </ul>
+
+        <h2>Troubleshooting</h2>
+        <div class="instructions">
+            <p><strong>If extraction fails:</strong></p>
+            <div class="command">tar -xzf PitBox-iOS-Platform.tar.gz -C .</div>
+
+            <p><strong>If Git won't add the files:</strong></p>
+            <div class="command">git rm -r --cached ios/<br>git add ios/<br>git commit -m "Re-add iOS platform"</div>
+
+            <p><strong>To verify iOS folder is tracked:</strong></p>
+            <div class="command">git ls-files | grep ios/</div>
+        </div>
+
+        <h2>Build Information</h2>
+        <ul>
+            <li><strong>Commit Reference:</strong> 57c95bb78e7eb6153d911788001873000d6e5147</li>
+            <li><strong>Git Repo:</strong> fsumike/pitbox30</li>
+            <li><strong>Branch:</strong> main</li>
+            <li><strong>Capacitor Version:</strong> 5.7.0</li>
+        </ul>
+    </div>
+</body>
+</html>

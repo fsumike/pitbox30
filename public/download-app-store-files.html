@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Download PitBox App Store Files</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .container {
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            max-width: 600px;
+            width: 100%;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+        }
+
+        h1 {
+            color: #333;
+            margin-bottom: 10px;
+            font-size: 32px;
+        }
+
+        .subtitle {
+            color: #666;
+            margin-bottom: 30px;
+            font-size: 16px;
+        }
+
+        .download-section {
+            margin-bottom: 20px;
+        }
+
+        .download-btn {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 20px 30px;
+            border-radius: 12px;
+            text-decoration: none;
+            transition: transform 0.2s, box-shadow 0.2s;
+            margin-bottom: 15px;
+        }
+
+        .download-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(102, 126, 234, 0.4);
+        }
+
+        .download-btn:active {
+            transform: translateY(0);
+        }
+
+        .btn-content {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .icon {
+            font-size: 32px;
+        }
+
+        .btn-text h3 {
+            font-size: 18px;
+            margin-bottom: 5px;
+        }
+
+        .btn-text p {
+            font-size: 13px;
+            opacity: 0.9;
+        }
+
+        .arrow {
+            font-size: 24px;
+        }
+
+        .info-box {
+            background: #f8f9fa;
+            border-radius: 12px;
+            padding: 20px;
+            margin-top: 30px;
+            border-left: 4px solid #667eea;
+        }
+
+        .info-box h3 {
+            color: #333;
+            margin-bottom: 10px;
+            font-size: 16px;
+        }
+
+        .info-box ul {
+            list-style: none;
+            color: #666;
+            font-size: 14px;
+            line-height: 1.8;
+        }
+
+        .info-box li:before {
+            content: "✓ ";
+            color: #667eea;
+            font-weight: bold;
+            margin-right: 8px;
+        }
+
+        @media (max-width: 480px) {
+            .container {
+                padding: 30px 20px;
+            }
+
+            h1 {
+                font-size: 24px;
+            }
+
+            .download-btn {
+                padding: 15px 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>PitBox App Store Files</h1>
+        <p class="subtitle">Download the native project files for iOS and Android submission</p>
+
+        <div class="download-section">
+            <a href="/PitBox-Android-Latest.tar.gz" class="download-btn" download>
+                <div class="btn-content">
+                    <span class="icon">🤖</span>
+                    <div class="btn-text">
+                        <h3>Android Project</h3>
+                        <p>For Google Play Store submission</p>
+                    </div>
+                </div>
+                <span class="arrow">→</span>
+            </a>
+
+            <a href="/PitBox-iOS-Latest.tar.gz" class="download-btn" download>
+                <div class="btn-content">
+                    <span class="icon">🍎</span>
+                    <div class="btn-text">
+                        <h3>iOS Project</h3>
+                        <p>For Apple App Store submission</p>
+                    </div>
+                </div>
+                <span class="arrow">→</span>
+            </a>
+        </div>
+
+        <div class="info-box">
+            <h3>Next Steps:</h3>
+            <ul>
+                <li>Extract the downloaded archive files</li>
+                <li><strong>Android:</strong> Open the android folder in Android Studio</li>
+                <li><strong>iOS:</strong> Open the ios/App/App.xcworkspace file in Xcode</li>
+                <li>Configure signing certificates and provisioning profiles</li>
+                <li>Build and upload to respective app stores</li>
+            </ul>
+        </div>
+
+        <div class="info-box" style="margin-top: 15px; border-left-color: #28a745;">
+            <h3>What's Included:</h3>
+            <ul>
+                <li>Complete native Android and iOS projects</li>
+                <li>All Capacitor plugins pre-installed</li>
+                <li>Latest built web assets synced</li>
+                <li>Ready for app store submission</li>
+            </ul>
+        </div>
+    </div>
+</body>
+</html>

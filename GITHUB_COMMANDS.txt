@@ -1,0 +1,72 @@
+╔═══════════════════════════════════════════════════════════╗
+║              GITHUB PUSH COMMANDS - COPY/PASTE            ║
+╚═══════════════════════════════════════════════════════════╝
+
+✅ Git repo is READY with 486 files committed!
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+📋 STEP 1: Create New GitHub Repo
+
+Go to: https://github.com/new
+
+Repository name: pitbox-app
+Privacy: Private (recommended)
+DO NOT initialize with README/gitignore
+
+Click "Create repository"
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+📋 STEP 2: Run These Commands (in Bolt terminal)
+
+Replace YOUR_USERNAME with your actual GitHub username!
+
+git remote add origin https://github.com/YOUR_USERNAME/pitbox-app.git
+git push -u origin main
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+🔄 IF YOU ALREADY HAVE A REPO AND WANT TO CLEAR IT:
+
+Option A - Force push (overwrites everything):
+
+git remote add origin https://github.com/YOUR_USERNAME/your-repo.git
+git push -u origin main --force
+
+Option B - Delete repo on GitHub and create fresh one
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+📌 WHAT'S INCLUDED IN THE PUSH:
+
+✅ All source code
+✅ Package files
+✅ Capacitor config
+✅ Supabase migrations
+✅ Documentation
+✅ .env.example (template)
+
+❌ NOT included (.gitignore):
+   • .env (your actual secrets)
+   • node_modules/
+   • dist/
+   • android/ and ios/ folders
+   • *.tar.gz backups
+   • Private keys (.pem, .pub)
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+🔒 IMPORTANT SECURITY NOTE:
+
+Your .env file is NOT pushed to GitHub! Anyone cloning your repo
+will need to:
+
+1. Copy .env.example to .env
+2. Add their own API keys
+
+This keeps your secrets safe!
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+📚 Full guide: GITHUB_PUSH_GUIDE.md

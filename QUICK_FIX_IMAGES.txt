@@ -1,0 +1,43 @@
+╔═══════════════════════════════════════════════════════════════════════╗
+║              SHOCK INVENTORY - FIX IMAGES NOT LOADING                 ║
+╚═══════════════════════════════════════════════════════════════════════╝
+
+PROBLEM: Images upload but show "Failed to load"
+SOLUTION: Make the storage bucket public (takes 30 seconds!)
+
+╔═══════════════════════════════════════════════════════════════════════╗
+║                           QUICK FIX STEPS                             ║
+╚═══════════════════════════════════════════════════════════════════════╝
+
+1. Go to: https://supabase.com/dashboard
+   └─ Select your project
+
+2. Click "SQL Editor" (left sidebar)
+   └─ Click "New query"
+
+3. Copy & paste the SQL from: FIX_DYNO_SHEETS_BUCKET.sql
+   └─ Click "Run"
+   └─ Should see: "Success. No rows returned"
+
+4. Refresh your app
+   └─ Images will now load! ✓
+
+╔═══════════════════════════════════════════════════════════════════════╗
+║                       WHAT THIS DOES                                  ║
+╚═══════════════════════════════════════════════════════════════════════╝
+
+✓ Makes the dyno-sheets bucket public
+✓ Allows images to be viewed by anyone
+✓ Keeps upload/delete restricted to authenticated users only
+✓ This is standard & secure for user-uploaded images
+
+╔═══════════════════════════════════════════════════════════════════════╗
+║                       NEED MORE HELP?                                 ║
+╚═══════════════════════════════════════════════════════════════════════╝
+
+Read: SHOCK_INVENTORY_IMAGE_FIX.md (full detailed guide)
+
+Still having issues?
+- Open browser console (F12) and check for errors
+- Verify SQL ran successfully in Supabase
+- Try hard refresh (Ctrl+Shift+R)

@@ -1,0 +1,56 @@
+{
+  "$schema": "https://cloud.capawesome.io/schemas/config.json",
+  "appId": "8251f381-4aed-4b20-ac20-a3aad250cbb8",
+  "appName": "PitBox",
+  "webDir": "dist",
+  "build": {
+    "beforeBuild": "npm run build",
+    "platforms": {
+      "ios": {
+        "buildCommand": "xcodebuild -workspace ios/App/App.xcworkspace -scheme App -configuration Release -archivePath build/App.xcarchive archive",
+        "buildArtifacts": ["build/App.xcarchive"],
+        "version": "3.0.0",
+        "buildNumber": "1"
+      },
+      "android": {
+        "buildCommand": "cd android && ./gradlew assembleRelease bundleRelease",
+        "buildArtifacts": [
+          "android/app/build/outputs/apk/release/app-release.apk",
+          "android/app/build/outputs/bundle/release/app-release.aab"
+        ],
+        "version": "3.0.0",
+        "versionCode": 1
+      }
+    }
+  },
+  "publish": {
+    "ios": {
+      "bundleId": "com.pitbox.app",
+      "destinations": [
+        {
+          "type": "testflight",
+          "enabled": true
+        },
+        {
+          "type": "app-store",
+          "enabled": true
+        }
+      ]
+    },
+    "android": {
+      "packageName": "com.pitbox.app",
+      "destinations": [
+        {
+          "type": "google-play",
+          "track": "internal",
+          "enabled": true
+        },
+        {
+          "type": "google-play",
+          "track": "production",
+          "enabled": false
+        }
+      ]
+    }
+  }
+}

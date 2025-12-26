@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PitBox Android - Fixed Configuration</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .container {
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            max-width: 800px;
+            width: 100%;
+            padding: 40px;
+        }
+
+        h1 {
+            color: #1e3a8a;
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            text-align: center;
+        }
+
+        .version {
+            text-align: center;
+            color: #10b981;
+            font-weight: 600;
+            font-size: 1.2rem;
+            margin-bottom: 20px;
+        }
+
+        .fix-badge {
+            background: #10b981;
+            color: white;
+            padding: 8px 16px;
+            border-radius: 20px;
+            display: inline-block;
+            font-size: 0.9rem;
+            font-weight: 600;
+            margin-bottom: 30px;
+        }
+
+        .info {
+            background: #f0f9ff;
+            border-left: 4px solid #3b82f6;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 8px;
+        }
+
+        .info h2 {
+            color: #1e3a8a;
+            font-size: 1.3rem;
+            margin-bottom: 15px;
+        }
+
+        .info ul {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .info li {
+            padding: 8px 0;
+            padding-left: 30px;
+            position: relative;
+            color: #1f2937;
+            line-height: 1.6;
+        }
+
+        .info li:before {
+            content: "✓";
+            position: absolute;
+            left: 0;
+            color: #10b981;
+            font-weight: bold;
+            font-size: 1.2rem;
+        }
+
+        .warning {
+            background: #fef3c7;
+            border-left: 4px solid #f59e0b;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 8px;
+        }
+
+        .warning h3 {
+            color: #92400e;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .warning p {
+            color: #78350f;
+            line-height: 1.6;
+        }
+
+        .download-btn {
+            display: block;
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+            color: white;
+            text-decoration: none;
+            padding: 16px 32px;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 1.1rem;
+            text-align: center;
+            margin: 30px 0;
+            transition: transform 0.2s, box-shadow 0.2s;
+            box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
+        }
+
+        .download-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(16, 185, 129, 0.4);
+        }
+
+        .file-size {
+            text-align: center;
+            color: #6b7280;
+            font-size: 0.9rem;
+            margin-bottom: 30px;
+        }
+
+        .instructions {
+            background: #f9fafb;
+            padding: 25px;
+            border-radius: 8px;
+            margin-top: 30px;
+        }
+
+        .instructions h3 {
+            color: #1e3a8a;
+            margin-bottom: 15px;
+            font-size: 1.2rem;
+        }
+
+        .instructions ol {
+            padding-left: 20px;
+        }
+
+        .instructions li {
+            margin: 12px 0;
+            color: #374151;
+            line-height: 1.6;
+        }
+
+        .code {
+            background: #1f2937;
+            color: #10b981;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9rem;
+        }
+
+        .tech-specs {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin: 20px 0;
+        }
+
+        .tech-spec {
+            background: white;
+            padding: 15px;
+            border-radius: 8px;
+            border: 2px solid #e5e7eb;
+        }
+
+        .tech-spec strong {
+            color: #1e3a8a;
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        .tech-spec span {
+            color: #6b7280;
+        }
+
+        .footer {
+            text-align: center;
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 1px solid #e5e7eb;
+            color: #6b7280;
+            font-size: 0.9rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🏁 PitBox Android</h1>
+        <div class="version">Gradle 8.11.1 + AGP 8.7.3</div>
+        <div style="text-align: center;">
+            <span class="fix-badge">✓ JAVA_HOME ERROR FIXED</span>
+        </div>
+
+        <div class="warning">
+            <h3>⚠️ What Was Fixed</h3>
+            <p>
+                The previous version had <strong>org.gradle.java.home=</strong> set to an empty value,
+                which caused the error: <em>"Value '' given for org.gradle.java.home Gradle property is invalid"</em>
+            </p>
+            <p style="margin-top: 10px;">
+                <strong>Solution:</strong> Removed the empty java.home property. Android Studio will now automatically
+                detect and use its embedded JDK 17, ensuring proper Java configuration.
+            </p>
+        </div>
+
+        <div class="info">
+            <h2>What's Included:</h2>
+            <ul>
+                <li>Gradle 8.11.1 (latest stable release)</li>
+                <li>Android Gradle Plugin 8.7.3</li>
+                <li>Target SDK 35 (Android 15)</li>
+                <li>Java 17 source/target compatibility</li>
+                <li>Performance optimizations enabled</li>
+                <li>All Capacitor plugins pre-configured</li>
+            </ul>
+        </div>
+
+        <div class="tech-specs">
+            <div class="tech-spec">
+                <strong>Gradle Version</strong>
+                <span>8.11.1</span>
+            </div>
+            <div class="tech-spec">
+                <strong>AGP Version</strong>
+                <span>8.7.3</span>
+            </div>
+            <div class="tech-spec">
+                <strong>Min SDK</strong>
+                <span>22 (Android 5.1)</span>
+            </div>
+            <div class="tech-spec">
+                <strong>Target SDK</strong>
+                <span>35 (Android 15)</span>
+            </div>
+            <div class="tech-spec">
+                <strong>Java</strong>
+                <span>17 (Auto-detected)</span>
+            </div>
+            <div class="tech-spec">
+                <strong>Build Config</strong>
+                <span>Optimized</span>
+            </div>
+        </div>
+
+        <a href="android-gradle-8.11-fixed.tar.gz" class="download-btn" download>
+            📦 Download Fixed Android Project
+        </a>
+        <div class="file-size">229 KB • .tar.gz</div>
+
+        <div class="instructions">
+            <h3>Installation Instructions:</h3>
+            <ol>
+                <li>Download the <span class="code">android-gradle-8.11-fixed.tar.gz</span> file</li>
+                <li>Navigate to your PitBox project directory</li>
+                <li>Remove old android folder (if exists):
+                    <br><span class="code">rm -rf android/</span>
+                </li>
+                <li>Extract the new Android project:
+                    <br><span class="code">tar -xzf android-gradle-8.11-fixed.tar.gz</span>
+                </li>
+                <li>Open Android Studio</li>
+                <li>Select "Open an Existing Project"</li>
+                <li>Navigate to and select the <span class="code">android</span> folder</li>
+                <li>Let Gradle sync (will auto-download Gradle 8.11.1)</li>
+                <li>Build → Generate Signed Bundle/APK</li>
+            </ol>
+        </div>
+
+        <div class="info">
+            <h2>Performance Optimizations:</h2>
+            <ul>
+                <li>Parallel build execution enabled</li>
+                <li>Gradle build caching enabled</li>
+                <li>Configuration on demand enabled</li>
+                <li>Optimized JVM heap: 2GB max memory</li>
+                <li>Kotlin incremental compilation</li>
+            </ul>
+        </div>
+
+        <div class="footer">
+            <p>Need help? Check the Android Studio console for detailed build logs.</p>
+            <p style="margin-top: 8px;">Make sure you have JDK 17 installed for optimal performance.</p>
+        </div>
+    </div>
+</body>
+</html>

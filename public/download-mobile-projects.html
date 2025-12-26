@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Download PitBox Mobile Projects</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+
+    .container {
+      background: white;
+      border-radius: 20px;
+      padding: 50px;
+      max-width: 800px;
+      width: 100%;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+    }
+
+    h1 {
+      color: #333;
+      font-size: 36px;
+      margin-bottom: 10px;
+      text-align: center;
+    }
+
+    .subtitle {
+      color: #666;
+      text-align: center;
+      margin-bottom: 40px;
+      font-size: 18px;
+    }
+
+    .downloads {
+      display: grid;
+      gap: 20px;
+      margin-bottom: 40px;
+    }
+
+    .download-card {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      border-radius: 15px;
+      padding: 30px;
+      color: white;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      transition: transform 0.2s;
+    }
+
+    .download-card:hover {
+      transform: translateY(-5px);
+    }
+
+    .download-info h2 {
+      font-size: 28px;
+      margin-bottom: 10px;
+    }
+
+    .download-info p {
+      opacity: 0.9;
+      font-size: 16px;
+    }
+
+    .download-btn {
+      background: white;
+      color: #667eea;
+      padding: 15px 30px;
+      border-radius: 10px;
+      text-decoration: none;
+      font-weight: bold;
+      font-size: 18px;
+      transition: all 0.2s;
+      display: inline-block;
+    }
+
+    .download-btn:hover {
+      transform: scale(1.05);
+      box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+    }
+
+    .instructions {
+      background: #f7f9fc;
+      border-radius: 15px;
+      padding: 30px;
+      margin-top: 30px;
+    }
+
+    .instructions h3 {
+      color: #333;
+      margin-bottom: 20px;
+      font-size: 24px;
+    }
+
+    .step {
+      margin-bottom: 20px;
+      padding-left: 35px;
+      position: relative;
+    }
+
+    .step::before {
+      content: "→";
+      position: absolute;
+      left: 0;
+      color: #667eea;
+      font-size: 24px;
+      font-weight: bold;
+    }
+
+    .step strong {
+      color: #667eea;
+      display: block;
+      margin-bottom: 5px;
+      font-size: 18px;
+    }
+
+    .note {
+      background: #fff3cd;
+      border-left: 4px solid #ffc107;
+      padding: 15px;
+      margin-top: 20px;
+      border-radius: 5px;
+    }
+
+    .note strong {
+      color: #856404;
+    }
+
+    @media (max-width: 768px) {
+      .container {
+        padding: 30px 20px;
+      }
+
+      .download-card {
+        flex-direction: column;
+        text-align: center;
+        gap: 20px;
+      }
+
+      h1 {
+        font-size: 28px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>🚀 PitBox Mobile Projects</h1>
+    <p class="subtitle">Download your ready-to-build Android and iOS projects</p>
+
+    <div class="downloads">
+      <div class="download-card">
+        <div class="download-info">
+          <h2>🤖 Android Project</h2>
+          <p>Open in Android Studio to build APK/AAB</p>
+        </div>
+        <a href="android-ready-to-build.tar.gz" download class="download-btn">Download</a>
+      </div>
+
+      <div class="download-card">
+        <div class="download-info">
+          <h2>🍎 iOS Project</h2>
+          <p>Open in Xcode on Mac to build IPA</p>
+        </div>
+        <a href="ios-ready-to-build.tar.gz" download class="download-btn">Download</a>
+      </div>
+    </div>
+
+    <div class="instructions">
+      <h3>📋 What to Do Next</h3>
+
+      <div class="step">
+        <strong>Android (Windows/Mac/Linux)</strong>
+        1. Extract android-ready-to-build.tar.gz<br>
+        2. Install Android Studio<br>
+        3. Open the "android" folder in Android Studio<br>
+        4. Wait for Gradle sync (15+ minutes first time)<br>
+        5. Build → Generate Signed Bundle/APK
+      </div>
+
+      <div class="step">
+        <strong>iOS (Mac Only)</strong>
+        1. Extract ios-ready-to-build.tar.gz<br>
+        2. Open Terminal, cd to ios/App folder<br>
+        3. Run: pod install<br>
+        4. Open App.xcworkspace in Xcode<br>
+        5. Product → Archive
+      </div>
+
+      <div class="note">
+        <strong>📚 Need Step-by-Step Instructions?</strong><br>
+        Check your project for START_HERE_FINAL.md - it has complete instructions for building and submitting to app stores.
+      </div>
+    </div>
+  </div>
+</body>
+</html>

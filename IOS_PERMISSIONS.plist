@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+    <!-- COPY THESE KEYS INTO YOUR Info.plist -->
+
+    <!-- Camera Access -->
+    <key>NSCameraUsageDescription</key>
+    <string>PitBox needs camera access to capture dyno sheets, track conditions, and share race day moments with the racing community.</string>
+
+    <!-- Photo Library -->
+    <key>NSPhotoLibraryUsageDescription</key>
+    <string>PitBox needs photo library access to save and share your racing photos and setup sheets.</string>
+
+    <key>NSPhotoLibraryAddUsageDescription</key>
+    <string>PitBox saves photos to your library so you can keep your racing memories.</string>
+
+    <!-- Location Services -->
+    <key>NSLocationWhenInUseUsageDescription</key>
+    <string>PitBox uses your location to find nearby tracks and automatically tag your setups with track information.</string>
+
+    <key>NSLocationAlwaysUsageDescription</key>
+    <string>PitBox uses your location to automatically detect when you arrive at a track and help you find racing events near you.</string>
+
+    <key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
+    <string>PitBox uses your location to find nearby tracks and auto-tag your setups with track data.</string>
+
+    <!-- Microphone (if you add voice notes) -->
+    <key>NSMicrophoneUsageDescription</key>
+    <string>PitBox uses the microphone to record voice notes about your setup and race conditions.</string>
+
+    <!-- Notifications -->
+    <key>NSUserNotificationsUsageDescription</key>
+    <string>PitBox sends notifications about new messages, friend requests, and race events you follow.</string>
+
+    <!-- Bluetooth (if tracking sensors) -->
+    <key>NSBluetoothAlwaysUsageDescription</key>
+    <string>PitBox uses Bluetooth to connect to racing sensors and track data equipment.</string>
+
+    <key>NSBluetoothPeripheralUsageDescription</key>
+    <string>PitBox uses Bluetooth to connect to racing sensors and track data equipment.</string>
+</dict>
+</plist>

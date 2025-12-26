@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PitBox - Screenshot Templates</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+            color: white;
+            padding: 40px 20px;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 20px;
+            font-size: 2.5rem;
+            background: linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .instructions {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 40px;
+            backdrop-filter: blur(10px);
+        }
+
+        .instructions h2 {
+            margin-bottom: 15px;
+            color: #60a5fa;
+        }
+
+        .instructions ul {
+            margin-left: 20px;
+            line-height: 1.8;
+        }
+
+        .instructions code {
+            background: rgba(0, 0, 0, 0.3);
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-family: 'Courier New', monospace;
+        }
+
+        .screenshot-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-top: 30px;
+        }
+
+        .screenshot-card {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 16px;
+            padding: 25px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .screenshot-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        .screenshot-card h3 {
+            color: #60a5fa;
+            margin-bottom: 15px;
+            font-size: 1.3rem;
+        }
+
+        .screenshot-card p {
+            color: #cbd5e1;
+            margin-bottom: 15px;
+            line-height: 1.6;
+        }
+
+        .screenshot-card .url {
+            background: rgba(0, 0, 0, 0.3);
+            padding: 10px;
+            border-radius: 8px;
+            font-family: 'Courier New', monospace;
+            font-size: 0.85rem;
+            word-break: break-all;
+            color: #86efac;
+            margin-bottom: 15px;
+        }
+
+        .screenshot-card .dimensions {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .dimension-badge {
+            background: linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%);
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+
+        .platform-section {
+            margin-top: 50px;
+            padding-top: 30px;
+            border-top: 2px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .platform-section h2 {
+            color: #60a5fa;
+            margin-bottom: 20px;
+            font-size: 2rem;
+        }
+
+        .highlight {
+            color: #fbbf24;
+            font-weight: 600;
+        }
+
+        .tip {
+            background: rgba(251, 191, 36, 0.1);
+            border-left: 4px solid #fbbf24;
+            padding: 15px;
+            margin-top: 20px;
+            border-radius: 8px;
+        }
+
+        .tip strong {
+            color: #fbbf24;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🏁 PitBox Screenshot Templates</h1>
+
+        <div class="instructions">
+            <h2>📋 How to Capture Screenshots</h2>
+            <ul>
+                <li><strong>Method 1 - Use Your Live App:</strong> Navigate to these URLs in your deployed app and take screenshots</li>
+                <li><strong>Method 2 - Browser Dev Tools:</strong> Open Chrome DevTools (F12) → Device Toolbar (Ctrl+Shift+M) → Set custom dimensions → Capture screenshot</li>
+                <li><strong>Method 3 - iOS Simulator:</strong> Open in Xcode Simulator → <code>Cmd+S</code> to save screenshot</li>
+                <li><strong>Method 4 - Android Emulator:</strong> Open in Android Studio Emulator → Camera icon to capture</li>
+            </ul>
+
+            <div class="tip">
+                <strong>💡 Pro Tip:</strong> For best results, use real devices or high-quality simulators. Screenshots should showcase your app in action with real data, not placeholder content.
+            </div>
+        </div>
+
+        <div class="platform-section">
+            <h2>🍎 Apple App Store Screenshots</h2>
+            <p style="color: #cbd5e1; margin-bottom: 20px;">
+                Required: 3-10 screenshots per device type. Focus on: iPhone 6.7" (latest Pro Max models) and iPhone 6.5" (older large models).
+            </p>
+
+            <div class="screenshot-grid">
+                <div class="screenshot-card">
+                    <h3>1. Racing Community Feed</h3>
+                    <p>Showcase the vibrant community with posts, images, and social interactions</p>
+                    <div class="url">https://yourdomain.com/community</div>
+                    <div class="dimensions">
+                        <span class="dimension-badge">iPhone 6.7": 1290×2796</span>
+                        <span class="dimension-badge">iPhone 6.5": 1242×2688</span>
+                    </div>
+                </div>
+
+                <div class="screenshot-card">
+                    <h3>2. Setup Sheet Builder</h3>
+                    <p>Display a detailed setup sheet with car number, suspension settings, and track info</p>
+                    <div class="url">https://yourdomain.com/sprint410</div>
+                    <div class="dimensions">
+                        <span class="dimension-badge">iPhone 6.7": 1290×2796</span>
+                        <span class="dimension-badge">iPhone 6.5": 1242×2688</span>
+                    </div>
+                </div>
+
+                <div class="screenshot-card">
+                    <h3>3. Professional Tools Suite</h3>
+                    <p>Show the tools page with calculators and maintenance trackers</p>
+                    <div class="url">https://yourdomain.com/tools</div>
+                    <div class="dimensions">
+                        <span class="dimension-badge">iPhone 6.7": 1290×2796</span>
+                        <span class="dimension-badge">iPhone 6.5": 1242×2688</span>
+                    </div>
+                </div>
+
+                <div class="screenshot-card">
+                    <h3>4. Swap Meet Marketplace</h3>
+                    <p>Feature listings with prices, images, and racing equipment for sale</p>
+                    <div class="url">https://yourdomain.com/swap-meet</div>
+                    <div class="dimensions">
+                        <span class="dimension-badge">iPhone 6.7": 1290×2796</span>
+                        <span class="dimension-badge">iPhone 6.5": 1242×2688</span>
+                    </div>
+                </div>
+
+                <div class="screenshot-card">
+                    <h3>5. User Profile & Stats</h3>
+                    <p>Display user profile with racing stats, setup history, and achievements</p>
+                    <div class="url">https://yourdomain.com/profile</div>
+                    <div class="dimensions">
+                        <span class="dimension-badge">iPhone 6.7": 1290×2796</span>
+                        <span class="dimension-badge">iPhone 6.5": 1242×2688</span>
+                    </div>
+                </div>
+
+                <div class="screenshot-card">
+                    <h3>6. Motor Health Tracker</h3>
+                    <p>Show motor maintenance logs with RPM tracking and rebuild history</p>
+                    <div class="url">https://yourdomain.com/tools → Motor Health</div>
+                    <div class="dimensions">
+                        <span class="dimension-badge">iPhone 6.7": 1290×2796</span>
+                        <span class="dimension-badge">iPhone 6.5": 1242×2688</span>
+                    </div>
+                </div>
+
+                <div class="screenshot-card">
+                    <h3>7. Track Map & Locations</h3>
+                    <p>Display interactive map with race track locations and details</p>
+                    <div class="url">https://yourdomain.com/tracks</div>
+                    <div class="dimensions">
+                        <span class="dimension-badge">iPhone 6.7": 1290×2796</span>
+                        <span class="dimension-badge">iPhone 6.5": 1242×2688</span>
+                    </div>
+                </div>
+
+                <div class="screenshot-card">
+                    <h3>8. Saved Setups Library</h3>
+                    <p>Show saved setup sheets organized by car class and track</p>
+                    <div class="url">https://yourdomain.com/saved-setups</div>
+                    <div class="dimensions">
+                        <span class="dimension-badge">iPhone 6.7": 1290×2796</span>
+                        <span class="dimension-badge">iPhone 6.5": 1242×2688</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="platform-section">
+            <h2>🤖 Google Play Store Screenshots</h2>
+            <p style="color: #cbd5e1; margin-bottom: 20px;">
+                Required: 2-8 screenshots. Minimum dimensions: 1080×1920 (16:9 ratio).
+            </p>
+
+            <div class="screenshot-grid">
+                <div class="screenshot-card">
+                    <h3>1. Racing Community Hub</h3>
+                    <p>Highlight social features with posts, comments, and engagement</p>
+                    <div class="url">https://yourdomain.com/community</div>
+                    <div class="dimensions">
+                        <span class="dimension-badge">Phone: 1080×1920</span>
+                        <span class="dimension-badge">Tablet: 1920×1200</span>
+                    </div>
+                </div>
+
+                <div class="screenshot-card">
+                    <h3>2. Complete Setup Management</h3>
+                    <p>Feature a fully populated setup sheet with all suspension data</p>
+                    <div class="url">https://yourdomain.com/sprint410</div>
+                    <div class="dimensions">
+                        <span class="dimension-badge">Phone: 1080×1920</span>
+                        <span class="dimension-badge">Tablet: 1920×1200</span>
+                    </div>
+                </div>
+
+                <div class="screenshot-card">
+                    <h3>3. Racing Tools Collection</h3>
+                    <p>Display all available calculators and maintenance tools</p>
+                    <div class="url">https://yourdomain.com/tools</div>
+                    <div class="dimensions">
+                        <span class="dimension-badge">Phone: 1080×1920</span>
+                        <span class="dimension-badge">Tablet: 1920×1200</span>
+                    </div>
+                </div>
+
+                <div class="screenshot-card">
+                    <h3>4. Parts Marketplace</h3>
+                    <p>Show equipment listings with detailed product information</p>
+                    <div class="url">https://yourdomain.com/swap-meet</div>
+                    <div class="dimensions">
+                        <span class="dimension-badge">Phone: 1080×1920</span>
+                        <span class="dimension-badge">Tablet: 1920×1200</span>
+                    </div>
+                </div>
+
+                <div class="screenshot-card">
+                    <h3>5. Performance Analytics</h3>
+                    <p>Feature motor health tracking with charts and statistics</p>
+                    <div class="url">https://yourdomain.com/tools → Motor Health</div>
+                    <div class="dimensions">
+                        <span class="dimension-badge">Phone: 1080×1920</span>
+                        <span class="dimension-badge">Tablet: 1920×1200</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="instructions" style="margin-top: 50px;">
+            <h2>✅ Screenshot Quality Checklist</h2>
+            <ul>
+                <li>✓ Use <span class="highlight">real data</span>, not placeholder text</li>
+                <li>✓ Ensure <span class="highlight">proper lighting</span> and contrast</li>
+                <li>✓ Show the app <span class="highlight">in use</span>, not just static screens</li>
+                <li>✓ No <span class="highlight">personal information</span> visible</li>
+                <li>✓ Consistent <span class="highlight">status bar</span> appearance (9:41 AM, full battery)</li>
+                <li>✓ Screenshots should tell a <span class="highlight">story</span> of your app's value</li>
+                <li>✓ First screenshot is the most important - make it <span class="highlight">compelling</span></li>
+            </ul>
+        </div>
+    </div>
+</body>
+</html>
