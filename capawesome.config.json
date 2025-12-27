@@ -3,8 +3,8 @@
   "appId": "8251f381-4aed-4b20-ac20-a3aad250cbb8",
   "appName": "PitBox",
   "webDir": "dist",
+  "webBuildCommand": "npm run build && npx cap add ios && npx cap sync ios",
   "build": {
-    "beforeBuild": "npm run build",
     "platforms": {
       "ios": {
         "buildCommand": "xcodebuild -workspace ios/App/App.xcworkspace -scheme App -configuration Release -archivePath build/App.xcarchive archive",

@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "vite build",
+    "build": "vite build && npx cap add ios || true && npx cap sync ios || true",
     "build:ci": "npx cap add android && vite build && npx cap sync android",
     "build:ci:ios": "npx cap add ios && vite build && npx cap sync ios",
     "build:ci:all": "vite build && npx cap sync",
