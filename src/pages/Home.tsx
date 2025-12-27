@@ -16,7 +16,7 @@ const categoryImages: Record<string, string> = {
   'Modifieds': 'https://commons.wikimedia.org/wiki/Special:FilePath/Kenny_Wallace_Dirt_Modified_Car.jpg?width=800',
   'Late Models': 'https://commons.wikimedia.org/wiki/Special:FilePath/RickEckertWoOLM2018PlymouthWI.jpg?width=800',
   'Stock Cars': 'https://commons.wikimedia.org/wiki/Special:FilePath/DirtTrackRacing.JPG?width=800',
-  'Youth Racing / Kart': 'https://commons.wikimedia.org/wiki/Special:FilePath/Cobb_Winged_Sprint_Car.jpg?width=800',
+  'Youth Racing / Kart': 'https://commons.wikimedia.org/wiki/Special:FilePath/Superkart.JPG?width=800',
 };
 
 function Home() {
