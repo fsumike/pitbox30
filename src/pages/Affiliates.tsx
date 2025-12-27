@@ -353,11 +353,12 @@ function Affiliates() {
                 </div>
               </div>
 
-              <div className="mb-4 flex items-center justify-center h-32">
-                <div className="text-center">
-                  <h3 className="text-2xl font-bold text-brand-gold">Marysville Raceway</h3>
-                  <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">Dirt Track Racing</p>
-                </div>
+              <div className="mb-4">
+                <img
+                  src="https://cdn.myracepass.com/v1/siteresources/58778/v1/img/logo.png"
+                  alt="Marysville Raceway"
+                  className="w-full h-auto object-contain max-h-32"
+                />
               </div>
 
               <div className="flex items-center gap-2 text-sm text-gray-600 dark:text-gray-400 mb-3">
