@@ -3,5 +3,6 @@
   "appId": "8251f381-4aed-4b20-ac20-a3aad250cbb8",
   "appName": "PitBox",
   "webDir": "dist",
-  "webBuildCommand": "npm run build"
+  "webBuildCommand": "npm run build",
+  "privateKeyPath": "./capawesome-signing-key.pem"
 }
