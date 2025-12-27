@@ -4,15 +4,16 @@
   "appName": "PitBox",
   "webDir": "dist",
   "build": {
-    "beforeBuild": "npm run build",
     "platforms": {
       "ios": {
+        "beforeBuild": "npm ci && npx cap add ios && npm run build && npx cap sync ios",
         "buildCommand": "xcodebuild -workspace ios/App/App.xcworkspace -scheme App -configuration Release -archivePath build/App.xcarchive archive",
         "buildArtifacts": ["build/App.xcarchive"],
         "version": "3.0.0",
         "buildNumber": "1"
       },
       "android": {
+        "beforeBuild": "npm ci && npx cap add android && npm run build && npx cap sync android",
         "buildCommand": "cd android && ./gradlew assembleRelease bundleRelease",
         "buildArtifacts": [
           "android/app/build/outputs/apk/release/app-release.apk",
