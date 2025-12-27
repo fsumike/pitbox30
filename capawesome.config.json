@@ -1,6 +1,6 @@
 {
   "$schema": "https://cloud.capawesome.io/schemas/config.json",
-  "appId": "8251f381-4aed-4b20-ac20-a3aad250cbb8",
+  "appId": "637e779b-3fdc-46f7-ae9e-58b07acf0ebd",
   "appName": "PitBox",
   "webDir": "dist",
   "webBuildCommand": "npm run build",
