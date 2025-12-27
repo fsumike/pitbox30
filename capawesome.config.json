@@ -4,5 +4,5 @@
   "appName": "PitBox",
   "webDir": "dist",
   "webBuildCommand": "npm run build",
-  "privateKeyPath": "./capawesome-signing-key.pem"
+  "privateKey": "./capawesome-signing-key.pem"
 }
