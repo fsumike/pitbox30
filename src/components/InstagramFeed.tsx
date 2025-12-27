@@ -1,28 +1,11 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { Instagram, ExternalLink } from 'lucide-react';
 
 interface InstagramFeedProps {
   username: string;
-  limit?: number;
 }
 
-function InstagramFeed({ username, limit = 6 }: InstagramFeedProps) {
-  useEffect(() => {
-    const script = document.createElement('script');
-    script.src = 'https://www.instagram.com/embed.js';
-    script.async = true;
-    document.body.appendChild(script);
-
-    if ((window as any).instgrm) {
-      (window as any).instgrm.Embeds.process();
-    }
-
-    return () => {
-      if (document.body.contains(script)) {
-        document.body.removeChild(script);
-      }
-    };
-  }, []);
+function InstagramFeed({ username }: InstagramFeedProps) {
 
   return (
     <div className="space-y-6">
@@ -69,18 +52,6 @@ function InstagramFeed({ username, limit = 6 }: InstagramFeedProps) {
             </a>
           </div>
 
-          <div className="grid grid-cols-3 gap-4 pt-6">
-            {[...Array(limit)].map((_, i) => (
-              <div
-                key={i}
-                className="aspect-square rounded-lg bg-gradient-to-br from-gray-200 to-gray-300 dark:from-gray-700 dark:to-gray-800 animate-pulse"
-              />
-            ))}
-          </div>
-
-          <p className="text-sm text-gray-500 dark:text-gray-500 pt-4">
-            Visit our Instagram profile to see all our posts and stories
-          </p>
         </div>
       </div>
 

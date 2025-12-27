@@ -185,7 +185,7 @@ function SocialMedia() {
         </div>
       </div>
 
-      <InstagramFeed username="pitbox25" limit={6} />
+      <InstagramFeed username="pitbox25" />
 
       <div className="glass-panel p-8 bg-gradient-to-br from-blue-50/50 to-cyan-50/50 dark:from-blue-900/10 dark:to-cyan-900/10">
         <div className="text-center mb-6">
