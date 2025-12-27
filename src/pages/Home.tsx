@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Settings, Shield, Database, Trophy, Share2, ChevronDown, ChevronRight, Car, Zap, Target, Clock, Cloud, Users, LineChart, Lock, Globe, Award, Heart, Gauge, PenTool as Tools, Wrench, Cog, MousePointer, Clock as Click, Flag, ExternalLink } from 'lucide-react';
+import { Sliders, Crown, ChevronDown, ChevronRight, Gauge, Zap, MapPin, Timer, Smartphone, UsersRound, TrendingUp, ShieldCheck, Network, Trophy, Sparkles, Wrench, Hand, ArrowUpRight, LogIn } from 'lucide-react';
 import SignInButton from '../components/SignInButton';
 import SignInPrompt from '../components/SignInPrompt';
 import LoadingSpinner from '../components/LoadingSpinner';
@@ -92,7 +92,7 @@ function Home() {
             <div className="absolute inset-0 rounded-xl border-2 border-brand-gold/50 opacity-0 group-hover:opacity-100 transition-opacity"></div>
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-4">
-                <Tools className="w-8 h-8 text-brand-gold" />
+                <Wrench className="w-8 h-8 text-brand-gold" />
                 <span className="text-2xl font-bold">Racing Setup Headquarters</span>
               </div>
               <ChevronDown 
@@ -105,7 +105,7 @@ function Home() {
               Unlock championship-caliber performance with our professional setup tools
             </p>
             <div className="flex items-center gap-2 mt-3 text-brand-gold font-medium pl-12">
-              <Click className="w-5 h-5" />
+              <Hand className="w-5 h-5" />
               <span>Click to access your racing vehicle setup tools</span>
               <ChevronRight className="w-5 h-5 transform group-hover:translate-x-2 transition-transform" />
             </div>
@@ -131,7 +131,7 @@ function Home() {
                         <div className="absolute inset-0 flex items-center justify-between p-6">
                           <div className="flex items-center gap-4">
                             <div className="w-12 h-12 rounded-full bg-brand-gold/20 backdrop-blur-sm flex items-center justify-center border border-brand-gold/30">
-                              <Car className="w-6 h-6 text-brand-gold" />
+                              <Gauge className="w-6 h-6 text-brand-gold" />
                             </div>
                             <div className="text-left">
                               <span className="text-2xl font-bold text-white drop-shadow-lg">{category.name}</span>
@@ -166,7 +166,7 @@ function Home() {
                         >
                           <div className="flex items-center justify-between">
                             <div className="flex items-center gap-3">
-                              <Settings className="w-5 h-5 text-brand-gold" />
+                              <Sliders className="w-5 h-5 text-brand-gold" />
                               <div>
                                 <span className="text-lg font-medium">{subItem.name}</span>
                                 <p className="text-sm text-gray-600 dark:text-gray-400">
@@ -195,7 +195,7 @@ function Home() {
                 onClick={() => navigate('/signin')}
                 className="btn-primary flex items-center gap-2 mx-auto"
               >
-                <Lock className="w-5 h-5" />
+                <LogIn className="w-5 h-5" />
                 Sign In to Access Setup Tools
               </button>
             )}
@@ -204,7 +204,7 @@ function Home() {
                 onClick={() => setShowVehicles(true)}
                 className="btn-primary flex items-center gap-2 mx-auto"
               >
-                <Settings className="w-5 h-5" />
+                <Sliders className="w-5 h-5" />
                 View Setup Tools
               </button>
             )}
@@ -213,7 +213,7 @@ function Home() {
                 onClick={() => navigate('/subscription')}
                 className="btn-primary flex items-center gap-2 mx-auto mb-8"
               >
-                <Shield className="w-5 h-5" />
+                <Crown className="w-5 h-5" />
                 View Subscription Plans
               </button>
             )}
@@ -228,7 +228,7 @@ function Home() {
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
           <div className="flex items-start gap-4">
             <div className="flex-shrink-0">
-              <Clock className="w-8 h-8 text-brand-gold" />
+              <Timer className="w-8 h-8 text-brand-gold" />
             </div>
             <div>
               <h3 className="text-xl font-bold mb-2">Real-Time Excellence</h3>
@@ -240,7 +240,7 @@ function Home() {
 
           <div className="flex items-start gap-4">
             <div className="flex-shrink-0">
-              <Cloud className="w-8 h-8 text-brand-gold" />
+              <Smartphone className="w-8 h-8 text-brand-gold" />
             </div>
             <div>
               <h3 className="text-xl font-bold mb-2">Universal Access</h3>
@@ -252,7 +252,7 @@ function Home() {
 
           <div className="flex items-start gap-4">
             <div className="flex-shrink-0">
-              <Users className="w-8 h-8 text-brand-gold" />
+              <UsersRound className="w-8 h-8 text-brand-gold" />
             </div>
             <div>
               <h3 className="text-xl font-bold mb-2">Team Synergy</h3>
@@ -264,7 +264,7 @@ function Home() {
 
           <div className="flex items-start gap-4">
             <div className="flex-shrink-0">
-              <LineChart className="w-8 h-8 text-brand-gold" />
+              <TrendingUp className="w-8 h-8 text-brand-gold" />
             </div>
             <div>
               <h3 className="text-xl font-bold mb-2">Performance Analytics</h3>
@@ -276,7 +276,7 @@ function Home() {
 
           <div className="flex items-start gap-4">
             <div className="flex-shrink-0">
-              <Lock className="w-8 h-8 text-brand-gold" />
+              <ShieldCheck className="w-8 h-8 text-brand-gold" />
             </div>
             <div>
               <h3 className="text-xl font-bold mb-2">Secure Innovation</h3>
@@ -288,7 +288,7 @@ function Home() {
 
           <div className="flex items-start gap-4">
             <div className="flex-shrink-0">
-              <Globe className="w-8 h-8 text-brand-gold" />
+              <Network className="w-8 h-8 text-brand-gold" />
             </div>
             <div>
               <h3 className="text-xl font-bold mb-2">Pit Community</h3>
@@ -304,7 +304,7 @@ function Home() {
       <div className="glass-panel p-8 bg-gradient-to-br from-brand-gold/5 to-brand-gold-light/5">
         <div className="text-center mb-6">
           <div className="flex items-center justify-center gap-2 mb-2">
-            <Flag className="w-6 h-6 text-brand-gold" />
+            <Trophy className="w-6 h-6 text-brand-gold" />
             <h2 className="text-2xl font-bold bg-gradient-to-r from-brand-gold to-brand-gold-light bg-clip-text text-transparent">
               Sponsored Affiliates
             </h2>
@@ -339,7 +339,7 @@ function Home() {
               </div>
 
               <div className="flex items-center justify-center gap-2 text-sm text-gray-600 dark:text-gray-400 mb-3">
-                <Target className="w-4 h-4" />
+                <MapPin className="w-4 h-4" />
                 <span>Chico, California</span>
               </div>
 
@@ -350,7 +350,7 @@ function Home() {
 
               <div className="flex items-center justify-center gap-2 text-brand-gold font-semibold group-hover:gap-3 transition-all">
                 <span>Visit Silver Dollar Speedway</span>
-                <ExternalLink className="w-5 h-5" />
+                <ArrowUpRight className="w-5 h-5" />
               </div>
             </div>
           </a>
@@ -379,7 +379,7 @@ function Home() {
               </div>
 
               <div className="flex items-center justify-center gap-2 text-sm text-gray-600 dark:text-gray-400 mb-3">
-                <Target className="w-4 h-4" />
+                <MapPin className="w-4 h-4" />
                 <span>Tulare, California</span>
               </div>
 
@@ -390,7 +390,7 @@ function Home() {
 
               <div className="flex items-center justify-center gap-2 text-brand-gold font-semibold group-hover:gap-3 transition-all">
                 <span>Visit Thunderbowl Raceway</span>
-                <ExternalLink className="w-5 h-5" />
+                <ArrowUpRight className="w-5 h-5" />
               </div>
             </div>
           </a>
@@ -400,7 +400,7 @@ function Home() {
       {/* Thank You Section */}
       <div className="glass-panel p-8 bg-gradient-to-br from-brand-gold/10 via-brand-gold/5 to-brand-gold/10 mb-24">
         <div className="max-w-3xl mx-auto text-center">
-          <Heart className="w-16 h-16 text-brand-gold mx-auto mb-6 animate-pulse" />
+          <Sparkles className="w-16 h-16 text-brand-gold mx-auto mb-6 animate-pulse" />
           <h2 className="text-3xl font-bold mb-6 bg-gradient-to-r from-brand-gold to-brand-gold-light bg-clip-text text-transparent">
             With Gratitude
           </h2>
