@@ -11,12 +11,12 @@ import { motion } from 'framer-motion';
 import SubscriptionGate from '../components/SubscriptionGate';
 
 const categoryImages: Record<string, string> = {
-  'Sprint Cars': 'https://upload.wikimedia.org/wikipedia/commons/thumb/9/9e/Sprint_Race_Car_%283665142295%29.jpg/1280px-Sprint_Race_Car_%283665142295%29.jpg',
-  'Midget Cars': 'https://upload.wikimedia.org/wikipedia/commons/thumb/a/a2/63_Kyle_Larson_USAC_Midget_2012_Angell_Park_Speedway.jpg/1280px-63_Kyle_Larson_USAC_Midget_2012_Angell_Park_Speedway.jpg',
-  'Modifieds': 'https://upload.wikimedia.org/wikipedia/commons/thumb/e/e6/Kenny_Wallace_Dirt_Modified_Car.jpg/1280px-Kenny_Wallace_Dirt_Modified_Car.jpg',
-  'Late Models': 'https://upload.wikimedia.org/wikipedia/commons/thumb/4/48/RickEckertWoOLM2018PlymouthWI.jpg/1280px-RickEckertWoOLM2018PlymouthWI.jpg',
-  'Stock Cars': 'https://upload.wikimedia.org/wikipedia/commons/thumb/8/8e/BrennanPoole2008%28Cropped%29.png/1280px-BrennanPoole2008%28Cropped%29.png',
-  'Youth Racing / Kart': 'https://upload.wikimedia.org/wikipedia/commons/thumb/5/5e/Karting.jpg/1280px-Karting.jpg',
+  'Sprint Cars': 'https://commons.wikimedia.org/wiki/Special:FilePath/Sprint_Race_Car_(3665142295).jpg?width=800',
+  'Midget Cars': 'https://commons.wikimedia.org/wiki/Special:FilePath/63_Kyle_Larson_USAC_Midget_2012_Angell_Park_Speedway.jpg?width=800',
+  'Modifieds': 'https://commons.wikimedia.org/wiki/Special:FilePath/Kenny_Wallace_Dirt_Modified_Car.jpg?width=800',
+  'Late Models': 'https://commons.wikimedia.org/wiki/Special:FilePath/RickEckertWoOLM2018PlymouthWI.jpg?width=800',
+  'Stock Cars': 'https://commons.wikimedia.org/wiki/Special:FilePath/BrennanPoole2008_(Cropped).png?width=800',
+  'Youth Racing / Kart': 'https://commons.wikimedia.org/wiki/Special:FilePath/Karting.jpg?width=800',
 };
 
 function Home() {
