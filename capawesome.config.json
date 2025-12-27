@@ -3,7 +3,7 @@
   "appId": "8251f381-4aed-4b20-ac20-a3aad250cbb8",
   "appName": "PitBox",
   "webDir": "dist",
-  "webBuildCommand": "npm run build && npx cap add ios && npx cap sync ios",
+  "webBuildCommand": "npm run build:ci:all",
   "build": {
     "platforms": {
       "ios": {
