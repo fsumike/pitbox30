@@ -1259,9 +1259,9 @@ function SwapMeet() {
 
               <div className="mb-4">
                 <img
-                  src="https://cdn.myracepass.com/v1/siteresources/58778/v1/img/logo.png"
+                  src="https://cdn.myracepass.com/images/v2/profile-G4m5bUX8n9xx491942.jpg"
                   alt="Marysville Raceway"
-                  className="w-full h-auto object-contain max-h-24 md:max-h-32 mx-auto"
+                  className="w-full h-auto object-cover rounded-lg max-h-24 md:max-h-32 mx-auto"
                 />
               </div>
 
