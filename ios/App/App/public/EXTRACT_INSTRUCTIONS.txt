@@ -1,0 +1,74 @@
+HOW TO EXTRACT PitBoxAndroid.zip TO YOUR ANDROID STUDIO PROJECT
+=====================================================================
+
+OPTION 1: Using Windows Command Prompt (EASIEST)
+-------------------------------------------------
+1. Press Windows Key + R
+2. Type: cmd
+3. Press Enter
+4. Copy and paste these commands one at a time:
+
+cd C:\Users\Bryce\Downloads
+tar -xf PitBoxAndroid.zip -C C:\Users\Bryce\AndroidStudioProjects\PitBox
+
+Done! The android folder is now in C:\Users\Bryce\AndroidStudioProjects\PitBox\android
+
+
+OPTION 2: Using File Explorer
+------------------------------
+1. Download PitBoxAndroid.zip to your Downloads folder
+2. Open File Explorer
+3. Navigate to Downloads folder
+4. Double-click on PitBoxAndroid.zip
+   - This should open it in a new window showing the "android" folder inside
+5. Drag the "android" folder to: C:\Users\Bryce\AndroidStudioProjects\PitBox\
+
+
+OPTION 3: Install 7-Zip (FREE)
+--------------------------------
+1. Go to: https://www.7-zip.org/download.html
+2. Download the .exe installer (64-bit x64 version)
+3. Install it
+4. Restart your computer
+5. Right-click on PitBoxAndroid.zip
+6. You should now see "7-Zip" option
+7. Choose "7-Zip" -> "Extract to PitBoxAndroid\"
+8. Move the extracted "android" folder to C:\Users\Bryce\AndroidStudioProjects\PitBox\
+
+
+OPTION 4: Double-click the ZIP
+-------------------------------
+1. Double-click PitBoxAndroid.zip
+2. Windows should show you the contents
+3. You'll see an "android" folder
+4. Drag it to C:\Users\Bryce\AndroidStudioProjects\PitBox\
+
+
+TROUBLESHOOTING
+---------------
+If none of the above work, the file might be corrupted during download.
+The correct file size should be around 955 KB (955,000 bytes).
+
+Check the file size:
+- Right-click PitBoxAndroid.zip
+- Choose "Properties"
+- Check the "Size" field
+
+If it's much smaller (like 20 bytes), the download failed.
+
+
+AFTER EXTRACTION
+----------------
+You should have this folder structure:
+C:\Users\Bryce\AndroidStudioProjects\PitBox\android\
+
+Inside "android" you should see:
+- app (folder)
+- build.gradle
+- gradlew
+- gradlew.bat
+- settings.gradle
+- and more files
+
+Then open Android Studio and open the project at:
+C:\Users\Bryce\AndroidStudioProjects\PitBox

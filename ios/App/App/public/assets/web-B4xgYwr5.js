@@ -1,0 +1,1 @@
+import{W as s}from"./index-Cgc97SP_.js";import"./ui-v2ReSvUE.js";import"./react-YWE4JMTy.js";import"./router-BNBI7_bc.js";import"./supabase-Du4GZSDg.js";class r extends s{async show(s){}async hide(s){}}export{r as SplashScreenWeb};
