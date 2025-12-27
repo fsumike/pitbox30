@@ -3,55 +3,5 @@
   "appId": "8251f381-4aed-4b20-ac20-a3aad250cbb8",
   "appName": "PitBox",
   "webDir": "dist",
-  "build": {
-    "platforms": {
-      "ios": {
-        "beforeBuild": "npm ci && npx cap add ios && npm run build && npx cap sync ios",
-        "buildCommand": "xcodebuild -workspace ios/App/App.xcworkspace -scheme App -configuration Release -archivePath build/App.xcarchive archive",
-        "buildArtifacts": ["build/App.xcarchive"],
-        "version": "3.0.0",
-        "buildNumber": "1"
-      },
-      "android": {
-        "beforeBuild": "npm ci && npx cap add android && npm run build && npx cap sync android",
-        "buildCommand": "cd android && ./gradlew assembleRelease bundleRelease",
-        "buildArtifacts": [
-          "android/app/build/outputs/apk/release/app-release.apk",
-          "android/app/build/outputs/bundle/release/app-release.aab"
-        ],
-        "version": "3.0.0",
-        "versionCode": 1
-      }
-    }
-  },
-  "publish": {
-    "ios": {
-      "bundleId": "com.pitbox.app",
-      "destinations": [
-        {
-          "type": "testflight",
-          "enabled": true
-        },
-        {
-          "type": "app-store",
-          "enabled": true
-        }
-      ]
-    },
-    "android": {
-      "packageName": "com.pitbox.app",
-      "destinations": [
-        {
-          "type": "google-play",
-          "track": "internal",
-          "enabled": true
-        },
-        {
-          "type": "google-play",
-          "track": "production",
-          "enabled": false
-        }
-      ]
-    }
-  }
+  "webBuildCommand": "npm run build && npx cap sync"
 }
