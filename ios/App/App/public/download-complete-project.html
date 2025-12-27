@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Download PitBox Complete Project</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+        .container {
+            background: white;
+            padding: 40px;
+            border-radius: 12px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+        }
+        h1 {
+            color: #2d3748;
+            margin-bottom: 10px;
+        }
+        .subtitle {
+            color: #718096;
+            margin-bottom: 30px;
+        }
+        .download-btn {
+            display: inline-block;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 15px 40px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 18px;
+            transition: transform 0.2s, box-shadow 0.2s;
+            margin: 20px 0;
+        }
+        .download-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(102, 126, 234, 0.4);
+        }
+        .instructions {
+            background: #f7fafc;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+            border-left: 4px solid #667eea;
+        }
+        .instructions h3 {
+            margin-top: 0;
+            color: #2d3748;
+        }
+        .instructions ol {
+            color: #4a5568;
+            line-height: 1.8;
+        }
+        .instructions code {
+            background: #edf2f7;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-family: 'Courier New', monospace;
+            color: #d73a49;
+        }
+        .warning {
+            background: #fff5f5;
+            border-left: 4px solid #f56565;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 20px 0;
+        }
+        .warning strong {
+            color: #c53030;
+        }
+        .file-info {
+            color: #718096;
+            font-size: 14px;
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 1px solid #e2e8f0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>📦 Download PitBox Complete Project</h1>
+        <p class="subtitle">Complete project with workflows and all files</p>
+
+        <a href="../pitbox-complete-project.tar.gz" class="download-btn" download>
+            ⬇️ Download Project (58 MB)
+        </a>
+
+        <div class="instructions">
+            <h3>📋 After Downloading:</h3>
+            <ol>
+                <li><strong>Extract the archive:</strong>
+                    <ul>
+                        <li>Windows: Right-click → Extract All</li>
+                        <li>Mac/Linux: Double-click or use <code>tar -xzf pitbox-complete-project.tar.gz</code></li>
+                    </ul>
+                </li>
+                <li><strong>Open Command Prompt (CMD) in Windows:</strong>
+                    <ul>
+                        <li>Press <code>Windows Key + R</code></li>
+                        <li>Type <code>cmd</code> and press Enter</li>
+                    </ul>
+                </li>
+                <li><strong>Navigate to the extracted folder:</strong><br>
+                    <code>cd C:\Users\YourName\Downloads\project</code>
+                </li>
+                <li><strong>Install dependencies:</strong><br>
+                    <code>npm install</code>
+                </li>
+                <li><strong>Initialize Git and push to GitHub:</strong><br>
+                    <code>git init</code><br>
+                    <code>git config user.email "your-email@example.com"</code><br>
+                    <code>git config user.name "Your Name"</code><br>
+                    <code>git add .</code><br>
+                    <code>git commit -m "Initial commit"</code><br>
+                    <code>git remote add origin https://github.com/YOUR-USERNAME/your-repo.git</code><br>
+                    <code>git branch -M main</code><br>
+                    <code>git push -u origin main</code>
+                </li>
+            </ol>
+        </div>
+
+        <div class="warning">
+            <strong>⚠️ Important:</strong> Make sure you have Git installed on your computer. Download it from <a href="https://git-scm.com/downloads" target="_blank">git-scm.com/downloads</a> if needed.
+        </div>
+
+        <div class="file-info">
+            <strong>File:</strong> pitbox-complete-project.tar.gz<br>
+            <strong>Size:</strong> 58 MB<br>
+            <strong>Includes:</strong> Source code, workflows, node_modules, and all configuration files
+        </div>
+    </div>
+</body>
+</html>
