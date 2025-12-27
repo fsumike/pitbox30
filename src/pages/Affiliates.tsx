@@ -337,6 +337,45 @@ function Affiliates() {
               </div>
             </div>
           </a>
+
+          {/* Marysville Raceway */}
+          <a
+            href="https://www.marysvilleraceway.com"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="glass-panel p-6 hover:shadow-xl transition-all duration-300 group relative overflow-hidden"
+          >
+            <div className="absolute inset-0 bg-gradient-to-br from-brand-gold/5 to-brand-gold-light/5 opacity-0 group-hover:opacity-100 transition-opacity" />
+            <div className="relative">
+              <div className="flex items-center justify-end mb-4">
+                <div className="px-3 py-1 rounded-full bg-brand-gold/10 text-brand-gold text-xs font-semibold">
+                  SPONSORED
+                </div>
+              </div>
+
+              <div className="mb-4 flex items-center justify-center h-32">
+                <div className="text-center">
+                  <h3 className="text-2xl font-bold text-brand-gold">Marysville Raceway</h3>
+                  <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">Dirt Track Racing</p>
+                </div>
+              </div>
+
+              <div className="flex items-center gap-2 text-sm text-gray-600 dark:text-gray-400 mb-3">
+                <Target className="w-4 h-4" />
+                <span>Marysville, California</span>
+              </div>
+
+              <p className="text-gray-700 dark:text-gray-300 mb-4 line-clamp-3">
+                Exciting dirt track racing featuring 360 Winged Sprints, Crate Sprints, Hobby Stocks, Dwarf Cars, and IMCA Sport Modifieds.
+                A Northern California racing destination partnered with Silver Dollar Speedway.
+              </p>
+
+              <div className="flex items-center gap-2 text-brand-gold font-semibold group-hover:gap-3 transition-all">
+                <span>Visit Raceway</span>
+                <ChevronRight className="w-5 h-5" />
+              </div>
+            </div>
+          </a>
         </div>
       </div>
 

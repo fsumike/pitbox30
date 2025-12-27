@@ -314,7 +314,7 @@ function Home() {
           </p>
         </div>
 
-        <div className="grid md:grid-cols-2 gap-6 max-w-5xl mx-auto">
+        <div className="grid md:grid-cols-3 gap-6 max-w-6xl mx-auto">
           {/* Silver Dollar Speedway */}
           <a
             href="https://www.silverdollarspeedway.com"
@@ -343,14 +343,13 @@ function Home() {
                 <span>Chico, California</span>
               </div>
 
-              <p className="text-gray-700 dark:text-gray-300 mb-4 text-center">
+              <p className="text-gray-700 dark:text-gray-300 mb-4 text-center text-sm">
                 Home of the legendary Gold Cup Race of Champions and exciting sprint car racing.
-                One of California's premier dirt racing facilities.
               </p>
 
-              <div className="flex items-center justify-center gap-2 text-brand-gold font-semibold group-hover:gap-3 transition-all">
-                <span>Visit Silver Dollar Speedway</span>
-                <ArrowUpRight className="w-5 h-5" />
+              <div className="flex items-center justify-center gap-2 text-brand-gold font-semibold group-hover:gap-3 transition-all text-sm">
+                <span>Visit Speedway</span>
+                <ArrowUpRight className="w-4 h-4" />
               </div>
             </div>
           </a>
@@ -383,14 +382,51 @@ function Home() {
                 <span>Tulare, California</span>
               </div>
 
-              <p className="text-gray-700 dark:text-gray-300 mb-4 text-center">
-                Home of exciting sprint car racing featuring NARC 410 Sprint Cars and the annual Trophy Cup.
-                One of California's premier dirt racing venues.
+              <p className="text-gray-700 dark:text-gray-300 mb-4 text-center text-sm">
+                Home of NARC 410 Sprint Cars and the annual Trophy Cup.
               </p>
 
-              <div className="flex items-center justify-center gap-2 text-brand-gold font-semibold group-hover:gap-3 transition-all">
-                <span>Visit Thunderbowl Raceway</span>
-                <ArrowUpRight className="w-5 h-5" />
+              <div className="flex items-center justify-center gap-2 text-brand-gold font-semibold group-hover:gap-3 transition-all text-sm">
+                <span>Visit Raceway</span>
+                <ArrowUpRight className="w-4 h-4" />
+              </div>
+            </div>
+          </a>
+
+          {/* Marysville Raceway */}
+          <a
+            href="https://www.marysvilleraceway.com"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="glass-panel p-6 hover:shadow-xl transition-all duration-300 group relative overflow-hidden"
+          >
+            <div className="absolute inset-0 bg-gradient-to-br from-brand-gold/10 to-brand-gold-light/10 opacity-0 group-hover:opacity-100 transition-opacity" />
+            <div className="relative">
+              <div className="flex items-center justify-end mb-4">
+                <div className="px-2 py-1 rounded-full bg-brand-gold/10 text-brand-gold text-xs font-semibold">
+                  SPONSORED
+                </div>
+              </div>
+
+              <div className="mb-4 flex items-center justify-center h-24 md:h-32">
+                <div className="text-center">
+                  <h3 className="text-xl font-bold text-brand-gold">Marysville Raceway</h3>
+                  <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">Dirt Track Racing</p>
+                </div>
+              </div>
+
+              <div className="flex items-center justify-center gap-2 text-sm text-gray-600 dark:text-gray-400 mb-3">
+                <MapPin className="w-4 h-4" />
+                <span>Marysville, California</span>
+              </div>
+
+              <p className="text-gray-700 dark:text-gray-300 mb-4 text-center text-sm">
+                360 Sprints, Crate Sprints, Hobby Stocks, Dwarf Cars, and IMCA Sport Mods.
+              </p>
+
+              <div className="flex items-center justify-center gap-2 text-brand-gold font-semibold group-hover:gap-3 transition-all text-sm">
+                <span>Visit Raceway</span>
+                <ArrowUpRight className="w-4 h-4" />
               </div>
             </div>
           </a>
