@@ -138,7 +138,6 @@ export default function Tools() {
     if (toolId === activeTool) return;
 
     setIsChanging(true);
-    setShowDropdown(false);
 
     setTimeout(() => {
       setActiveTool(toolId);
