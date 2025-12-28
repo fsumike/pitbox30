@@ -139,6 +139,28 @@ function Home() {
           opacity: 0.4,
         }}></div>
 
+        {/* White Carbon Fiber Pattern - Angled and Visible */}
+        <div className="absolute inset-0 opacity-30" style={{
+          backgroundImage: `
+            repeating-linear-gradient(
+              45deg,
+              rgba(255, 255, 255, 0.05) 0px,
+              rgba(255, 255, 255, 0.05) 3px,
+              transparent 3px,
+              transparent 6px
+            ),
+            repeating-linear-gradient(
+              -45deg,
+              rgba(255, 255, 255, 0.05) 0px,
+              rgba(255, 255, 255, 0.05) 3px,
+              transparent 3px,
+              transparent 6px
+            ),
+            radial-gradient(ellipse at center, rgba(255, 255, 255, 0.1) 0%, transparent 70%)
+          `,
+          backgroundSize: '6px 6px, 6px 6px, 100% 100%',
+        }}></div>
+
         {/* Glossy Carbon Shine Effect */}
         <div className="absolute inset-0 rounded-2xl opacity-20" style={{
           background: `linear-gradient(135deg,
@@ -194,15 +216,26 @@ function Home() {
           animation: 'shimmer 4s infinite linear',
         }}></div>
 
-        {/* Gritty Tire Track Pattern */}
-        <div className="absolute inset-0 opacity-[0.04]" style={{
-          backgroundImage: `repeating-linear-gradient(
-            45deg,
-            transparent,
-            transparent 10px,
-            rgba(251, 191, 36, 0.3) 10px,
-            rgba(251, 191, 36, 0.3) 11px
-          )`,
+        {/* White Carbon Fiber Pattern - Angled and Visible */}
+        <div className="absolute inset-0 opacity-30" style={{
+          backgroundImage: `
+            repeating-linear-gradient(
+              45deg,
+              rgba(255, 255, 255, 0.05) 0px,
+              rgba(255, 255, 255, 0.05) 3px,
+              transparent 3px,
+              transparent 6px
+            ),
+            repeating-linear-gradient(
+              -45deg,
+              rgba(255, 255, 255, 0.05) 0px,
+              rgba(255, 255, 255, 0.05) 3px,
+              transparent 3px,
+              transparent 6px
+            ),
+            radial-gradient(ellipse at center, rgba(255, 255, 255, 0.1) 0%, transparent 70%)
+          `,
+          backgroundSize: '6px 6px, 6px 6px, 100% 100%',
         }}></div>
 
         {/* Subtle Red Racing Accent - Bottom */}
@@ -422,6 +455,28 @@ function Home() {
           `,
           backgroundSize: '8px 8px',
           opacity: 0.4,
+        }}></div>
+
+        {/* White Carbon Fiber Pattern - Angled and Visible */}
+        <div className="absolute inset-0 opacity-30" style={{
+          backgroundImage: `
+            repeating-linear-gradient(
+              45deg,
+              rgba(255, 255, 255, 0.05) 0px,
+              rgba(255, 255, 255, 0.05) 3px,
+              transparent 3px,
+              transparent 6px
+            ),
+            repeating-linear-gradient(
+              -45deg,
+              rgba(255, 255, 255, 0.05) 0px,
+              rgba(255, 255, 255, 0.05) 3px,
+              transparent 3px,
+              transparent 6px
+            ),
+            radial-gradient(ellipse at center, rgba(255, 255, 255, 0.1) 0%, transparent 70%)
+          `,
+          backgroundSize: '6px 6px, 6px 6px, 100% 100%',
         }}></div>
 
         {/* Glossy Carbon Shine Effect */}
