@@ -11,6 +11,15 @@ import { useAuth } from '../contexts/AuthContext';
 import { motion } from 'framer-motion';
 import SubscriptionGate from '../components/SubscriptionGate';
 
+const categoryImages: Record<string, string> = {
+  'Sprint Cars': '/495479702_1321020539654208_5408440298677452810_n.jpg',
+  'Midget Cars': 'https://images.unsplash.com/photo-1568605117036-5fe5e7bab0b7?w=400&h=200&fit=crop',
+  'Modifieds': 'https://images.unsplash.com/photo-1544636331-e26879cd4d9b?w=400&h=200&fit=crop',
+  'Late Models': 'https://images.unsplash.com/photo-1552519507-da3b142c6e3d?w=400&h=200&fit=crop',
+  'Stock Cars': 'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=400&h=200&fit=crop',
+  'Youth Racing / Kart': 'https://images.unsplash.com/photo-1535750019702-86f32b4f9a7e?w=400&h=200&fit=crop',
+};
+
 function Home() {
   const navigate = useNavigate();
   const { user } = useAuth();
@@ -137,20 +146,31 @@ function Home() {
               <div className="space-y-4 transition-all duration-500 opacity-100 max-h-[2000px] mb-48">
                 {vehicleCategories.Vehicles.map((category) => (
                   <div key={category.name} className="pl-4">
-                    <button 
-                      className="w-full glass-panel p-4 cursor-pointer bg-gradient-to-br from-brand-gold/5 to-brand-gold-dark/5 hover:from-brand-gold/10 hover:to-brand-gold-dark/10 transition-all duration-300"
+                    <button
+                      className="w-full glass-panel p-4 cursor-pointer bg-gradient-to-br from-brand-gold/5 to-brand-gold-dark/5 hover:from-brand-gold/10 hover:to-brand-gold-dark/10 transition-all duration-300 overflow-hidden"
                       onClick={() => setActiveCategory(activeCategory === category.name ? null : category.name)}
                     >
-                      <div className="flex items-center justify-between">
-                        <div className="flex items-center gap-3">
-                          <Car className="w-6 h-6 text-brand-gold" />
-                          <span className="text-xl font-semibold">Setup Tools: {category.name}</span>
+                      <div className="flex items-center gap-4">
+                        {categoryImages[category.name] && (
+                          <div className="flex-shrink-0 w-24 h-16 md:w-32 md:h-20 rounded-lg overflow-hidden">
+                            <img
+                              src={categoryImages[category.name]}
+                              alt={category.name}
+                              className="w-full h-full object-cover"
+                            />
+                          </div>
+                        )}
+                        <div className="flex-1 flex items-center justify-between">
+                          <div className="flex items-center gap-3">
+                            <Car className="w-6 h-6 text-brand-gold" />
+                            <span className="text-xl font-semibold">Setup Tools: {category.name}</span>
+                          </div>
+                          <ChevronDown
+                            className={`w-5 h-5 transition-transform duration-300 ${
+                              activeCategory === category.name ? 'rotate-180' : ''
+                            }`}
+                          />
                         </div>
-                        <ChevronDown 
-                          className={`w-5 h-5 transition-transform duration-300 ${
-                            activeCategory === category.name ? 'rotate-180' : ''
-                          }`} 
-                        />
                       </div>
                     </button>
 
