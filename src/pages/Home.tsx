@@ -410,7 +410,7 @@ function Home() {
             {user && !showVehicles && (
               <button
                 onClick={() => setShowVehicles(true)}
-                className="btn-primary mx-auto w-full sm:w-auto px-8 py-3"
+                className="bg-white/10 backdrop-blur-sm text-white border border-white/20 px-8 py-3 rounded-lg hover:bg-white/20 transition-all mx-auto w-full sm:w-auto font-medium"
               >
                 View Setup Tools
               </button>
