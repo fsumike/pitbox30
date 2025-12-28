@@ -96,8 +96,6 @@ export const vehicleCategories = {
   'Vehicles': [
     {
       name: 'Sprint Cars',
-      image: 'https://images.pexels.com/photos/12795/pexels-photo-12795.jpeg?auto=compress&cs=tinysrgb&w=600&h=400&fit=crop',
-      description: 'Winged open-wheel dirt track warriors',
       subcategories: [
         { name: 'Wingless Sprints', path: '/wingless' },
         { name: 'Crate Sprints', path: '/crate' },
@@ -111,8 +109,6 @@ export const vehicleCategories = {
     },
     {
       name: 'Midget Cars',
-      image: 'https://images.pexels.com/photos/1149137/pexels-photo-1149137.jpeg?auto=compress&cs=tinysrgb&w=600&h=400&fit=crop',
-      description: 'Compact open-wheel dirt racers',
       subcategories: [
         { name: 'Quarter Midget', path: '/quarter' },
         { name: 'Focus Midget', path: '/focus' }
@@ -120,8 +116,6 @@ export const vehicleCategories = {
     },
     {
       name: 'Modifieds',
-      image: 'https://images.pexels.com/photos/12801/pexels-photo-12801.jpeg?auto=compress&cs=tinysrgb&w=600&h=400&fit=crop',
-      description: 'Custom-built dirt modified machines',
       subcategories: [
         { name: 'Dirt Modified 2', path: '/modified2' },
         { name: 'UMP Modifieds', path: '/ump-modified' },
@@ -132,8 +126,6 @@ export const vehicleCategories = {
     },
     {
       name: 'Late Models',
-      image: 'https://images.pexels.com/photos/12789/pexels-photo-12789.jpeg?auto=compress&cs=tinysrgb&w=600&h=400&fit=crop',
-      description: 'Full-bodied dirt track racers',
       subcategories: [
         { name: 'Late Model Dirt', path: '/latemodel' },
         { name: 'Crate Late Models', path: '/crate-latemodel' },
@@ -142,16 +134,12 @@ export const vehicleCategories = {
     },
     {
       name: 'Stock Cars',
-      image: 'https://images.pexels.com/photos/12800/pexels-photo-12800.jpeg?auto=compress&cs=tinysrgb&w=600&h=400&fit=crop',
-      description: 'Dirt track stock car racing',
       subcategories: [
         { name: 'Street Stocks', path: '/street-stock' }
       ]
     },
     {
       name: 'Youth Racing / Kart',
-      image: 'https://images.pexels.com/photos/51981/go-kart-racing-kart-racing-go-51981.jpeg?auto=compress&cs=tinysrgb&w=600&h=400&fit=crop',
-      description: 'Junior and kart racing classes',
       subcategories: [
         { name: 'Outlaw Kart', path: '/outlaw' },
         { name: 'LO206 Kart', path: '/lo206-kart' },
