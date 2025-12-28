@@ -429,23 +429,23 @@ function SignInButton({ className }: SignInButtonProps) {
             />
             
             {/* Dropdown content */}
-            <div 
-              className="fixed md:absolute left-0 right-0 md:left-auto md:right-0 md:w-64 top-[4rem] md:top-[calc(100%+0.5rem)] bg-white dark:bg-gray-800 border-t md:border border-gray-200 dark:border-gray-700 overflow-hidden z-[1100] safe-area-top md:safe-area-top-0 animate-slideIn md:animate-none rounded-none md:rounded-xl shadow-xl h-auto max-h-[calc(100vh-4rem)] md:max-h-[calc(100vh-5rem)] overflow-y-auto"
+            <div
+              className="fixed md:absolute left-0 right-0 md:left-auto md:right-0 md:w-64 top-[4rem] md:top-[calc(100%+0.5rem)] bg-gray-900 border-t md:border border-gray-700 overflow-hidden z-[1100] safe-area-top md:safe-area-top-0 animate-slideIn md:animate-none rounded-none md:rounded-xl shadow-xl h-auto max-h-[calc(100vh-4rem)] md:max-h-[calc(100vh-5rem)] overflow-y-auto"
             >
               {/* Menu Items */}
-              <div className="divide-y divide-gray-200 dark:divide-gray-700">
+              <div className="divide-y divide-gray-700">
                 {/* Connection Error Banner */}
                 {connectionError && (
-                  <div className="p-4 bg-red-50 dark:bg-red-900/20 border-b border-red-200 dark:border-red-800">
+                  <div className="p-4 bg-red-900/20 border-b border-red-800">
                     <div className="flex items-start gap-2">
-                      <AlertTriangle className="w-4 h-4 text-red-500 mt-0.5 flex-shrink-0" />
+                      <AlertTriangle className="w-4 h-4 text-red-400 mt-0.5 flex-shrink-0" />
                       <div className="flex-1 min-w-0">
-                        <p className="text-sm text-red-700 dark:text-red-300 mb-2">
+                        <p className="text-sm text-red-300 mb-2">
                           Connection Error: {connectionError}
                         </p>
                         <button
                           onClick={handleRetryConnection}
-                          className="flex items-center gap-1 text-xs text-red-600 dark:text-red-400 hover:text-red-700 dark:hover:text-red-300"
+                          className="flex items-center gap-1 text-xs text-red-400 hover:text-red-300"
                         >
                           <RefreshCw className="w-3 h-3" />
                           Retry Connection
@@ -460,20 +460,20 @@ function SignInButton({ className }: SignInButtonProps) {
                   <div className="flex-1 min-w-0">
                     {profileError ? (
                       <div className="space-y-2">
-                        <p className="text-red-500 text-sm">{profileError}</p>
+                        <p className="text-red-400 text-sm">{profileError}</p>
                         <button
                           onClick={handleRetryProfile}
-                          className="text-brand-gold hover:text-brand-gold-dark text-sm"
+                          className="text-brand-gold hover:text-amber-400 text-sm"
                         >
                           Retry loading profile
                         </button>
                       </div>
                     ) : (
                       <>
-                        <p className="text-xl font-semibold truncate">
+                        <p className="text-xl font-semibold text-white truncate">
                           {profile?.full_name || 'Set up profile'}
                         </p>
-                        <p className="text-sm text-gray-500 dark:text-gray-400 truncate">
+                        <p className="text-sm text-gray-400 truncate">
                           {user.email}
                         </p>
                       </>
@@ -488,7 +488,7 @@ function SignInButton({ className }: SignInButtonProps) {
                       setShowDropdown(false);
                       navigate('/terms-of-service');
                     }}
-                    className="w-full px-6 py-4 text-left text-red-600 dark:text-red-400 hover:bg-gray-100 dark:hover:bg-gray-700 flex items-center gap-2"
+                    className="w-full px-6 py-4 text-left text-red-400 hover:bg-gray-800 flex items-center gap-2"
                   >
                     <Info className="w-5 h-5" />
                     Accept Terms of Service
@@ -498,7 +498,7 @@ function SignInButton({ className }: SignInButtonProps) {
                 {/* Profile Settings */}
                 <button
                   onClick={handleProfileClick}
-                  className="w-full px-6 py-4 text-left hover:bg-gray-100 dark:hover:bg-gray-700"
+                  className="w-full px-6 py-4 text-left text-white hover:bg-gray-800"
                 >
                   Profile Settings
                 </button>
@@ -506,7 +506,7 @@ function SignInButton({ className }: SignInButtonProps) {
                 {/* Sign Out */}
                 <button
                   onClick={handleSignOut}
-                  className="w-full px-6 py-4 text-left text-red-600 dark:text-red-400 hover:bg-gray-100 dark:hover:bg-gray-700"
+                  className="w-full px-6 py-4 text-left text-red-400 hover:bg-gray-800"
                 >
                   Sign Out
                 </button>
