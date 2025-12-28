@@ -205,20 +205,6 @@ function Home() {
           )`,
         }}></div>
 
-        {/* Racing Corner Brackets - Gold/Rust */}
-        <div className="absolute top-4 left-4 w-16 h-16 border-t-[3px] border-l-[3px] border-amber-500/60" style={{
-          boxShadow: '0 0 15px rgba(251, 191, 36, 0.4)'
-        }}></div>
-        <div className="absolute top-4 right-4 w-16 h-16 border-t-[3px] border-r-[3px] border-amber-500/60" style={{
-          boxShadow: '0 0 15px rgba(251, 191, 36, 0.4)'
-        }}></div>
-        <div className="absolute bottom-4 left-4 w-16 h-16 border-b-[3px] border-l-[3px] border-orange-600/60" style={{
-          boxShadow: '0 0 15px rgba(234, 88, 12, 0.4)'
-        }}></div>
-        <div className="absolute bottom-4 right-4 w-16 h-16 border-b-[3px] border-r-[3px] border-orange-600/60" style={{
-          boxShadow: '0 0 15px rgba(234, 88, 12, 0.4)'
-        }}></div>
-
         {/* Subtle Red Racing Accent - Bottom */}
         <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-gradient-to-r from-transparent via-red-600/50 to-transparent"></div>
 
@@ -468,20 +454,6 @@ function Home() {
             animation: 'shimmer 3s infinite linear',
           }}
         ></div>
-
-        {/* Racing Corner Brackets - Gold/Rust */}
-        <div className="absolute top-4 left-4 w-16 h-16 border-t-[3px] border-l-[3px] border-amber-500/60" style={{
-          boxShadow: '0 0 15px rgba(251, 191, 36, 0.4)'
-        }}></div>
-        <div className="absolute top-4 right-4 w-16 h-16 border-t-[3px] border-r-[3px] border-amber-500/60" style={{
-          boxShadow: '0 0 15px rgba(251, 191, 36, 0.4)'
-        }}></div>
-        <div className="absolute bottom-4 left-4 w-16 h-16 border-b-[3px] border-l-[3px] border-orange-600/60" style={{
-          boxShadow: '0 0 15px rgba(234, 88, 12, 0.4)'
-        }}></div>
-        <div className="absolute bottom-4 right-4 w-16 h-16 border-b-[3px] border-r-[3px] border-orange-600/60" style={{
-          boxShadow: '0 0 15px rgba(234, 88, 12, 0.4)'
-        }}></div>
 
         <div className="max-w-3xl mx-auto text-center relative z-10">
           <Heart className="w-16 h-16 text-amber-400 mx-auto mb-6 animate-pulse" style={{

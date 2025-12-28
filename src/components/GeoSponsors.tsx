@@ -109,35 +109,95 @@ export default function GeoSponsors({ maxSponsors = 4, showDistance = true }: Ge
   }, [location, maxSponsors]);
 
   return (
-    <div className="glass-panel p-8 bg-gradient-to-br from-brand-gold/5 to-brand-gold-light/5">
-      <div className="text-center mb-6">
-        <div className="flex items-center justify-center gap-2 mb-2">
-          <Flag className="w-6 h-6 text-brand-gold" />
-          <h2 className="text-2xl font-bold bg-gradient-to-r from-brand-gold to-brand-gold-light bg-clip-text text-transparent">
-            Racing Tracks Near You
-          </h2>
-        </div>
-        <div className="flex items-center justify-center gap-2 text-gray-600 dark:text-gray-400">
-          {locationLoading ? (
-            <>
-              <Loader2 className="w-4 h-4 animate-spin" />
-              <span>Finding tracks near you...</span>
-            </>
-          ) : location?.latitude ? (
-            <>
-              <MapPin className="w-4 h-4 text-green-500" />
-              <span>Showing tracks based on your location</span>
-            </>
-          ) : (
-            <>
-              <Target className="w-4 h-4" />
-              <span>Proud partners in California racing</span>
-            </>
-          )}
-        </div>
-      </div>
+    <div className="p-8 transform hover:scale-[1.02] transition-all duration-500 relative overflow-hidden rounded-2xl group">
+      {/* Lighter Base Layer for Visible Carbon */}
+      <div className="absolute inset-0 rounded-2xl bg-gradient-to-br from-[#1a1410] via-[#1c1612] to-[#181410]"></div>
 
-      <div className="grid md:grid-cols-3 gap-6 max-w-6xl mx-auto">
+      {/* Enhanced Visible Carbon Fiber Texture */}
+      <div className="absolute inset-0 rounded-2xl" style={{
+        background: `
+          repeating-linear-gradient(0deg, #3a2d1a 0px, #261d10 1px, #3a2d1a 2px, #2e2414 3px),
+          repeating-linear-gradient(90deg, #3a2d1a 0px, #2a1f12 1px, #3a2d1a 2px, #322618 3px)
+        `,
+        backgroundSize: '6px 6px',
+        opacity: 0.95,
+      }}></div>
+
+      {/* Carbon Fiber Weave Highlights */}
+      <div className="absolute inset-0 rounded-2xl" style={{
+        background: `
+          repeating-linear-gradient(45deg, transparent 0px, transparent 2px, rgba(251, 191, 36, 0.08) 2px, rgba(251, 191, 36, 0.08) 4px),
+          repeating-linear-gradient(-45deg, transparent 0px, transparent 2px, rgba(217, 119, 6, 0.06) 2px, rgba(217, 119, 6, 0.06) 4px)
+        `,
+        backgroundSize: '8px 8px',
+        opacity: 0.4,
+      }}></div>
+
+      {/* Glossy Carbon Shine Effect */}
+      <div className="absolute inset-0 rounded-2xl opacity-20" style={{
+        background: `linear-gradient(135deg,
+          transparent 0%,
+          rgba(251, 191, 36, 0.15) 30%,
+          transparent 50%,
+          rgba(245, 158, 11, 0.1) 70%,
+          transparent 100%
+        )`,
+      }}></div>
+
+      {/* Golden Racing Stripe - Top */}
+      <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-transparent via-amber-500 to-transparent"
+        style={{
+          boxShadow: '0 0 20px rgba(251, 191, 36, 0.8), 0 0 40px rgba(245, 158, 11, 0.5)',
+        }}
+      ></div>
+
+      {/* Glowing Gold Border on Hover */}
+      <div className="absolute inset-0 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500"
+        style={{
+          background: 'linear-gradient(145deg, #fbbf24, #f59e0b, #d97706, #fbbf24)',
+          backgroundSize: '200% 200%',
+          padding: '2px',
+          WebkitMask: 'linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)',
+          WebkitMaskComposite: 'xor',
+          maskComposite: 'exclude',
+          animation: 'shimmer 3s infinite linear',
+        }}
+      ></div>
+
+      <div className="relative z-10">
+        <div className="text-center mb-6">
+          <div className="flex items-center justify-center gap-2 mb-2">
+            <Flag className="w-6 h-6 text-amber-400" style={{
+              filter: 'drop-shadow(0 0 8px rgba(251, 191, 36, 0.7))'
+            }} />
+            <h2 className="text-2xl font-bold bg-gradient-to-r from-amber-400 via-yellow-500 to-amber-300 bg-clip-text text-transparent" style={{
+              textShadow: '0 0 30px rgba(251, 191, 36, 0.6), 0 0 60px rgba(245, 158, 11, 0.4)',
+              filter: 'drop-shadow(0 0 12px rgba(251, 191, 36, 0.8))'
+            }}>
+              Racing Tracks Near You
+            </h2>
+          </div>
+          <div className="flex items-center justify-center gap-2 text-gray-300 drop-shadow-lg">
+            {locationLoading ? (
+              <>
+                <Loader2 className="w-4 h-4 animate-spin" />
+                <span>Finding tracks near you...</span>
+              </>
+            ) : location?.latitude ? (
+              <>
+                <MapPin className="w-4 h-4 text-green-400" />
+                <span>Showing tracks based on your location</span>
+              </>
+            ) : (
+              <>
+                <Target className="w-4 h-4" />
+                <span>Proud partners in California racing</span>
+              </>
+            )}
+          </div>
+        </div>
+
+        <div className="grid md:grid-cols-3 gap-6 max-w-6xl mx-auto">
         {sponsors.map((sponsor) => (
           <a
             key={sponsor.id}
@@ -186,13 +246,14 @@ export default function GeoSponsors({ maxSponsors = 4, showDistance = true }: Ge
             </div>
           </a>
         ))}
-      </div>
+        </div>
 
-      {location?.latitude && (
-        <p className="text-center text-sm text-gray-500 dark:text-gray-400 mt-6">
-          Enable location services to see tracks nearest to you
-        </p>
-      )}
+        {location?.latitude && (
+          <p className="text-center text-sm text-gray-300 mt-6 drop-shadow-lg">
+            Enable location services to see tracks nearest to you
+          </p>
+        )}
+      </div>
     </div>
   );
 }
