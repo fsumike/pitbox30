@@ -38,7 +38,25 @@ function Home() {
   };
 
   return (
-    <div className="space-y-12">
+    <div className="space-y-12 relative">
+      {/* White Carbon Fiber Background */}
+      <div className="fixed inset-0 -z-10" style={{
+        background: `
+          repeating-linear-gradient(45deg, #ffffff 0px, #f5f5f5 1px, #ffffff 2px, #fafafa 3px),
+          repeating-linear-gradient(-45deg, #ffffff 0px, #f8f8f8 1px, #ffffff 2px, #f7f7f7 3px)
+        `,
+        backgroundSize: '8px 8px',
+      }}></div>
+
+      {/* Carbon Fiber Diagonal Weave Overlay */}
+      <div className="fixed inset-0 -z-10" style={{
+        background: `
+          repeating-linear-gradient(45deg, transparent 0px, transparent 3px, rgba(0, 0, 0, 0.015) 3px, rgba(0, 0, 0, 0.015) 6px),
+          repeating-linear-gradient(-45deg, transparent 0px, transparent 3px, rgba(0, 0, 0, 0.02) 3px, rgba(0, 0, 0, 0.02) 6px)
+        `,
+        backgroundSize: '12px 12px',
+      }}></div>
+
       {loading && <LoadingSpinner fullScreen message="Loading..." />}
 
       {/* Hero Section */}
@@ -392,102 +410,96 @@ function Home() {
         </div>
       </div>
 
-      {/* Benefits Section */}
-      <div className="glass-panel p-8 mt-12 mb-8">
-        <h2 className="text-3xl font-bold text-center mb-12">Why Champions Choose PIT-BOX.COM</h2>
-        
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-          <div className="flex items-start gap-4">
-            <div className="flex-shrink-0">
-              <Clock className="w-8 h-8 text-brand-gold" />
-            </div>
-            <div>
-              <h3 className="text-xl font-bold mb-2">Real-Time Excellence</h3>
-              <p className="text-gray-600 dark:text-gray-400">
-                Make split-second decisions with confidence. Update and analyze setups instantly during race day.
-              </p>
-            </div>
-          </div>
-
-          <div className="flex items-start gap-4">
-            <div className="flex-shrink-0">
-              <Cloud className="w-8 h-8 text-brand-gold" />
-            </div>
-            <div>
-              <h3 className="text-xl font-bold mb-2">Universal Access</h3>
-              <p className="text-gray-600 dark:text-gray-400">
-                Your entire racing history at your fingertips, accessible anywhere in the world.
-              </p>
-            </div>
-          </div>
-
-          <div className="flex items-start gap-4">
-            <div className="flex-shrink-0">
-              <Users className="w-8 h-8 text-brand-gold" />
-            </div>
-            <div>
-              <h3 className="text-xl font-bold mb-2">Team Synergy</h3>
-              <p className="text-gray-600 dark:text-gray-400">
-                Seamless collaboration between crew members, engineers, and drivers.
-              </p>
-            </div>
-          </div>
-
-          <div className="flex items-start gap-4">
-            <div className="flex-shrink-0">
-              <LineChart className="w-8 h-8 text-brand-gold" />
-            </div>
-            <div>
-              <h3 className="text-xl font-bold mb-2">Performance Analytics</h3>
-              <p className="text-gray-600 dark:text-gray-400">
-                Advanced data analysis reveals winning patterns and optimization opportunities.
-              </p>
-            </div>
-          </div>
-
-          <div className="flex items-start gap-4">
-            <div className="flex-shrink-0">
-              <Lock className="w-8 h-8 text-brand-gold" />
-            </div>
-            <div>
-              <h3 className="text-xl font-bold mb-2">Secure Innovation</h3>
-              <p className="text-gray-600 dark:text-gray-400">
-                Your proprietary setups are protected with bank-level security protocols.
-              </p>
-            </div>
-          </div>
-
-          <div className="flex items-start gap-4">
-            <div className="flex-shrink-0">
-              <Globe className="w-8 h-8 text-brand-gold" />
-            </div>
-            <div>
-              <h3 className="text-xl font-bold mb-2">Pit Community</h3>
-              <p className="text-gray-600 dark:text-gray-400">
-                Join an elite network of racing professionals and champions.
-              </p>
-            </div>
-          </div>
-        </div>
-      </div>
-
       {/* Geo-Targeted Sponsored Affiliates */}
       <GeoSponsors maxSponsors={3} showDistance={true} />
 
-      {/* Thank You Section */}
-      <div className="glass-panel p-8 bg-gradient-to-br from-brand-gold/10 via-brand-gold/5 to-brand-gold/10 mb-24">
-        <div className="max-w-3xl mx-auto text-center">
-          <Heart className="w-16 h-16 text-brand-gold mx-auto mb-6 animate-pulse" />
-          <h2 className="text-3xl font-bold mb-6 bg-gradient-to-r from-brand-gold to-brand-gold-light bg-clip-text text-transparent">
+      {/* Thank You Section - Carbon Fiber Style */}
+      <div className="p-8 mb-24 transform hover:scale-[1.02] transition-all duration-500 relative overflow-hidden rounded-2xl group">
+        {/* Lighter Base Layer for Visible Carbon */}
+        <div className="absolute inset-0 rounded-2xl bg-gradient-to-br from-[#1a1410] via-[#1c1612] to-[#181410]"></div>
+
+        {/* Enhanced Visible Carbon Fiber Texture */}
+        <div className="absolute inset-0 rounded-2xl" style={{
+          background: `
+            repeating-linear-gradient(0deg, #3a2d1a 0px, #261d10 1px, #3a2d1a 2px, #2e2414 3px),
+            repeating-linear-gradient(90deg, #3a2d1a 0px, #2a1f12 1px, #3a2d1a 2px, #322618 3px)
+          `,
+          backgroundSize: '6px 6px',
+          opacity: 0.95,
+        }}></div>
+
+        {/* Carbon Fiber Weave Highlights */}
+        <div className="absolute inset-0 rounded-2xl" style={{
+          background: `
+            repeating-linear-gradient(45deg, transparent 0px, transparent 2px, rgba(251, 191, 36, 0.08) 2px, rgba(251, 191, 36, 0.08) 4px),
+            repeating-linear-gradient(-45deg, transparent 0px, transparent 2px, rgba(217, 119, 6, 0.06) 2px, rgba(217, 119, 6, 0.06) 4px)
+          `,
+          backgroundSize: '8px 8px',
+          opacity: 0.4,
+        }}></div>
+
+        {/* Glossy Carbon Shine Effect */}
+        <div className="absolute inset-0 rounded-2xl opacity-20" style={{
+          background: `linear-gradient(135deg,
+            transparent 0%,
+            rgba(251, 191, 36, 0.15) 30%,
+            transparent 50%,
+            rgba(245, 158, 11, 0.1) 70%,
+            transparent 100%
+          )`,
+        }}></div>
+
+        {/* Golden Racing Stripe - Top */}
+        <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-transparent via-amber-500 to-transparent"
+          style={{
+            boxShadow: '0 0 20px rgba(251, 191, 36, 0.8), 0 0 40px rgba(245, 158, 11, 0.5)',
+          }}
+        ></div>
+
+        {/* Glowing Gold Border on Hover */}
+        <div className="absolute inset-0 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500"
+          style={{
+            background: 'linear-gradient(145deg, #fbbf24, #f59e0b, #d97706, #fbbf24)',
+            backgroundSize: '200% 200%',
+            padding: '2px',
+            WebkitMask: 'linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)',
+            WebkitMaskComposite: 'xor',
+            maskComposite: 'exclude',
+            animation: 'shimmer 3s infinite linear',
+          }}
+        ></div>
+
+        {/* Racing Corner Brackets - Gold/Rust */}
+        <div className="absolute top-4 left-4 w-16 h-16 border-t-[3px] border-l-[3px] border-amber-500/60" style={{
+          boxShadow: '0 0 15px rgba(251, 191, 36, 0.4)'
+        }}></div>
+        <div className="absolute top-4 right-4 w-16 h-16 border-t-[3px] border-r-[3px] border-amber-500/60" style={{
+          boxShadow: '0 0 15px rgba(251, 191, 36, 0.4)'
+        }}></div>
+        <div className="absolute bottom-4 left-4 w-16 h-16 border-b-[3px] border-l-[3px] border-orange-600/60" style={{
+          boxShadow: '0 0 15px rgba(234, 88, 12, 0.4)'
+        }}></div>
+        <div className="absolute bottom-4 right-4 w-16 h-16 border-b-[3px] border-r-[3px] border-orange-600/60" style={{
+          boxShadow: '0 0 15px rgba(234, 88, 12, 0.4)'
+        }}></div>
+
+        <div className="max-w-3xl mx-auto text-center relative z-10">
+          <Heart className="w-16 h-16 text-amber-400 mx-auto mb-6 animate-pulse" style={{
+            filter: 'drop-shadow(0 0 12px rgba(251, 191, 36, 0.8))'
+          }} />
+          <h2 className="text-3xl font-bold mb-6 bg-gradient-to-r from-amber-400 via-yellow-500 to-amber-300 bg-clip-text text-transparent" style={{
+            textShadow: '0 0 30px rgba(251, 191, 36, 0.6), 0 0 60px rgba(245, 158, 11, 0.4)',
+            filter: 'drop-shadow(0 0 12px rgba(251, 191, 36, 0.8))'
+          }}>
             With Gratitude
           </h2>
-          <p className="text-xl text-gray-700 dark:text-gray-300 leading-relaxed mb-8">
+          <p className="text-xl text-gray-200 leading-relaxed mb-8 drop-shadow-lg">
             PIT-BOX.COM would not be possible without the incredible support and dedication of many amazing people.
             A special heartfelt thank you to my beautiful wife, whose unwavering support, patience, and understanding
             has been the cornerstone of this journey. Her sacrifices of time and endless encouragement have made
             this dream a reality.
           </p>
-          <p className="text-lg text-gray-600 dark:text-gray-400">
+          <p className="text-lg text-gray-300 drop-shadow-lg">
             To our early adopters, development team, and racing community - your trust and feedback
             have been invaluable in shaping PIT-BOX.COM into the revolutionary platform it is today.
             Together, we're changing the future of racing.
