@@ -515,7 +515,7 @@ function SwapMeet() {
                   handleSearch();
                 }
               }}
-              className="w-full pl-10 pr-4 py-3 rounded-xl bg-white dark:bg-gray-800 placeholder-gray-400 border-2 border-gray-200 dark:border-white/10 focus:border-brand-gold focus:ring-2 focus:ring-brand-gold/50 transition-all"
+              className="w-full pl-10 pr-4 py-3 rounded-xl bg-gray-100 dark:bg-gray-800 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 border-2 border-gray-200 dark:border-white/10 focus:border-brand-gold focus:ring-2 focus:ring-brand-gold/50 transition-all"
             />
           </div>
 
@@ -525,10 +525,10 @@ function SwapMeet() {
             <select
               value={selectedCategory}
               onChange={(e) => setSelectedCategory(e.target.value.toLowerCase().replace(/ /g, '-'))}
-              className="w-full pl-10 pr-10 py-3 rounded-xl bg-white dark:bg-gray-800 text-black dark:text-white border-2 border-gray-200 dark:border-white/10 focus:border-brand-gold focus:ring-2 focus:ring-brand-gold/50 appearance-none transition-all [&>option]:text-black dark:[&>option]:text-white"
+              className="w-full pl-10 pr-10 py-3 rounded-xl bg-gray-100 dark:bg-gray-800 text-gray-900 dark:text-white border-2 border-gray-200 dark:border-white/10 focus:border-brand-gold focus:ring-2 focus:ring-brand-gold/50 appearance-none transition-all"
             >
               {categories.map(cat => (
-                <option key={cat} value={cat.toLowerCase().replace(/ /g, '-')} className="!text-black dark:!text-white bg-white dark:bg-gray-900">
+                <option key={cat} value={cat.toLowerCase().replace(/ /g, '-')}>
                   {cat}
                 </option>
               ))}
@@ -542,12 +542,12 @@ function SwapMeet() {
             <select
               value={sortBy}
               onChange={(e) => setSortBy(e.target.value as any)}
-              className="w-full pl-10 pr-10 py-3 rounded-xl bg-white dark:bg-gray-800 text-black dark:text-white border-2 border-gray-200 dark:border-white/10 focus:border-brand-gold focus:ring-2 focus:ring-brand-gold/50 appearance-none transition-all [&>option]:text-black dark:[&>option]:text-white"
+              className="w-full pl-10 pr-10 py-3 rounded-xl bg-gray-100 dark:bg-gray-800 text-gray-900 dark:text-white border-2 border-gray-200 dark:border-white/10 focus:border-brand-gold focus:ring-2 focus:ring-brand-gold/50 appearance-none transition-all"
             >
-              <option value="recent" className="!text-black dark:!text-white bg-white dark:bg-gray-900">Most Recent</option>
-              <option value="price-low" className="!text-black dark:!text-white bg-white dark:bg-gray-900">Price: Low to High</option>
-              <option value="price-high" className="!text-black dark:!text-white bg-white dark:bg-gray-900">Price: High to Low</option>
-              <option value="popular" className="!text-black dark:!text-white bg-white dark:bg-gray-900">Most Popular</option>
+              <option value="recent">Most Recent</option>
+              <option value="price-low">Price: Low to High</option>
+              <option value="price-high">Price: High to Low</option>
+              <option value="popular">Most Popular</option>
             </select>
             <ChevronDown className="absolute right-3 top-1/2 -translate-y-1/2 text-brand-gold pointer-events-none" />
           </div>
@@ -662,7 +662,7 @@ function SwapMeet() {
                           placeholder="Enter ZIP Code"
                           value={manualZipCode}
                           onChange={(e) => setManualZipCode(e.target.value)}
-                          className="flex-1 px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800"
+                          className="flex-1 px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 bg-gray-100 dark:bg-gray-800 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400"
                           maxLength={5}
                         />
                         <button
@@ -697,7 +697,7 @@ function SwapMeet() {
                             className={`px-4 py-2 rounded-lg font-medium transition-colors ${
                               selectedDistance === distance
                                 ? 'bg-blue-600 text-white'
-                                : 'bg-white dark:bg-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 border border-gray-300 dark:border-gray-600'
+                                : 'bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 border border-gray-300 dark:border-gray-600'
                             }`}
                           >
                             {distance} miles
@@ -711,7 +711,7 @@ function SwapMeet() {
                           className={`px-4 py-2 rounded-lg font-medium transition-colors ${
                             selectedDistance === null && !distanceEnabled
                               ? 'bg-blue-600 text-white'
-                              : 'bg-white dark:bg-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 border border-gray-300 dark:border-gray-600'
+                              : 'bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 border border-gray-300 dark:border-gray-600'
                           }`}
                         >
                           All
@@ -743,10 +743,10 @@ function SwapMeet() {
                   <select
                     value={selectedVehicleType}
                     onChange={(e) => setSelectedVehicleType(e.target.value)}
-                    className="w-full px-4 py-3 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-black dark:text-white appearance-none cursor-pointer hover:border-gray-400 dark:hover:border-gray-500 transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500 [&>option]:text-black dark:[&>option]:text-white"
+                    className="w-full px-4 py-3 rounded-lg border border-gray-300 dark:border-gray-600 bg-gray-100 dark:bg-gray-800 text-gray-900 dark:text-white appearance-none cursor-pointer hover:border-gray-400 dark:hover:border-gray-500 transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500"
                   >
                     {vehicleTypes.map(type => (
-                      <option key={type.value} value={type.value} className="!text-black dark:!text-white bg-white dark:bg-gray-900">{type.label}</option>
+                      <option key={type.value} value={type.value}>{type.label}</option>
                     ))}
                   </select>
                   <ChevronDown className="absolute right-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-500 pointer-events-none" />
@@ -760,10 +760,10 @@ function SwapMeet() {
                   <select
                     value={condition}
                     onChange={(e) => setCondition(e.target.value)}
-                    className="w-full px-4 py-3 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-black dark:text-white appearance-none cursor-pointer hover:border-gray-400 dark:hover:border-gray-500 transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500 [&>option]:text-black dark:[&>option]:text-white"
+                    className="w-full px-4 py-3 rounded-lg border border-gray-300 dark:border-gray-600 bg-gray-100 dark:bg-gray-800 text-gray-900 dark:text-white appearance-none cursor-pointer hover:border-gray-400 dark:hover:border-gray-500 transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500"
                   >
                     {conditions.map(cond => (
-                      <option key={cond.value} value={cond.value} className="!text-black dark:!text-white bg-white dark:bg-gray-900">{cond.label}</option>
+                      <option key={cond.value} value={cond.value}>{cond.label}</option>
                     ))}
                   </select>
                   <ChevronDown className="absolute right-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-500 pointer-events-none" />
@@ -779,14 +779,14 @@ function SwapMeet() {
                     placeholder="Min"
                     value={priceRange.min}
                     onChange={(e) => setPriceRange(prev => ({ ...prev, min: e.target.value }))}
-                    className="w-1/2 px-4 py-3 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 hover:border-gray-400 dark:hover:border-gray-500 transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    className="w-1/2 px-4 py-3 rounded-lg border border-gray-300 dark:border-gray-600 bg-gray-100 dark:bg-gray-800 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 hover:border-gray-400 dark:hover:border-gray-500 transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500"
                   />
                   <input
                     type="number"
                     placeholder="Max"
                     value={priceRange.max}
                     onChange={(e) => setPriceRange(prev => ({ ...prev, max: e.target.value }))}
-                    className="w-1/2 px-4 py-3 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 hover:border-gray-400 dark:hover:border-gray-500 transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    className="w-1/2 px-4 py-3 rounded-lg border border-gray-300 dark:border-gray-600 bg-gray-100 dark:bg-gray-800 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 hover:border-gray-400 dark:hover:border-gray-500 transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500"
                   />
                 </div>
               </div>
