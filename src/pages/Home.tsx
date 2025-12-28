@@ -92,12 +92,14 @@ function Home() {
                 />
               </div>
               <div className="text-center md:text-left flex-1">
-                <h1 className="text-4xl font-bold tracking-tight text-white sm:text-5xl md:text-6xl mb-6 leading-tight">
-                  Save, Track & Perfect Your Racing Setups
+                <p className="text-amber-400 font-semibold text-lg sm:text-xl mb-2 tracking-wide uppercase">
+                  Your Racing Setup Tool
+                </p>
+                <h1 className="text-4xl font-bold tracking-tight text-white sm:text-5xl md:text-6xl mb-4 leading-tight">
+                  Save and Track Every Racing Setup
                 </h1>
                 <p className="text-lg sm:text-xl leading-relaxed text-gray-300 mb-8">
-                  Your complete racing setup database. Store unlimited setups, track changes across every race,
-                  and access your data anywhere. Built by racers, for racers.
+                  Store, compare, and track all your racing setups in one place. Never lose a winning setup again.
                 </p>
                 <div className="flex flex-col sm:flex-row gap-4 justify-center md:justify-start">
                   {!user && (
@@ -259,12 +261,10 @@ function Home() {
             </span>
           </h2>
           <p className="text-base sm:text-lg md:text-xl text-gray-200 max-w-4xl mx-auto leading-relaxed drop-shadow-lg">
-            Welcome to the heart of <span className="text-amber-400 font-semibold" style={{
+            <span className="text-amber-400 font-semibold" style={{
               textShadow: '0 0 10px rgba(251, 191, 36, 0.5)'
-            }}>PIT-BOX.COM</span> - your comprehensive setup management system.
-            Our professional-grade tools are designed to help you achieve peak performance
-            and maintain your competitive edge. Select your vehicle class below to access
-            detailed setup sheets, track changes, and optimize your racing machine for victory.
+            }}>PitBox</span> - Your racing setup tool. Store, compare, and track all your racing setups in one place.
+            Select your vehicle class below to access detailed setup sheets and never lose a winning setup again.
           </p>
         </div>
 
