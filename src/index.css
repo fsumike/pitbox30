@@ -184,7 +184,7 @@
 
   /* Floating navigation styles */
   .glass-nav {
-    @apply bg-white/30 dark:bg-gray-900/30;
+    @apply bg-gray-100 dark:bg-gray-700;
     backdrop-filter: blur(6px);
     -webkit-backdrop-filter: blur(6px);
   }
@@ -192,9 +192,9 @@
   /* Add shadow and border effect */
   .glass-nav {
     box-shadow:
-      0 4px 6px -1px rgba(0, 0, 0, 0.1),
-      0 2px 4px -1px rgba(0, 0, 0, 0.06),
-      0 0 0 1px rgba(255, 255, 255, 0.1);
+      0 4px 6px -1px rgba(0, 0, 0, 0.15),
+      0 2px 4px -1px rgba(0, 0, 0, 0.1),
+      0 0 0 1px rgba(0, 0, 0, 0.1);
   }
 
   /* Active navigation link styles */
