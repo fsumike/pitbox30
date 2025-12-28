@@ -131,68 +131,53 @@ function Home() {
             </div>
           </motion.button>
 
-          {/* Vehicle Categories with Images */}
+          {/* Vehicle Categories */}
           {showVehicles && (
             <SubscriptionGate>
-              <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 transition-all duration-500 opacity-100 mb-48">
+              <div className="space-y-4 transition-all duration-500 opacity-100 max-h-[2000px] mb-48">
                 {vehicleCategories.Vehicles.map((category) => (
-                  <div key={category.name} className="group">
-                    <button
-                      className="w-full glass-panel overflow-hidden cursor-pointer hover:shadow-xl transition-all duration-300 relative"
+                  <div key={category.name} className="pl-4">
+                    <button 
+                      className="w-full glass-panel p-4 cursor-pointer bg-gradient-to-br from-brand-gold/5 to-brand-gold-dark/5 hover:from-brand-gold/10 hover:to-brand-gold-dark/10 transition-all duration-300"
                       onClick={() => setActiveCategory(activeCategory === category.name ? null : category.name)}
                     >
-                      {/* Image */}
-                      <div className="relative h-40 overflow-hidden">
-                        <img
-                          src={category.image}
-                          alt={category.name}
-                          className="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-500"
+                      <div className="flex items-center justify-between">
+                        <div className="flex items-center gap-3">
+                          <Car className="w-6 h-6 text-brand-gold" />
+                          <span className="text-xl font-semibold">Setup Tools: {category.name}</span>
+                        </div>
+                        <ChevronDown 
+                          className={`w-5 h-5 transition-transform duration-300 ${
+                            activeCategory === category.name ? 'rotate-180' : ''
+                          }`} 
                         />
-                        <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent" />
-                        <div className="absolute bottom-0 left-0 right-0 p-4">
-                          <div className="flex items-center gap-2">
-                            <Car className="w-5 h-5 text-brand-gold" />
-                            <h3 className="text-xl font-bold text-white">{category.name}</h3>
-                          </div>
-                          <p className="text-sm text-gray-300 mt-1">{category.description}</p>
-                        </div>
-                        <div className="absolute top-3 right-3">
-                          <ChevronDown
-                            className={`w-6 h-6 text-white bg-black/30 rounded-full p-1 transition-transform duration-300 ${
-                              activeCategory === category.name ? 'rotate-180' : ''
-                            }`}
-                          />
-                        </div>
-                      </div>
-
-                      {/* Category count */}
-                      <div className="p-3 bg-gradient-to-r from-brand-gold/10 to-brand-gold-dark/10 flex items-center justify-between">
-                        <span className="text-sm font-medium text-gray-700 dark:text-gray-300">
-                          {category.subcategories.length} vehicle {category.subcategories.length === 1 ? 'type' : 'types'}
-                        </span>
-                        <span className="text-brand-gold text-sm font-semibold flex items-center gap-1">
-                          View setups <ChevronRight className="w-4 h-4" />
-                        </span>
                       </div>
                     </button>
 
-                    {/* Subcategories Dropdown */}
-                    <div className={`mt-2 space-y-2 transition-all duration-300 ${
-                      activeCategory === category.name
-                        ? 'opacity-100 max-h-[1000px]'
+                    {/* Subcategories */}
+                    <div className={`grid gap-3 pl-4 mt-3 transition-all duration-300 ${
+                      activeCategory === category.name 
+                        ? 'opacity-100 max-h-[1000px]' 
                         : 'opacity-0 max-h-0 overflow-hidden'
                     }`}>
                       {category.subcategories.map((subItem) => (
                         <button
                           key={subItem.path}
                           onClick={() => handleVehicleClick(subItem.path)}
-                          className="w-full glass-panel p-3 text-left group/sub hover:bg-brand-gold/10 transition-all duration-300 flex items-center justify-between"
+                          className="glass-panel p-4 text-left group hover:bg-brand-gold/5 transition-all duration-300"
                         >
-                          <div className="flex items-center gap-3">
-                            <Settings className="w-4 h-4 text-brand-gold" />
-                            <span className="font-medium">{subItem.name}</span>
+                          <div className="flex items-center justify-between">
+                            <div className="flex items-center gap-3">
+                              <Settings className="w-5 h-5 text-brand-gold" />
+                              <div>
+                                <span className="text-lg font-medium">{subItem.name}</span>
+                                <p className="text-sm text-gray-600 dark:text-gray-400">
+                                  Access setup sheets and optimization tools
+                                </p>
+                              </div>
+                            </div>
+                            <ChevronRight className="w-5 h-5 transform group-hover:translate-x-1 transition-transform" />
                           </div>
-                          <ChevronRight className="w-4 h-4 transform group-hover/sub:translate-x-1 transition-transform text-brand-gold" />
                         </button>
                       ))}
                     </div>
