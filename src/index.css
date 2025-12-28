@@ -234,7 +234,7 @@
 
 /* Glass panel with mobile optimizations and enhanced depth */
 .glass-panel {
-  @apply bg-white/90 dark:bg-brand-black-light/90 backdrop-blur-lg rounded-xl
+  @apply bg-gray-100/90 dark:bg-brand-black-light/90 backdrop-blur-lg rounded-xl
          border border-gray-200/50 dark:border-brand-black/50 transition-all duration-200
          touch-pan-y text-gray-900 dark:text-white;
   transform: translateZ(0);
@@ -264,13 +264,13 @@
 
 /* Mobile navigation */
 .mobile-nav {
-  @apply fixed bottom-0 left-0 right-0 bg-white dark:bg-brand-black-light border-t border-gray-200 dark:border-gray-800;
+  @apply fixed bottom-0 left-0 right-0 bg-gray-100 dark:bg-brand-black-light border-t border-gray-200 dark:border-gray-800;
   padding-bottom: max(env(safe-area-inset-bottom), 0.5rem);
 }
 
 /* Mobile bottom sheet */
 .bottom-sheet {
-  @apply fixed bottom-0 left-0 right-0 bg-white dark:bg-brand-black-light rounded-t-xl shadow-lg;
+  @apply fixed bottom-0 left-0 right-0 bg-gray-100 dark:bg-brand-black-light rounded-t-xl shadow-lg;
   padding-bottom: env(safe-area-inset-bottom);
   transform: translateZ(0);
 }

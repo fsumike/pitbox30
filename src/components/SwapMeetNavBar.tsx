@@ -11,7 +11,7 @@ interface SwapMeetNavBarProps {
 function SwapMeetNavBar({ activeTab, onTabChange, onCreateListing }: SwapMeetNavBarProps) {
   return (
     <motion.div 
-      className="fixed bottom-0 left-0 right-0 z-50 bg-white dark:bg-gray-800 border-t border-gray-200 dark:border-gray-700 shadow-lg safe-area-bottom md:hidden"
+      className="fixed bottom-0 left-0 right-0 z-50 bg-gray-100 dark:bg-gray-800 border-t border-gray-200 dark:border-gray-700 shadow-lg safe-area-bottom md:hidden"
       initial={{ y: 100 }}
       animate={{ y: 0 }}
       transition={{ type: 'spring', damping: 20, stiffness: 300 }}
