@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Settings, Shield, Database, Trophy, Share2, ChevronDown, ChevronRight, Car, Zap, Target, Clock, Cloud, Users, LineChart, Lock, Globe, Award, Heart, Gauge, PenTool as Tools, Wrench, Cog, MousePointer, Clock as Click, Flag, ExternalLink } from 'lucide-react';
+import { Settings, Shield, ChevronDown, ChevronRight, Lock, Heart, PenTool as Tools, Clock as Click } from 'lucide-react';
 import SignInButton from '../components/SignInButton';
 import SignInPrompt from '../components/SignInPrompt';
 import LoadingSpinner from '../components/LoadingSpinner';
@@ -80,40 +80,38 @@ function Home() {
           <div className="absolute inset-0 bg-gradient-to-t from-brand-black/60 via-transparent to-transparent" />
         </div>
         <div className="relative px-6 py-16 sm:px-12 sm:py-28">
-          <div className="mx-auto max-w-4xl">
-            <div className="flex flex-col md:flex-row items-center gap-8">
+          <div className="mx-auto max-w-5xl">
+            <div className="flex flex-col md:flex-row items-center justify-center md:justify-start gap-6 md:gap-10">
               <div className="flex-shrink-0">
                 <img
                   src="/android-icon-512-512.png"
                   alt="PIT-BOX.COM Logo"
-                  width="288"
-                  height="288"
-                  className="w-64 h-64 md:w-72 md:h-72 object-contain drop-shadow-2xl transform hover:scale-105 transition-transform duration-300"
+                  width="256"
+                  height="256"
+                  className="w-48 h-48 sm:w-56 sm:h-56 md:w-64 md:h-64 object-contain drop-shadow-2xl transform hover:scale-105 transition-transform duration-300"
                 />
               </div>
-              <div className="text-center md:text-left">
-                <h1 className="text-4xl font-bold tracking-tight text-white sm:text-6xl mb-6">
-                  The Future of Racing is Here
+              <div className="text-center md:text-left flex-1">
+                <h1 className="text-4xl font-bold tracking-tight text-white sm:text-5xl md:text-6xl mb-6 leading-tight">
+                  Save, Track & Perfect Your Racing Setups
                 </h1>
-                <p className="text-xl leading-8 text-gray-300 mb-8">
-                  Experience the most advanced setup management platform in motorsports history.
-                  PIT-BOX.COM revolutionizes how champions prepare, compete, and win.
+                <p className="text-lg sm:text-xl leading-relaxed text-gray-300 mb-8">
+                  Your complete racing setup database. Store unlimited setups, track changes across every race,
+                  and access your data anywhere. Built by racers, for racers.
                 </p>
-                <div className="flex flex-wrap gap-4 justify-center md:justify-start">
+                <div className="flex flex-col sm:flex-row gap-4 justify-center md:justify-start">
                   {!user && (
                     <button
                       onClick={() => navigate('/signin')}
-                      className="btn-primary flex items-center gap-2 text-lg px-8 py-3"
+                      className="btn-primary text-lg px-8 py-3 w-full sm:w-auto justify-center"
                     >
-                      <Lock className="w-5 h-5" />
                       Get Started Free
                     </button>
                   )}
                   <button
                     onClick={() => navigate('/tools')}
-                    className="bg-white/10 backdrop-blur-sm text-white border border-white/20 px-8 py-3 rounded-lg hover:bg-white/20 transition-all flex items-center gap-2 text-lg font-medium"
+                    className="bg-white/10 backdrop-blur-sm text-white border border-white/20 px-8 py-3 rounded-lg hover:bg-white/20 transition-all text-lg font-medium w-full sm:w-auto"
                   >
-                    <Tools className="w-5 h-5" />
                     Explore Tools
                   </button>
                 </div>
@@ -251,9 +249,8 @@ function Home() {
         <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-gradient-to-r from-transparent via-red-600/50 to-transparent"></div>
 
         <div className="relative z-10">
-        <div className="text-center mb-8">
-          {/* Gold Glow Title - Dirt Racing Style */}
-          <h2 className="text-4xl md:text-5xl font-bold mb-6 relative inline-block">
+        <div className="text-center mb-8 px-4">
+          <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-6">
             <span className="bg-gradient-to-r from-amber-400 via-yellow-500 to-amber-300 bg-clip-text text-transparent" style={{
               textShadow: '0 0 30px rgba(251, 191, 36, 0.6), 0 0 60px rgba(245, 158, 11, 0.4)',
               filter: 'drop-shadow(0 0 12px rgba(251, 191, 36, 0.8))'
@@ -261,7 +258,7 @@ function Home() {
               Master Your Racing Machine
             </span>
           </h2>
-          <p className="text-xl text-gray-200 max-w-4xl mx-auto leading-relaxed drop-shadow-lg">
+          <p className="text-base sm:text-lg md:text-xl text-gray-200 max-w-4xl mx-auto leading-relaxed drop-shadow-lg">
             Welcome to the heart of <span className="text-amber-400 font-semibold" style={{
               textShadow: '0 0 10px rgba(251, 191, 36, 0.5)'
             }}>PIT-BOX.COM</span> - your comprehensive setup management system.
@@ -271,10 +268,10 @@ function Home() {
           </p>
         </div>
 
-        <div className="max-w-3xl mx-auto space-y-4">
+        <div className="max-w-3xl mx-auto space-y-4 px-4">
           {/* Main Select Vehicle Button - Dirt Racing Style */}
           <motion.button
-            className="w-full p-6 cursor-pointer transition-all duration-500 relative group rounded-xl overflow-hidden"
+            className="w-full p-5 sm:p-6 cursor-pointer transition-all duration-500 relative group rounded-xl overflow-hidden"
             onClick={() => setShowVehicles(!showVehicles)}
             whileHover={{ scale: 1.02 }}
             transition={{ type: "spring", stiffness: 400, damping: 10 }}
@@ -305,19 +302,19 @@ function Home() {
             }}></div>
 
             <div className="flex items-center justify-between relative z-10">
-              <div className="flex items-center gap-4">
-                <div className="relative">
-                  <Tools className="w-8 h-8 text-amber-400" style={{
+              <div className="flex items-center gap-3 sm:gap-4">
+                <div className="relative hidden sm:block">
+                  <Tools className="w-7 h-7 sm:w-8 sm:h-8 text-amber-400" style={{
                     filter: 'drop-shadow(0 0 8px rgba(251, 191, 36, 0.7))'
                   }} />
                   <div className="absolute inset-0 bg-amber-400/20 blur-xl rounded-full"></div>
                 </div>
-                <span className="text-2xl font-bold bg-gradient-to-r from-amber-400 via-yellow-500 to-amber-300 bg-clip-text text-transparent">
+                <span className="text-xl sm:text-2xl font-bold bg-gradient-to-r from-amber-400 via-yellow-500 to-amber-300 bg-clip-text text-transparent">
                   Racing Setup Headquarters
                 </span>
               </div>
               <ChevronDown
-                className={`w-6 h-6 text-amber-400 transition-all duration-300 ${
+                className={`w-6 h-6 text-amber-400 transition-all duration-300 flex-shrink-0 ${
                   showVehicles ? 'rotate-180' : ''
                 }`}
                 style={{
@@ -325,13 +322,13 @@ function Home() {
                 }}
               />
             </div>
-            <p className="text-gray-300 text-left mt-2 pl-12 relative z-10">
+            <p className="text-gray-300 text-left mt-2 sm:pl-12 relative z-10 text-sm sm:text-base">
               Unlock championship-caliber performance with our professional setup tools
             </p>
-            <div className="flex items-center gap-2 mt-3 text-amber-400 font-medium pl-12 relative z-10">
-              <Click className="w-5 h-5" />
+            <div className="flex items-center gap-2 mt-3 text-amber-400 font-medium sm:pl-12 relative z-10 text-sm sm:text-base">
+              <Click className="w-4 h-4 sm:w-5 sm:h-5 flex-shrink-0" />
               <span>Click to access your racing vehicle setup tools</span>
-              <ChevronRight className="w-5 h-5 transform group-hover:translate-x-2 transition-transform" />
+              <ChevronRight className="w-4 h-4 sm:w-5 sm:h-5 transform group-hover:translate-x-2 transition-transform flex-shrink-0" />
             </div>
           </motion.button>
 
@@ -340,7 +337,7 @@ function Home() {
             <SubscriptionGate>
               <div className="space-y-4 transition-all duration-500 opacity-100 max-h-[2000px] mb-48">
                 {vehicleCategories.Vehicles.map((category) => (
-                  <div key={category.name} className="pl-4">
+                  <div key={category.name} className="pl-2 sm:pl-4">
                     <button
                       className="w-full glass-panel cursor-pointer transition-all duration-300 overflow-hidden relative group"
                       onClick={() => setActiveCategory(activeCategory === category.name ? null : category.name)}
@@ -355,12 +352,12 @@ function Home() {
                           <div className="absolute inset-0 bg-gradient-to-r from-black/80 via-black/60 to-black/40 group-hover:from-black/70 group-hover:via-black/50 group-hover:to-black/30 transition-all" />
                         </div>
                       )}
-                      <div className="relative p-6 flex items-center justify-between">
-                        <div className="flex items-center gap-3">
-                          <span className="text-xl font-semibold text-white drop-shadow-lg">Setup Tools: {category.name}</span>
+                      <div className="relative p-4 sm:p-6 flex items-center justify-between gap-3">
+                        <div className="flex items-center gap-3 flex-1 min-w-0">
+                          <span className="text-lg sm:text-xl font-semibold text-white drop-shadow-lg">Setup Tools: {category.name}</span>
                         </div>
                         <ChevronDown
-                          className={`w-5 h-5 text-white transition-transform duration-300 ${
+                          className={`w-5 h-5 text-white transition-transform duration-300 flex-shrink-0 ${
                             activeCategory === category.name ? 'rotate-180' : ''
                           }`}
                         />
@@ -368,9 +365,9 @@ function Home() {
                     </button>
 
                     {/* Subcategories */}
-                    <div className={`grid gap-3 pl-4 mt-3 transition-all duration-300 ${
-                      activeCategory === category.name 
-                        ? 'opacity-100 max-h-[1000px]' 
+                    <div className={`grid gap-3 pl-2 sm:pl-4 mt-3 transition-all duration-300 ${
+                      activeCategory === category.name
+                        ? 'opacity-100 max-h-[1000px]'
                         : 'opacity-0 max-h-0 overflow-hidden'
                     }`}>
                       {category.subcategories.map((subItem) => (
@@ -379,17 +376,14 @@ function Home() {
                           onClick={() => handleVehicleClick(subItem.path)}
                           className="glass-panel p-4 text-left group hover:bg-brand-gold/5 transition-all duration-300"
                         >
-                          <div className="flex items-center justify-between">
-                            <div className="flex items-center gap-3">
-                              <Settings className="w-5 h-5 text-brand-gold" />
-                              <div>
-                                <span className="text-lg font-medium">{subItem.name}</span>
-                                <p className="text-sm text-gray-600 dark:text-gray-400">
-                                  Access setup sheets and optimization tools
-                                </p>
-                              </div>
+                          <div className="flex items-center justify-between gap-3">
+                            <div className="flex-1 min-w-0">
+                              <span className="text-base sm:text-lg font-medium block">{subItem.name}</span>
+                              <p className="text-xs sm:text-sm text-gray-600 dark:text-gray-400 mt-1">
+                                Access setup sheets and optimization tools
+                              </p>
                             </div>
-                            <ChevronRight className="w-5 h-5 transform group-hover:translate-x-1 transition-transform" />
+                            <ChevronRight className="w-5 h-5 transform group-hover:translate-x-1 transition-transform flex-shrink-0" />
                           </div>
                         </button>
                       ))}
@@ -401,34 +395,31 @@ function Home() {
           )}
 
           {/* Call to Action */}
-          <div className="text-center mt-12 mb-16">
-            <p className="text-gray-600 dark:text-gray-400 mb-4">
+          <div className="text-center mt-12 mb-16 px-4">
+            <p className="text-gray-600 dark:text-gray-400 mb-6 text-lg">
               Get started now with our professional setup management tools
             </p>
             {!user && (
               <button
                 onClick={() => navigate('/signin')}
-                className="btn-primary flex items-center gap-2 mx-auto"
+                className="btn-primary mx-auto w-full sm:w-auto px-8 py-3"
               >
-                <Lock className="w-5 h-5" />
                 Sign In to Access Setup Tools
               </button>
             )}
             {user && !showVehicles && (
               <button
                 onClick={() => setShowVehicles(true)}
-                className="btn-primary flex items-center gap-2 mx-auto"
+                className="btn-primary mx-auto w-full sm:w-auto px-8 py-3"
               >
-                <Settings className="w-5 h-5" />
                 View Setup Tools
               </button>
             )}
             {user && showVehicles && (
               <button
                 onClick={() => navigate('/subscription')}
-                className="bg-white/30 backdrop-blur-md border border-white/40 hover:bg-white/40 text-gray-900 dark:text-white px-6 py-3 rounded-lg transition-all duration-300 flex items-center gap-2 mx-auto mb-8 font-medium shadow-lg"
+                className="bg-white/30 backdrop-blur-md border border-white/40 hover:bg-white/40 text-gray-900 dark:text-white px-8 py-3 rounded-lg transition-all duration-300 mx-auto mb-8 font-medium shadow-lg w-full sm:w-auto"
               >
-                <Shield className="w-5 h-5" />
                 View Subscription Plans
               </button>
             )}
