@@ -420,7 +420,7 @@ function SwapMeet() {
       }}></div>
 
       {/* Hero Section */}
-      <div className="bg-gradient-to-br from-gray-900/95 to-black/95 backdrop-blur-xl border-2 border-brand-gold/30 rounded-2xl p-8 shadow-2xl shadow-brand-gold/20">
+      <div className="glass-panel p-8 shadow-2xl shadow-brand-gold/20">
         <div className="flex flex-col md:flex-row items-center gap-8">
           <div className="flex-1 text-center md:text-left">
             <div className="space-y-3">
@@ -454,11 +454,11 @@ function SwapMeet() {
         <div className="mt-12 grid grid-cols-1 md:grid-cols-3 gap-6">
           <button
             onClick={() => navigate('/home')}
-            className="bg-gradient-to-br from-black/60 to-gray-900/60 backdrop-blur-md border-2 border-white/10 hover:border-brand-gold/50 p-6 rounded-xl text-center transform hover:scale-105 transition-all duration-300 relative group shadow-xl hover:shadow-brand-gold/20"
+            className="glass-panel p-6 rounded-xl text-center transform hover:scale-105 transition-all duration-300 relative group shadow-xl hover:shadow-brand-gold/20"
           >
             <Settings className="w-10 h-10 text-brand-gold mx-auto mb-3 drop-shadow-[0_0_10px_rgba(234,179,8,0.5)]" />
-            <div className="text-lg font-bold text-white mb-2">Setup Management</div>
-            <p className="text-sm text-gray-300 mt-2">
+            <div className="text-lg font-bold mb-2">Setup Management</div>
+            <p className="text-sm text-gray-600 dark:text-gray-300 mt-2">
               Access our professional-grade setup tools to fine-tune your racing machine for peak performance
             </p>
             <div className="flex items-center justify-center gap-1 mt-4 text-brand-gold font-semibold">
@@ -469,11 +469,11 @@ function SwapMeet() {
 
           <button
             onClick={() => navigate('/community')}
-            className="bg-gradient-to-br from-black/60 to-gray-900/60 backdrop-blur-md border-2 border-white/10 hover:border-brand-gold/50 p-6 rounded-xl text-center transform hover:scale-105 transition-all duration-300 relative group shadow-xl hover:shadow-brand-gold/20"
+            className="glass-panel p-6 rounded-xl text-center transform hover:scale-105 transition-all duration-300 relative group shadow-xl hover:shadow-brand-gold/20"
           >
             <Users className="w-10 h-10 text-brand-gold mx-auto mb-3 drop-shadow-[0_0_10px_rgba(234,179,8,0.5)]" />
-            <div className="text-lg font-bold text-white mb-2">Racing Community</div>
-            <p className="text-sm text-gray-300 mt-2">
+            <div className="text-lg font-bold mb-2">Racing Community</div>
+            <p className="text-sm text-gray-600 dark:text-gray-300 mt-2">
               Connect with fellow racers, share experiences, and stay updated with the latest racing insights
             </p>
             <div className="flex items-center justify-center gap-1 mt-4 text-brand-gold font-semibold">
@@ -484,11 +484,11 @@ function SwapMeet() {
 
           <button
             onClick={() => navigate('/affiliates')}
-            className="bg-gradient-to-br from-black/60 to-gray-900/60 backdrop-blur-md border-2 border-white/10 hover:border-brand-gold/50 p-6 rounded-xl text-center transform hover:scale-105 transition-all duration-300 relative group shadow-xl hover:shadow-brand-gold/20"
+            className="glass-panel p-6 rounded-xl text-center transform hover:scale-105 transition-all duration-300 relative group shadow-xl hover:shadow-brand-gold/20"
           >
             <Shield className="w-10 h-10 text-brand-gold mx-auto mb-3 drop-shadow-[0_0_10px_rgba(234,179,8,0.5)]" />
-            <div className="text-lg font-bold text-white mb-2">Partner Network</div>
-            <p className="text-sm text-gray-300 mt-2">
+            <div className="text-lg font-bold mb-2">Partner Network</div>
+            <p className="text-sm text-gray-600 dark:text-gray-300 mt-2">
               Explore our trusted network of racing partners, suppliers, and industry experts
             </p>
             <div className="flex items-center justify-center gap-1 mt-4 text-brand-gold font-semibold">
@@ -500,7 +500,7 @@ function SwapMeet() {
       </div>
 
       {/* Search and Filter Section */}
-      <div className="bg-gradient-to-br from-gray-900/95 to-black/95 backdrop-blur-xl border-2 border-white/10 rounded-2xl p-6 shadow-xl">
+      <div className="glass-panel p-6 shadow-xl">
         <div className="flex flex-col md:flex-row gap-4">
           {/* Search Input */}
           <div className="relative flex-1">
@@ -515,7 +515,7 @@ function SwapMeet() {
                   handleSearch();
                 }
               }}
-              className="w-full pl-10 pr-4 py-3 rounded-xl bg-black/40 text-white placeholder-gray-400 border-2 border-white/10 focus:border-brand-gold focus:ring-2 focus:ring-brand-gold/50 transition-all"
+              className="w-full pl-10 pr-4 py-3 rounded-xl bg-white dark:bg-gray-800 placeholder-gray-400 border-2 border-gray-200 dark:border-white/10 focus:border-brand-gold focus:ring-2 focus:ring-brand-gold/50 transition-all"
             />
           </div>
 
@@ -525,10 +525,10 @@ function SwapMeet() {
             <select
               value={selectedCategory}
               onChange={(e) => setSelectedCategory(e.target.value.toLowerCase().replace(/ /g, '-'))}
-              className="w-full pl-10 pr-10 py-3 rounded-xl bg-black/40 text-white border-2 border-white/10 focus:border-brand-gold focus:ring-2 focus:ring-brand-gold/50 appearance-none transition-all"
+              className="w-full pl-10 pr-10 py-3 rounded-xl bg-white dark:bg-gray-800 border-2 border-gray-200 dark:border-white/10 focus:border-brand-gold focus:ring-2 focus:ring-brand-gold/50 appearance-none transition-all"
             >
               {categories.map(cat => (
-                <option key={cat} value={cat.toLowerCase().replace(/ /g, '-')} className="bg-gray-900">
+                <option key={cat} value={cat.toLowerCase().replace(/ /g, '-')} className="bg-white dark:bg-gray-900">
                   {cat}
                 </option>
               ))}
@@ -542,12 +542,12 @@ function SwapMeet() {
             <select
               value={sortBy}
               onChange={(e) => setSortBy(e.target.value as any)}
-              className="w-full pl-10 pr-10 py-3 rounded-xl bg-black/40 text-white border-2 border-white/10 focus:border-brand-gold focus:ring-2 focus:ring-brand-gold/50 appearance-none transition-all"
+              className="w-full pl-10 pr-10 py-3 rounded-xl bg-white dark:bg-gray-800 border-2 border-gray-200 dark:border-white/10 focus:border-brand-gold focus:ring-2 focus:ring-brand-gold/50 appearance-none transition-all"
             >
-              <option value="recent" className="bg-gray-900">Most Recent</option>
-              <option value="price-low" className="bg-gray-900">Price: Low to High</option>
-              <option value="price-high" className="bg-gray-900">Price: High to Low</option>
-              <option value="popular" className="bg-gray-900">Most Popular</option>
+              <option value="recent" className="bg-white dark:bg-gray-900">Most Recent</option>
+              <option value="price-low" className="bg-white dark:bg-gray-900">Price: Low to High</option>
+              <option value="price-high" className="bg-white dark:bg-gray-900">Price: High to Low</option>
+              <option value="popular" className="bg-white dark:bg-gray-900">Most Popular</option>
             </select>
             <ChevronDown className="absolute right-3 top-1/2 -translate-y-1/2 text-brand-gold pointer-events-none" />
           </div>
@@ -956,7 +956,7 @@ function SwapMeet() {
                 {listings.map((listing) => (
                 <motion.div
                   key={listing.id}
-                  className="bg-gradient-to-br from-gray-900/95 to-black/95 backdrop-blur-xl border-2 border-white/10 hover:border-brand-gold/40 rounded-2xl overflow-hidden group transition-all duration-300 shadow-xl hover:shadow-2xl hover:shadow-brand-gold/20"
+                  className="glass-panel rounded-2xl overflow-hidden group transition-all duration-300 shadow-xl hover:shadow-2xl hover:shadow-brand-gold/20 hover:border-brand-gold/40"
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   exit={{ opacity: 0, y: -20 }}
@@ -970,7 +970,7 @@ function SwapMeet() {
                         className="w-full aspect-square object-cover group-hover:scale-105 transition-transform duration-300"
                       />
                     ) : (
-                      <div className="w-full aspect-square bg-gradient-to-br from-black/80 to-gray-900/80 flex items-center justify-center">
+                      <div className="w-full aspect-square bg-gradient-to-br from-gray-100 to-gray-200 dark:from-black/80 dark:to-gray-900/80 flex items-center justify-center">
                         <Package className="w-16 h-16 text-brand-gold/30" />
                       </div>
                     )}
@@ -980,14 +980,14 @@ function SwapMeet() {
                           e.stopPropagation();
                           handleLikeClick(listing.id);
                         }}
-                        className={`p-2 bg-black/60 backdrop-blur-md rounded-full hover:bg-black/80 transition-all duration-300 border border-white/20 ${
+                        className={`p-2 bg-white/90 dark:bg-black/60 backdrop-blur-md rounded-full hover:bg-white dark:hover:bg-black/80 transition-all duration-300 border border-gray-300 dark:border-white/20 ${
                           likeAnimation === listing.id ? 'scale-150' : ''
                         }`}
                         title={listing.liked_by_user ? 'Unlike' : 'Like'}
                       >
                         <Heart
                           className={`w-4 h-4 sm:w-5 sm:h-5 transition-colors duration-300 ${
-                            listing.liked_by_user ? 'text-red-500 fill-current' : 'text-gray-300'
+                            listing.liked_by_user ? 'text-red-500 fill-current' : 'text-gray-600 dark:text-gray-300'
                           }`}
                         />
                       </button>
@@ -996,13 +996,13 @@ function SwapMeet() {
                           e.stopPropagation();
                           handleSaveClick(listing.id);
                         }}
-                        className="p-2 bg-black/60 backdrop-blur-md rounded-full hover:bg-black/80 transition-all duration-300 border border-white/20"
+                        className="p-2 bg-white/90 dark:bg-black/60 backdrop-blur-md rounded-full hover:bg-white dark:hover:bg-black/80 transition-all duration-300 border border-gray-300 dark:border-white/20"
                         title={listing.saved ? 'Unsave' : 'Save'}
                       >
                         {listing.saved ? (
                           <BookmarkCheck className="w-4 h-4 sm:w-5 sm:h-5 text-brand-gold fill-current drop-shadow-[0_0_8px_rgba(234,179,8,0.8)]" />
                         ) : (
-                          <Bookmark className="w-4 h-4 sm:w-5 sm:h-5 text-gray-300" />
+                          <Bookmark className="w-4 h-4 sm:w-5 sm:h-5 text-gray-600 dark:text-gray-300" />
                         )}
                       </button>
                     </div>
@@ -1013,7 +1013,7 @@ function SwapMeet() {
                             e.stopPropagation();
                             setShowDeleteConfirm(listing.id);
                           }}
-                          className="p-2 bg-black/60 backdrop-blur-md rounded-full hover:bg-red-600/80 hover:text-white transition-all duration-300 border border-white/20 text-gray-300"
+                          className="p-2 bg-white/90 dark:bg-black/60 backdrop-blur-md rounded-full hover:bg-red-600/80 hover:text-white transition-all duration-300 border border-gray-300 dark:border-white/20 text-gray-600 dark:text-gray-300"
                           title="Delete listing"
                         >
                           <Trash2 className="w-4 h-4 sm:w-5 sm:h-5" />
@@ -1024,26 +1024,26 @@ function SwapMeet() {
                   
                   <div className="p-3 sm:p-4">
                     <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-1 sm:gap-2 mb-2">
-                      <h3 className="text-sm sm:text-xl font-bold text-white line-clamp-2">{listing.title}</h3>
+                      <h3 className="text-sm sm:text-xl font-bold line-clamp-2">{listing.title}</h3>
                       <p className="text-base sm:text-xl font-black text-brand-gold flex items-center whitespace-nowrap drop-shadow-[0_0_8px_rgba(234,179,8,0.5)]">
                         <DollarSign className="w-4 h-4 sm:w-5 sm:h-5" />
                         {listing.price.toLocaleString()}
                       </p>
                     </div>
 
-                    <div className="flex items-center gap-2 text-gray-300 mb-2 sm:mb-3">
+                    <div className="flex items-center gap-2 text-gray-600 dark:text-gray-300 mb-2 sm:mb-3">
                       <div className="flex items-center gap-1">
                         <MapPin className="w-3 h-3 sm:w-4 sm:h-4 flex-shrink-0 text-brand-gold" />
                         <span className="text-xs sm:text-sm truncate">{listing.location}</span>
                       </div>
                       {listing.distance_miles !== undefined && (
-                        <span className="px-2 py-0.5 rounded-full bg-blue-600/30 border border-blue-400/30 text-blue-300 text-xs font-semibold whitespace-nowrap">
+                        <span className="px-2 py-0.5 rounded-full bg-blue-100 dark:bg-blue-600/30 border border-blue-300 dark:border-blue-400/30 text-blue-700 dark:text-blue-300 text-xs font-semibold whitespace-nowrap">
                           {listing.distance_miles} mi
                         </span>
                       )}
                     </div>
 
-                    <p className="text-xs sm:text-sm text-gray-300 mb-3 sm:mb-4 line-clamp-2 hidden sm:block">
+                    <p className="text-xs sm:text-sm text-gray-600 dark:text-gray-300 mb-3 sm:mb-4 line-clamp-2 hidden sm:block">
                       {listing.description}
                     </p>
 
@@ -1180,7 +1180,7 @@ function SwapMeet() {
       />
 
       {/* Sponsored Affiliates */}
-      <div className="bg-gradient-to-br from-gray-900/95 to-black/95 backdrop-blur-xl border-2 border-brand-gold/30 rounded-2xl p-8 shadow-2xl shadow-brand-gold/20">
+      <div className="glass-panel p-8 shadow-2xl shadow-brand-gold/20">
         <div className="text-center mb-8">
           <div className="flex items-center justify-center gap-3 mb-3">
             <Flag className="w-7 h-7 text-brand-gold drop-shadow-[0_0_10px_rgba(234,179,8,0.6)]" />
@@ -1189,7 +1189,7 @@ function SwapMeet() {
             </h2>
             <Flag className="w-7 h-7 text-brand-gold drop-shadow-[0_0_10px_rgba(234,179,8,0.6)]" />
           </div>
-          <p className="text-gray-300 text-lg font-medium">
+          <p className="text-gray-600 dark:text-gray-300 text-lg font-medium">
             Proud to partner with premier California racing venues
           </p>
         </div>
@@ -1200,7 +1200,7 @@ function SwapMeet() {
             href="https://www.silverdollarspeedway.com"
             target="_blank"
             rel="noopener noreferrer"
-            className="bg-gradient-to-br from-black/60 to-gray-900/60 backdrop-blur-md border-2 border-white/10 hover:border-brand-gold/50 rounded-xl p-6 hover:shadow-2xl hover:shadow-brand-gold/30 transition-all duration-300 group relative overflow-hidden transform hover:scale-105"
+            className="glass-panel p-6 hover:shadow-2xl hover:shadow-brand-gold/30 transition-all duration-300 group relative overflow-hidden transform hover:scale-105 hover:border-brand-gold/50"
           >
             <div className="absolute inset-0 bg-gradient-to-br from-brand-gold/0 to-brand-gold/10 opacity-0 group-hover:opacity-100 transition-opacity" />
             <div className="relative">
@@ -1218,12 +1218,12 @@ function SwapMeet() {
                 />
               </div>
 
-              <div className="flex items-center justify-center gap-2 text-sm text-gray-300 mb-3">
+              <div className="flex items-center justify-center gap-2 text-sm text-gray-600 dark:text-gray-300 mb-3">
                 <Target className="w-4 h-4 text-brand-gold" />
                 <span className="font-semibold">Chico, California</span>
               </div>
 
-              <p className="text-gray-300 mb-4 text-center text-sm leading-relaxed">
+              <p className="text-gray-600 dark:text-gray-300 mb-4 text-center text-sm leading-relaxed">
                 Home of the legendary Gold Cup Race of Champions and exciting sprint car racing.
                 One of California's premier dirt racing facilities.
               </p>
@@ -1240,7 +1240,7 @@ function SwapMeet() {
             href="https://www.thunderbowlraceway.com"
             target="_blank"
             rel="noopener noreferrer"
-            className="bg-gradient-to-br from-black/60 to-gray-900/60 backdrop-blur-md border-2 border-white/10 hover:border-brand-gold/50 rounded-xl p-6 hover:shadow-2xl hover:shadow-brand-gold/30 transition-all duration-300 group relative overflow-hidden transform hover:scale-105"
+            className="glass-panel p-6 hover:shadow-2xl hover:shadow-brand-gold/30 transition-all duration-300 group relative overflow-hidden transform hover:scale-105 hover:border-brand-gold/50"
           >
             <div className="absolute inset-0 bg-gradient-to-br from-brand-gold/0 to-brand-gold/10 opacity-0 group-hover:opacity-100 transition-opacity" />
             <div className="relative">
@@ -1258,12 +1258,12 @@ function SwapMeet() {
                 />
               </div>
 
-              <div className="flex items-center justify-center gap-2 text-sm text-gray-300 mb-3">
+              <div className="flex items-center justify-center gap-2 text-sm text-gray-600 dark:text-gray-300 mb-3">
                 <Target className="w-4 h-4 text-brand-gold" />
                 <span className="font-semibold">Tulare, California</span>
               </div>
 
-              <p className="text-gray-300 mb-4 text-center text-sm leading-relaxed">
+              <p className="text-gray-600 dark:text-gray-300 mb-4 text-center text-sm leading-relaxed">
                 Home of exciting sprint car racing featuring NARC 410 Sprint Cars and the annual Trophy Cup.
                 One of California's premier dirt racing venues.
               </p>
@@ -1280,7 +1280,7 @@ function SwapMeet() {
             href="https://www.marysvilleraceway.com"
             target="_blank"
             rel="noopener noreferrer"
-            className="bg-gradient-to-br from-black/60 to-gray-900/60 backdrop-blur-md border-2 border-white/10 hover:border-brand-gold/50 rounded-xl p-6 hover:shadow-2xl hover:shadow-brand-gold/30 transition-all duration-300 group relative overflow-hidden transform hover:scale-105"
+            className="glass-panel p-6 hover:shadow-2xl hover:shadow-brand-gold/30 transition-all duration-300 group relative overflow-hidden transform hover:scale-105 hover:border-brand-gold/50"
           >
             <div className="absolute inset-0 bg-gradient-to-br from-brand-gold/0 to-brand-gold/10 opacity-0 group-hover:opacity-100 transition-opacity" />
             <div className="relative">
@@ -1298,12 +1298,12 @@ function SwapMeet() {
                 />
               </div>
 
-              <div className="flex items-center justify-center gap-2 text-sm text-gray-300 mb-3">
+              <div className="flex items-center justify-center gap-2 text-sm text-gray-600 dark:text-gray-300 mb-3">
                 <Target className="w-4 h-4 text-brand-gold" />
                 <span className="font-semibold">Marysville, California</span>
               </div>
 
-              <p className="text-gray-300 mb-4 text-center text-sm leading-relaxed">
+              <p className="text-gray-600 dark:text-gray-300 mb-4 text-center text-sm leading-relaxed">
                 Known as the "Action Track of the West," featuring competitive sprint car racing on a quarter-mile clay oval.
                 A California racing tradition.
               </p>
@@ -1319,9 +1319,9 @@ function SwapMeet() {
 
       {/* Advertisement Spaces */}
       <div className="grid md:grid-cols-2 gap-6">
-        <div className="bg-gradient-to-br from-gray-900/95 to-black/95 backdrop-blur-xl border-2 border-white/10 hover:border-purple-500/30 rounded-2xl p-6 shadow-xl hover:shadow-purple-500/20 transition-all">
-          <h3 className="text-xl font-bold mb-2 text-white">Premium Advertising Space</h3>
-          <p className="text-gray-300 mb-4">
+        <div className="glass-panel p-6 shadow-xl hover:shadow-purple-500/20 transition-all hover:border-purple-500/30">
+          <h3 className="text-xl font-bold mb-2">Premium Advertising Space</h3>
+          <p className="text-gray-600 dark:text-gray-300 mb-4">
             Reach thousands of potential customers with premium placement.
           </p>
           <button
@@ -1342,9 +1342,9 @@ function SwapMeet() {
           </button>
         </div>
 
-        <div className="bg-gradient-to-br from-gray-900/95 to-black/95 backdrop-blur-xl border-2 border-white/10 hover:border-green-500/30 rounded-2xl p-6 shadow-xl hover:shadow-green-500/20 transition-all">
-          <h3 className="text-xl font-bold mb-2 text-white">Featured Listing Spots</h3>
-          <p className="text-gray-300 mb-4">
+        <div className="glass-panel p-6 shadow-xl hover:shadow-green-500/20 transition-all hover:border-green-500/30">
+          <h3 className="text-xl font-bold mb-2">Featured Listing Spots</h3>
+          <p className="text-gray-600 dark:text-gray-300 mb-4">
             Get more visibility for your listings with featured placement.
           </p>
           <button
