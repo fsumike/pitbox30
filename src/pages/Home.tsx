@@ -59,9 +59,9 @@ function Home() {
                 <img
                   src="/android-icon-512-512.png"
                   alt="PIT-BOX.COM Logo"
-                  width="200"
-                  height="200"
-                  className="w-32 h-32 md:w-48 md:h-48 object-contain drop-shadow-2xl transform hover:scale-105 transition-transform duration-300"
+                  width="288"
+                  height="288"
+                  className="w-48 h-48 md:w-72 md:h-72 object-contain drop-shadow-2xl transform hover:scale-105 transition-transform duration-300"
                 />
               </div>
               <div className="text-center md:text-left">
