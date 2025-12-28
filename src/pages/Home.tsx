@@ -98,20 +98,42 @@ function Home() {
 
       {/* Vehicle Selection Section - Dirt Racing Inspired */}
       <div className="p-8 transform hover:scale-[1.02] transition-all duration-500 relative overflow-hidden rounded-2xl group">
-        {/* Dirt Track at Night - Base Layer */}
-        <div className="absolute inset-0 rounded-2xl bg-gradient-to-br from-[#0a0604] via-[#0c0805] to-[#080503]"></div>
+        {/* Lighter Base Layer for Visible Carbon */}
+        <div className="absolute inset-0 rounded-2xl bg-gradient-to-br from-[#1a1410] via-[#1c1612] to-[#181410]"></div>
 
-        {/* Muddy Carbon Fiber Texture */}
-        <div className="absolute inset-0 rounded-2xl opacity-60" style={{
+        {/* Enhanced Visible Carbon Fiber Texture */}
+        <div className="absolute inset-0 rounded-2xl" style={{
           background: `
-            repeating-linear-gradient(0deg, #1a1108 0px, #0f0a05 1px, #1a1108 2px),
-            repeating-linear-gradient(90deg, #1a1108 0px, #120d07 1px, #1a1108 2px)
+            repeating-linear-gradient(0deg, #3a2d1a 0px, #261d10 1px, #3a2d1a 2px, #2e2414 3px),
+            repeating-linear-gradient(90deg, #3a2d1a 0px, #2a1f12 1px, #3a2d1a 2px, #322618 3px)
           `,
-          backgroundSize: '4px 4px',
+          backgroundSize: '6px 6px',
+          opacity: 0.95,
         }}></div>
 
-        {/* Dirt/Clay Texture Overlay */}
-        <div className="absolute inset-0 rounded-2xl opacity-[0.08]" style={{
+        {/* Carbon Fiber Weave Highlights */}
+        <div className="absolute inset-0 rounded-2xl" style={{
+          background: `
+            repeating-linear-gradient(45deg, transparent 0px, transparent 2px, rgba(251, 191, 36, 0.08) 2px, rgba(251, 191, 36, 0.08) 4px),
+            repeating-linear-gradient(-45deg, transparent 0px, transparent 2px, rgba(217, 119, 6, 0.06) 2px, rgba(217, 119, 6, 0.06) 4px)
+          `,
+          backgroundSize: '8px 8px',
+          opacity: 0.4,
+        }}></div>
+
+        {/* Glossy Carbon Shine Effect */}
+        <div className="absolute inset-0 rounded-2xl opacity-20" style={{
+          background: `linear-gradient(135deg,
+            transparent 0%,
+            rgba(251, 191, 36, 0.15) 30%,
+            transparent 50%,
+            rgba(245, 158, 11, 0.1) 70%,
+            transparent 100%
+          )`,
+        }}></div>
+
+        {/* Dirt/Clay Texture Overlay - Reduced */}
+        <div className="absolute inset-0 rounded-2xl opacity-[0.05]" style={{
           backgroundImage: `url("data:image/svg+xml,%3Csvg width='100' height='100' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' /%3E%3C/filter%3E%3Crect width='100' height='100' filter='url(%23noise)' opacity='0.5' /%3E%3C/svg%3E")`,
           mixBlendMode: 'overlay'
         }}></div>
