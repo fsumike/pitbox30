@@ -39,20 +39,29 @@ function Home() {
 
   return (
     <div className="space-y-12 relative">
-      {/* White Carbon Fiber Background */}
-      <div className="fixed inset-0 -z-10" style={{
+      {/* Dark Carbon Fiber Background - Light Mode uses dark theme, Dark Mode goes even darker */}
+      <div className="fixed inset-0 -z-10 dark:hidden" style={{
         background: `
-          repeating-linear-gradient(45deg, #ffffff 0px, #f5f5f5 1px, #ffffff 2px, #fafafa 3px),
-          repeating-linear-gradient(-45deg, #ffffff 0px, #f8f8f8 1px, #ffffff 2px, #f7f7f7 3px)
+          repeating-linear-gradient(45deg, #1A1A1A 0px, #151515 1px, #1A1A1A 2px, #121212 3px),
+          repeating-linear-gradient(-45deg, #1A1A1A 0px, #181818 1px, #1A1A1A 2px, #131313 3px)
+        `,
+        backgroundSize: '8px 8px',
+      }}></div>
+
+      {/* Even Darker Carbon Fiber Background for Dark Mode */}
+      <div className="fixed inset-0 -z-10 hidden dark:block" style={{
+        background: `
+          repeating-linear-gradient(45deg, #000000 0px, #050505 1px, #000000 2px, #030303 3px),
+          repeating-linear-gradient(-45deg, #000000 0px, #020202 1px, #000000 2px, #010101 3px)
         `,
         backgroundSize: '8px 8px',
       }}></div>
 
       {/* Carbon Fiber Diagonal Weave Overlay */}
-      <div className="fixed inset-0 -z-10" style={{
+      <div className="fixed inset-0 -z-10 dark:opacity-100 opacity-100" style={{
         background: `
-          repeating-linear-gradient(45deg, transparent 0px, transparent 3px, rgba(0, 0, 0, 0.015) 3px, rgba(0, 0, 0, 0.015) 6px),
-          repeating-linear-gradient(-45deg, transparent 0px, transparent 3px, rgba(0, 0, 0, 0.02) 3px, rgba(0, 0, 0, 0.02) 6px)
+          repeating-linear-gradient(45deg, transparent 0px, transparent 3px, rgba(255, 255, 255, 0.03) 3px, rgba(255, 255, 255, 0.03) 6px),
+          repeating-linear-gradient(-45deg, transparent 0px, transparent 3px, rgba(255, 255, 255, 0.04) 3px, rgba(255, 255, 255, 0.04) 6px)
         `,
         backgroundSize: '12px 12px',
       }}></div>
