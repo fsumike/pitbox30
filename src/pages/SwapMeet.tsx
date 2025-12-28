@@ -1212,7 +1212,7 @@ function SwapMeet() {
 
               <div className="mb-6 bg-white/5 rounded-lg p-4 border border-white/10">
                 <img
-                  src="https://images.unsplash.com/photo-1568605117036-5fe5e7bab0b7?w=400&h=200&fit=crop"
+                  src="https://cdn.myracepass.com/v1/siteresources/35514/v1/img/logo.png"
                   alt="Silver Dollar Speedway"
                   className="w-full h-auto object-contain max-h-24 mx-auto"
                 />
@@ -1252,7 +1252,7 @@ function SwapMeet() {
 
               <div className="mb-6 bg-white/5 rounded-lg p-4 border border-white/10">
                 <img
-                  src="https://images.unsplash.com/photo-1583531172005-814191b8b6c0?w=400&h=200&fit=crop"
+                  src="https://www.thunderbowlraceway.com/wp-content/uploads/2020/01/Logo.png"
                   alt="Thunderbowl Raceway"
                   className="w-full h-auto object-contain max-h-24 mx-auto"
                 />
@@ -1292,7 +1292,7 @@ function SwapMeet() {
 
               <div className="mb-6 bg-white/5 rounded-lg p-4 border border-white/10">
                 <img
-                  src="https://images.unsplash.com/photo-1566134101764-b4c1ff4e4171?w=400&h=200&fit=crop"
+                  src="https://cdn.myracepass.com/v1/siteresources/58778/v1/img/logo.png"
                   alt="Marysville Raceway"
                   className="w-full h-auto object-contain max-h-24 mx-auto"
                 />
