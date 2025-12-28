@@ -45,8 +45,8 @@ function Home() {
       <div className="relative overflow-hidden rounded-2xl">
         <div className="absolute inset-0">
           <img
-            src="https://images.unsplash.com/photo-1568605117036-5fe5e7bab0b7?w=1920&h=1080&fit=crop"
-            alt="Racing"
+            src="/073020_scs_worldofoutlaws4wide_bytrentgower.jpg"
+            alt="World of Outlaws 4-Wide Racing"
             className="w-full h-full object-cover"
           />
           <div className="absolute inset-0 bg-gradient-to-r from-brand-black/95 via-brand-black/80 to-brand-black/60" />
