@@ -131,9 +131,18 @@ export default function Tools() {
   const [activeTool, setActiveTool] = useState<string>('');
   const [isChanging, setIsChanging] = useState(false);
   const [showDropdown, setShowDropdown] = useState(false);
+  const [buttonRect, setButtonRect] = useState<DOMRect | null>(null);
+  const buttonRef = React.useRef<HTMLButtonElement>(null);
 
   const activeToolData = tools.find(t => t.id === activeTool);
   const isNative = Capacitor.isNativePlatform();
+
+  const handleDropdownClick = () => {
+    if (buttonRef.current) {
+      setButtonRect(buttonRef.current.getBoundingClientRect());
+    }
+    setShowDropdown(!showDropdown);
+  };
 
   const handleToolChange = (toolId: string) => {
     if (toolId === activeTool) return;
@@ -186,7 +195,8 @@ export default function Tools() {
           </label>
           <div className="relative w-full">
             <button
-              onClick={() => setShowDropdown(!showDropdown)}
+              ref={buttonRef}
+              onClick={handleDropdownClick}
               disabled={isChanging}
               className="w-full px-3 sm:px-4 py-3 sm:py-4 text-base sm:text-lg font-medium bg-white dark:bg-gray-800 text-gray-900 dark:text-white border-2 border-gray-200 dark:border-gray-700 rounded-xl cursor-pointer hover:border-brand-gold focus:border-brand-gold focus:ring-2 focus:ring-brand-gold/20 focus:outline-none transition-all disabled:opacity-50 disabled:cursor-not-allowed shadow-sm text-left flex items-center justify-between"
               style={{ minHeight: '52px' }}
@@ -201,7 +211,7 @@ export default function Tools() {
               />
             </button>
 
-            {showDropdown && (
+            {showDropdown && buttonRect && (
               <>
                 <div
                   className="fixed inset-0 z-40"
@@ -209,7 +219,13 @@ export default function Tools() {
                   aria-hidden="true"
                 />
                 <div
-                  className="absolute top-full left-0 right-0 z-50 mt-2 bg-white dark:bg-gray-800 border-2 border-gray-200 dark:border-gray-700 rounded-xl shadow-lg overflow-hidden"
+                  className="fixed z-50 bg-white dark:bg-gray-800 border-2 border-gray-200 dark:border-gray-700 rounded-xl shadow-lg overflow-y-auto max-w-[calc(100vw-2rem)]"
+                  style={{
+                    left: `${Math.max(8, buttonRect.left)}px`,
+                    top: `${buttonRect.bottom + 8}px`,
+                    width: `${Math.min(buttonRect.width, window.innerWidth - 16)}px`,
+                    maxHeight: '60vh'
+                  }}
                   role="listbox"
                 >
                   <button
