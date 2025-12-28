@@ -16,7 +16,7 @@ const categoryImages: Record<string, string> = {
   'Midget Cars': '/69298c4cd988988b07f26b2b_jja_6613-min copy.jpg',
   'Modifieds': '/imca_southern_sportmod copy.jpg',
   'Late Models': '/erb copy copy.jpeg',
-  'Stock Cars': 'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=400&h=200&fit=crop',
+  'Stock Cars': '/392307_articlesection_xl_d10ca69f-828b-441c-9ca4-ab7730ded7ee.png',
   'Youth Racing / Kart': 'https://images.unsplash.com/photo-1535750019702-86f32b4f9a7e?w=400&h=200&fit=crop',
 };
 
