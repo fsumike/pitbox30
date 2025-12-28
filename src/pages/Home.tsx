@@ -5,6 +5,7 @@ import SignInButton from '../components/SignInButton';
 import SignInPrompt from '../components/SignInPrompt';
 import LoadingSpinner from '../components/LoadingSpinner';
 import SocialPromoBanner from '../components/SocialPromoBanner';
+import GeoSponsors from '../components/GeoSponsors';
 import { vehicleCategories } from '../App';
 import { useAuth } from '../contexts/AuthContext';
 import { motion } from 'framer-motion';
@@ -32,28 +33,56 @@ function Home() {
       {loading && <LoadingSpinner fullScreen message="Loading..." />}
 
       {/* Hero Section */}
-      <div className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-brand-black via-brand-black-light to-brand-black-dark">
-        <div className="absolute inset-0 bg-gradient-radial from-brand-gold/20 via-transparent to-transparent" />
-        <div className="relative px-6 py-12 sm:px-12 sm:py-24">
-          <div className="mx-auto max-w-4xl text-center">
-            <div className="relative w-full max-w-lg mx-auto mb-8">
-              <img 
-                src="/android-icon-512-512.png" 
-                alt="PIT-BOX.COM Logo" 
-                width="800"
-                height="240"
-                className="w-full h-auto object-contain drop-shadow-2xl transform hover:scale-105 transition-transform duration-300" 
-              />
+      <div className="relative overflow-hidden rounded-2xl">
+        <div className="absolute inset-0">
+          <img
+            src="https://images.unsplash.com/photo-1568605117036-5fe5e7bab0b7?w=1920&h=1080&fit=crop"
+            alt="Racing"
+            className="w-full h-full object-cover"
+          />
+          <div className="absolute inset-0 bg-gradient-to-r from-brand-black/95 via-brand-black/80 to-brand-black/60" />
+          <div className="absolute inset-0 bg-gradient-to-t from-brand-black via-transparent to-transparent" />
+        </div>
+        <div className="relative px-6 py-16 sm:px-12 sm:py-28">
+          <div className="mx-auto max-w-4xl">
+            <div className="flex flex-col md:flex-row items-center gap-8">
+              <div className="flex-shrink-0">
+                <img
+                  src="/android-icon-512-512.png"
+                  alt="PIT-BOX.COM Logo"
+                  width="200"
+                  height="200"
+                  className="w-32 h-32 md:w-48 md:h-48 object-contain drop-shadow-2xl transform hover:scale-105 transition-transform duration-300"
+                />
+              </div>
+              <div className="text-center md:text-left">
+                <h1 className="text-4xl font-bold tracking-tight text-white sm:text-6xl mb-6">
+                  The Future of Racing is Here
+                </h1>
+                <p className="text-xl leading-8 text-gray-300 mb-8">
+                  Experience the most advanced setup management platform in motorsports history.
+                  PIT-BOX.COM revolutionizes how champions prepare, compete, and win.
+                </p>
+                <div className="flex flex-wrap gap-4 justify-center md:justify-start">
+                  {!user && (
+                    <button
+                      onClick={() => navigate('/signin')}
+                      className="btn-primary flex items-center gap-2 text-lg px-8 py-3"
+                    >
+                      <Lock className="w-5 h-5" />
+                      Get Started Free
+                    </button>
+                  )}
+                  <button
+                    onClick={() => navigate('/tools')}
+                    className="bg-white/10 backdrop-blur-sm text-white border border-white/20 px-8 py-3 rounded-lg hover:bg-white/20 transition-all flex items-center gap-2 text-lg font-medium"
+                  >
+                    <Tools className="w-5 h-5" />
+                    Explore Tools
+                  </button>
+                </div>
+              </div>
             </div>
-            
-            <h1 className="text-4xl font-bold tracking-tight text-white sm:text-6xl mb-6">
-              The Future of Racing is Here
-            </h1>
-            
-            <p className="text-xl leading-8 text-gray-300 mb-8">
-              Experience the most advanced setup management platform in motorsports history. 
-              PIT-BOX.COM revolutionizes how champions prepare, compete, and win.
-            </p>
           </div>
         </div>
       </div>
@@ -273,102 +302,8 @@ function Home() {
         </div>
       </div>
 
-      {/* Sponsored Affiliates */}
-      <div className="glass-panel p-8 bg-gradient-to-br from-brand-gold/5 to-brand-gold-light/5">
-        <div className="text-center mb-6">
-          <div className="flex items-center justify-center gap-2 mb-2">
-            <Flag className="w-6 h-6 text-brand-gold" />
-            <h2 className="text-2xl font-bold bg-gradient-to-r from-brand-gold to-brand-gold-light bg-clip-text text-transparent">
-              Sponsored Affiliates
-            </h2>
-          </div>
-          <p className="text-gray-600 dark:text-gray-400">
-            Proud to partner with premier racing venues
-          </p>
-        </div>
-
-        <div className="grid md:grid-cols-2 gap-6 max-w-5xl mx-auto">
-          {/* Silver Dollar Speedway */}
-          <a
-            href="https://www.silverdollarspeedway.com"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="glass-panel p-6 hover:shadow-xl transition-all duration-300 group relative overflow-hidden"
-          >
-            <div className="absolute inset-0 bg-gradient-to-br from-brand-gold/10 to-brand-gold-light/10 opacity-0 group-hover:opacity-100 transition-opacity" />
-            <div className="relative">
-              <div className="flex items-center justify-end mb-4">
-                <div className="px-2 py-1 rounded-full bg-brand-gold/10 text-brand-gold text-xs font-semibold">
-                  SPONSORED
-                </div>
-              </div>
-
-              <div className="mb-4">
-                <img
-                  src="/logo.png"
-                  alt="Silver Dollar Speedway"
-                  className="w-full h-auto object-contain max-h-24 md:max-h-32 mx-auto"
-                />
-              </div>
-
-              <div className="flex items-center justify-center gap-2 text-sm text-gray-600 dark:text-gray-400 mb-3">
-                <Target className="w-4 h-4" />
-                <span>Chico, California</span>
-              </div>
-
-              <p className="text-gray-700 dark:text-gray-300 mb-4 text-center">
-                Home of the legendary Gold Cup Race of Champions and exciting sprint car racing.
-                One of California's premier dirt racing facilities.
-              </p>
-
-              <div className="flex items-center justify-center gap-2 text-brand-gold font-semibold group-hover:gap-3 transition-all">
-                <span>Visit Silver Dollar Speedway</span>
-                <ExternalLink className="w-5 h-5" />
-              </div>
-            </div>
-          </a>
-
-          {/* Thunderbowl Raceway */}
-          <a
-            href="https://www.thunderbowlraceway.com"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="glass-panel p-6 hover:shadow-xl transition-all duration-300 group relative overflow-hidden"
-          >
-            <div className="absolute inset-0 bg-gradient-to-br from-brand-gold/10 to-brand-gold-light/10 opacity-0 group-hover:opacity-100 transition-opacity" />
-            <div className="relative">
-              <div className="flex items-center justify-end mb-4">
-                <div className="px-2 py-1 rounded-full bg-brand-gold/10 text-brand-gold text-xs font-semibold">
-                  SPONSORED
-                </div>
-              </div>
-
-              <div className="mb-4">
-                <img
-                  src="/image (2).png"
-                  alt="Thunderbowl Raceway"
-                  className="w-full h-auto object-contain max-h-24 md:max-h-32 mx-auto"
-                />
-              </div>
-
-              <div className="flex items-center justify-center gap-2 text-sm text-gray-600 dark:text-gray-400 mb-3">
-                <Target className="w-4 h-4" />
-                <span>Tulare, California</span>
-              </div>
-
-              <p className="text-gray-700 dark:text-gray-300 mb-4 text-center">
-                Home of exciting sprint car racing featuring NARC 410 Sprint Cars and the annual Trophy Cup.
-                One of California's premier dirt racing venues.
-              </p>
-
-              <div className="flex items-center justify-center gap-2 text-brand-gold font-semibold group-hover:gap-3 transition-all">
-                <span>Visit Thunderbowl Raceway</span>
-                <ExternalLink className="w-5 h-5" />
-              </div>
-            </div>
-          </a>
-        </div>
-      </div>
+      {/* Geo-Targeted Sponsored Affiliates */}
+      <GeoSponsors maxSponsors={4} showDistance={true} />
 
       {/* Thank You Section */}
       <div className="glass-panel p-8 bg-gradient-to-br from-brand-gold/10 via-brand-gold/5 to-brand-gold/10 mb-24">

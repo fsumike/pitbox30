@@ -17,6 +17,9 @@ interface AuthContextType {
     error: Error | null;
     success: boolean;
   }>;
+  signInWithGoogle: () => Promise<{ error: Error | null; success: boolean }>;
+  signInWithFacebook: () => Promise<{ error: Error | null; success: boolean }>;
+  signInWithApple: () => Promise<{ error: Error | null; success: boolean }>;
   signOut: () => Promise<void>;
   retryConnection: () => Promise<void>;
 }
@@ -256,6 +259,57 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     }
   };
 
+  const signInWithGoogle = async () => {
+    try {
+      setConnectionError(null);
+      const { error } = await supabase.auth.signInWithOAuth({
+        provider: 'google',
+        options: {
+          redirectTo: `${window.location.origin}/home`,
+        },
+      });
+      if (error) throw error;
+      return { error: null, success: true };
+    } catch (error) {
+      console.error('Google sign in error:', error);
+      return { error: error as Error, success: false };
+    }
+  };
+
+  const signInWithFacebook = async () => {
+    try {
+      setConnectionError(null);
+      const { error } = await supabase.auth.signInWithOAuth({
+        provider: 'facebook',
+        options: {
+          redirectTo: `${window.location.origin}/home`,
+        },
+      });
+      if (error) throw error;
+      return { error: null, success: true };
+    } catch (error) {
+      console.error('Facebook sign in error:', error);
+      return { error: error as Error, success: false };
+    }
+  };
+
+  const signInWithApple = async () => {
+    try {
+      setConnectionError(null);
+      const { error } = await supabase.auth.signInWithOAuth({
+        provider: 'apple',
+        options: {
+          redirectTo: `${window.location.origin}/home`,
+        },
+      });
+      if (error) throw error;
+      return { error: null, success: true };
+    } catch (error) {
+      console.error('Apple sign in error:', error);
+      return { error: error as Error, success: false };
+    }
+  };
+
   return (
     <AuthContext.Provider value={{
       user,
@@ -265,6 +319,9 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       refreshPremiumStatus,
       signIn,
       signUp,
+      signInWithGoogle,
+      signInWithFacebook,
+      signInWithApple,
       signOut,
       retryConnection
     }}>
