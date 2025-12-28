@@ -1180,55 +1180,56 @@ function SwapMeet() {
       />
 
       {/* Sponsored Affiliates */}
-      <div className="glass-panel p-8 bg-gradient-to-br from-brand-gold/5 to-brand-gold-light/5">
-        <div className="text-center mb-6">
-          <div className="flex items-center justify-center gap-2 mb-2">
-            <Flag className="w-6 h-6 text-brand-gold" />
-            <h2 className="text-2xl font-bold bg-gradient-to-r from-brand-gold to-brand-gold-light bg-clip-text text-transparent">
+      <div className="bg-gradient-to-br from-gray-900/95 to-black/95 backdrop-blur-xl border-2 border-brand-gold/30 rounded-2xl p-8 shadow-2xl shadow-brand-gold/20">
+        <div className="text-center mb-8">
+          <div className="flex items-center justify-center gap-3 mb-3">
+            <Flag className="w-7 h-7 text-brand-gold drop-shadow-[0_0_10px_rgba(234,179,8,0.6)]" />
+            <h2 className="text-3xl md:text-4xl font-black bg-gradient-to-r from-brand-gold via-amber-400 to-brand-gold bg-clip-text text-transparent drop-shadow-lg">
               Sponsored Affiliates
             </h2>
+            <Flag className="w-7 h-7 text-brand-gold drop-shadow-[0_0_10px_rgba(234,179,8,0.6)]" />
           </div>
-          <p className="text-gray-600 dark:text-gray-400">
-            Proud to partner with premier racing venues
+          <p className="text-gray-300 text-lg font-medium">
+            Proud to partner with premier California racing venues
           </p>
         </div>
 
-        <div className="grid md:grid-cols-2 gap-6 max-w-5xl mx-auto">
+        <div className="grid md:grid-cols-3 gap-6 max-w-7xl mx-auto">
           {/* Silver Dollar Speedway */}
           <a
             href="https://www.silverdollarspeedway.com"
             target="_blank"
             rel="noopener noreferrer"
-            className="glass-panel p-6 hover:shadow-xl transition-all duration-300 group relative overflow-hidden"
+            className="bg-gradient-to-br from-black/60 to-gray-900/60 backdrop-blur-md border-2 border-white/10 hover:border-brand-gold/50 rounded-xl p-6 hover:shadow-2xl hover:shadow-brand-gold/30 transition-all duration-300 group relative overflow-hidden transform hover:scale-105"
           >
-            <div className="absolute inset-0 bg-gradient-to-br from-brand-gold/10 to-brand-gold-light/10 opacity-0 group-hover:opacity-100 transition-opacity" />
+            <div className="absolute inset-0 bg-gradient-to-br from-brand-gold/0 to-brand-gold/10 opacity-0 group-hover:opacity-100 transition-opacity" />
             <div className="relative">
               <div className="flex items-center justify-end mb-4">
-                <div className="px-2 py-1 rounded-full bg-brand-gold/10 text-brand-gold text-xs font-semibold">
+                <div className="px-3 py-1 rounded-full bg-gradient-to-r from-brand-gold to-amber-600 text-black text-xs font-bold shadow-lg shadow-brand-gold/30">
                   SPONSORED
                 </div>
               </div>
 
-              <div className="mb-4">
+              <div className="mb-6 bg-white/5 rounded-lg p-4 border border-white/10">
                 <img
-                  src="/logo.png"
+                  src="https://images.unsplash.com/photo-1568605117036-5fe5e7bab0b7?w=400&h=200&fit=crop"
                   alt="Silver Dollar Speedway"
-                  className="w-full h-auto object-contain max-h-24 md:max-h-32 mx-auto"
+                  className="w-full h-auto object-contain max-h-24 mx-auto"
                 />
               </div>
 
-              <div className="flex items-center justify-center gap-2 text-sm text-gray-600 dark:text-gray-400 mb-3">
-                <Target className="w-4 h-4" />
-                <span>Chico, California</span>
+              <div className="flex items-center justify-center gap-2 text-sm text-gray-300 mb-3">
+                <Target className="w-4 h-4 text-brand-gold" />
+                <span className="font-semibold">Chico, California</span>
               </div>
 
-              <p className="text-gray-700 dark:text-gray-300 mb-4 text-center">
+              <p className="text-gray-300 mb-4 text-center text-sm leading-relaxed">
                 Home of the legendary Gold Cup Race of Champions and exciting sprint car racing.
                 One of California's premier dirt racing facilities.
               </p>
 
-              <div className="flex items-center justify-center gap-2 text-brand-gold font-semibold group-hover:gap-3 transition-all">
-                <span>Visit Silver Dollar Speedway</span>
+              <div className="flex items-center justify-center gap-2 text-brand-gold font-bold group-hover:gap-3 transition-all">
+                <span>Visit Website</span>
                 <ExternalLink className="w-5 h-5" />
               </div>
             </div>
@@ -1239,36 +1240,76 @@ function SwapMeet() {
             href="https://www.thunderbowlraceway.com"
             target="_blank"
             rel="noopener noreferrer"
-            className="glass-panel p-6 hover:shadow-xl transition-all duration-300 group relative overflow-hidden"
+            className="bg-gradient-to-br from-black/60 to-gray-900/60 backdrop-blur-md border-2 border-white/10 hover:border-brand-gold/50 rounded-xl p-6 hover:shadow-2xl hover:shadow-brand-gold/30 transition-all duration-300 group relative overflow-hidden transform hover:scale-105"
           >
-            <div className="absolute inset-0 bg-gradient-to-br from-brand-gold/10 to-brand-gold-light/10 opacity-0 group-hover:opacity-100 transition-opacity" />
+            <div className="absolute inset-0 bg-gradient-to-br from-brand-gold/0 to-brand-gold/10 opacity-0 group-hover:opacity-100 transition-opacity" />
             <div className="relative">
               <div className="flex items-center justify-end mb-4">
-                <div className="px-2 py-1 rounded-full bg-brand-gold/10 text-brand-gold text-xs font-semibold">
+                <div className="px-3 py-1 rounded-full bg-gradient-to-r from-brand-gold to-amber-600 text-black text-xs font-bold shadow-lg shadow-brand-gold/30">
                   SPONSORED
                 </div>
               </div>
 
-              <div className="mb-4">
+              <div className="mb-6 bg-white/5 rounded-lg p-4 border border-white/10">
                 <img
-                  src="/image (2).png"
+                  src="https://images.unsplash.com/photo-1583531172005-814191b8b6c0?w=400&h=200&fit=crop"
                   alt="Thunderbowl Raceway"
-                  className="w-full h-auto object-contain max-h-24 md:max-h-32 mx-auto"
+                  className="w-full h-auto object-contain max-h-24 mx-auto"
                 />
               </div>
 
-              <div className="flex items-center justify-center gap-2 text-sm text-gray-600 dark:text-gray-400 mb-3">
-                <Target className="w-4 h-4" />
-                <span>Tulare, California</span>
+              <div className="flex items-center justify-center gap-2 text-sm text-gray-300 mb-3">
+                <Target className="w-4 h-4 text-brand-gold" />
+                <span className="font-semibold">Tulare, California</span>
               </div>
 
-              <p className="text-gray-700 dark:text-gray-300 mb-4 text-center">
+              <p className="text-gray-300 mb-4 text-center text-sm leading-relaxed">
                 Home of exciting sprint car racing featuring NARC 410 Sprint Cars and the annual Trophy Cup.
                 One of California's premier dirt racing venues.
               </p>
 
-              <div className="flex items-center justify-center gap-2 text-brand-gold font-semibold group-hover:gap-3 transition-all">
-                <span>Visit Thunderbowl Raceway</span>
+              <div className="flex items-center justify-center gap-2 text-brand-gold font-bold group-hover:gap-3 transition-all">
+                <span>Visit Website</span>
+                <ExternalLink className="w-5 h-5" />
+              </div>
+            </div>
+          </a>
+
+          {/* Marysville Raceway */}
+          <a
+            href="https://www.marysvilleraceway.com"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="bg-gradient-to-br from-black/60 to-gray-900/60 backdrop-blur-md border-2 border-white/10 hover:border-brand-gold/50 rounded-xl p-6 hover:shadow-2xl hover:shadow-brand-gold/30 transition-all duration-300 group relative overflow-hidden transform hover:scale-105"
+          >
+            <div className="absolute inset-0 bg-gradient-to-br from-brand-gold/0 to-brand-gold/10 opacity-0 group-hover:opacity-100 transition-opacity" />
+            <div className="relative">
+              <div className="flex items-center justify-end mb-4">
+                <div className="px-3 py-1 rounded-full bg-gradient-to-r from-brand-gold to-amber-600 text-black text-xs font-bold shadow-lg shadow-brand-gold/30">
+                  SPONSORED
+                </div>
+              </div>
+
+              <div className="mb-6 bg-white/5 rounded-lg p-4 border border-white/10">
+                <img
+                  src="https://images.unsplash.com/photo-1566134101764-b4c1ff4e4171?w=400&h=200&fit=crop"
+                  alt="Marysville Raceway"
+                  className="w-full h-auto object-contain max-h-24 mx-auto"
+                />
+              </div>
+
+              <div className="flex items-center justify-center gap-2 text-sm text-gray-300 mb-3">
+                <Target className="w-4 h-4 text-brand-gold" />
+                <span className="font-semibold">Marysville, California</span>
+              </div>
+
+              <p className="text-gray-300 mb-4 text-center text-sm leading-relaxed">
+                Known as the "Action Track of the West," featuring competitive sprint car racing on a quarter-mile clay oval.
+                A California racing tradition.
+              </p>
+
+              <div className="flex items-center justify-center gap-2 text-brand-gold font-bold group-hover:gap-3 transition-all">
+                <span>Visit Website</span>
                 <ExternalLink className="w-5 h-5" />
               </div>
             </div>
@@ -1278,9 +1319,9 @@ function SwapMeet() {
 
       {/* Advertisement Spaces */}
       <div className="grid md:grid-cols-2 gap-6">
-        <div className="glass-panel p-6 bg-gradient-to-br from-purple-500/10 to-blue-500/10">
-          <h3 className="text-xl font-bold mb-2">Premium Advertising Space</h3>
-          <p className="text-gray-600 dark:text-gray-400 mb-4">
+        <div className="bg-gradient-to-br from-gray-900/95 to-black/95 backdrop-blur-xl border-2 border-white/10 hover:border-purple-500/30 rounded-2xl p-6 shadow-xl hover:shadow-purple-500/20 transition-all">
+          <h3 className="text-xl font-bold mb-2 text-white">Premium Advertising Space</h3>
+          <p className="text-gray-300 mb-4">
             Reach thousands of potential customers with premium placement.
           </p>
           <button
@@ -1301,9 +1342,9 @@ function SwapMeet() {
           </button>
         </div>
 
-        <div className="glass-panel p-6 bg-gradient-to-br from-green-500/10 to-emerald-500/10">
-          <h3 className="text-xl font-bold mb-2">Featured Listing Spots</h3>
-          <p className="text-gray-600 dark:text-gray-400 mb-4">
+        <div className="bg-gradient-to-br from-gray-900/95 to-black/95 backdrop-blur-xl border-2 border-white/10 hover:border-green-500/30 rounded-2xl p-6 shadow-xl hover:shadow-green-500/20 transition-all">
+          <h3 className="text-xl font-bold mb-2 text-white">Featured Listing Spots</h3>
+          <p className="text-gray-300 mb-4">
             Get more visibility for your listings with featured placement.
           </p>
           <button
