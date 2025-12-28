@@ -99,12 +99,13 @@ function Home() {
       {/* Vehicle Selection Section - Enhanced */}
       <div className="glass-panel p-8 transform hover:scale-[1.02] transition-all duration-300 relative overflow-hidden shadow-2xl">
         <div
-          className="absolute inset-0 opacity-80"
+          className="absolute inset-0"
           style={{
-            backgroundImage: 'url(/download_(2).jpg)',
+            backgroundImage: 'url(/golden-background-fyu1w5e7381zw74q.jpg)',
             backgroundSize: 'cover',
             backgroundPosition: 'center',
-            backgroundRepeat: 'no-repeat'
+            backgroundRepeat: 'no-repeat',
+            filter: 'brightness(0.8)'
           }}
         ></div>
         <div className="absolute inset-0 bg-gradient-to-br from-black/40 via-gray-900/30 to-black/40"></div>
