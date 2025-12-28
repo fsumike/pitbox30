@@ -525,10 +525,10 @@ function SwapMeet() {
             <select
               value={selectedCategory}
               onChange={(e) => setSelectedCategory(e.target.value.toLowerCase().replace(/ /g, '-'))}
-              className="w-full pl-10 pr-10 py-3 rounded-xl bg-white dark:bg-gray-800 border-2 border-gray-200 dark:border-white/10 focus:border-brand-gold focus:ring-2 focus:ring-brand-gold/50 appearance-none transition-all"
+              className="w-full pl-10 pr-10 py-3 rounded-xl bg-white dark:bg-gray-800 text-gray-900 dark:text-white border-2 border-gray-200 dark:border-white/10 focus:border-brand-gold focus:ring-2 focus:ring-brand-gold/50 appearance-none transition-all"
             >
               {categories.map(cat => (
-                <option key={cat} value={cat.toLowerCase().replace(/ /g, '-')} className="bg-white dark:bg-gray-900">
+                <option key={cat} value={cat.toLowerCase().replace(/ /g, '-')} className="bg-white dark:bg-gray-900 text-gray-900 dark:text-white">
                   {cat}
                 </option>
               ))}
@@ -542,12 +542,12 @@ function SwapMeet() {
             <select
               value={sortBy}
               onChange={(e) => setSortBy(e.target.value as any)}
-              className="w-full pl-10 pr-10 py-3 rounded-xl bg-white dark:bg-gray-800 border-2 border-gray-200 dark:border-white/10 focus:border-brand-gold focus:ring-2 focus:ring-brand-gold/50 appearance-none transition-all"
+              className="w-full pl-10 pr-10 py-3 rounded-xl bg-white dark:bg-gray-800 text-gray-900 dark:text-white border-2 border-gray-200 dark:border-white/10 focus:border-brand-gold focus:ring-2 focus:ring-brand-gold/50 appearance-none transition-all"
             >
-              <option value="recent" className="bg-white dark:bg-gray-900">Most Recent</option>
-              <option value="price-low" className="bg-white dark:bg-gray-900">Price: Low to High</option>
-              <option value="price-high" className="bg-white dark:bg-gray-900">Price: High to Low</option>
-              <option value="popular" className="bg-white dark:bg-gray-900">Most Popular</option>
+              <option value="recent" className="bg-white dark:bg-gray-900 text-gray-900 dark:text-white">Most Recent</option>
+              <option value="price-low" className="bg-white dark:bg-gray-900 text-gray-900 dark:text-white">Price: Low to High</option>
+              <option value="price-high" className="bg-white dark:bg-gray-900 text-gray-900 dark:text-white">Price: High to Low</option>
+              <option value="popular" className="bg-white dark:bg-gray-900 text-gray-900 dark:text-white">Most Popular</option>
             </select>
             <ChevronDown className="absolute right-3 top-1/2 -translate-y-1/2 text-brand-gold pointer-events-none" />
           </div>
@@ -746,7 +746,7 @@ function SwapMeet() {
                     className="w-full px-4 py-3 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-gray-900 dark:text-white appearance-none cursor-pointer hover:border-gray-400 dark:hover:border-gray-500 transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500"
                   >
                     {vehicleTypes.map(type => (
-                      <option key={type.value} value={type.value}>{type.label}</option>
+                      <option key={type.value} value={type.value} className="bg-white dark:bg-gray-900 text-gray-900 dark:text-white">{type.label}</option>
                     ))}
                   </select>
                   <ChevronDown className="absolute right-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-500 pointer-events-none" />
@@ -763,7 +763,7 @@ function SwapMeet() {
                     className="w-full px-4 py-3 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-gray-900 dark:text-white appearance-none cursor-pointer hover:border-gray-400 dark:hover:border-gray-500 transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500"
                   >
                     {conditions.map(cond => (
-                      <option key={cond.value} value={cond.value}>{cond.label}</option>
+                      <option key={cond.value} value={cond.value} className="bg-white dark:bg-gray-900 text-gray-900 dark:text-white">{cond.label}</option>
                     ))}
                   </select>
                   <ChevronDown className="absolute right-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-500 pointer-events-none" />
