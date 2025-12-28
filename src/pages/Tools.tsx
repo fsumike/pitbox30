@@ -138,7 +138,7 @@ export default function Tools() {
   const activeToolData = tools.find(t => t.id === activeTool);
   const isNative = Capacitor.isNativePlatform();
 
-  const handleDropdownClick = () => {
+  const updateDropdownPosition = () => {
     if (buttonRef.current) {
       const rect = buttonRef.current.getBoundingClientRect();
       setDropdownPos({
@@ -147,22 +147,38 @@ export default function Tools() {
         width: rect.width
       });
     }
+  };
+
+  const handleDropdownClick = () => {
     setShowDropdown(!showDropdown);
+    setTimeout(() => updateDropdownPosition(), 0);
   };
 
   useEffect(() => {
+    if (!showDropdown) return;
+
+    updateDropdownPosition();
+
+    const handleScroll = () => {
+      updateDropdownPosition();
+    };
+
     const handleClickOutside = (event: MouseEvent) => {
-      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
-        if (buttonRef.current && !buttonRef.current.contains(event.target as Node)) {
+      const target = event.target as Node;
+      if (dropdownRef.current && !dropdownRef.current.contains(target)) {
+        if (buttonRef.current && !buttonRef.current.contains(target)) {
           setShowDropdown(false);
         }
       }
     };
 
-    if (showDropdown) {
-      document.addEventListener('mousedown', handleClickOutside);
-      return () => document.removeEventListener('mousedown', handleClickOutside);
-    }
+    window.addEventListener('scroll', handleScroll, true);
+    document.addEventListener('mousedown', handleClickOutside);
+
+    return () => {
+      window.removeEventListener('scroll', handleScroll, true);
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
   }, [showDropdown]);
 
   const handleToolChange = (toolId: string) => {
@@ -237,8 +253,9 @@ export default function Tools() {
               {showDropdown && (
                 <>
                   <div
-                    className="fixed inset-0 z-40"
+                    className="fixed inset-0 z-40 cursor-pointer"
                     onClick={() => setShowDropdown(false)}
+                    style={{ pointerEvents: 'auto' }}
                     aria-hidden="true"
                   />
                   <motion.div
@@ -252,7 +269,8 @@ export default function Tools() {
                       top: `${dropdownPos.top}px`,
                       left: `${Math.max(8, dropdownPos.left)}px`,
                       width: `${dropdownPos.width}px`,
-                      maxWidth: 'calc(100vw - 16px)'
+                      maxWidth: 'calc(100vw - 16px)',
+                      pointerEvents: 'auto'
                     }}
                     role="listbox"
                   >
