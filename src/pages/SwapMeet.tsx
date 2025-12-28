@@ -426,14 +426,14 @@ function SwapMeet() {
             <div className="space-y-3">
               <div className="flex items-center justify-center md:justify-start gap-2 text-brand-gold">
                 <ShoppingBag className="w-6 h-6" />
-                <h2 className="text-xl md:text-2xl font-semibold text-white">
+                <h2 className="text-xl md:text-2xl font-semibold text-gray-900 dark:text-white">
                   Welcome to
                 </h2>
               </div>
               <h1 className="text-5xl md:text-6xl font-black bg-gradient-to-r from-brand-gold via-amber-400 to-brand-gold bg-clip-text text-transparent mb-2 drop-shadow-lg">
                 Swap Meet
               </h1>
-              <p className="text-xl text-gray-300 font-medium flex items-center justify-center md:justify-start gap-2">
+              <p className="text-xl text-gray-600 dark:text-gray-300 font-medium flex items-center justify-center md:justify-start gap-2">
                 <Tag className="w-5 h-5 text-brand-gold" />
                 Where buyers and sellers connect
               </p>
@@ -454,11 +454,11 @@ function SwapMeet() {
         <div className="mt-12 grid grid-cols-1 md:grid-cols-3 gap-6">
           <button
             onClick={() => navigate('/home')}
-            className="glass-panel p-6 rounded-xl text-center transform hover:scale-105 transition-all duration-300 relative group shadow-xl hover:shadow-brand-gold/20"
+            className="glass-panel p-6 rounded-xl text-center transform hover:scale-105 transition-all duration-300 relative group shadow-xl hover:shadow-brand-gold/20 bg-white/80 dark:bg-white/5"
           >
             <Settings className="w-10 h-10 text-brand-gold mx-auto mb-3 drop-shadow-[0_0_10px_rgba(234,179,8,0.5)]" />
-            <div className="text-lg font-bold mb-2 text-white">Setup Management</div>
-            <p className="text-sm text-gray-300 mt-2">
+            <div className="text-lg font-bold mb-2 text-gray-900 dark:text-white">Setup Management</div>
+            <p className="text-sm text-gray-600 dark:text-gray-300 mt-2">
               Access our professional-grade setup tools to fine-tune your racing machine for peak performance
             </p>
             <div className="flex items-center justify-center gap-1 mt-4 text-brand-gold font-semibold">
@@ -469,11 +469,11 @@ function SwapMeet() {
 
           <button
             onClick={() => navigate('/community')}
-            className="glass-panel p-6 rounded-xl text-center transform hover:scale-105 transition-all duration-300 relative group shadow-xl hover:shadow-brand-gold/20"
+            className="glass-panel p-6 rounded-xl text-center transform hover:scale-105 transition-all duration-300 relative group shadow-xl hover:shadow-brand-gold/20 bg-white/80 dark:bg-white/5"
           >
             <Users className="w-10 h-10 text-brand-gold mx-auto mb-3 drop-shadow-[0_0_10px_rgba(234,179,8,0.5)]" />
-            <div className="text-lg font-bold mb-2 text-white">Racing Community</div>
-            <p className="text-sm text-gray-300 mt-2">
+            <div className="text-lg font-bold mb-2 text-gray-900 dark:text-white">Racing Community</div>
+            <p className="text-sm text-gray-600 dark:text-gray-300 mt-2">
               Connect with fellow racers, share experiences, and stay updated with the latest racing insights
             </p>
             <div className="flex items-center justify-center gap-1 mt-4 text-brand-gold font-semibold">
@@ -484,11 +484,11 @@ function SwapMeet() {
 
           <button
             onClick={() => navigate('/affiliates')}
-            className="glass-panel p-6 rounded-xl text-center transform hover:scale-105 transition-all duration-300 relative group shadow-xl hover:shadow-brand-gold/20"
+            className="glass-panel p-6 rounded-xl text-center transform hover:scale-105 transition-all duration-300 relative group shadow-xl hover:shadow-brand-gold/20 bg-white/80 dark:bg-white/5"
           >
             <Shield className="w-10 h-10 text-brand-gold mx-auto mb-3 drop-shadow-[0_0_10px_rgba(234,179,8,0.5)]" />
-            <div className="text-lg font-bold mb-2 text-white">Partner Network</div>
-            <p className="text-sm text-gray-300 mt-2">
+            <div className="text-lg font-bold mb-2 text-gray-900 dark:text-white">Partner Network</div>
+            <p className="text-sm text-gray-600 dark:text-gray-300 mt-2">
               Explore our trusted network of racing partners, suppliers, and industry experts
             </p>
             <div className="flex items-center justify-center gap-1 mt-4 text-brand-gold font-semibold">
