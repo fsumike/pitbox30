@@ -86,13 +86,15 @@ function Home() {
                 <img
                   src="/android-icon-512-512.png"
                   alt="PIT-BOX.COM Logo"
-                  width="256"
-                  height="256"
-                  className="w-48 h-48 sm:w-56 sm:h-56 md:w-64 md:h-64 object-contain drop-shadow-2xl transform hover:scale-105 transition-transform duration-300"
+                  width="320"
+                  height="320"
+                  className="w-56 h-56 sm:w-64 sm:h-64 md:w-80 md:h-80 object-contain drop-shadow-2xl transform hover:scale-105 transition-transform duration-300"
                 />
               </div>
               <div className="text-center md:text-left flex-1">
-                <p className="text-amber-400 font-semibold text-lg sm:text-xl mb-2 tracking-wide uppercase">
+                <p className="text-amber-400 font-extrabold text-xl sm:text-2xl md:text-3xl mb-3 tracking-wide uppercase drop-shadow-lg" style={{
+                  textShadow: '0 0 20px rgba(251, 191, 36, 0.6)'
+                }}>
                   Your Racing Setup Tool
                 </p>
                 <h1 className="text-4xl font-bold tracking-tight text-white sm:text-5xl md:text-6xl mb-4 leading-tight">
