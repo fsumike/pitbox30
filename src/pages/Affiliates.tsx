@@ -60,7 +60,7 @@ function Affiliates() {
       </div>
 
       {/* Hero Section with Logo */}
-      <div className="carbon-fiber-panel p-8 bg-gradient-to-br from-brand-gold/10 to-brand-gold-dark/10">
+      <div className="carbon-fiber-panel p-8 bg-gradient-to-br from-brand-gold/25 to-brand-gold-dark/20">
         <div className="max-w-4xl mx-auto">
           <div className="flex flex-col items-center mb-12">
             <img 
@@ -201,7 +201,7 @@ function Affiliates() {
 
       {/* Partnership Benefits */}
       <div className="grid md:grid-cols-2 gap-8">
-        <div className="glass-panel p-8 bg-gradient-to-br from-brand-gold/5 to-transparent">
+        <div className="glass-panel p-8 bg-white/80 dark:bg-gray-800/50">
           <h2 className="text-2xl font-bold mb-6">Premium Benefits</h2>
           <div className="space-y-4">
             <div className="flex items-center gap-4">
@@ -223,7 +223,7 @@ function Affiliates() {
           </div>
         </div>
 
-        <div className="glass-panel p-8 bg-gradient-to-br from-brand-gold/5 to-transparent">
+        <div className="glass-panel p-8 bg-white/80 dark:bg-gray-800/50">
           <h2 className="text-2xl font-bold mb-6">Exclusive Features</h2>
           <div className="space-y-4">
             <div className="flex items-center gap-4">
@@ -247,7 +247,7 @@ function Affiliates() {
       </div>
 
       {/* Sponsored Affiliates */}
-      <div className="glass-panel p-8">
+      <div className="glass-panel p-8 bg-white/80 dark:bg-gray-800/50">
         <div className="text-center mb-8">
           <h2 className="text-3xl font-bold mb-4 bg-gradient-to-r from-brand-gold to-brand-gold-light bg-clip-text text-transparent">
             Our Sponsored Affiliates
@@ -263,7 +263,7 @@ function Affiliates() {
             href="https://www.silverdollarspeedway.com"
             target="_blank"
             rel="noopener noreferrer"
-            className="glass-panel p-6 hover:shadow-xl transition-all duration-300 group relative overflow-hidden"
+            className="glass-panel p-6 hover:shadow-xl transition-all duration-300 group relative overflow-hidden bg-white/80 dark:bg-gray-800/50"
           >
             <div className="absolute inset-0 bg-gradient-to-br from-brand-gold/5 to-brand-gold-light/5 opacity-0 group-hover:opacity-100 transition-opacity" />
             <div className="relative">
@@ -303,7 +303,7 @@ function Affiliates() {
             href="https://www.thunderbowlraceway.com"
             target="_blank"
             rel="noopener noreferrer"
-            className="glass-panel p-6 hover:shadow-xl transition-all duration-300 group relative overflow-hidden"
+            className="glass-panel p-6 hover:shadow-xl transition-all duration-300 group relative overflow-hidden bg-white/80 dark:bg-gray-800/50"
           >
             <div className="absolute inset-0 bg-gradient-to-br from-brand-gold/5 to-brand-gold-light/5 opacity-0 group-hover:opacity-100 transition-opacity" />
             <div className="relative">
@@ -343,7 +343,7 @@ function Affiliates() {
             href="https://www.marysvilleraceway.com"
             target="_blank"
             rel="noopener noreferrer"
-            className="glass-panel p-6 hover:shadow-xl transition-all duration-300 group relative overflow-hidden"
+            className="glass-panel p-6 hover:shadow-xl transition-all duration-300 group relative overflow-hidden bg-white/80 dark:bg-gray-800/50"
           >
             <div className="absolute inset-0 bg-gradient-to-br from-brand-gold/5 to-brand-gold-light/5 opacity-0 group-hover:opacity-100 transition-opacity" />
             <div className="relative">
@@ -381,7 +381,7 @@ function Affiliates() {
       </div>
 
       {/* Call to Action */}
-      <div className="carbon-fiber-panel p-8 bg-gradient-to-br from-brand-gold/10 to-brand-gold-dark/10 text-center">
+      <div className="carbon-fiber-panel p-8 bg-gradient-to-br from-brand-gold/25 to-brand-gold-dark/20 text-center">
         <div className="flex flex-col items-center">
           <img
             src="/android-icon-192-192.png"

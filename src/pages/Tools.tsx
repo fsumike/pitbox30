@@ -152,7 +152,7 @@ export default function Tools() {
 
   return (
     <div className="min-h-screen pb-20 safe-area-bottom">
-      <div className="carbon-fiber-panel p-4 sm:p-6 mb-4 sm:mb-6 bg-gradient-to-br from-blue-500/10 to-orange-500/10 safe-area-top">
+      <div className="carbon-fiber-panel p-4 sm:p-6 mb-4 sm:mb-6 bg-gradient-to-br from-blue-500/30 to-orange-500/30 safe-area-top">
         <div className="flex items-center gap-3 mb-4 sm:mb-6">
           <button
             onClick={handleBackClick}
@@ -233,7 +233,7 @@ export default function Tools() {
             className="space-y-6"
           >
             {/* Hero Promo Section */}
-            <div className="carbon-fiber-panel p-8 bg-gradient-to-br from-brand-gold/10 to-brand-gold-dark/10 text-center">
+            <div className="carbon-fiber-panel p-8 bg-gradient-to-br from-brand-gold/25 to-brand-gold-dark/20 text-center">
               <div className="mb-6">
                 <Wrench className="w-16 h-16 text-brand-gold mx-auto mb-4 animate-pulse" />
                 <h2 className="text-3xl md:text-4xl font-bold mb-4 text-gold-gradient">
@@ -283,7 +283,7 @@ export default function Tools() {
             </div>
 
             {/* Available Tools List */}
-            <div className="glass-panel p-8 bg-gradient-to-br from-blue-500/5 to-purple-500/5">
+            <div className="glass-panel p-8 bg-gradient-to-br from-blue-500/20 to-purple-500/20">
               <h3 className="text-2xl font-bold mb-6 text-center">
                 12 Professional Tools at Your Fingertips
               </h3>
@@ -291,7 +291,7 @@ export default function Tools() {
                 {tools.map((tool) => (
                   <div
                     key={tool.id}
-                    className="flex items-center gap-3 p-4 rounded-lg bg-white/50 dark:bg-gray-800/50 hover:bg-white dark:hover:bg-gray-800 transition-all cursor-pointer"
+                    className="flex items-center gap-3 p-4 rounded-lg bg-white/80 dark:bg-gray-700/60 hover:bg-white dark:hover:bg-gray-700 transition-all cursor-pointer"
                     onClick={() => handleToolChange(tool.id)}
                   >
                     {React.createElement(tool.icon, {
@@ -309,7 +309,7 @@ export default function Tools() {
             </div>
 
             {/* CTA Section */}
-            <div className="glass-panel p-8 text-center bg-gradient-to-br from-brand-gold/20 via-brand-gold/10 to-brand-gold/5">
+            <div className="glass-panel p-8 text-center bg-gradient-to-br from-brand-gold/35 via-brand-gold/25 to-brand-gold/20">
               <h3 className="text-2xl font-bold mb-4">Ready to Win More Races?</h3>
               <p className="text-lg text-gray-700 dark:text-gray-300 mb-6 max-w-2xl mx-auto">
                 Select a tool from the dropdown above and start making better decisions today.

@@ -71,7 +71,7 @@ function SocialMedia() {
 
   return (
     <div className="space-y-12 pb-16">
-      <div className="glass-panel p-8 bg-gradient-to-br from-brand-gold/10 to-brand-gold-dark/10">
+      <div className="glass-panel p-8 bg-gradient-to-br from-brand-gold/25 to-brand-gold-dark/20">
         <div className="text-center mb-8">
           <div className="flex items-center justify-center gap-3 mb-4">
             <img
@@ -96,7 +96,7 @@ function SocialMedia() {
             return (
               <div
                 key={account.name}
-                className={`glass-panel p-6 ${
+                className={`glass-panel p-6 bg-white/80 dark:bg-gray-800/50 ${
                   account.active
                     ? 'hover:shadow-xl transition-all duration-300 cursor-pointer'
                     : 'opacity-60'
@@ -142,7 +142,7 @@ function SocialMedia() {
         </div>
       </div>
 
-      <div className="glass-panel p-8">
+      <div className="glass-panel p-8 bg-white/80 dark:bg-gray-800/50">
         <div className="text-center mb-8">
           <Heart className="w-12 h-12 text-brand-gold mx-auto mb-4" />
           <h2 className="text-3xl font-bold mb-4">Why Follow Us?</h2>
@@ -184,7 +184,7 @@ function SocialMedia() {
         </div>
       </div>
 
-      <div className="glass-panel p-8 bg-gradient-to-br from-blue-50/50 to-cyan-50/50 dark:from-blue-900/10 dark:to-cyan-900/10">
+      <div className="glass-panel p-8 bg-white/80 dark:bg-gray-800/50">
         <div className="text-center mb-6">
           <div className="w-16 h-16 bg-gradient-to-br from-brand-gold to-orange-500 rounded-full flex items-center justify-center mx-auto mb-4">
             <MessageCircle className="w-8 h-8 text-white" />
@@ -207,7 +207,7 @@ function SocialMedia() {
         </div>
       </div>
 
-      <div className="glass-panel p-8 bg-gradient-to-br from-brand-gold/5 to-brand-gold-dark/5 text-center">
+      <div className="glass-panel p-8 bg-white/80 dark:bg-gray-800/50 text-center">
         <h2 className="text-2xl font-bold mb-4">Have Questions?</h2>
         <p className="text-gray-600 dark:text-gray-400 mb-6">
           Reach out to us on Instagram for support, feedback, or just to say hi!

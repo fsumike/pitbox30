@@ -49,7 +49,7 @@ function Contact() {
   return (
     <div className="space-y-8">
       {/* Hero Section */}
-      <div className="carbon-fiber-panel p-8 bg-gradient-to-br from-brand-gold/10 to-brand-gold-dark/10">
+      <div className="carbon-fiber-panel p-8 bg-gradient-to-br from-brand-gold/25 to-brand-gold-dark/20">
         <div className="flex flex-col md:flex-row items-center gap-8">
           <div className="flex-1">
             <h1 className="text-4xl font-bold mb-6 bg-gradient-to-r from-brand-gold to-brand-gold-light bg-clip-text text-transparent">
@@ -305,7 +305,7 @@ function Contact() {
       </div>
 
       {/* Contact Info */}
-      <div className="glass-panel p-8">
+      <div className="glass-panel p-8 bg-white/80 dark:bg-gray-800/50">
         <div className="text-center mb-8">
           <h2 className="text-2xl font-bold mb-4">Contact Information</h2>
         </div>
@@ -356,7 +356,7 @@ function Contact() {
       </div>
 
       {/* Social Media */}
-      <div className="glass-panel p-8 text-center">
+      <div className="glass-panel p-8 text-center bg-white/80 dark:bg-gray-800/50">
         <Globe className="w-12 h-12 text-brand-gold mx-auto mb-4" />
         <h2 className="text-2xl font-bold mb-4">Follow Us</h2>
         <p className="text-gray-600 dark:text-gray-400 mb-6">
@@ -408,7 +408,7 @@ function Contact() {
 
       {/* Benefits Section */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-        <div className="glass-panel p-6 text-center transform hover:scale-105 transition-all duration-300">
+        <div className="glass-panel p-6 text-center transform hover:scale-105 transition-all duration-300 bg-white/80 dark:bg-gray-800/50">
           <Trophy className="w-8 h-8 text-brand-gold mx-auto mb-2" />
           <div className="text-lg font-semibold">Racing Excellence</div>
           <p className="text-sm text-gray-600 dark:text-gray-400 mt-2">
@@ -416,7 +416,7 @@ function Contact() {
           </p>
         </div>
 
-        <div className="glass-panel p-6 text-center transform hover:scale-105 transition-all duration-300">
+        <div className="glass-panel p-6 text-center transform hover:scale-105 transition-all duration-300 bg-white/80 dark:bg-gray-800/50">
           <Users className="w-8 h-8 text-brand-gold mx-auto mb-2" />
           <div className="text-lg font-semibold">Community</div>
           <p className="text-sm text-gray-600 dark:text-gray-400 mt-2">
@@ -424,7 +424,7 @@ function Contact() {
           </p>
         </div>
 
-        <div className="glass-panel p-6 text-center transform hover:scale-105 transition-all duration-300">
+        <div className="glass-panel p-6 text-center transform hover:scale-105 transition-all duration-300 bg-white/80 dark:bg-gray-800/50">
           <Globe className="w-8 h-8 text-brand-gold mx-auto mb-2" />
           <div className="text-lg font-semibold">Global Access</div>
           <p className="text-sm text-gray-600 dark:text-gray-400 mt-2">
@@ -432,7 +432,7 @@ function Contact() {
           </p>
         </div>
 
-        <div className="glass-panel p-6 text-center transform hover:scale-105 transition-all duration-300">
+        <div className="glass-panel p-6 text-center transform hover:scale-105 transition-all duration-300 bg-white/80 dark:bg-gray-800/50">
           <Award className="w-8 h-8 text-brand-gold mx-auto mb-2" />
           <div className="text-lg font-semibold">Expert Support</div>
           <p className="text-sm text-gray-600 dark:text-gray-400 mt-2">
@@ -442,7 +442,7 @@ function Contact() {
       </div>
 
       {/* Thank You Section */}
-      <div className="glass-panel p-8 text-center bg-gradient-to-br from-brand-gold/5 via-brand-gold/10 to-brand-gold/5">
+      <div className="glass-panel p-8 text-center bg-white/80 dark:bg-gray-800/50">
         <div className="max-w-3xl mx-auto">
           <Heart className="w-16 h-16 text-brand-gold mx-auto mb-6 animate-pulse" />
           <h2 className="text-3xl font-bold mb-6 bg-gradient-to-r from-brand-gold to-brand-gold-light bg-clip-text text-transparent">

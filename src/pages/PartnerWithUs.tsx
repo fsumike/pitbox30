@@ -94,7 +94,7 @@ function PartnerWithUs() {
   return (
     <div className="space-y-8">
       {/* Hero Section */}
-      <div className="glass-panel p-8 bg-gradient-to-br from-brand-gold/10 to-brand-gold-dark/10">
+      <div className="glass-panel p-8 bg-gradient-to-br from-brand-gold/25 to-brand-gold-dark/20">
         <button
           onClick={() => navigate('/affiliates')}
           className="flex items-center gap-2 text-gray-600 dark:text-gray-400 hover:text-brand-gold transition-colors mb-6"
@@ -115,7 +115,7 @@ function PartnerWithUs() {
       </div>
 
       {/* Partnership Benefits */}
-      <div className="glass-panel p-8">
+      <div className="glass-panel p-8 bg-white/80 dark:bg-gray-800/50">
         <h2 className="text-3xl font-bold text-center mb-12">Why Partner With PIT-BOX.COM?</h2>
         
         <div className="grid md:grid-cols-3 gap-8">
@@ -153,7 +153,7 @@ function PartnerWithUs() {
 
       {/* Partnership Opportunities */}
       <div className="grid md:grid-cols-2 gap-8">
-        <div className="glass-panel p-8 bg-gradient-to-br from-blue-500/10 to-indigo-500/10">
+        <div className="glass-panel p-8 bg-white/80 dark:bg-gray-800/50">
           <h2 className="text-2xl font-bold mb-6">Premium Advertising</h2>
           <div className="space-y-4">
             <div className="flex items-center gap-4">
@@ -175,7 +175,7 @@ function PartnerWithUs() {
           </div>
         </div>
 
-        <div className="glass-panel p-8 bg-gradient-to-br from-purple-500/10 to-pink-500/10">
+        <div className="glass-panel p-8 bg-white/80 dark:bg-gray-800/50">
           <h2 className="text-2xl font-bold mb-6">Strategic Partnerships</h2>
           <div className="space-y-4">
             <div className="flex items-center gap-4">
@@ -199,7 +199,7 @@ function PartnerWithUs() {
       </div>
 
       {/* Success Stories */}
-      <div className="glass-panel p-8">
+      <div className="glass-panel p-8 bg-white/80 dark:bg-gray-800/50">
         <h2 className="text-3xl font-bold text-center mb-8">Partner Success Stories</h2>
         
         <div className="grid md:grid-cols-2 gap-8">
@@ -240,7 +240,7 @@ function PartnerWithUs() {
       </div>
 
       {/* Partnership Inquiry Form */}
-      <div className="glass-panel p-8">
+      <div className="glass-panel p-8 bg-white/80 dark:bg-gray-800/50">
         <h2 className="text-3xl font-bold text-center mb-8">Start the Conversation</h2>
         
         {error && (
@@ -383,7 +383,7 @@ function PartnerWithUs() {
       </div>
 
       {/* Call to Action */}
-      <div className="glass-panel p-8 bg-gradient-to-br from-brand-gold/10 to-brand-gold-dark/10 text-center">
+      <div className="glass-panel p-8 bg-gradient-to-br from-brand-gold/25 to-brand-gold-dark/20 text-center">
         <div className="max-w-3xl mx-auto">
           <h2 className="text-3xl font-bold mb-6">Ready to Transform Racing Together?</h2>
           <p className="text-xl text-gray-700 dark:text-gray-300 mb-8 leading-relaxed">

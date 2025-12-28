@@ -21,9 +21,9 @@ function ContactModal({ listing, onClose }: ContactModalProps) {
   const { startChat } = useChat();
 
   return (
-    <div className="fixed inset-0 z-[1200] flex items-center justify-center p-4 bg-black/80 backdrop-blur-md">
+    <div className="fixed inset-0 z-[1200] flex items-center justify-center p-4 bg-black/50 backdrop-blur-md">
       <motion.div
-        className="bg-gradient-to-br from-gray-900 to-black border-2 border-brand-gold/30 rounded-2xl shadow-2xl shadow-brand-gold/20 w-full max-w-md"
+        className="bg-gradient-to-br from-gray-100 to-gray-50 border-2 border-brand-gold/30 rounded-2xl shadow-2xl shadow-brand-gold/20 w-full max-w-md"
         onClick={e => e.stopPropagation()}
         initial={{ opacity: 0, scale: 0.9 }}
         animate={{ opacity: 1, scale: 1 }}
@@ -32,44 +32,44 @@ function ContactModal({ listing, onClose }: ContactModalProps) {
         <div className="relative p-6">
           <button
             onClick={onClose}
-            className="absolute top-4 right-4 p-2 hover:bg-white/10 rounded-full text-gray-300 hover:text-white transition-colors"
+            className="absolute top-4 right-4 p-2 hover:bg-black/10 rounded-full text-gray-700 hover:text-gray-900 transition-colors"
           >
             <X className="w-6 h-6" />
           </button>
 
           <div className="mb-6">
-            <h2 className="text-2xl font-bold text-white mb-2">Contact Seller</h2>
-            <p className="text-gray-300">
+            <h2 className="text-2xl font-bold text-gray-900 mb-2">Contact Seller</h2>
+            <p className="text-gray-700">
               {listing.title}
             </p>
           </div>
 
           <div className="space-y-4">
             {listing.contact_phone && (
-              <div className="flex items-center gap-4 p-4 rounded-xl bg-black/40 border border-green-500/30">
+              <div className="flex items-center gap-4 p-4 rounded-xl bg-green-100/60 border border-green-400/50">
                 <div className="w-10 h-10 rounded-full bg-green-600/20 border border-green-400/30 flex items-center justify-center">
-                  <Phone className="w-5 h-5 text-green-400" />
+                  <Phone className="w-5 h-5 text-green-600" />
                 </div>
                 <div>
-                  <p className="text-sm text-gray-400">Phone</p>
-                  <p className="text-lg font-semibold text-white">{listing.contact_phone}</p>
+                  <p className="text-sm text-gray-700">Phone</p>
+                  <p className="text-lg font-semibold text-gray-900">{listing.contact_phone}</p>
                 </div>
               </div>
             )}
 
             {listing.contact_email && (
-              <div className="flex items-center gap-4 p-4 rounded-xl bg-black/40 border border-blue-500/30">
+              <div className="flex items-center gap-4 p-4 rounded-xl bg-blue-100/60 border border-blue-400/50">
                 <div className="w-10 h-10 rounded-full bg-blue-600/20 border border-blue-400/30 flex items-center justify-center">
-                  <Mail className="w-5 h-5 text-blue-400" />
+                  <Mail className="w-5 h-5 text-blue-600" />
                 </div>
                 <div>
-                  <p className="text-sm text-gray-400">Email</p>
-                  <p className="text-lg font-semibold text-white">{listing.contact_email}</p>
+                  <p className="text-sm text-gray-700">Email</p>
+                  <p className="text-lg font-semibold text-gray-900">{listing.contact_email}</p>
                 </div>
               </div>
             )}
 
-            <div className="mt-6 pt-6 border-t border-white/10">
+            <div className="mt-6 pt-6 border-t border-gray-300">
               <ChatButton
                 recipientId={listing.user_id}
                 onStartChat={(id) => {
@@ -81,7 +81,7 @@ function ContactModal({ listing, onClose }: ContactModalProps) {
             </div>
 
             {listing.preferred_contact && (
-              <div className="text-sm text-gray-400 text-center">
+              <div className="text-sm text-gray-700 text-center">
                 <p>Preferred contact method: <span className="text-brand-gold font-semibold">{listing.preferred_contact}</span></p>
               </div>
             )}
@@ -568,9 +568,9 @@ function SwapMeet() {
             initial={{ opacity: 0, height: 0 }}
             animate={{ opacity: 1, height: 'auto' }}
             exit={{ opacity: 0, height: 0 }}
-            className="mt-6 p-6 glass-panel space-y-4"
+            className="mt-6 p-6 glass-panel space-y-4 bg-white/80 dark:bg-gray-800/50"
           >
-            <h3 className="text-lg font-semibold mb-4 text-white">Advanced Filters</h3>
+            <h3 className="text-lg font-semibold mb-4 text-gray-900 dark:text-white">Advanced Filters</h3>
 
             {/* Distance Filter Section */}
             <div className="mb-6 p-4 rounded-lg bg-gradient-to-r from-blue-50 to-cyan-50 dark:from-blue-900/20 dark:to-cyan-900/20 border border-blue-200 dark:border-blue-800">
