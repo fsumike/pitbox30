@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Search, MapPin, Filter, ChevronDown, Camera, DollarSign, Clock, Share2, Heart, Lock, Users, Loader2, Phone, Mail, X, Settings, Shield, Check, ExternalLink, Bookmark, BookmarkCheck, Plus, AlertCircle, Trash2, ShoppingBag, Clock as Click, Flag, Target, Navigation, ChevronLeft, ChevronRight } from 'lucide-react';
+import { Search, MapPin, Filter, ChevronDown, Camera, DollarSign, Clock, Share2, Heart, Lock, Users, Loader2, Phone, Mail, X, Settings, Shield, Check, ExternalLink, Bookmark, BookmarkCheck, Plus, AlertCircle, Trash2, ShoppingBag, Clock as Click, Flag, Target, Navigation, ChevronLeft, ChevronRight, Sparkles, Tag, TrendingUp, Package } from 'lucide-react';
 import { useAuth } from '../contexts/AuthContext';
 import SignInPrompt from '../components/SignInPrompt';
 import CreateListingModal from '../components/CreateListingModal';
@@ -19,11 +19,11 @@ interface ContactModalProps {
 
 function ContactModal({ listing, onClose }: ContactModalProps) {
   const { startChat } = useChat();
-  
+
   return (
-    <div className="fixed inset-0 z-[1200] flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm">
-      <motion.div 
-        className="bg-white dark:bg-gray-800 rounded-xl shadow-xl w-full max-w-md"
+    <div className="fixed inset-0 z-[1200] flex items-center justify-center p-4 bg-black/80 backdrop-blur-md">
+      <motion.div
+        className="bg-gradient-to-br from-gray-900 to-black border-2 border-brand-gold/30 rounded-2xl shadow-2xl shadow-brand-gold/20 w-full max-w-md"
         onClick={e => e.stopPropagation()}
         initial={{ opacity: 0, scale: 0.9 }}
         animate={{ opacity: 1, scale: 1 }}
@@ -32,44 +32,44 @@ function ContactModal({ listing, onClose }: ContactModalProps) {
         <div className="relative p-6">
           <button
             onClick={onClose}
-            className="absolute top-4 right-4 p-2 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-full"
+            className="absolute top-4 right-4 p-2 hover:bg-white/10 rounded-full text-gray-300 hover:text-white transition-colors"
           >
             <X className="w-6 h-6" />
           </button>
 
           <div className="mb-6">
-            <h2 className="text-2xl font-bold">Contact Seller</h2>
-            <p className="text-gray-600 dark:text-gray-400">
+            <h2 className="text-2xl font-bold text-white mb-2">Contact Seller</h2>
+            <p className="text-gray-300">
               {listing.title}
             </p>
           </div>
 
-          <div className="space-y-6">
+          <div className="space-y-4">
             {listing.contact_phone && (
-              <div className="flex items-center gap-4 p-4 rounded-lg bg-gray-50 dark:bg-gray-800">
-                <div className="w-10 h-10 rounded-full bg-green-100 dark:bg-green-900/30 flex items-center justify-center">
-                  <Phone className="w-5 h-5 text-green-600 dark:text-green-400" />
+              <div className="flex items-center gap-4 p-4 rounded-xl bg-black/40 border border-green-500/30">
+                <div className="w-10 h-10 rounded-full bg-green-600/20 border border-green-400/30 flex items-center justify-center">
+                  <Phone className="w-5 h-5 text-green-400" />
                 </div>
                 <div>
-                  <p className="text-sm text-gray-600 dark:text-gray-400">Phone</p>
-                  <p className="text-lg font-semibold">{listing.contact_phone}</p>
+                  <p className="text-sm text-gray-400">Phone</p>
+                  <p className="text-lg font-semibold text-white">{listing.contact_phone}</p>
                 </div>
               </div>
             )}
 
             {listing.contact_email && (
-              <div className="flex items-center gap-4 p-4 rounded-lg bg-gray-50 dark:bg-gray-800">
-                <div className="w-10 h-10 rounded-full bg-blue-100 dark:bg-blue-900/30 flex items-center justify-center">
-                  <Mail className="w-5 h-5 text-blue-600 dark:text-blue-400" />
+              <div className="flex items-center gap-4 p-4 rounded-xl bg-black/40 border border-blue-500/30">
+                <div className="w-10 h-10 rounded-full bg-blue-600/20 border border-blue-400/30 flex items-center justify-center">
+                  <Mail className="w-5 h-5 text-blue-400" />
                 </div>
                 <div>
-                  <p className="text-sm text-gray-600 dark:text-gray-400">Email</p>
-                  <p className="text-lg font-semibold">{listing.contact_email}</p>
+                  <p className="text-sm text-gray-400">Email</p>
+                  <p className="text-lg font-semibold text-white">{listing.contact_email}</p>
                 </div>
               </div>
             )}
 
-            <div className="mt-6 pt-6 border-t border-gray-200 dark:border-gray-700">
+            <div className="mt-6 pt-6 border-t border-white/10">
               <ChatButton
                 recipientId={listing.user_id}
                 onStartChat={(id) => {
@@ -81,8 +81,8 @@ function ContactModal({ listing, onClose }: ContactModalProps) {
             </div>
 
             {listing.preferred_contact && (
-              <div className="text-sm text-gray-600 dark:text-gray-400 text-center">
-                <p>Preferred contact method: {listing.preferred_contact}</p>
+              <div className="text-sm text-gray-400 text-center">
+                <p>Preferred contact method: <span className="text-brand-gold font-semibold">{listing.preferred_contact}</span></p>
               </div>
             )}
           </div>
@@ -391,46 +391,77 @@ function SwapMeet() {
   };
 
   return (
-    <div className="space-y-8 pb-20 md:pb-0">
+    <div className="space-y-8 pb-20 md:pb-0 relative">
+      {/* Dark Carbon Fiber Background - Light Mode uses dark theme, Dark Mode goes even darker */}
+      <div className="fixed inset-0 -z-10 dark:hidden" style={{
+        background: `
+          repeating-linear-gradient(45deg, #1A1A1A 0px, #151515 1px, #1A1A1A 2px, #121212 3px),
+          repeating-linear-gradient(-45deg, #1A1A1A 0px, #181818 1px, #1A1A1A 2px, #131313 3px)
+        `,
+        backgroundSize: '8px 8px',
+      }}></div>
+
+      {/* Even Darker Carbon Fiber Background for Dark Mode */}
+      <div className="fixed inset-0 -z-10 hidden dark:block" style={{
+        background: `
+          repeating-linear-gradient(45deg, #000000 0px, #050505 1px, #000000 2px, #030303 3px),
+          repeating-linear-gradient(-45deg, #000000 0px, #020202 1px, #000000 2px, #010101 3px)
+        `,
+        backgroundSize: '8px 8px',
+      }}></div>
+
+      {/* Carbon Fiber Diagonal Weave Overlay */}
+      <div className="fixed inset-0 -z-10 dark:opacity-100 opacity-100" style={{
+        background: `
+          repeating-linear-gradient(45deg, transparent 0px, transparent 3px, rgba(255, 255, 255, 0.03) 3px, rgba(255, 255, 255, 0.03) 6px),
+          repeating-linear-gradient(-45deg, transparent 0px, transparent 3px, rgba(255, 255, 255, 0.04) 3px, rgba(255, 255, 255, 0.04) 6px)
+        `,
+        backgroundSize: '12px 12px',
+      }}></div>
+
       {/* Hero Section */}
-      <div className="glass-panel p-8 bg-gradient-to-br from-brand-gold/10 via-brand-gold/5 to-brand-gold/10">
+      <div className="bg-gradient-to-br from-gray-900/95 to-black/95 backdrop-blur-xl border-2 border-brand-gold/30 rounded-2xl p-8 shadow-2xl shadow-brand-gold/20">
         <div className="flex flex-col md:flex-row items-center gap-8">
           <div className="flex-1 text-center md:text-left">
-            <div className="space-y-2">
-              <h2 className="text-2xl md:text-3xl font-medium text-gray-600 dark:text-gray-400">
-                Welcome to
-              </h2>
-              <h1 className="text-4xl md:text-5xl font-bold bg-gradient-to-r from-brand-gold to-brand-gold-light bg-clip-text text-transparent mb-2">
+            <div className="space-y-3">
+              <div className="flex items-center justify-center md:justify-start gap-2 text-brand-gold">
+                <ShoppingBag className="w-6 h-6" />
+                <h2 className="text-xl md:text-2xl font-semibold">
+                  Welcome to
+                </h2>
+              </div>
+              <h1 className="text-5xl md:text-6xl font-black bg-gradient-to-r from-brand-gold via-amber-400 to-brand-gold bg-clip-text text-transparent mb-2 drop-shadow-lg">
                 Swap Meet
               </h1>
-              <p className="text-lg text-gray-600 dark:text-gray-400">
-                Where buyers and sellers go
+              <p className="text-xl text-gray-300 font-medium flex items-center justify-center md:justify-start gap-2">
+                <Tag className="w-5 h-5 text-brand-gold" />
+                Where buyers and sellers connect
               </p>
             </div>
           </div>
           <div className="flex-shrink-0 relative">
-            <div className="absolute -inset-4 bg-brand-gold/20 rounded-full blur-2xl animate-pulse" />
-            <img 
-              src="/android-icon-512-512.png" 
-              alt="PIT-BOX.COM Swap Meet" 
-              className="w-48 h-48 object-contain drop-shadow-xl transform hover:scale-105 transition-transform duration-300 relative z-10"
+            <div className="absolute -inset-6 bg-gradient-to-r from-brand-gold/30 to-amber-600/30 rounded-full blur-3xl animate-pulse" />
+            <Sparkles className="w-8 h-8 text-brand-gold absolute -top-2 -right-2 animate-pulse z-20" />
+            <img
+              src="/android-icon-512-512.png"
+              alt="PIT-BOX.COM Swap Meet"
+              className="w-56 h-56 object-contain drop-shadow-[0_0_30px_rgba(234,179,8,0.6)] transform hover:scale-105 transition-transform duration-300 relative z-10"
             />
           </div>
         </div>
 
         {/* Feature Badges */}
         <div className="mt-12 grid grid-cols-1 md:grid-cols-3 gap-6">
-          <button 
+          <button
             onClick={() => navigate('/home')}
-            className="glass-panel p-6 text-center transform hover:scale-105 transition-all duration-300 relative group"
+            className="bg-gradient-to-br from-black/60 to-gray-900/60 backdrop-blur-md border-2 border-white/10 hover:border-brand-gold/50 p-6 rounded-xl text-center transform hover:scale-105 transition-all duration-300 relative group shadow-xl hover:shadow-brand-gold/20"
           >
-            <div className="absolute inset-0 rounded-xl border-2 border-brand-gold/50 opacity-0 group-hover:opacity-100 transition-opacity"></div>
-            <Settings className="w-8 h-8 text-brand-gold mx-auto mb-2" />
-            <div className="text-lg font-semibold">Setup Management</div>
-            <p className="text-sm text-gray-600 dark:text-gray-400 mt-2">
+            <Settings className="w-10 h-10 text-brand-gold mx-auto mb-3 drop-shadow-[0_0_10px_rgba(234,179,8,0.5)]" />
+            <div className="text-lg font-bold text-white mb-2">Setup Management</div>
+            <p className="text-sm text-gray-300 mt-2">
               Access our professional-grade setup tools to fine-tune your racing machine for peak performance
             </p>
-            <div className="flex items-center justify-center gap-1 mt-3 text-brand-gold font-medium">
+            <div className="flex items-center justify-center gap-1 mt-4 text-brand-gold font-semibold">
               <Click className="w-4 h-4" />
               <span>Click to access</span>
             </div>
@@ -438,15 +469,14 @@ function SwapMeet() {
 
           <button
             onClick={() => navigate('/community')}
-            className="glass-panel p-6 text-center transform hover:scale-105 transition-all duration-300 relative group"
+            className="bg-gradient-to-br from-black/60 to-gray-900/60 backdrop-blur-md border-2 border-white/10 hover:border-brand-gold/50 p-6 rounded-xl text-center transform hover:scale-105 transition-all duration-300 relative group shadow-xl hover:shadow-brand-gold/20"
           >
-            <div className="absolute inset-0 rounded-xl border-2 border-brand-gold/50 opacity-0 group-hover:opacity-100 transition-opacity"></div>
-            <Users className="w-8 h-8 text-brand-gold mx-auto mb-2" />
-            <div className="text-lg font-semibold">Racing Community</div>
-            <p className="text-sm text-gray-600 dark:text-gray-400 mt-2">
+            <Users className="w-10 h-10 text-brand-gold mx-auto mb-3 drop-shadow-[0_0_10px_rgba(234,179,8,0.5)]" />
+            <div className="text-lg font-bold text-white mb-2">Racing Community</div>
+            <p className="text-sm text-gray-300 mt-2">
               Connect with fellow racers, share experiences, and stay updated with the latest racing insights
             </p>
-            <div className="flex items-center justify-center gap-1 mt-3 text-brand-gold font-medium">
+            <div className="flex items-center justify-center gap-1 mt-4 text-brand-gold font-semibold">
               <Click className="w-4 h-4" />
               <span>Click to join</span>
             </div>
@@ -454,15 +484,14 @@ function SwapMeet() {
 
           <button
             onClick={() => navigate('/affiliates')}
-            className="glass-panel p-6 text-center transform hover:scale-105 transition-all duration-300 relative group"
+            className="bg-gradient-to-br from-black/60 to-gray-900/60 backdrop-blur-md border-2 border-white/10 hover:border-brand-gold/50 p-6 rounded-xl text-center transform hover:scale-105 transition-all duration-300 relative group shadow-xl hover:shadow-brand-gold/20"
           >
-            <div className="absolute inset-0 rounded-xl border-2 border-brand-gold/50 opacity-0 group-hover:opacity-100 transition-opacity"></div>
-            <Shield className="w-8 h-8 text-brand-gold mx-auto mb-2" />
-            <div className="text-lg font-semibold">Partner Network</div>
-            <p className="text-sm text-gray-600 dark:text-gray-400 mt-2">
+            <Shield className="w-10 h-10 text-brand-gold mx-auto mb-3 drop-shadow-[0_0_10px_rgba(234,179,8,0.5)]" />
+            <div className="text-lg font-bold text-white mb-2">Partner Network</div>
+            <p className="text-sm text-gray-300 mt-2">
               Explore our trusted network of racing partners, suppliers, and industry experts
             </p>
-            <div className="flex items-center justify-center gap-1 mt-3 text-brand-gold font-medium">
+            <div className="flex items-center justify-center gap-1 mt-4 text-brand-gold font-semibold">
               <Click className="w-4 h-4" />
               <span>Click to explore</span>
             </div>
@@ -471,11 +500,11 @@ function SwapMeet() {
       </div>
 
       {/* Search and Filter Section */}
-      <div className="glass-panel p-6">
+      <div className="bg-gradient-to-br from-gray-900/95 to-black/95 backdrop-blur-xl border-2 border-white/10 rounded-2xl p-6 shadow-xl">
         <div className="flex flex-col md:flex-row gap-4">
           {/* Search Input */}
           <div className="relative flex-1">
-            <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" />
+            <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-brand-gold" />
             <input
               type="text"
               placeholder="Search listings..."
@@ -486,46 +515,47 @@ function SwapMeet() {
                   handleSearch();
                 }
               }}
-              className="w-full pl-10 pr-4 py-3 rounded-xl bg-white/50 dark:bg-gray-800/50 border border-gray-200 dark:border-gray-700 focus:ring-2 focus:ring-brand-gold"
+              className="w-full pl-10 pr-4 py-3 rounded-xl bg-black/40 text-white placeholder-gray-400 border-2 border-white/10 focus:border-brand-gold focus:ring-2 focus:ring-brand-gold/50 transition-all"
             />
           </div>
 
           {/* Category Filter */}
           <div className="relative">
-            <Filter className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" />
+            <Filter className="absolute left-3 top-1/2 -translate-y-1/2 text-brand-gold" />
             <select
               value={selectedCategory}
               onChange={(e) => setSelectedCategory(e.target.value.toLowerCase().replace(/ /g, '-'))}
-              className="w-full pl-10 pr-4 py-3 rounded-xl bg-white/50 dark:bg-gray-800/50 border border-gray-200 dark:border-gray-700 focus:ring-2 focus:ring-brand-gold appearance-none"
+              className="w-full pl-10 pr-10 py-3 rounded-xl bg-black/40 text-white border-2 border-white/10 focus:border-brand-gold focus:ring-2 focus:ring-brand-gold/50 appearance-none transition-all"
             >
               {categories.map(cat => (
-                <option key={cat} value={cat.toLowerCase().replace(/ /g, '-')}>
+                <option key={cat} value={cat.toLowerCase().replace(/ /g, '-')} className="bg-gray-900">
                   {cat}
                 </option>
               ))}
             </select>
-            <ChevronDown className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400" />
+            <ChevronDown className="absolute right-3 top-1/2 -translate-y-1/2 text-brand-gold pointer-events-none" />
           </div>
 
           {/* Sort By */}
           <div className="relative">
+            <TrendingUp className="absolute left-3 top-1/2 -translate-y-1/2 text-brand-gold" />
             <select
               value={sortBy}
               onChange={(e) => setSortBy(e.target.value as any)}
-              className="w-full pl-4 pr-4 py-3 rounded-xl bg-white/50 dark:bg-gray-800/50 border border-gray-200 dark:border-gray-700 focus:ring-2 focus:ring-brand-gold appearance-none"
+              className="w-full pl-10 pr-10 py-3 rounded-xl bg-black/40 text-white border-2 border-white/10 focus:border-brand-gold focus:ring-2 focus:ring-brand-gold/50 appearance-none transition-all"
             >
-              <option value="recent">Most Recent</option>
-              <option value="price-low">Price: Low to High</option>
-              <option value="price-high">Price: High to Low</option>
-              <option value="popular">Most Popular</option>
+              <option value="recent" className="bg-gray-900">Most Recent</option>
+              <option value="price-low" className="bg-gray-900">Price: Low to High</option>
+              <option value="price-high" className="bg-gray-900">Price: High to Low</option>
+              <option value="popular" className="bg-gray-900">Most Popular</option>
             </select>
-            <ChevronDown className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400" />
+            <ChevronDown className="absolute right-3 top-1/2 -translate-y-1/2 text-brand-gold pointer-events-none" />
           </div>
 
           {/* Advanced Filters Toggle */}
           <button
             onClick={() => setShowAdvancedFilters(!showAdvancedFilters)}
-            className="px-6 py-3 rounded-xl bg-brand-gold/10 hover:bg-brand-gold/20 text-brand-gold font-medium transition-colors flex items-center gap-2 whitespace-nowrap"
+            className="px-6 py-3 rounded-xl bg-gradient-to-r from-brand-gold to-amber-600 hover:from-amber-600 hover:to-brand-gold text-black font-bold transition-all duration-300 flex items-center gap-2 whitespace-nowrap shadow-lg shadow-brand-gold/30 hover:shadow-brand-gold/50"
           >
             <Settings className="w-5 h-5" />
             {showAdvancedFilters ? 'Hide Filters' : 'More Filters'}
@@ -926,7 +956,7 @@ function SwapMeet() {
                 {listings.map((listing) => (
                 <motion.div
                   key={listing.id}
-                  className="glass-panel overflow-hidden group transition-all duration-300"
+                  className="bg-gradient-to-br from-gray-900/95 to-black/95 backdrop-blur-xl border-2 border-white/10 hover:border-brand-gold/40 rounded-2xl overflow-hidden group transition-all duration-300 shadow-xl hover:shadow-2xl hover:shadow-brand-gold/20"
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   exit={{ opacity: 0, y: -20 }}
@@ -934,45 +964,45 @@ function SwapMeet() {
                 >
                   <div className="relative">
                     {listing.images?.[0] ? (
-                      <img 
-                        src={listing.images[0].url} 
+                      <img
+                        src={listing.images[0].url}
                         alt={listing.title}
                         className="w-full aspect-square object-cover group-hover:scale-105 transition-transform duration-300"
                       />
                     ) : (
-                      <div className="w-full aspect-square bg-gray-200 dark:bg-gray-700 flex items-center justify-center">
-                        <ShoppingBag className="w-16 h-16 text-gray-400 dark:text-gray-500" />
+                      <div className="w-full aspect-square bg-gradient-to-br from-black/80 to-gray-900/80 flex items-center justify-center">
+                        <Package className="w-16 h-16 text-brand-gold/30" />
                       </div>
                     )}
                     <div className="absolute top-2 left-2 flex gap-2">
-                      <button 
+                      <button
                         onClick={(e) => {
                           e.stopPropagation();
                           handleLikeClick(listing.id);
                         }}
-                        className={`p-2 bg-white/90 dark:bg-gray-800/90 rounded-full hover:bg-white dark:hover:bg-gray-700 transition-all duration-300 ${
+                        className={`p-2 bg-black/60 backdrop-blur-md rounded-full hover:bg-black/80 transition-all duration-300 border border-white/20 ${
                           likeAnimation === listing.id ? 'scale-150' : ''
                         }`}
                         title={listing.liked_by_user ? 'Unlike' : 'Like'}
                       >
-                        <Heart 
+                        <Heart
                           className={`w-4 h-4 sm:w-5 sm:h-5 transition-colors duration-300 ${
-                            listing.liked_by_user ? 'text-red-500 fill-current' : 'text-gray-400'
-                          }`} 
+                            listing.liked_by_user ? 'text-red-500 fill-current' : 'text-gray-300'
+                          }`}
                         />
                       </button>
-                      <button 
+                      <button
                         onClick={(e) => {
                           e.stopPropagation();
                           handleSaveClick(listing.id);
                         }}
-                        className="p-2 bg-white/90 dark:bg-gray-800/90 rounded-full hover:bg-white dark:hover:bg-gray-700 transition-all duration-300"
+                        className="p-2 bg-black/60 backdrop-blur-md rounded-full hover:bg-black/80 transition-all duration-300 border border-white/20"
                         title={listing.saved ? 'Unsave' : 'Save'}
                       >
                         {listing.saved ? (
-                          <BookmarkCheck className="w-4 h-4 sm:w-5 sm:h-5 text-brand-gold fill-current" />
+                          <BookmarkCheck className="w-4 h-4 sm:w-5 sm:h-5 text-brand-gold fill-current drop-shadow-[0_0_8px_rgba(234,179,8,0.8)]" />
                         ) : (
-                          <Bookmark className="w-4 h-4 sm:w-5 sm:h-5 text-gray-400" />
+                          <Bookmark className="w-4 h-4 sm:w-5 sm:h-5 text-gray-300" />
                         )}
                       </button>
                     </div>
@@ -983,7 +1013,7 @@ function SwapMeet() {
                             e.stopPropagation();
                             setShowDeleteConfirm(listing.id);
                           }}
-                          className="p-2 bg-white/90 dark:bg-gray-800/90 rounded-full hover:bg-red-100 dark:hover:bg-red-900/30 hover:text-red-500 transition-all duration-300"
+                          className="p-2 bg-black/60 backdrop-blur-md rounded-full hover:bg-red-600/80 hover:text-white transition-all duration-300 border border-white/20 text-gray-300"
                           title="Delete listing"
                         >
                           <Trash2 className="w-4 h-4 sm:w-5 sm:h-5" />
@@ -994,26 +1024,26 @@ function SwapMeet() {
                   
                   <div className="p-3 sm:p-4">
                     <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-1 sm:gap-2 mb-2">
-                      <h3 className="text-sm sm:text-xl font-semibold line-clamp-2">{listing.title}</h3>
-                      <p className="text-base sm:text-lg font-bold text-brand-gold flex items-center whitespace-nowrap">
+                      <h3 className="text-sm sm:text-xl font-bold text-white line-clamp-2">{listing.title}</h3>
+                      <p className="text-base sm:text-xl font-black text-brand-gold flex items-center whitespace-nowrap drop-shadow-[0_0_8px_rgba(234,179,8,0.5)]">
                         <DollarSign className="w-4 h-4 sm:w-5 sm:h-5" />
                         {listing.price.toLocaleString()}
                       </p>
                     </div>
-                    
-                    <div className="flex items-center gap-2 text-gray-600 dark:text-gray-400 mb-2 sm:mb-3">
+
+                    <div className="flex items-center gap-2 text-gray-300 mb-2 sm:mb-3">
                       <div className="flex items-center gap-1">
-                        <MapPin className="w-3 h-3 sm:w-4 sm:h-4 flex-shrink-0" />
+                        <MapPin className="w-3 h-3 sm:w-4 sm:h-4 flex-shrink-0 text-brand-gold" />
                         <span className="text-xs sm:text-sm truncate">{listing.location}</span>
                       </div>
                       {listing.distance_miles !== undefined && (
-                        <span className="px-2 py-0.5 rounded-full bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300 text-xs font-medium whitespace-nowrap">
+                        <span className="px-2 py-0.5 rounded-full bg-blue-600/30 border border-blue-400/30 text-blue-300 text-xs font-semibold whitespace-nowrap">
                           {listing.distance_miles} mi
                         </span>
                       )}
                     </div>
 
-                    <p className="text-xs sm:text-sm text-gray-600 dark:text-gray-400 mb-3 sm:mb-4 line-clamp-2 hidden sm:block">
+                    <p className="text-xs sm:text-sm text-gray-300 mb-3 sm:mb-4 line-clamp-2 hidden sm:block">
                       {listing.description}
                     </p>
 
