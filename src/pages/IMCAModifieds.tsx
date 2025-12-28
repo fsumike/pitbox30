@@ -152,12 +152,26 @@ function IMCAModifieds() {
 
   return (
     <div className="space-y-6">
-      <div className="glass-panel p-6 bg-gradient-to-br from-blue-500/10 to-indigo-500/10 dark:from-blue-500/20 dark:to-indigo-500/20">
+      <div className="relative rounded-2xl overflow-hidden">
+        <img
+          src="/69298c4cd988988b07f26b2b_jja_6613-min.jpg"
+          alt="IMCA Modified race car"
+          className="w-full h-64 md:h-80 object-cover"
+        />
+        <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent" />
+        <div className="absolute bottom-0 left-0 right-0 p-6">
+          <h1 className="text-3xl md:text-4xl font-bold text-white mb-2">IMCA Modifieds</h1>
+          <p className="text-gray-200 text-sm md:text-base max-w-2xl">
+            One of the most widespread and competitive dirt track racing classes in North America.
+          </p>
+        </div>
+      </div>
+
+      <div className="glass-panel p-6 bg-gradient-to-br from-blue-500/10 to-sky-500/10 dark:from-blue-500/20 dark:to-sky-500/20">
         <div className="mb-6">
-          <h1 className="text-3xl font-bold mb-4 text-blue-600 dark:text-blue-400">IMCA Modifieds</h1>
           <p className="text-gray-700 dark:text-gray-300">
-            IMCA (International Motor Contest Association) Modifieds are one of the most widespread and competitive dirt track racing classes in North America. 
-            These cars feature specific rule requirements including weight limits, tire regulations, and suspension configurations designed to keep competition close and costs reasonable. 
+            IMCA (International Motor Contest Association) Modifieds are one of the most widespread and competitive dirt track racing classes in North America.
+            These cars feature specific rule requirements including weight limits, tire regulations, and suspension configurations designed to keep competition close and costs reasonable.
             Use our comprehensive setup tools to optimize your IMCA Modified's performance while staying within class regulations.
           </p>
         </div>

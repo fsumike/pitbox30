@@ -111,12 +111,26 @@ function FocusMidget() {
 
   return (
     <div className="space-y-6">
+      <div className="relative rounded-2xl overflow-hidden">
+        <img
+          src="/495479702_1321020539654208_5408440298677452810_n.jpg"
+          alt="Focus Midget race car"
+          className="w-full h-64 md:h-80 object-cover"
+        />
+        <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent" />
+        <div className="absolute bottom-0 left-0 right-0 p-6">
+          <h1 className="text-3xl md:text-4xl font-bold text-white mb-2">Focus Midget Cars</h1>
+          <p className="text-gray-200 text-sm md:text-base max-w-2xl">
+            Lightweight open-wheel racing with a focus on driver development and competitive racing.
+          </p>
+        </div>
+      </div>
+
       <div className="glass-panel p-6 bg-gradient-to-br from-teal-500/10 to-emerald-500/10 dark:from-teal-500/20 dark:to-emerald-500/20">
         <div className="mb-6">
-          <h1 className="text-3xl font-bold mb-4 text-teal-600 dark:text-teal-400">Focus Midget Cars</h1>
           <p className="text-gray-700 dark:text-gray-300">
-            Focus Midget cars offer an exciting entry point into open-wheel racing with their lightweight design and responsive handling. 
-            These purpose-built race cars feature a focus on driver development and competitive racing while maintaining safety standards. 
+            Focus Midget cars offer an exciting entry point into open-wheel racing with their lightweight design and responsive handling.
+            These purpose-built race cars feature a focus on driver development and competitive racing while maintaining safety standards.
             Use our comprehensive setup tools to fine-tune your Focus Midget's performance characteristics for optimal results on any track.
           </p>
         </div>

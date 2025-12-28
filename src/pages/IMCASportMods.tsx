@@ -151,12 +151,26 @@ function IMCASportMods() {
 
   return (
     <div className="space-y-6">
+      <div className="relative rounded-2xl overflow-hidden">
+        <img
+          src="/imca_southern_sportmod.jpg"
+          alt="IMCA SportMod race car"
+          className="w-full h-64 md:h-80 object-cover"
+        />
+        <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent" />
+        <div className="absolute bottom-0 left-0 right-0 p-6">
+          <h1 className="text-3xl md:text-4xl font-bold text-white mb-2">IMCA SportMods</h1>
+          <p className="text-gray-200 text-sm md:text-base max-w-2xl">
+            Entry-level modified class designed to be affordable and accessible while still providing competitive racing.
+          </p>
+        </div>
+      </div>
+
       <div className="glass-panel p-6 bg-gradient-to-br from-green-500/10 to-teal-500/10 dark:from-green-500/20 dark:to-teal-500/20">
         <div className="mb-6">
-          <h1 className="text-3xl font-bold mb-4 text-green-600 dark:text-green-400">IMCA SportMods</h1>
           <p className="text-gray-700 dark:text-gray-300">
-            IMCA SportMods (also known as Northern SportMods) are an entry-level modified class designed to be more affordable and accessible than full Modifieds. 
-            These cars typically feature sealed crate engines, specific suspension requirements, and tire regulations to control costs while still providing competitive racing. 
+            IMCA SportMods (also known as Northern SportMods) are an entry-level modified class designed to be more affordable and accessible than full Modifieds.
+            These cars typically feature sealed crate engines, specific suspension requirements, and tire regulations to control costs while still providing competitive racing.
             Use our comprehensive setup tools to optimize your SportMod's performance while staying within class regulations.
           </p>
         </div>
