@@ -17,7 +17,7 @@
   }
 
   body {
-    @apply bg-gradient-to-br from-brand-black to-brand-black-dark dark:from-black dark:to-brand-black-dark text-gray-100 dark:text-gray-100;
+    @apply bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-700 dark:to-gray-800 text-gray-900 dark:text-gray-100;
     -webkit-tap-highlight-color: transparent;
     overscroll-behavior-y: contain;
     padding: env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);
@@ -242,14 +242,14 @@
 
 /* Glass panel with mobile optimizations and enhanced depth */
 .glass-panel {
-  @apply bg-gradient-to-br from-gray-900/95 to-black/95 dark:from-gray-900/95 dark:to-black/95 backdrop-blur-xl rounded-xl
-         border-2 border-white/10 dark:border-white/10 transition-all duration-300
-         touch-pan-y text-white dark:text-white;
+  @apply bg-gradient-to-br from-gray-100 to-gray-50 dark:from-gray-700 dark:to-gray-800 backdrop-blur-xl rounded-xl
+         border-2 border-gray-200 dark:border-gray-600 transition-all duration-300
+         touch-pan-y text-gray-900 dark:text-gray-100;
   transform: translateZ(0);
   -webkit-touch-callout: none;
   box-shadow:
-    0 8px 32px rgba(0, 0, 0, 0.4),
-    inset 0 1px 0 rgba(255, 255, 255, 0.05);
+    0 8px 32px rgba(0, 0, 0, 0.08),
+    inset 0 1px 0 rgba(255, 255, 255, 0.5);
 }
 
 .glass-panel:hover {
@@ -270,13 +270,13 @@
 
 /* Mobile navigation */
 .mobile-nav {
-  @apply fixed bottom-0 left-0 right-0 bg-gray-100 dark:bg-brand-black-light border-t border-gray-200 dark:border-gray-800;
+  @apply fixed bottom-0 left-0 right-0 bg-gray-100 dark:bg-gray-700 border-t border-gray-200 dark:border-gray-600;
   padding-bottom: max(env(safe-area-inset-bottom), 0.5rem);
 }
 
 /* Mobile bottom sheet */
 .bottom-sheet {
-  @apply fixed bottom-0 left-0 right-0 bg-gray-100 dark:bg-brand-black-light rounded-t-xl shadow-lg;
+  @apply fixed bottom-0 left-0 right-0 bg-gray-100 dark:bg-gray-700 rounded-t-xl shadow-lg;
   padding-bottom: env(safe-area-inset-bottom);
   transform: translateZ(0);
 }
@@ -902,14 +902,14 @@ select option {
 
 /* Carbon Fiber Panel - Lighter version for main containers */
 .carbon-fiber-panel {
-  @apply bg-gradient-to-br from-gray-900/95 to-black/95 dark:from-gray-900/95 dark:to-black/95 backdrop-blur-xl rounded-xl
-         border-2 border-white/10 dark:border-white/10 transition-all duration-300
-         touch-pan-y text-white dark:text-white relative overflow-hidden;
+  @apply bg-gradient-to-br from-gray-100 to-gray-50 dark:from-gray-700 dark:to-gray-800 backdrop-blur-xl rounded-xl
+         border-2 border-gray-200 dark:border-gray-600 transition-all duration-300
+         touch-pan-y text-gray-900 dark:text-gray-100 relative overflow-hidden;
   transform: translateZ(0);
   -webkit-touch-callout: none;
   box-shadow:
-    0 8px 32px rgba(0, 0, 0, 0.4),
-    inset 0 1px 0 rgba(255, 255, 255, 0.05);
+    0 8px 32px rgba(0, 0, 0, 0.08),
+    inset 0 1px 0 rgba(255, 255, 255, 0.5);
 }
 
 /* Carbon fiber texture base */
