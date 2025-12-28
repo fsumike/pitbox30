@@ -426,7 +426,7 @@ function SwapMeet() {
             <div className="space-y-3">
               <div className="flex items-center justify-center md:justify-start gap-2 text-brand-gold">
                 <ShoppingBag className="w-6 h-6" />
-                <h2 className="text-xl md:text-2xl font-semibold">
+                <h2 className="text-xl md:text-2xl font-semibold text-white">
                   Welcome to
                 </h2>
               </div>
@@ -457,8 +457,8 @@ function SwapMeet() {
             className="glass-panel p-6 rounded-xl text-center transform hover:scale-105 transition-all duration-300 relative group shadow-xl hover:shadow-brand-gold/20"
           >
             <Settings className="w-10 h-10 text-brand-gold mx-auto mb-3 drop-shadow-[0_0_10px_rgba(234,179,8,0.5)]" />
-            <div className="text-lg font-bold mb-2">Setup Management</div>
-            <p className="text-sm text-gray-600 dark:text-gray-300 mt-2">
+            <div className="text-lg font-bold mb-2 text-white">Setup Management</div>
+            <p className="text-sm text-gray-300 mt-2">
               Access our professional-grade setup tools to fine-tune your racing machine for peak performance
             </p>
             <div className="flex items-center justify-center gap-1 mt-4 text-brand-gold font-semibold">
@@ -472,8 +472,8 @@ function SwapMeet() {
             className="glass-panel p-6 rounded-xl text-center transform hover:scale-105 transition-all duration-300 relative group shadow-xl hover:shadow-brand-gold/20"
           >
             <Users className="w-10 h-10 text-brand-gold mx-auto mb-3 drop-shadow-[0_0_10px_rgba(234,179,8,0.5)]" />
-            <div className="text-lg font-bold mb-2">Racing Community</div>
-            <p className="text-sm text-gray-600 dark:text-gray-300 mt-2">
+            <div className="text-lg font-bold mb-2 text-white">Racing Community</div>
+            <p className="text-sm text-gray-300 mt-2">
               Connect with fellow racers, share experiences, and stay updated with the latest racing insights
             </p>
             <div className="flex items-center justify-center gap-1 mt-4 text-brand-gold font-semibold">
@@ -487,8 +487,8 @@ function SwapMeet() {
             className="glass-panel p-6 rounded-xl text-center transform hover:scale-105 transition-all duration-300 relative group shadow-xl hover:shadow-brand-gold/20"
           >
             <Shield className="w-10 h-10 text-brand-gold mx-auto mb-3 drop-shadow-[0_0_10px_rgba(234,179,8,0.5)]" />
-            <div className="text-lg font-bold mb-2">Partner Network</div>
-            <p className="text-sm text-gray-600 dark:text-gray-300 mt-2">
+            <div className="text-lg font-bold mb-2 text-white">Partner Network</div>
+            <p className="text-sm text-gray-300 mt-2">
               Explore our trusted network of racing partners, suppliers, and industry experts
             </p>
             <div className="flex items-center justify-center gap-1 mt-4 text-brand-gold font-semibold">
@@ -570,7 +570,7 @@ function SwapMeet() {
             exit={{ opacity: 0, height: 0 }}
             className="mt-6 p-6 glass-panel space-y-4"
           >
-            <h3 className="text-lg font-semibold mb-4">Advanced Filters</h3>
+            <h3 className="text-lg font-semibold mb-4 text-white">Advanced Filters</h3>
 
             {/* Distance Filter Section */}
             <div className="mb-6 p-4 rounded-lg bg-gradient-to-r from-blue-50 to-cyan-50 dark:from-blue-900/20 dark:to-cyan-900/20 border border-blue-200 dark:border-blue-800">
@@ -1024,14 +1024,14 @@ function SwapMeet() {
                   
                   <div className="p-3 sm:p-4">
                     <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-1 sm:gap-2 mb-2">
-                      <h3 className="text-sm sm:text-xl font-bold line-clamp-2">{listing.title}</h3>
+                      <h3 className="text-sm sm:text-xl font-bold line-clamp-2 text-white">{listing.title}</h3>
                       <p className="text-base sm:text-xl font-black text-brand-gold flex items-center whitespace-nowrap drop-shadow-[0_0_8px_rgba(234,179,8,0.5)]">
                         <DollarSign className="w-4 h-4 sm:w-5 sm:h-5" />
                         {listing.price.toLocaleString()}
                       </p>
                     </div>
 
-                    <div className="flex items-center gap-2 text-gray-600 dark:text-gray-300 mb-2 sm:mb-3">
+                    <div className="flex items-center gap-2 text-gray-300 mb-2 sm:mb-3">
                       <div className="flex items-center gap-1">
                         <MapPin className="w-3 h-3 sm:w-4 sm:h-4 flex-shrink-0 text-brand-gold" />
                         <span className="text-xs sm:text-sm truncate">{listing.location}</span>
@@ -1043,11 +1043,11 @@ function SwapMeet() {
                       )}
                     </div>
 
-                    <p className="text-xs sm:text-sm text-gray-600 dark:text-gray-300 mb-3 sm:mb-4 line-clamp-2 hidden sm:block">
+                    <p className="text-xs sm:text-sm text-gray-300 mb-3 sm:mb-4 line-clamp-2 hidden sm:block">
                       {listing.description}
                     </p>
 
-                    <div className="flex items-center justify-between text-xs sm:text-sm text-gray-500 dark:text-gray-400">
+                    <div className="flex items-center justify-between text-xs sm:text-sm text-gray-400">
                       <div className="flex items-center gap-1">
                         <Clock className="w-3 h-3 sm:w-4 sm:h-4" />
                         {formatDate(listing.created_at)}
