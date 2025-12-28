@@ -17,7 +17,7 @@ const categoryImages: Record<string, string> = {
   'Modifieds': '/imca_southern_sportmod copy.jpg',
   'Late Models': '/erb copy copy.jpeg',
   'Stock Cars': '/392307_articlesection_xl_d10ca69f-828b-441c-9ca4-ab7730ded7ee.png',
-  'Youth Racing / Kart': 'https://images.unsplash.com/photo-1535750019702-86f32b4f9a7e?w=400&h=200&fit=crop',
+  'Youth Racing / Kart': '/photo-3.jpg',
 };
 
 function Home() {
