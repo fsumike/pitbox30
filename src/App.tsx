@@ -96,6 +96,8 @@ export const vehicleCategories = {
   'Vehicles': [
     {
       name: 'Sprint Cars',
+      image: 'https://images.unsplash.com/photo-1568605117036-5fe5e7bab0b7?w=400&h=250&fit=crop',
+      description: 'High-powered open-wheel dirt track racers',
       subcategories: [
         { name: 'Wingless Sprints', path: '/wingless' },
         { name: 'Crate Sprints', path: '/crate' },
@@ -109,6 +111,8 @@ export const vehicleCategories = {
     },
     {
       name: 'Midget Cars',
+      image: 'https://images.unsplash.com/photo-1594345857882-1be16d54a4fb?w=400&h=250&fit=crop',
+      description: 'Compact open-wheel racing machines',
       subcategories: [
         { name: 'Quarter Midget', path: '/quarter' },
         { name: 'Focus Midget', path: '/focus' }
@@ -116,6 +120,8 @@ export const vehicleCategories = {
     },
     {
       name: 'Modifieds',
+      image: 'https://images.unsplash.com/photo-1544636331-e26879cd4d9b?w=400&h=250&fit=crop',
+      description: 'Custom-built dirt track warriors',
       subcategories: [
         { name: 'Dirt Modified 2', path: '/modified2' },
         { name: 'UMP Modifieds', path: '/ump-modified' },
@@ -126,6 +132,8 @@ export const vehicleCategories = {
     },
     {
       name: 'Late Models',
+      image: 'https://images.unsplash.com/photo-1552519507-da3b142c6e3d?w=400&h=250&fit=crop',
+      description: 'Premium full-bodied dirt racers',
       subcategories: [
         { name: 'Late Model Dirt', path: '/latemodel' },
         { name: 'Crate Late Models', path: '/crate-latemodel' },
@@ -134,12 +142,16 @@ export const vehicleCategories = {
     },
     {
       name: 'Stock Cars',
+      image: 'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=400&h=250&fit=crop',
+      description: 'Factory-based racing vehicles',
       subcategories: [
         { name: 'Street Stocks', path: '/street-stock' }
       ]
     },
     {
       name: 'Youth Racing / Kart',
+      image: 'https://images.unsplash.com/photo-1535750019702-86f32b4f9a7e?w=400&h=250&fit=crop',
+      description: 'Entry-level and junior racing classes',
       subcategories: [
         { name: 'Outlaw Kart', path: '/outlaw' },
         { name: 'LO206 Kart', path: '/lo206-kart' },
