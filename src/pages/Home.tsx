@@ -232,7 +232,7 @@ function Home() {
             {user && showVehicles && (
               <button
                 onClick={() => navigate('/subscription')}
-                className="btn-primary flex items-center gap-2 mx-auto mb-8"
+                className="bg-white/30 backdrop-blur-md border border-white/40 hover:bg-white/40 text-gray-900 dark:text-white px-6 py-3 rounded-lg transition-all duration-300 flex items-center gap-2 mx-auto mb-8 font-medium shadow-lg"
               >
                 <Shield className="w-5 h-5" />
                 View Subscription Plans
