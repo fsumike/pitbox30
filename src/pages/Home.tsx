@@ -101,14 +101,40 @@ function Home() {
         <div
           className="absolute inset-0"
           style={{
-            backgroundImage: 'url(/colourbox6530196.webp)',
-            backgroundSize: 'cover',
-            backgroundPosition: 'center',
-            backgroundRepeat: 'no-repeat',
-            filter: 'brightness(0.7)'
+            background: `
+              linear-gradient(27deg, #151515 5px, transparent 5px) 0 5px,
+              linear-gradient(207deg, #151515 5px, transparent 5px) 10px 0px,
+              linear-gradient(27deg, #222 5px, transparent 5px) 0px 10px,
+              linear-gradient(207deg, #222 5px, transparent 5px) 10px 5px,
+              linear-gradient(90deg, #1b1b1b 10px, transparent 10px),
+              linear-gradient(#1d1d1d 25%, #1a1a1a 25%, #1a1a1a 50%, transparent 50%, transparent 75%, #242424 75%, #242424)
+            `,
+            backgroundColor: '#131313',
+            backgroundSize: '20px 20px',
+            opacity: 0.95
           }}
-        ></div>
-        <div className="absolute inset-0 bg-gradient-to-br from-black/40 via-gray-900/30 to-black/40"></div>
+        >
+          <div className="absolute inset-0" style={{
+            background: `
+              radial-gradient(ellipse at center, transparent 0%, rgba(218, 165, 32, 0.15) 40%, rgba(184, 134, 11, 0.25) 100%),
+              repeating-linear-gradient(
+                45deg,
+                rgba(218, 165, 32, 0.03),
+                rgba(218, 165, 32, 0.03) 10px,
+                rgba(184, 134, 11, 0.05) 10px,
+                rgba(184, 134, 11, 0.05) 20px
+              ),
+              repeating-linear-gradient(
+                -45deg,
+                rgba(218, 165, 32, 0.03),
+                rgba(218, 165, 32, 0.03) 10px,
+                rgba(184, 134, 11, 0.05) 10px,
+                rgba(184, 134, 11, 0.05) 20px
+              )
+            `
+          }}></div>
+        </div>
+        <div className="absolute inset-0 bg-gradient-to-br from-yellow-900/20 via-transparent to-yellow-800/20"></div>
         <div className="relative z-10">
         <div className="text-center mb-8">
           <h2 className="text-4xl md:text-5xl font-bold bg-gradient-to-r from-brand-gold to-brand-gold-light bg-clip-text text-transparent mb-6">
