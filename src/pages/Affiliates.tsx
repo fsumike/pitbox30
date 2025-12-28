@@ -273,11 +273,11 @@ function Affiliates() {
                 </div>
               </div>
 
-              <div className="mb-4">
+              <div className="mb-4 h-32 flex items-center justify-center bg-gray-900 rounded-lg p-4">
                 <img
-                  src="/logo.png"
+                  src="https://cdn.myracepass.com/v1/siteresources/35514/v1/img/logo.png"
                   alt="Silver Dollar Speedway"
-                  className="w-full h-auto object-contain max-h-32"
+                  className="w-full h-auto object-contain max-h-24"
                 />
               </div>
 
@@ -313,11 +313,11 @@ function Affiliates() {
                 </div>
               </div>
 
-              <div className="mb-4">
+              <div className="mb-4 h-32 flex items-center justify-center bg-gray-900 rounded-lg p-4">
                 <img
-                  src="/image (2).png"
+                  src="https://www.thunderbowlraceway.com/wp-content/uploads/2020/01/Logo.png"
                   alt="Thunderbowl Raceway"
-                  className="w-full h-auto object-contain max-h-32"
+                  className="w-full h-auto object-contain max-h-24"
                 />
               </div>
 
@@ -329,6 +329,46 @@ function Affiliates() {
               <p className="text-gray-700 dark:text-gray-300 mb-4 line-clamp-3">
                 Home of exciting sprint car racing featuring NARC 410 Sprint Cars and the annual Trophy Cup.
                 One of California's premier dirt racing venues.
+              </p>
+
+              <div className="flex items-center gap-2 text-brand-gold font-semibold group-hover:gap-3 transition-all">
+                <span>Visit Raceway</span>
+                <ChevronRight className="w-5 h-5" />
+              </div>
+            </div>
+          </a>
+
+          {/* Marysville Raceway */}
+          <a
+            href="https://www.marysvilleraceway.com"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="glass-panel p-6 hover:shadow-xl transition-all duration-300 group relative overflow-hidden"
+          >
+            <div className="absolute inset-0 bg-gradient-to-br from-brand-gold/5 to-brand-gold-light/5 opacity-0 group-hover:opacity-100 transition-opacity" />
+            <div className="relative">
+              <div className="flex items-center justify-end mb-4">
+                <div className="px-3 py-1 rounded-full bg-brand-gold/10 text-brand-gold text-xs font-semibold">
+                  SPONSORED
+                </div>
+              </div>
+
+              <div className="mb-4 h-32 flex items-center justify-center bg-gray-900 rounded-lg p-4">
+                <img
+                  src="https://cdn.myracepass.com/v1/siteresources/58778/v1/img/logo.png"
+                  alt="Marysville Raceway"
+                  className="w-full h-auto object-contain max-h-24"
+                />
+              </div>
+
+              <div className="flex items-center gap-2 text-sm text-gray-600 dark:text-gray-400 mb-3">
+                <Target className="w-4 h-4" />
+                <span>Marysville, California</span>
+              </div>
+
+              <p className="text-gray-700 dark:text-gray-300 mb-4 line-clamp-3">
+                Partnered with Silver Dollar Speedway, featuring modified, dwarf, winged and wingless sprints.
+                Home of the Paul Hawes Memorial Sprint Spooktacular and exciting weekly racing action.
               </p>
 
               <div className="flex items-center gap-2 text-brand-gold font-semibold group-hover:gap-3 transition-all">
