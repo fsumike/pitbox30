@@ -394,13 +394,13 @@ function App() {
               onTouchMove={onTouchMove}
               onTouchEnd={onTouchEnd}
             >
-              <div className="glass-nav rounded-2xl backdrop-blur-lg border border-gray-300 dark:border-gray-600 shadow-lg overflow-hidden">
+              <div className="glass-nav rounded-2xl backdrop-blur-lg border border-white/10 shadow-lg overflow-hidden">
                 <div className="p-4 space-y-1">
                   <NavLink
                     to="/home"
                     className={({ isActive }) => `
-                      block px-4 py-3 rounded-lg transition-all duration-200 text-gray-900 dark:text-white font-medium
-                      ${isActive ? 'bg-brand-gold/20 text-brand-gold' : 'hover:bg-gray-200 dark:hover:bg-gray-600'}
+                      block px-4 py-3 rounded-lg transition-all duration-200 text-white font-medium
+                      ${isActive ? 'bg-brand-gold/20 text-brand-gold' : 'hover:bg-white/10'}
                     `}
                     onClick={closeMenu}
                   >
@@ -409,8 +409,8 @@ function App() {
                   <NavLink
                     to="/community"
                     className={({ isActive }) => `
-                      block px-4 py-3 rounded-lg transition-all duration-200 text-gray-900 dark:text-white font-medium
-                      ${isActive ? 'bg-brand-gold/20 text-brand-gold' : 'hover:bg-gray-200 dark:hover:bg-gray-600'}
+                      block px-4 py-3 rounded-lg transition-all duration-200 text-white font-medium
+                      ${isActive ? 'bg-brand-gold/20 text-brand-gold' : 'hover:bg-white/10'}
                     `}
                     onClick={closeMenu}
                   >
@@ -419,8 +419,8 @@ function App() {
                   <NavLink
                     to="/swap-meet"
                     className={({ isActive }) => `
-                      block px-4 py-3 rounded-lg transition-all duration-200 text-gray-900 dark:text-white font-medium
-                      ${isActive ? 'bg-brand-gold/20 text-brand-gold' : 'hover:bg-gray-200 dark:hover:bg-gray-600'}
+                      block px-4 py-3 rounded-lg transition-all duration-200 text-white font-medium
+                      ${isActive ? 'bg-brand-gold/20 text-brand-gold' : 'hover:bg-white/10'}
                     `}
                     onClick={closeMenu}
                   >
@@ -429,8 +429,8 @@ function App() {
                   <NavLink
                     to="/tools"
                     className={({ isActive }) => `
-                      block px-4 py-3 rounded-lg transition-all duration-200 text-gray-900 dark:text-white font-medium
-                      ${isActive ? 'bg-brand-gold/20 text-brand-gold' : 'hover:bg-gray-200 dark:hover:bg-gray-600'}
+                      block px-4 py-3 rounded-lg transition-all duration-200 text-white font-medium
+                      ${isActive ? 'bg-brand-gold/20 text-brand-gold' : 'hover:bg-white/10'}
                     `}
                     onClick={closeMenu}
                   >
@@ -439,8 +439,8 @@ function App() {
                   <NavLink
                     to="/contact"
                     className={({ isActive }) => `
-                      block px-4 py-3 rounded-lg transition-all duration-200 text-gray-900 dark:text-white font-medium
-                      ${isActive ? 'bg-brand-gold/20 text-brand-gold' : 'hover:bg-gray-200 dark:hover:bg-gray-600'}
+                      block px-4 py-3 rounded-lg transition-all duration-200 text-white font-medium
+                      ${isActive ? 'bg-brand-gold/20 text-brand-gold' : 'hover:bg-white/10'}
                     `}
                     onClick={closeMenu}
                   >
@@ -449,8 +449,8 @@ function App() {
                   <NavLink
                     to="/affiliates"
                     className={({ isActive }) => `
-                      block px-4 py-3 rounded-lg transition-all duration-200 text-gray-900 dark:text-white font-medium
-                      ${isActive ? 'bg-brand-gold/20 text-brand-gold' : 'hover:bg-gray-200 dark:hover:bg-gray-600'}
+                      block px-4 py-3 rounded-lg transition-all duration-200 text-white font-medium
+                      ${isActive ? 'bg-brand-gold/20 text-brand-gold' : 'hover:bg-white/10'}
                     `}
                     onClick={closeMenu}
                   >
@@ -459,22 +459,22 @@ function App() {
                   <NavLink
                     to="/social"
                     className={({ isActive }) => `
-                      block px-4 py-3 rounded-lg transition-all duration-200 text-gray-900 dark:text-white font-medium
-                      ${isActive ? 'bg-brand-gold/20 text-brand-gold' : 'hover:bg-gray-200 dark:hover:bg-gray-600'}
+                      block px-4 py-3 rounded-lg transition-all duration-200 text-white font-medium
+                      ${isActive ? 'bg-brand-gold/20 text-brand-gold' : 'hover:bg-white/10'}
                     `}
                     onClick={closeMenu}
                   >
                     Follow Us
                   </NavLink>
 
-                  <div className="h-px bg-gray-300 dark:bg-gray-600 my-2"></div>
+                  <div className="h-px bg-white/20 my-2"></div>
 
                   <button
                     onClick={() => {
                       toggleDarkMode();
                       closeMenu();
                     }}
-                    className="w-full flex items-center gap-3 px-4 py-3 rounded-lg hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors text-gray-900 dark:text-white font-medium"
+                    className="w-full flex items-center gap-3 px-4 py-3 rounded-lg hover:bg-white/10 transition-colors text-white font-medium"
                   >
                     {darkMode ? <Sun className="w-5 h-5" /> : <Moon className="w-5 h-5" />}
                     {darkMode ? 'Light Mode' : 'Dark Mode'}
