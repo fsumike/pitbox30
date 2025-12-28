@@ -357,7 +357,6 @@ function Home() {
                       )}
                       <div className="relative p-6 flex items-center justify-between">
                         <div className="flex items-center gap-3">
-                          <Car className="w-6 h-6 text-brand-gold" />
                           <span className="text-xl font-semibold text-white drop-shadow-lg">Setup Tools: {category.name}</span>
                         </div>
                         <ChevronDown
