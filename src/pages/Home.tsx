@@ -47,10 +47,10 @@ function Home() {
           <img
             src="/073020_scs_worldofoutlaws4wide_bytrentgower.jpg"
             alt="World of Outlaws 4-Wide Racing"
-            className="w-full h-full object-cover"
+            className="w-full h-full object-cover brightness-110"
           />
-          <div className="absolute inset-0 bg-gradient-to-r from-brand-black/95 via-brand-black/80 to-brand-black/60" />
-          <div className="absolute inset-0 bg-gradient-to-t from-brand-black via-transparent to-transparent" />
+          <div className="absolute inset-0 bg-gradient-to-r from-brand-black/70 via-brand-black/50 to-brand-black/30" />
+          <div className="absolute inset-0 bg-gradient-to-t from-brand-black/60 via-transparent to-transparent" />
         </div>
         <div className="relative px-6 py-16 sm:px-12 sm:py-28">
           <div className="mx-auto max-w-4xl">
