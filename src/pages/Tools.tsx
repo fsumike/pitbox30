@@ -130,6 +130,7 @@ export default function Tools() {
   const navigate = useNavigate();
   const [activeTool, setActiveTool] = useState<string>('');
   const [isChanging, setIsChanging] = useState(false);
+  const [showDropdown, setShowDropdown] = useState(false);
 
   const activeToolData = tools.find(t => t.id === activeTool);
   const isNative = Capacitor.isNativePlatform();
@@ -179,45 +180,69 @@ export default function Tools() {
 
         <div className="relative w-full">
           <label
-            htmlFor="tool-select"
             className="block text-sm font-semibold mb-2 text-gray-700 dark:text-gray-300"
           >
             Select a Tool
           </label>
           <div className="relative w-full">
-            <select
-              id="tool-select"
-              value={activeTool}
-              onChange={(e) => handleToolChange(e.target.value)}
+            <button
+              onClick={() => setShowDropdown(!showDropdown)}
               disabled={isChanging}
-              className="w-full px-3 sm:px-4 py-3 sm:py-4 pr-10 sm:pr-12 text-base sm:text-lg font-medium bg-white dark:bg-gray-800 text-black dark:text-white border-2 border-gray-200 dark:border-gray-700 rounded-xl appearance-none cursor-pointer hover:border-brand-gold focus:border-brand-gold focus:ring-2 focus:ring-brand-gold/20 focus:outline-none transition-all disabled:opacity-50 disabled:cursor-not-allowed shadow-sm overflow-hidden"
-              style={{
-                minHeight: '52px',
-                maxWidth: '100%',
-                WebkitAppearance: 'none',
-                MozAppearance: 'none',
-                backgroundImage: 'none'
-              }}
+              className="w-full px-3 sm:px-4 py-3 sm:py-4 text-base sm:text-lg font-medium bg-white dark:bg-gray-800 text-gray-900 dark:text-white border-2 border-gray-200 dark:border-gray-700 rounded-xl cursor-pointer hover:border-brand-gold focus:border-brand-gold focus:ring-2 focus:ring-brand-gold/20 focus:outline-none transition-all disabled:opacity-50 disabled:cursor-not-allowed shadow-sm text-left flex items-center justify-between"
+              style={{ minHeight: '52px' }}
               aria-label="Select a racing tool"
+              aria-haspopup="listbox"
+              aria-expanded={showDropdown}
             >
-              <option value="" className="py-2 px-3 text-base bg-white dark:bg-gray-800 text-black dark:text-white">
-                Select a tool...
-              </option>
-              {tools.map((tool) => (
-                <option
-                  key={tool.id}
-                  value={tool.id}
-                  className="py-2 px-3 text-base bg-white dark:bg-gray-800 text-black dark:text-white"
+              <span>{activeToolData?.name || 'Select a tool...'}</span>
+              <ChevronDown
+                className={`w-5 h-5 transition-transform flex-shrink-0 ${showDropdown ? 'rotate-180' : ''}`}
+                aria-hidden="true"
+              />
+            </button>
+
+            {showDropdown && (
+              <>
+                <div
+                  className="fixed inset-0 z-40"
+                  onClick={() => setShowDropdown(false)}
+                  aria-hidden="true"
+                />
+                <div
+                  className="absolute top-full left-0 right-0 z-50 mt-2 bg-white dark:bg-gray-800 border-2 border-gray-200 dark:border-gray-700 rounded-xl shadow-lg overflow-hidden"
+                  role="listbox"
                 >
-                  {tool.name}
-                </option>
-              ))}
-            </select>
-            <ChevronDown
-              className="absolute right-3 sm:right-4 top-1/2 -translate-y-1/2 w-5 h-5 pointer-events-none text-gray-400 transition-transform"
-              style={{ transform: isChanging ? 'translateY(-50%) rotate(180deg)' : 'translateY(-50%)' }}
-              aria-hidden="true"
-            />
+                  <button
+                    onClick={() => {
+                      setActiveTool('');
+                      setShowDropdown(false);
+                    }}
+                    className="w-full px-4 py-3 text-left text-gray-900 dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors border-b border-gray-200 dark:border-gray-700"
+                    role="option"
+                  >
+                    Select a tool...
+                  </button>
+                  {tools.map((tool) => (
+                    <button
+                      key={tool.id}
+                      onClick={() => {
+                        handleToolChange(tool.id);
+                        setShowDropdown(false);
+                      }}
+                      className={`w-full px-4 py-3 text-left font-medium transition-colors border-b border-gray-200 dark:border-gray-700 last:border-b-0 ${
+                        activeTool === tool.id
+                          ? 'bg-brand-gold/10 text-brand-gold'
+                          : 'text-gray-900 dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700'
+                      }`}
+                      role="option"
+                      aria-selected={activeTool === tool.id}
+                    >
+                      {tool.name}
+                    </button>
+                  ))}
+                </div>
+              </>
+            )}
           </div>
         </div>
       </div>
