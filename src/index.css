@@ -52,14 +52,22 @@
   }
 
   /* Global select option fixes for all browsers */
-  select option {
-    background-color: white;
+  select {
     color: black;
   }
 
-  .dark select option {
-    background-color: #1a1a1a;
+  select option {
+    background-color: white;
+    color: black !important;
+  }
+
+  .dark select {
     color: white;
+  }
+
+  .dark select option {
+    background-color: #2d2d2d;
+    color: white !important;
   }
 
   /* iOS specific select fixes */
@@ -344,21 +352,23 @@
 /* Select dropdown options styling */
 select {
   color-scheme: light;
+  color: black;
 }
 
 select option {
   background-color: white;
-  color: #1a1a1a;
+  color: black !important;
 }
 
 @media (prefers-color-scheme: dark) {
   select {
     color-scheme: dark;
+    color: white;
   }
 
   select option {
-    background-color: #1f2937;
-    color: white;
+    background-color: #2d2d2d;
+    color: white !important;
   }
 }
 

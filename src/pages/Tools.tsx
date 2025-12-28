@@ -190,7 +190,7 @@ export default function Tools() {
               value={activeTool}
               onChange={(e) => handleToolChange(e.target.value)}
               disabled={isChanging}
-              className="w-full px-3 sm:px-4 py-3 sm:py-4 pr-10 sm:pr-12 text-base sm:text-lg font-medium bg-white dark:bg-gray-800 border-2 border-gray-200 dark:border-gray-700 rounded-xl appearance-none cursor-pointer hover:border-brand-gold focus:border-brand-gold focus:ring-2 focus:ring-brand-gold/20 focus:outline-none transition-all disabled:opacity-50 disabled:cursor-not-allowed shadow-sm overflow-hidden"
+              className="w-full px-3 sm:px-4 py-3 sm:py-4 pr-10 sm:pr-12 text-base sm:text-lg font-medium bg-white dark:bg-gray-800 text-black dark:text-white border-2 border-gray-200 dark:border-gray-700 rounded-xl appearance-none cursor-pointer hover:border-brand-gold focus:border-brand-gold focus:ring-2 focus:ring-brand-gold/20 focus:outline-none transition-all disabled:opacity-50 disabled:cursor-not-allowed shadow-sm overflow-hidden"
               style={{
                 minHeight: '52px',
                 maxWidth: '100%',
@@ -200,14 +200,14 @@ export default function Tools() {
               }}
               aria-label="Select a racing tool"
             >
-              <option value="" className="py-2 px-3 text-base bg-white dark:bg-gray-800">
+              <option value="" className="py-2 px-3 text-base bg-white dark:bg-gray-800 text-black dark:text-white">
                 Select a tool...
               </option>
               {tools.map((tool) => (
                 <option
                   key={tool.id}
                   value={tool.id}
-                  className="py-2 px-3 text-base bg-white dark:bg-gray-800"
+                  className="py-2 px-3 text-base bg-white dark:bg-gray-800 text-black dark:text-white"
                 >
                   {tool.name}
                 </option>
