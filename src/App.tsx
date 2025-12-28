@@ -288,30 +288,30 @@ function App() {
                 </div>
 
                 <div className="hidden md:flex md:items-center md:space-x-1">
-                  <NavLink 
-                    to="/home" 
+                  <NavLink
+                    to="/home"
                     className={({ isActive }) => `
-                      nav-link px-4 py-2 rounded-lg transition-all duration-200
+                      nav-link px-4 py-2 rounded-lg transition-all duration-200 text-white font-medium
                       ${isActive ? 'bg-brand-gold/10 text-brand-gold' : 'hover:bg-gray-100/10'}
                     `}
                     onClick={closeMenu}
                   >
                     Home
                   </NavLink>
-                  <NavLink 
-                    to="/community" 
+                  <NavLink
+                    to="/community"
                     className={({ isActive }) => `
-                      nav-link px-4 py-2 rounded-lg transition-all duration-200
+                      nav-link px-4 py-2 rounded-lg transition-all duration-200 text-white font-medium
                       ${isActive ? 'bg-brand-gold/10 text-brand-gold' : 'hover:bg-gray-100/10'}
                     `}
                     onClick={closeMenu}
                   >
                     Pit Community
                   </NavLink>
-                  <NavLink 
-                    to="/swap-meet" 
+                  <NavLink
+                    to="/swap-meet"
                     className={({ isActive }) => `
-                      nav-link px-4 py-2 rounded-lg transition-all duration-200
+                      nav-link px-4 py-2 rounded-lg transition-all duration-200 text-white font-medium
                       ${isActive ? 'bg-brand-gold/10 text-brand-gold' : 'hover:bg-gray-100/10'}
                     `}
                     onClick={closeMenu}
@@ -321,17 +321,17 @@ function App() {
                   <NavLink
                     to="/tools"
                     className={({ isActive }) => `
-                      nav-link px-4 py-2 rounded-lg transition-all duration-200
+                      nav-link px-4 py-2 rounded-lg transition-all duration-200 text-white font-medium
                       ${isActive ? 'bg-brand-gold/10 text-brand-gold' : 'hover:bg-gray-100/10'}
                     `}
                     onClick={closeMenu}
                   >
                     Racing Tools
                   </NavLink>
-                  <NavLink 
-                    to="/contact" 
+                  <NavLink
+                    to="/contact"
                     className={({ isActive }) => `
-                      nav-link px-4 py-2 rounded-lg transition-all duration-200
+                      nav-link px-4 py-2 rounded-lg transition-all duration-200 text-white font-medium
                       ${isActive ? 'bg-brand-gold/10 text-brand-gold' : 'hover:bg-gray-100/10'}
                     `}
                     onClick={closeMenu}
@@ -341,7 +341,7 @@ function App() {
                   <NavLink
                     to="/affiliates"
                     className={({ isActive }) => `
-                      nav-link px-4 py-2 rounded-lg transition-all duration-200
+                      nav-link px-4 py-2 rounded-lg transition-all duration-200 text-white font-medium
                       ${isActive ? 'bg-brand-gold/10 text-brand-gold' : 'hover:bg-gray-100/10'}
                     `}
                     onClick={closeMenu}
@@ -351,7 +351,7 @@ function App() {
                   <NavLink
                     to="/social"
                     className={({ isActive }) => `
-                      nav-link px-4 py-2 rounded-lg transition-all duration-200
+                      nav-link px-4 py-2 rounded-lg transition-all duration-200 text-white font-medium
                       ${isActive ? 'bg-brand-gold/10 text-brand-gold' : 'hover:bg-gray-100/10'}
                     `}
                     onClick={closeMenu}
@@ -365,7 +365,7 @@ function App() {
 
                   <button
                     onClick={toggleDarkMode}
-                    className="p-2 rounded-lg hover:bg-gray-100/10 transition-colors ml-2"
+                    className="p-2 rounded-lg hover:bg-gray-100/10 transition-colors ml-2 text-white"
                     aria-label={darkMode ? 'Switch to light mode' : 'Switch to dark mode'}
                   >
                     {darkMode ? <Sun className="w-5 h-5" /> : <Moon className="w-5 h-5" />}
@@ -396,30 +396,30 @@ function App() {
             >
               <div className="glass-nav rounded-2xl backdrop-blur-lg border border-white/10 shadow-lg overflow-hidden">
                 <div className="p-4 space-y-1">
-                  <NavLink 
-                    to="/home" 
+                  <NavLink
+                    to="/home"
                     className={({ isActive }) => `
-                      block px-4 py-3 rounded-lg transition-all duration-200
+                      block px-4 py-3 rounded-lg transition-all duration-200 text-white font-medium
                       ${isActive ? 'bg-brand-gold/10 text-brand-gold' : 'hover:bg-gray-100/10'}
                     `}
                     onClick={closeMenu}
                   >
                     Home
                   </NavLink>
-                  <NavLink 
-                    to="/community" 
+                  <NavLink
+                    to="/community"
                     className={({ isActive }) => `
-                      block px-4 py-3 rounded-lg transition-all duration-200
+                      block px-4 py-3 rounded-lg transition-all duration-200 text-white font-medium
                       ${isActive ? 'bg-brand-gold/10 text-brand-gold' : 'hover:bg-gray-100/10'}
                     `}
                     onClick={closeMenu}
                   >
                     Pit Community
                   </NavLink>
-                  <NavLink 
-                    to="/swap-meet" 
+                  <NavLink
+                    to="/swap-meet"
                     className={({ isActive }) => `
-                      block px-4 py-3 rounded-lg transition-all duration-200
+                      block px-4 py-3 rounded-lg transition-all duration-200 text-white font-medium
                       ${isActive ? 'bg-brand-gold/10 text-brand-gold' : 'hover:bg-gray-100/10'}
                     `}
                     onClick={closeMenu}
@@ -429,17 +429,17 @@ function App() {
                   <NavLink
                     to="/tools"
                     className={({ isActive }) => `
-                      block px-4 py-3 rounded-lg transition-all duration-200
+                      block px-4 py-3 rounded-lg transition-all duration-200 text-white font-medium
                       ${isActive ? 'bg-brand-gold/10 text-brand-gold' : 'hover:bg-gray-100/10'}
                     `}
                     onClick={closeMenu}
                   >
                     Racing Tools
                   </NavLink>
-                  <NavLink 
-                    to="/contact" 
+                  <NavLink
+                    to="/contact"
                     className={({ isActive }) => `
-                      block px-4 py-3 rounded-lg transition-all duration-200
+                      block px-4 py-3 rounded-lg transition-all duration-200 text-white font-medium
                       ${isActive ? 'bg-brand-gold/10 text-brand-gold' : 'hover:bg-gray-100/10'}
                     `}
                     onClick={closeMenu}
@@ -449,7 +449,7 @@ function App() {
                   <NavLink
                     to="/affiliates"
                     className={({ isActive }) => `
-                      block px-4 py-3 rounded-lg transition-all duration-200
+                      block px-4 py-3 rounded-lg transition-all duration-200 text-white font-medium
                       ${isActive ? 'bg-brand-gold/10 text-brand-gold' : 'hover:bg-gray-100/10'}
                     `}
                     onClick={closeMenu}
@@ -459,7 +459,7 @@ function App() {
                   <NavLink
                     to="/social"
                     className={({ isActive }) => `
-                      block px-4 py-3 rounded-lg transition-all duration-200
+                      block px-4 py-3 rounded-lg transition-all duration-200 text-white font-medium
                       ${isActive ? 'bg-brand-gold/10 text-brand-gold' : 'hover:bg-gray-100/10'}
                     `}
                     onClick={closeMenu}
@@ -474,7 +474,7 @@ function App() {
                       toggleDarkMode();
                       closeMenu();
                     }}
-                    className="w-full flex items-center gap-3 px-4 py-3 rounded-lg hover:bg-gray-100/10 transition-colors"
+                    className="w-full flex items-center gap-3 px-4 py-3 rounded-lg hover:bg-gray-100/10 transition-colors text-white font-medium"
                   >
                     {darkMode ? <Sun className="w-5 h-5" /> : <Moon className="w-5 h-5" />}
                     {darkMode ? 'Light Mode' : 'Dark Mode'}
