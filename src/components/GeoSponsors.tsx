@@ -26,8 +26,8 @@ const allSponsors: Sponsor[] = [
     lat: 39.1457,
     lng: -121.5908,
     website: 'https://www.marysvilleraceway.com',
-    description: 'Historic 1/3 mile clay oval featuring exciting Sprint Car, Late Model, and Stock Car racing. A Northern California racing tradition since 1947.',
-    image: 'https://images.unsplash.com/photo-1568605117036-5fe5e7bab0b7?w=400&h=200&fit=crop',
+    description: 'Partnered with Silver Dollar Speedway, featuring modified, dwarf, winged and wingless sprints. Home of the Paul Hawes Memorial Sprint Spooktacular.',
+    image: 'https://cdn.myracepass.com/v1/siteresources/58778/v1/img/logo.png',
     featured: true,
   },
   {
@@ -39,8 +39,8 @@ const allSponsors: Sponsor[] = [
     lat: 39.7285,
     lng: -121.8375,
     website: 'https://www.silverdollarspeedway.com',
-    description: 'Home of the legendary Gold Cup Race of Champions. Premier sprint car racing facility in Northern California.',
-    image: '/logo.png',
+    description: 'Home of the legendary Gold Cup Race of Champions. Premier sprint car racing facility featuring winged 360 sprint cars and hobby stocks.',
+    image: 'https://cdn.myracepass.com/v1/siteresources/35514/v1/img/logo.png',
     featured: true,
   },
   {
@@ -52,69 +52,9 @@ const allSponsors: Sponsor[] = [
     lat: 36.2077,
     lng: -119.3473,
     website: 'https://www.thunderbowlraceway.com',
-    description: 'Home of the Trophy Cup. Exciting NARC 410 Sprint Car racing in Central California.',
-    image: '/image (2).png',
+    description: 'Home of the Trophy Cup. Exciting NARC 410 Sprint Car racing and one of California\'s premier dirt racing venues.',
+    image: 'https://www.thunderbowlraceway.com/wp-content/uploads/2020/01/Logo.png',
     featured: true,
-  },
-  {
-    id: 'placerville',
-    name: 'Placerville Speedway',
-    location: 'Placerville, California',
-    city: 'Placerville',
-    state: 'CA',
-    lat: 38.7316,
-    lng: -120.7985,
-    website: 'https://www.placervillespeedway.com',
-    description: 'Historic 1/4 mile red clay oval in the Sierra Nevada foothills. Sprint cars, Limited Late Models, and more.',
-    image: 'https://images.unsplash.com/photo-1594345857882-1be16d54a4fb?w=400&h=200&fit=crop',
-  },
-  {
-    id: 'ocean-speedway',
-    name: 'Ocean Speedway',
-    location: 'Watsonville, California',
-    city: 'Watsonville',
-    state: 'CA',
-    lat: 36.9101,
-    lng: -121.7530,
-    website: 'https://www.oceanspeedway.com',
-    description: 'Fast 1/4 mile dirt oval on the Central Coast featuring 360 Sprint Cars, IMCA Modifieds, and more.',
-    image: 'https://images.unsplash.com/photo-1544636331-e26879cd4d9b?w=400&h=200&fit=crop',
-  },
-  {
-    id: 'keller-auto',
-    name: 'Keller Auto Speedway',
-    location: 'Hanford, California',
-    city: 'Hanford',
-    state: 'CA',
-    lat: 36.3274,
-    lng: -119.6457,
-    website: 'https://www.kellerautospeedway.com',
-    description: 'Fast 1/3 mile clay oval in the heart of the San Joaquin Valley. Sprint cars, modifieds, and stock cars.',
-    image: 'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=400&h=200&fit=crop',
-  },
-  {
-    id: 'petaluma',
-    name: 'Petaluma Speedway',
-    location: 'Petaluma, California',
-    city: 'Petaluma',
-    state: 'CA',
-    lat: 38.2341,
-    lng: -122.6366,
-    website: 'https://www.petaluma-speedway.com',
-    description: 'The "FASTEST 3/8 Mile Dirt Oval" in Northern California. Sprint Cars, Late Models, and Modifieds.',
-    image: 'https://images.unsplash.com/photo-1552519507-da3b142c6e3d?w=400&h=200&fit=crop',
-  },
-  {
-    id: 'delta-speedway',
-    name: 'Delta Speedway',
-    location: 'Stockton, California',
-    city: 'Stockton',
-    state: 'CA',
-    lat: 37.9577,
-    lng: -121.2908,
-    website: 'https://www.deltaspeedwaystockton.com',
-    description: 'High-banked 1/7 mile oval. Home of exciting micro sprint and go-kart racing action.',
-    image: 'https://images.unsplash.com/photo-1535750019702-86f32b4f9a7e?w=400&h=200&fit=crop',
   },
 ];
 
@@ -197,7 +137,7 @@ export default function GeoSponsors({ maxSponsors = 4, showDistance = true }: Ge
         </div>
       </div>
 
-      <div className="grid md:grid-cols-2 gap-6 max-w-5xl mx-auto">
+      <div className="grid md:grid-cols-3 gap-6 max-w-6xl mx-auto">
         {sponsors.map((sponsor) => (
           <a
             key={sponsor.id}
@@ -220,20 +160,12 @@ export default function GeoSponsors({ maxSponsors = 4, showDistance = true }: Ge
                 </div>
               </div>
 
-              <div className="mb-4 h-24 md:h-32 flex items-center justify-center bg-gray-100 dark:bg-gray-800 rounded-lg overflow-hidden">
-                {sponsor.image?.startsWith('/') ? (
-                  <img
-                    src={sponsor.image}
-                    alt={sponsor.name}
-                    className="w-full h-full object-contain p-2"
-                  />
-                ) : (
-                  <img
-                    src={sponsor.image}
-                    alt={sponsor.name}
-                    className="w-full h-full object-cover"
-                  />
-                )}
+              <div className="mb-4 h-24 md:h-32 flex items-center justify-center bg-gray-900 rounded-lg overflow-hidden p-4">
+                <img
+                  src={sponsor.image}
+                  alt={sponsor.name}
+                  className="w-full h-full object-contain"
+                />
               </div>
 
               <h3 className="text-xl font-bold mb-2">{sponsor.name}</h3>

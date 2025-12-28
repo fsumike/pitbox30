@@ -303,7 +303,7 @@ function Home() {
       </div>
 
       {/* Geo-Targeted Sponsored Affiliates */}
-      <GeoSponsors maxSponsors={4} showDistance={true} />
+      <GeoSponsors maxSponsors={3} showDistance={true} />
 
       {/* Thank You Section */}
       <div className="glass-panel p-8 bg-gradient-to-br from-brand-gold/10 via-brand-gold/5 to-brand-gold/10 mb-24">
