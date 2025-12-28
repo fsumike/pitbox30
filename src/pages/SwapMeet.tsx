@@ -420,7 +420,7 @@ function SwapMeet() {
       }}></div>
 
       {/* Hero Section */}
-      <div className="glass-panel p-8 shadow-2xl shadow-brand-gold/20">
+      <div className="carbon-fiber-panel p-8 shadow-2xl shadow-brand-gold/20">
         <div className="flex flex-col md:flex-row items-center gap-8">
           <div className="flex-1 text-center md:text-left">
             <div className="space-y-3">
@@ -500,7 +500,7 @@ function SwapMeet() {
       </div>
 
       {/* Search and Filter Section */}
-      <div className="glass-panel p-6 shadow-xl">
+      <div className="carbon-fiber-panel p-6 shadow-xl">
         <div className="flex flex-col md:flex-row gap-4">
           {/* Search Input */}
           <div className="relative flex-1">

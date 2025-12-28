@@ -889,3 +889,58 @@ select option {
 .dark .scroll-header-compact {
   background: rgba(26, 26, 26, 0.9);
 }
+
+/* Carbon Fiber Panel - Lighter version for main containers */
+.carbon-fiber-panel {
+  @apply bg-gradient-to-br from-gray-900/95 to-black/95 dark:from-gray-900/95 dark:to-black/95 backdrop-blur-xl rounded-xl
+         border-2 border-white/10 dark:border-white/10 transition-all duration-300
+         touch-pan-y text-white dark:text-white relative overflow-hidden;
+  transform: translateZ(0);
+  -webkit-touch-callout: none;
+  box-shadow:
+    0 8px 32px rgba(0, 0, 0, 0.4),
+    inset 0 1px 0 rgba(255, 255, 255, 0.05);
+}
+
+/* Carbon fiber texture base */
+.carbon-fiber-panel::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    repeating-linear-gradient(0deg, #3a2d1a 0px, #261d10 1px, #3a2d1a 2px, #2e2414 3px),
+    repeating-linear-gradient(90deg, #3a2d1a 0px, #2a1f12 1px, #3a2d1a 2px, #322618 3px);
+  background-size: 6px 6px;
+  opacity: 0.4;
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* Carbon fiber weave highlights */
+.carbon-fiber-panel::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    repeating-linear-gradient(45deg, transparent 0px, transparent 2px, rgba(251, 191, 36, 0.06) 2px, rgba(251, 191, 36, 0.06) 4px),
+    repeating-linear-gradient(-45deg, transparent 0px, transparent 2px, rgba(217, 119, 6, 0.04) 2px, rgba(217, 119, 6, 0.04) 4px);
+  background-size: 8px 8px;
+  opacity: 0.35;
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* Content wrapper for carbon-fiber-panel */
+.carbon-fiber-panel > * {
+  position: relative;
+  z-index: 2;
+}
+
+.carbon-fiber-panel:hover {
+  border-color: rgba(212, 175, 55, 0.4);
+  box-shadow:
+    0 8px 32px rgba(0, 0, 0, 0.6),
+    0 0 20px rgba(212, 175, 55, 0.2),
+    inset 0 1px 0 rgba(255, 255, 255, 0.08);
+  transform: translateY(-2px) translateZ(0);
+}

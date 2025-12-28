@@ -49,7 +49,7 @@ function Contact() {
   return (
     <div className="space-y-8">
       {/* Hero Section */}
-      <div className="glass-panel p-8 bg-gradient-to-br from-brand-gold/10 to-brand-gold-dark/10">
+      <div className="carbon-fiber-panel p-8 bg-gradient-to-br from-brand-gold/10 to-brand-gold-dark/10">
         <div className="flex flex-col md:flex-row items-center gap-8">
           <div className="flex-1">
             <h1 className="text-4xl font-bold mb-6 bg-gradient-to-r from-brand-gold to-brand-gold-light bg-clip-text text-transparent">
@@ -72,7 +72,7 @@ function Contact() {
       </div>
 
       {/* Legal & Privacy Section */}
-      <div className="glass-panel p-8">
+      <div className="carbon-fiber-panel p-8">
         <div className="text-center mb-8">
           <Shield className="w-12 h-12 text-brand-gold mx-auto mb-4" />
           <h2 className="text-2xl font-bold mb-4">Legal & Privacy</h2>
@@ -132,7 +132,7 @@ function Contact() {
       </div>
 
       {/* Contact Form Section */}
-      <div id="contact-form" className="glass-panel p-8">
+      <div id="contact-form" className="carbon-fiber-panel p-8">
         <div className="max-w-2xl mx-auto text-center">
           <MessageSquare className="w-12 h-12 text-brand-gold mx-auto mb-6" />
           <h2 className="text-2xl font-bold mb-4">Get in Touch</h2>
@@ -239,7 +239,7 @@ function Contact() {
       </div>
 
       {/* Frequently Asked Questions */}
-      <div className="glass-panel p-8">
+      <div className="carbon-fiber-panel p-8">
         <div className="text-center mb-8">
           <MessageSquare className="w-12 h-12 text-brand-gold mx-auto mb-4" />
           <h2 className="text-2xl font-bold mb-4">Frequently Asked Questions</h2>

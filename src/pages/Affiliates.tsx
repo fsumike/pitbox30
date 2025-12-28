@@ -60,7 +60,7 @@ function Affiliates() {
       </div>
 
       {/* Hero Section with Logo */}
-      <div className="glass-panel p-8 bg-gradient-to-br from-brand-gold/10 to-brand-gold-dark/10">
+      <div className="carbon-fiber-panel p-8 bg-gradient-to-br from-brand-gold/10 to-brand-gold-dark/10">
         <div className="max-w-4xl mx-auto">
           <div className="flex flex-col items-center mb-12">
             <img 
@@ -154,7 +154,7 @@ function Affiliates() {
       </div>
 
       {/* Why Partner With Us */}
-      <div className="glass-panel p-8">
+      <div className="carbon-fiber-panel p-8">
         <h2 className="text-3xl font-bold text-center mb-12">Why Partner With PIT-BOX.COM?</h2>
         
         <div className="grid md:grid-cols-3 gap-8">
@@ -381,7 +381,7 @@ function Affiliates() {
       </div>
 
       {/* Call to Action */}
-      <div className="glass-panel p-8 bg-gradient-to-br from-brand-gold/10 to-brand-gold-dark/10 text-center">
+      <div className="carbon-fiber-panel p-8 bg-gradient-to-br from-brand-gold/10 to-brand-gold-dark/10 text-center">
         <div className="flex flex-col items-center">
           <img
             src="/android-icon-192-192.png"

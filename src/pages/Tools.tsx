@@ -152,7 +152,7 @@ export default function Tools() {
 
   return (
     <div className="min-h-screen pb-20 safe-area-bottom">
-      <div className="glass-panel p-4 sm:p-6 mb-4 sm:mb-6 bg-gradient-to-br from-blue-500/10 to-orange-500/10 safe-area-top">
+      <div className="carbon-fiber-panel p-4 sm:p-6 mb-4 sm:mb-6 bg-gradient-to-br from-blue-500/10 to-orange-500/10 safe-area-top">
         <div className="flex items-center gap-3 mb-4 sm:mb-6">
           <button
             onClick={handleBackClick}
@@ -233,7 +233,7 @@ export default function Tools() {
             className="space-y-6"
           >
             {/* Hero Promo Section */}
-            <div className="glass-panel p-8 bg-gradient-to-br from-brand-gold/10 to-brand-gold-dark/10 text-center">
+            <div className="carbon-fiber-panel p-8 bg-gradient-to-br from-brand-gold/10 to-brand-gold-dark/10 text-center">
               <div className="mb-6">
                 <Wrench className="w-16 h-16 text-brand-gold mx-auto mb-4 animate-pulse" />
                 <h2 className="text-3xl md:text-4xl font-bold mb-4 text-gold-gradient">
