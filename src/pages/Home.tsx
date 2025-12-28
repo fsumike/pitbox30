@@ -13,7 +13,7 @@ import SubscriptionGate from '../components/SubscriptionGate';
 
 const categoryImages: Record<string, string> = {
   'Sprint Cars': '/495479702_1321020539654208_5408440298677452810_n.jpg',
-  'Midget Cars': 'https://images.unsplash.com/photo-1568605117036-5fe5e7bab0b7?w=400&h=200&fit=crop',
+  'Midget Cars': '/69298c4cd988988b07f26b2b_jja_6613-min copy.jpg',
   'Modifieds': 'https://images.unsplash.com/photo-1544636331-e26879cd4d9b?w=400&h=200&fit=crop',
   'Late Models': 'https://images.unsplash.com/photo-1552519507-da3b142c6e3d?w=400&h=200&fit=crop',
   'Stock Cars': 'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=400&h=200&fit=crop',
