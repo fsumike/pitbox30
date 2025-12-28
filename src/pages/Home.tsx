@@ -97,7 +97,24 @@ function Home() {
       </div>
 
       {/* Vehicle Selection Section - Enhanced */}
-      <div className="glass-panel p-8 bg-gradient-to-br from-gray-800/90 to-gray-900/90 transform hover:scale-[1.02] transition-all duration-300">
+      <div className="glass-panel p-8 bg-gradient-to-br from-gray-950 via-black to-gray-900 transform hover:scale-[1.02] transition-all duration-300 relative overflow-hidden shadow-2xl">
+        <div className="absolute inset-0 opacity-30" style={{
+          backgroundImage: `repeating-linear-gradient(
+            45deg,
+            transparent,
+            transparent 2px,
+            rgba(255,255,255,.03) 2px,
+            rgba(255,255,255,.03) 4px
+          ),
+          repeating-linear-gradient(
+            -45deg,
+            transparent,
+            transparent 2px,
+            rgba(255,255,255,.03) 2px,
+            rgba(255,255,255,.03) 4px
+          )`
+        }}></div>
+        <div className="relative z-10">
         <div className="text-center mb-8">
           <h2 className="text-4xl md:text-5xl font-bold bg-gradient-to-r from-brand-gold to-brand-gold-light bg-clip-text text-transparent mb-6">
             Master Your Racing Machine
@@ -239,6 +256,7 @@ function Home() {
               </button>
             )}
           </div>
+        </div>
         </div>
       </div>
 
