@@ -155,14 +155,14 @@
 
   /* Floating navigation styles */
   .glass-nav {
-    @apply bg-white/80 dark:bg-gray-900/80;
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
+    @apply bg-white/50 dark:bg-gray-900/50;
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
   }
 
   /* Add shadow and border effect */
   .glass-nav {
-    box-shadow: 
+    box-shadow:
       0 4px 6px -1px rgba(0, 0, 0, 0.1),
       0 2px 4px -1px rgba(0, 0, 0, 0.06),
       0 0 0 1px rgba(255, 255, 255, 0.1);
