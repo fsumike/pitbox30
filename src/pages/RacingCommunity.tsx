@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { User, Clock, MapPin, Heart, MessageSquare, Share2, MoreVertical, Send, Check, Bookmark, BookmarkCheck, TrendingUp, Zap, Play, Pause, Volume2, VolumeX, Maximize2, Eye, Repeat, X, Image as ImageIcon, Smile, Loader2, Edit2, Reply, ChevronDown, ChevronUp, Film } from 'lucide-react';
+import { User, Clock, MapPin, Heart, MessageSquare, Share2, MoreVertical, Send, Check, Bookmark, BookmarkCheck, TrendingUp, Zap, Play, Pause, Volume2, VolumeX, Maximize2, Eye, Repeat, X, Image as ImageIcon, Smile, Loader2, Edit2, Reply, ChevronDown, ChevronUp, Film, Users, Bell, MessageCircle, Sparkles, Flag } from 'lucide-react';
 import { useAuth } from '../contexts/AuthContext';
 import { supabase } from '../lib/supabase';
 import type { Post, Profile } from '../types';
@@ -363,27 +363,57 @@ function RacingCommunity() {
   }
 
   return (
-    <div ref={contentRef} className="min-h-screen bg-gradient-to-b from-gray-50 to-gray-100 dark:from-gray-900 dark:to-black pb-20 overflow-y-auto">
-      <div className="sticky top-0 z-50 bg-white dark:bg-gray-900 border-b border-gray-200 dark:border-gray-800 shadow-sm">
-        <div className="max-w-7xl mx-auto px-3 sm:px-4 py-3">
+    <div ref={contentRef} className="min-h-screen pb-20 overflow-y-auto relative">
+      {/* Dark Carbon Fiber Background - Light Mode uses dark theme, Dark Mode goes even darker */}
+      <div className="fixed inset-0 -z-10 dark:hidden" style={{
+        background: `
+          repeating-linear-gradient(45deg, #1A1A1A 0px, #151515 1px, #1A1A1A 2px, #121212 3px),
+          repeating-linear-gradient(-45deg, #1A1A1A 0px, #181818 1px, #1A1A1A 2px, #131313 3px)
+        `,
+        backgroundSize: '8px 8px',
+      }}></div>
+
+      {/* Even Darker Carbon Fiber Background for Dark Mode */}
+      <div className="fixed inset-0 -z-10 hidden dark:block" style={{
+        background: `
+          repeating-linear-gradient(45deg, #000000 0px, #050505 1px, #000000 2px, #030303 3px),
+          repeating-linear-gradient(-45deg, #000000 0px, #020202 1px, #000000 2px, #010101 3px)
+        `,
+        backgroundSize: '8px 8px',
+      }}></div>
+
+      {/* Carbon Fiber Diagonal Weave Overlay */}
+      <div className="fixed inset-0 -z-10 dark:opacity-100 opacity-100" style={{
+        background: `
+          repeating-linear-gradient(45deg, transparent 0px, transparent 3px, rgba(255, 255, 255, 0.03) 3px, rgba(255, 255, 255, 0.03) 6px),
+          repeating-linear-gradient(-45deg, transparent 0px, transparent 3px, rgba(255, 255, 255, 0.04) 3px, rgba(255, 255, 255, 0.04) 6px)
+        `,
+        backgroundSize: '12px 12px',
+      }}></div>
+
+      <div className="sticky top-0 z-50 bg-black/40 dark:bg-black/60 backdrop-blur-xl border-b border-white/10 shadow-2xl">
+        <div className="max-w-7xl mx-auto px-3 sm:px-4 py-4">
           <div className="flex items-center justify-center">
-            <div className="flex items-center gap-2">
-              <img
-                src="/android-icon-192-192.png"
-                alt="PIT-BOX.COM"
-                className="w-10 h-10 sm:w-12 sm:h-12 object-contain flex-shrink-0"
-              />
-              <Zap className="w-5 h-5 sm:w-6 sm:h-6 text-brand-gold flex-shrink-0" />
-              <h1 className="text-lg sm:text-xl font-bold bg-gradient-to-r from-brand-gold to-amber-600 bg-clip-text text-transparent">
+            <div className="flex items-center gap-3">
+              <div className="relative">
+                <img
+                  src="/android-icon-192-192.png"
+                  alt="PIT-BOX.COM"
+                  className="w-12 h-12 sm:w-14 sm:h-14 object-contain flex-shrink-0 drop-shadow-[0_0_15px_rgba(234,179,8,0.5)]"
+                />
+                <Sparkles className="w-4 h-4 text-brand-gold absolute -top-1 -right-1 animate-pulse" />
+              </div>
+              <Flag className="w-6 h-6 sm:w-7 sm:h-7 text-brand-gold flex-shrink-0 drop-shadow-[0_0_10px_rgba(234,179,8,0.5)]" />
+              <h1 className="text-xl sm:text-2xl font-black bg-gradient-to-r from-brand-gold via-amber-400 to-brand-gold bg-clip-text text-transparent drop-shadow-lg">
                 Pit Community
               </h1>
             </div>
           </div>
         </div>
 
-        <div className="border-t border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-800/50">
-          <div className="max-w-7xl mx-auto px-3 sm:px-4 py-2">
-            <div className="flex items-center justify-center gap-2 sm:gap-3">
+        <div className="border-t border-white/10 bg-black/20 backdrop-blur-md">
+          <div className="max-w-7xl mx-auto px-3 sm:px-4 py-3">
+            <div className="flex items-center justify-center gap-3 sm:gap-4">
               <NotificationCenter />
               <FriendsButton />
               <MessagesButton />
@@ -404,32 +434,32 @@ function RacingCommunity() {
       <div className="max-w-2xl mx-auto px-4 pt-6">
         <motion.button
           onClick={() => setShowReels(true)}
-          className="w-full mb-4 p-4 glass-panel flex items-center justify-center gap-3 group hover:shadow-xl transition-all duration-300 bg-gradient-to-r from-purple-500 to-pink-500 text-white border-none"
-          whileHover={{ scale: 1.02 }}
+          className="w-full mb-4 p-5 bg-gradient-to-r from-purple-600 via-pink-600 to-red-600 rounded-2xl shadow-2xl flex items-center justify-center gap-3 group hover:shadow-purple-500/50 transition-all duration-300 border-2 border-white/20"
+          whileHover={{ scale: 1.02, boxShadow: "0 25px 50px -12px rgba(168, 85, 247, 0.5)" }}
           whileTap={{ scale: 0.98 }}
         >
-          <Film className="w-6 h-6" />
-          <span className="font-bold text-lg">Watch Racing Reels</span>
-          <Play className="w-5 h-5" />
+          <Film className="w-7 h-7 text-white drop-shadow-lg" />
+          <span className="font-black text-xl text-white drop-shadow-lg">Watch Racing Reels</span>
+          <Play className="w-6 h-6 text-white drop-shadow-lg animate-pulse" />
         </motion.button>
 
         <motion.button
           onClick={() => setShowCreatePost(true)}
-          className="w-full mb-6 p-6 glass-panel flex items-center gap-4 group hover:shadow-xl transition-all duration-300"
+          className="w-full mb-6 p-6 bg-gradient-to-br from-gray-900 to-black rounded-2xl shadow-2xl flex items-center gap-4 group hover:shadow-brand-gold/30 transition-all duration-300 border-2 border-brand-gold/30 hover:border-brand-gold/60"
           whileHover={{ scale: 1.01 }}
           whileTap={{ scale: 0.99 }}
         >
-          <div className="w-12 h-12 rounded-full bg-gradient-to-br from-brand-gold to-amber-600 flex items-center justify-center overflow-hidden">
+          <div className="w-14 h-14 rounded-full bg-gradient-to-br from-brand-gold via-amber-500 to-amber-600 flex items-center justify-center overflow-hidden shadow-xl ring-4 ring-brand-gold/30">
             {user.user_metadata?.avatar_url ? (
               <img src={user.user_metadata.avatar_url} alt="You" className="w-full h-full object-cover" />
             ) : (
-              <User className="w-6 h-6 text-white" />
+              <User className="w-7 h-7 text-white" />
             )}
           </div>
-          <span className="flex-1 text-left text-gray-500 dark:text-gray-400 group-hover:text-brand-gold transition-colors">
+          <span className="flex-1 text-left text-gray-400 group-hover:text-brand-gold transition-colors font-medium text-lg">
             Share your racing story...
           </span>
-          <Zap className="w-5 h-5 text-brand-gold" />
+          <Sparkles className="w-6 h-6 text-brand-gold drop-shadow-[0_0_10px_rgba(234,179,8,0.8)] animate-pulse" />
         </motion.button>
 
         <SocialPromoBanner variant="inline" dismissible={true} showDelay={5000} />
@@ -463,7 +493,7 @@ function RacingCommunity() {
                 transition={{ duration: 0.4, delay: index * 0.05 }}
                 className="mb-8"
               >
-                <div className="glass-panel hover:shadow-2xl transition-all duration-300 rounded-xl">
+                <div className="bg-gradient-to-br from-gray-900/95 to-black/95 backdrop-blur-xl border-2 border-white/10 hover:border-brand-gold/40 hover:shadow-2xl hover:shadow-brand-gold/20 transition-all duration-300 rounded-2xl overflow-hidden">
                   {/* Post Header */}
                   <div className="p-6 pb-0" id={`post-${post.id}`}>
                     <div className="flex items-center justify-between mb-4">
@@ -487,10 +517,10 @@ function RacingCommunity() {
                           </div>
                         </div>
                         <div>
-                          <p className="font-bold group-hover:text-brand-gold transition-colors">
+                          <p className="font-bold text-white group-hover:text-brand-gold transition-colors">
                             {post.profiles?.full_name || post.profiles?.username}
                           </p>
-                          <div className="flex items-center gap-2 text-sm text-gray-500">
+                          <div className="flex items-center gap-2 text-sm text-gray-400">
                             <Clock className="w-3 h-3" />
                             {formatTime(post.created_at)}
                             {post.location && (
@@ -506,15 +536,15 @@ function RacingCommunity() {
                       <div className="relative">
                         <button
                           onClick={() => setShowPostMenu(showPostMenu === post.id ? null : post.id)}
-                          className="p-2 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-full transition-colors"
+                          className="p-2 hover:bg-white/10 rounded-full transition-colors"
                         >
-                          <MoreVertical className="w-5 h-5" />
+                          <MoreVertical className="w-5 h-5 text-gray-300 hover:text-brand-gold" />
                         </button>
                         {showPostMenu === post.id && (
                           <motion.div
                             initial={{ opacity: 0, y: -10 }}
                             animate={{ opacity: 1, y: 0 }}
-                            className="absolute right-0 mt-2 w-48 bg-white dark:bg-gray-800 rounded-xl shadow-xl border border-gray-200 dark:border-gray-700 overflow-hidden z-10"
+                            className="absolute right-0 mt-2 w-52 bg-gradient-to-br from-gray-900 to-black rounded-xl shadow-2xl shadow-brand-gold/10 border-2 border-white/20 overflow-hidden z-10"
                           >
                             {user?.id === post.user_id && (
                               <>
@@ -524,9 +554,9 @@ function RacingCommunity() {
                                     setShowCreatePost(true);
                                     setShowPostMenu(null);
                                   }}
-                                  className="w-full px-4 py-3 text-left hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors flex items-center gap-2"
+                                  className="w-full px-4 py-3 text-left text-white hover:bg-brand-gold/20 transition-colors flex items-center gap-2 font-medium"
                                 >
-                                  <Edit2 className="w-4 h-4" />
+                                  <Edit2 className="w-4 h-4 text-brand-gold" />
                                   Edit Post
                                 </button>
                                 <button
@@ -534,7 +564,7 @@ function RacingCommunity() {
                                     setDeleteConfirm(post.id);
                                     setShowPostMenu(null);
                                   }}
-                                  className="w-full px-4 py-3 text-left text-red-600 hover:bg-red-50 dark:hover:bg-red-900/20 transition-colors"
+                                  className="w-full px-4 py-3 text-left text-red-400 hover:bg-red-900/30 transition-colors font-medium"
                                 >
                                   Delete Post
                                 </button>
@@ -545,16 +575,16 @@ function RacingCommunity() {
                                 toggleBookmark(post.id);
                                 setShowPostMenu(null);
                               }}
-                              className="w-full px-4 py-3 text-left hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors flex items-center gap-2"
+                              className="w-full px-4 py-3 text-left text-white hover:bg-brand-gold/20 transition-colors flex items-center gap-2 font-medium"
                             >
                               {bookmarks.includes(post.id) ? (
                                 <>
-                                  <BookmarkCheck className="w-4 h-4" />
+                                  <BookmarkCheck className="w-4 h-4 text-brand-gold" />
                                   Unsave
                                 </>
                               ) : (
                                 <>
-                                  <Bookmark className="w-4 h-4" />
+                                  <Bookmark className="w-4 h-4 text-brand-gold" />
                                   Save
                                 </>
                               )}
@@ -566,11 +596,11 @@ function RacingCommunity() {
 
                     {post.content && (
                       <div className="mb-4">
-                        <p className="text-base leading-relaxed whitespace-pre-wrap">
+                        <p className="text-base leading-relaxed whitespace-pre-wrap text-gray-100">
                           {renderTextWithLinks(post.content)}
                         </p>
                         {post.is_edited && (
-                          <span className="text-xs text-gray-500 dark:text-gray-400 italic">
+                          <span className="text-xs text-gray-500 italic">
                             Edited
                           </span>
                         )}
@@ -607,7 +637,7 @@ function RacingCommunity() {
                   {/* Post Actions */}
                   <div className="p-6">
                     {(post.view_count > 0 || post.share_count > 0) && (
-                      <div className="flex items-center gap-4 text-xs text-gray-500 dark:text-gray-400 mb-4">
+                      <div className="flex items-center gap-4 text-xs text-gray-400 mb-4">
                         {post.view_count > 0 && (
                           <span className="flex items-center gap-1">
                             <Eye className="w-3 h-3" />
@@ -641,7 +671,7 @@ function RacingCommunity() {
                               }`}
                             />
                           </motion.div>
-                          <span className="font-semibold text-sm">
+                          <span className="font-semibold text-sm text-gray-300">
                             {post.post_reactions?.length || 0}
                           </span>
                         </motion.button>
@@ -651,8 +681,8 @@ function RacingCommunity() {
                           className="flex items-center gap-2 group"
                           whileTap={{ scale: 0.9 }}
                         >
-                          <MessageSquare className="w-6 h-6 text-gray-600 dark:text-gray-400 group-hover:text-brand-gold transition-colors" />
-                          <span className="font-semibold text-sm">
+                          <MessageCircle className="w-6 h-6 text-gray-400 group-hover:text-brand-gold transition-colors" />
+                          <span className="font-semibold text-sm text-gray-300">
                             {post.post_comments?.length || 0}
                           </span>
                         </motion.button>
@@ -663,9 +693,9 @@ function RacingCommunity() {
                           whileTap={{ scale: 0.9 }}
                         >
                           {shareSuccess === post.id ? (
-                            <Check className="w-6 h-6 text-green-500" />
+                            <Check className="w-6 h-6 text-green-400" />
                           ) : (
-                            <Share2 className="w-6 h-6 text-gray-600 dark:text-gray-400 group-hover:text-brand-gold transition-colors" />
+                            <Share2 className="w-6 h-6 text-gray-400 group-hover:text-brand-gold transition-colors" />
                           )}
                         </motion.button>
                       </div>
@@ -690,7 +720,7 @@ function RacingCommunity() {
                           animate={{ height: 'auto', opacity: 1 }}
                           exit={{ height: 0, opacity: 0 }}
                           transition={{ duration: 0.3 }}
-                          className="border-t border-gray-200 dark:border-gray-700 pt-6 space-y-4 relative"
+                          className="border-t border-white/10 pt-6 space-y-4 relative"
                         >
                           {/* Comment Input */}
                           <div className="flex gap-3 items-start">
@@ -703,12 +733,12 @@ function RacingCommunity() {
                             </div>
                             <div className="flex-1 space-y-2">
                               {replyingTo?.postId === post.id && (
-                                <div className="flex items-center gap-2 text-xs text-gray-500 dark:text-gray-400 bg-gray-100 dark:bg-gray-800 px-3 py-2 rounded-lg">
-                                  <Reply className="w-3 h-3" />
+                                <div className="flex items-center gap-2 text-xs text-gray-300 bg-black/40 border border-brand-gold/30 px-3 py-2 rounded-lg">
+                                  <Reply className="w-3 h-3 text-brand-gold" />
                                   Replying to @{replyingTo.username}
                                   <button
                                     onClick={() => setReplyingTo(null)}
-                                    className="ml-auto text-red-500 hover:text-red-600"
+                                    className="ml-auto text-red-400 hover:text-red-300"
                                   >
                                     <X className="w-4 h-4" />
                                   </button>
@@ -719,12 +749,12 @@ function RacingCommunity() {
                                   <img
                                     src={selectedGif[post.id]!}
                                     alt="Selected GIF"
-                                    className="max-w-xs rounded-xl"
+                                    className="max-w-xs rounded-xl border-2 border-brand-gold/30"
                                     style={{ maxHeight: '150px' }}
                                   />
                                   <button
                                     onClick={() => setSelectedGif(prev => ({ ...prev, [post.id]: null }))}
-                                    className="absolute -top-2 -right-2 p-1 bg-red-500 text-white rounded-full hover:bg-red-600 transition-colors"
+                                    className="absolute -top-2 -right-2 p-1 bg-red-500 text-white rounded-full hover:bg-red-600 transition-colors shadow-lg"
                                   >
                                     <X className="w-4 h-4" />
                                   </button>
@@ -735,7 +765,7 @@ function RacingCommunity() {
                                 value={commentText[post.id] || ''}
                                 onChange={(e) => setCommentText(prev => ({ ...prev, [post.id]: e.target.value }))}
                                 placeholder="Add a comment..."
-                                className="w-full px-4 py-3 rounded-full bg-gray-100 dark:bg-gray-800 border-2 border-transparent focus:border-brand-gold transition-all"
+                                className="w-full px-4 py-3 rounded-full bg-black/40 text-white placeholder-gray-400 border-2 border-white/10 focus:border-brand-gold transition-all"
                                 onKeyPress={(e) => {
                                   if (e.key === 'Enter') {
                                     handleComment(post.id);
@@ -784,16 +814,16 @@ function RacingCommunity() {
                                     )}
                                   </div>
                                   <div className="flex-1">
-                                    <div className="bg-gray-100 dark:bg-gray-800 rounded-2xl px-4 py-3">
+                                    <div className="bg-black/30 border border-white/10 rounded-2xl px-4 py-3">
                                       <p
-                                        className="font-semibold text-sm mb-1 cursor-pointer hover:underline"
+                                        className="font-semibold text-sm mb-1 cursor-pointer hover:underline text-white hover:text-brand-gold"
                                         onClick={() => navigate(`/user/${comment.profiles?.id}`)}
                                       >
                                         {comment.profiles?.full_name || comment.profiles?.username}
                                       </p>
-                                      <div className="text-sm">{renderCommentContent(comment.content)}</div>
+                                      <div className="text-sm text-gray-200">{renderCommentContent(comment.content)}</div>
                                     </div>
-                                    <div className="flex items-center gap-4 text-xs text-gray-500 dark:text-gray-400 mt-1 ml-4">
+                                    <div className="flex items-center gap-4 text-xs text-gray-400 mt-1 ml-4">
                                       <span>{formatTime(comment.created_at)}</span>
                                       <button
                                         onClick={() => toggleCommentReaction(comment.id)}
@@ -853,16 +883,16 @@ function RacingCommunity() {
                                           )}
                                         </div>
                                         <div className="flex-1">
-                                          <div className="bg-gray-100 dark:bg-gray-800 rounded-2xl px-3 py-2">
+                                          <div className="bg-black/30 border border-white/10 rounded-2xl px-3 py-2">
                                             <p
-                                              className="font-semibold text-xs mb-1 cursor-pointer hover:underline"
+                                              className="font-semibold text-xs mb-1 cursor-pointer hover:underline text-white hover:text-brand-gold"
                                               onClick={() => navigate(`/user/${reply.profiles?.id}`)}
                                             >
                                               {reply.profiles?.full_name || reply.profiles?.username}
                                             </p>
-                                            <div className="text-xs">{renderCommentContent(reply.content)}</div>
+                                            <div className="text-xs text-gray-200">{renderCommentContent(reply.content)}</div>
                                           </div>
-                                          <div className="flex items-center gap-4 text-xs text-gray-500 dark:text-gray-400 mt-1 ml-3">
+                                          <div className="flex items-center gap-4 text-xs text-gray-400 mt-1 ml-3">
                                             <span>{formatTime(reply.created_at)}</span>
                                             <button
                                               onClick={() => toggleCommentReaction(reply.id)}
@@ -902,23 +932,23 @@ function RacingCommunity() {
         )}
 
         {posts.length === 0 && !loading && (
-          <div className="text-center py-12">
+          <div className="text-center py-16">
             <motion.div
               initial={{ scale: 0 }}
               animate={{ scale: 1 }}
-              className="w-20 h-20 mx-auto mb-4 rounded-full bg-gradient-to-br from-brand-gold to-amber-600 flex items-center justify-center"
+              className="w-24 h-24 mx-auto mb-6 rounded-full bg-gradient-to-br from-brand-gold via-amber-500 to-amber-600 flex items-center justify-center shadow-2xl shadow-brand-gold/50 ring-4 ring-brand-gold/30"
             >
-              <Zap className="w-10 h-10 text-white" />
+              <Flag className="w-12 h-12 text-white drop-shadow-lg" />
             </motion.div>
-            <h3 className="text-xl font-bold mb-2">No posts yet</h3>
-            <p className="text-gray-600 dark:text-gray-400 mb-6">
+            <h3 className="text-2xl font-bold mb-3 text-white">No posts yet</h3>
+            <p className="text-gray-400 mb-8 text-lg">
               Be the first to share something amazing!
             </p>
             <button
               onClick={() => setShowCreatePost(true)}
-              className="btn-primary"
+              className="bg-gradient-to-r from-brand-gold to-amber-600 text-black font-bold px-8 py-4 rounded-xl hover:from-amber-600 hover:to-brand-gold transition-all duration-300 shadow-xl shadow-brand-gold/30 hover:shadow-2xl hover:shadow-brand-gold/50 transform hover:scale-105"
             >
-              Create Post
+              Create First Post
             </button>
           </div>
         )}
@@ -930,8 +960,9 @@ function RacingCommunity() {
         )}
 
         {!hasMore && posts.length > 0 && (
-          <div className="text-center py-8 text-gray-500 dark:text-gray-400">
-            <p>You've reached the end</p>
+          <div className="text-center py-8 text-gray-400">
+            <Flag className="w-8 h-8 mx-auto mb-2 text-brand-gold/50" />
+            <p className="font-medium">You've reached the end</p>
           </div>
         )}
       </div>
@@ -949,26 +980,26 @@ function RacingCommunity() {
       />
 
       {deleteConfirm && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm">
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-md">
           <motion.div
             initial={{ scale: 0.9, opacity: 0 }}
             animate={{ scale: 1, opacity: 1 }}
-            className="bg-white dark:bg-gray-800 rounded-2xl p-6 max-w-md w-full"
+            className="bg-gradient-to-br from-gray-900 to-black border-2 border-red-500/30 rounded-2xl p-8 max-w-md w-full shadow-2xl shadow-red-500/20"
           >
-            <h3 className="text-xl font-bold mb-4">Delete Post?</h3>
-            <p className="mb-6 text-gray-600 dark:text-gray-400">
+            <h3 className="text-2xl font-bold mb-4 text-white">Delete Post?</h3>
+            <p className="mb-8 text-gray-300 text-lg">
               This action cannot be undone.
             </p>
             <div className="flex gap-4">
               <button
                 onClick={() => setDeleteConfirm(null)}
-                className="flex-1 px-4 py-3 bg-gray-100 dark:bg-gray-700 rounded-xl font-semibold hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors"
+                className="flex-1 px-6 py-3 bg-gray-700/50 text-white border border-white/20 rounded-xl font-semibold hover:bg-gray-600/50 transition-colors"
               >
                 Cancel
               </button>
               <button
                 onClick={() => handleDeletePost(deleteConfirm)}
-                className="flex-1 px-4 py-3 bg-red-500 text-white rounded-xl font-semibold hover:bg-red-600 transition-colors"
+                className="flex-1 px-6 py-3 bg-gradient-to-r from-red-600 to-red-700 text-white rounded-xl font-semibold hover:from-red-700 hover:to-red-800 transition-colors shadow-lg shadow-red-500/30"
               >
                 Delete
               </button>
