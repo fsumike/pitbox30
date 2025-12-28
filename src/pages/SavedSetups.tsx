@@ -240,6 +240,22 @@ function SavedSetups() {
     }
   };
 
+  const formatFieldName = (key: string): string => {
+    return key
+      .replace(/_/g, ' ')
+      .replace(/\b\w/g, l => l.toUpperCase())
+      .replace(/Lf /g, 'LF ')
+      .replace(/Rf /g, 'RF ')
+      .replace(/Lr /g, 'LR ')
+      .replace(/Rr /g, 'RR ');
+  };
+
+  const getRaceTypeLabel = (raceType: string | null | undefined): string => {
+    if (!raceType) return 'Not specified';
+    const option = RACE_TYPE_OPTIONS.find(opt => opt.value === raceType);
+    return option?.label || raceType;
+  };
+
   const handleEmailSetups = async () => {
     if (selectedSetups.size === 0) {
       setEmailError('Please select at least one setup to email');
@@ -248,65 +264,110 @@ function SavedSetups() {
     }
 
     try {
-      // Get selected setups
       const setupsToEmail = setups.filter(s => selectedSetups.has(s.id));
 
-      // Get user profile
       const { data: profile } = await supabase
         .from('profiles')
         .select('username, full_name, email')
         .eq('id', user?.id)
         .maybeSingle();
 
-      // Create email content
       const senderName = profile?.full_name || profile?.username || 'PitBox User';
       const emailSubject = `Racing Setups from ${senderName} - ${formatCarType(carType)}`;
 
-      let emailBody = `Hi,\n\n${senderName} is sharing ${setupsToEmail.length} racing setup${setupsToEmail.length > 1 ? 's' : ''} with you:\n\n`;
+      let emailBody = `${senderName} is sharing ${setupsToEmail.length} racing setup${setupsToEmail.length > 1 ? 's' : ''} with you.\n`;
+      emailBody += `Car Type: ${formatCarType(carType)}\n`;
+      emailBody += `${'='.repeat(50)}\n`;
 
       setupsToEmail.forEach((setup, index) => {
-        emailBody += `\n--- Setup ${index + 1} ---\n`;
-        emailBody += `Car: ${setup.car_number || 'N/A'}\n`;
-        emailBody += `Track: ${setup.track_name || 'N/A'}\n`;
-        if (setup.best_lap_time) {
-          emailBody += `Best Lap: ${setup.best_lap_time}s\n`;
-        }
-        emailBody += `Date: ${new Date(setup.created_at).toLocaleDateString()}\n`;
+        emailBody += `\n${'='.repeat(50)}\n`;
+        emailBody += `SETUP ${index + 1} of ${setupsToEmail.length}\n`;
+        emailBody += `${'='.repeat(50)}\n\n`;
 
-        // Add setup data
-        if (setup.setup_data) {
-          emailBody += `\nSetup Details:\n`;
+        emailBody += `GENERAL INFORMATION\n`;
+        emailBody += `${'-'.repeat(30)}\n`;
+        emailBody += `Car Number: ${setup.car_number || '---'}\n`;
+        emailBody += `Track: ${setup.track_name || '---'}\n`;
+        emailBody += `Race Type: ${getRaceTypeLabel(setup.race_type)}\n`;
+        emailBody += `Best Lap Time: ${setup.best_lap_time ? `${setup.best_lap_time}s` : '---'}\n`;
+        emailBody += `Date Saved: ${new Date(setup.created_at).toLocaleDateString()}\n`;
+        if (setup.location_name) {
+          emailBody += `Location: ${setup.location_name}\n`;
+        }
+        emailBody += `\n`;
+
+        if (setup.setup_data && Object.keys(setup.setup_data).length > 0) {
+          emailBody += `SETUP DATA\n`;
+          emailBody += `${'-'.repeat(30)}\n`;
+
           Object.entries(setup.setup_data).forEach(([section, fields]: [string, any]) => {
             if (fields && typeof fields === 'object') {
-              const sectionTitle = section.replace(/_/g, ' ').replace(/\b\w/g, l => l.toUpperCase());
-              emailBody += `\n${sectionTitle}:\n`;
-              Object.entries(fields).forEach(([key, value]: [string, any]) => {
-                if (value && typeof value === 'object' && value.feature) {
-                  const fieldName = key.replace(/_/g, ' ').replace(/\b\w/g, l => l.toUpperCase());
-                  emailBody += `  ${fieldName}: ${value.feature}`;
-                  if (value.comment) {
-                    emailBody += ` (${value.comment})`;
+              const sectionTitle = formatFieldName(section);
+              emailBody += `\n[ ${sectionTitle.toUpperCase()} ]\n`;
+
+              const fieldEntries = Object.entries(fields);
+              if (fieldEntries.length === 0) {
+                emailBody += `  (No data entered)\n`;
+              } else {
+                fieldEntries.forEach(([key, value]: [string, any]) => {
+                  const fieldName = formatFieldName(key);
+                  if (value && typeof value === 'object') {
+                    const featureValue = value.feature || '---';
+                    const commentValue = value.comment ? ` | Note: ${value.comment}` : '';
+                    emailBody += `  ${fieldName}: ${featureValue}${commentValue}\n`;
+                  } else if (value) {
+                    emailBody += `  ${fieldName}: ${value}\n`;
+                  } else {
+                    emailBody += `  ${fieldName}: ---\n`;
                   }
-                  emailBody += `\n`;
-                }
-              });
+                });
+              }
             }
           });
         }
+
+        const customFields = setup.custom_fields as Record<string, Array<{id: string; name: string; value: string; comment?: string}>> | null;
+        if (customFields && Object.keys(customFields).length > 0) {
+          const hasAnyCustomFieldData = Object.values(customFields).some(fields =>
+            fields && fields.length > 0 && fields.some(f => f.value || f.comment)
+          );
+
+          if (hasAnyCustomFieldData) {
+            emailBody += `\nCUSTOM FIELDS\n`;
+            emailBody += `${'-'.repeat(30)}\n`;
+
+            Object.entries(customFields).forEach(([section, fields]) => {
+              if (fields && fields.length > 0) {
+                const fieldsWithData = fields.filter(f => f.value || f.comment);
+                if (fieldsWithData.length > 0) {
+                  const sectionTitle = formatFieldName(section);
+                  emailBody += `\n[ ${sectionTitle.toUpperCase()} - Custom ]\n`;
+
+                  fieldsWithData.forEach((field) => {
+                    const fieldValue = field.value || '---';
+                    const commentValue = field.comment ? ` | Note: ${field.comment}` : '';
+                    emailBody += `  ${field.name}: ${fieldValue}${commentValue}\n`;
+                  });
+                }
+              }
+            });
+          }
+        }
+
         emailBody += `\n`;
       });
 
-      emailBody += `\n\nShared from PitBox Racing App\nwww.pitbox.app`;
+      emailBody += `${'='.repeat(50)}\n`;
+      emailBody += `Shared from PitBox Racing App\n`;
+      emailBody += `www.pitbox.app\n`;
 
-      // Use native sharing on mobile, fallback to mailto on web
       if (Capacitor.isNativePlatform() && Share) {
         await Share.share({
           title: emailSubject,
           text: emailBody,
-          dialogTitle: 'Email Setups'
+          dialogTitle: 'Share Setups'
         });
       } else {
-        // Web: Open mailto link
         const mailtoLink = `mailto:?subject=${encodeURIComponent(emailSubject)}&body=${encodeURIComponent(emailBody)}`;
         window.location.href = mailtoLink;
       }
