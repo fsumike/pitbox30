@@ -147,30 +147,29 @@ function Home() {
                 {vehicleCategories.Vehicles.map((category) => (
                   <div key={category.name} className="pl-4">
                     <button
-                      className="w-full glass-panel p-4 cursor-pointer bg-gradient-to-br from-brand-gold/5 to-brand-gold-dark/5 hover:from-brand-gold/10 hover:to-brand-gold-dark/10 transition-all duration-300 overflow-hidden"
+                      className="w-full glass-panel cursor-pointer transition-all duration-300 overflow-hidden relative group"
                       onClick={() => setActiveCategory(activeCategory === category.name ? null : category.name)}
                     >
-                      <div className="flex items-center gap-4">
-                        {categoryImages[category.name] && (
-                          <div className="flex-shrink-0 w-24 h-16 md:w-32 md:h-20 rounded-lg overflow-hidden">
-                            <img
-                              src={categoryImages[category.name]}
-                              alt={category.name}
-                              className="w-full h-full object-cover"
-                            />
-                          </div>
-                        )}
-                        <div className="flex-1 flex items-center justify-between">
-                          <div className="flex items-center gap-3">
-                            <Car className="w-6 h-6 text-brand-gold" />
-                            <span className="text-xl font-semibold">Setup Tools: {category.name}</span>
-                          </div>
-                          <ChevronDown
-                            className={`w-5 h-5 transition-transform duration-300 ${
-                              activeCategory === category.name ? 'rotate-180' : ''
-                            }`}
+                      {categoryImages[category.name] && (
+                        <div className="absolute inset-0">
+                          <img
+                            src={categoryImages[category.name]}
+                            alt={category.name}
+                            className="w-full h-full object-cover"
                           />
+                          <div className="absolute inset-0 bg-gradient-to-r from-black/80 via-black/60 to-black/40 group-hover:from-black/70 group-hover:via-black/50 group-hover:to-black/30 transition-all" />
                         </div>
+                      )}
+                      <div className="relative p-6 flex items-center justify-between">
+                        <div className="flex items-center gap-3">
+                          <Car className="w-6 h-6 text-brand-gold" />
+                          <span className="text-xl font-semibold text-white drop-shadow-lg">Setup Tools: {category.name}</span>
+                        </div>
+                        <ChevronDown
+                          className={`w-5 h-5 text-white transition-transform duration-300 ${
+                            activeCategory === category.name ? 'rotate-180' : ''
+                          }`}
+                        />
                       </div>
                     </button>
 
