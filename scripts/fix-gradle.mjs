@@ -1,4 +1,4 @@
-import { writeFileSync, mkdirSync, existsSync } from 'fs';
+import { writeFileSync, mkdirSync, existsSync, readFileSync } from 'fs';
 import { dirname } from 'path';
 
 const gradleWrapperProps = `distributionBase=GRADLE_USER_HOME
@@ -30,6 +30,7 @@ const variablesGradle = `ext {
 
 const propsPath = 'android/gradle/wrapper/gradle-wrapper.properties';
 const variablesPath = 'android/variables.gradle';
+const buildGradlePath = 'android/build.gradle';
 
 if (existsSync('android')) {
   mkdirSync(dirname(propsPath), { recursive: true });
@@ -38,6 +39,16 @@ if (existsSync('android')) {
 
   writeFileSync(variablesPath, variablesGradle);
   console.log('Updated variables.gradle to use SDK 34 (JDK 21 compatible)');
+
+  if (existsSync(buildGradlePath)) {
+    let buildGradle = readFileSync(buildGradlePath, 'utf8');
+    buildGradle = buildGradle.replace(
+      /classpath\s+['"]com\.android\.tools\.build:gradle:[^'"]+['"]/g,
+      "classpath 'com.android.tools.build:gradle:8.2.2'"
+    );
+    writeFileSync(buildGradlePath, buildGradle);
+    console.log('Updated build.gradle to use AGP 8.2.2 (JDK 21 compatible)');
+  }
 } else {
   console.log('Android folder not found, skipping gradle fix');
 }
