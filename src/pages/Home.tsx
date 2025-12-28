@@ -97,15 +97,15 @@ function Home() {
       </div>
 
       {/* Vehicle Selection Section - Enhanced */}
-      <div className="glass-panel p-8 bg-gradient-to-br from-brand-gold/10 to-brand-gold-dark/10 transform hover:scale-[1.02] transition-all duration-300">
+      <div className="glass-panel p-8 bg-gradient-to-br from-gray-800/90 to-gray-900/90 transform hover:scale-[1.02] transition-all duration-300">
         <div className="text-center mb-8">
           <h2 className="text-4xl md:text-5xl font-bold bg-gradient-to-r from-brand-gold to-brand-gold-light bg-clip-text text-transparent mb-6">
             Master Your Racing Machine
           </h2>
-          <p className="text-xl text-gray-700 dark:text-gray-300 max-w-4xl mx-auto leading-relaxed">
-            Welcome to the heart of PIT-BOX.COM - your comprehensive setup management system. 
-            Our professional-grade tools are designed to help you achieve peak performance 
-            and maintain your competitive edge. Select your vehicle class below to access 
+          <p className="text-xl text-gray-200 max-w-4xl mx-auto leading-relaxed">
+            Welcome to the heart of PIT-BOX.COM - your comprehensive setup management system.
+            Our professional-grade tools are designed to help you achieve peak performance
+            and maintain your competitive edge. Select your vehicle class below to access
             detailed setup sheets, track changes, and optimize your racing machine for victory.
           </p>
         </div>
