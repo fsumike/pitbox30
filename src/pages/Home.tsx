@@ -96,52 +96,91 @@ function Home() {
         </div>
       </div>
 
-      {/* Vehicle Selection Section - Enhanced */}
-      <div className="glass-panel p-8 transform hover:scale-[1.02] transition-all duration-300 relative overflow-hidden shadow-2xl">
-        <div
-          className="absolute inset-0"
+      {/* Vehicle Selection Section - 2025 Motorsport Design */}
+      <div className="p-8 transform hover:scale-[1.02] transition-all duration-500 relative overflow-hidden rounded-2xl group">
+        {/* Glowing border effect */}
+        <div className="absolute inset-0 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500"
           style={{
-            background: `
-              linear-gradient(27deg, #141006 5px, transparent 5px) 0 5px,
-              linear-gradient(207deg, #141006 5px, transparent 5px) 10px 0px,
-              linear-gradient(27deg, #1f1b0a 5px, transparent 5px) 0px 10px,
-              linear-gradient(207deg, #1f1b0a 5px, transparent 5px) 10px 5px,
-              linear-gradient(90deg, #181305 10px, transparent 10px),
-              linear-gradient(#1a1607 25%, #151207 25%, #151207 50%, transparent 50%, transparent 75%, #1f1a08 75%, #1f1a08)
-            `,
-            backgroundColor: '#100d06',
-            backgroundSize: '20px 20px',
-            opacity: 0.95
+            background: 'linear-gradient(145deg, #00f0ff, #00a8ff, #0066ff, #00f0ff)',
+            backgroundSize: '200% 200%',
+            padding: '3px',
+            WebkitMask: 'linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)',
+            WebkitMaskComposite: 'xor',
+            maskComposite: 'exclude',
           }}
-        >
-          <div className="absolute inset-0" style={{
-            background: `
-              radial-gradient(ellipse at center, transparent 0%, rgba(218, 165, 32, 0.25) 40%, rgba(184, 134, 11, 0.35) 100%),
-              repeating-linear-gradient(
-                45deg,
-                rgba(255, 215, 0, 0.05),
-                rgba(255, 215, 0, 0.05) 10px,
-                rgba(218, 165, 32, 0.08) 10px,
-                rgba(218, 165, 32, 0.08) 20px
-              ),
-              repeating-linear-gradient(
-                -45deg,
-                rgba(255, 215, 0, 0.05),
-                rgba(255, 215, 0, 0.05) 10px,
-                rgba(218, 165, 32, 0.08) 10px,
-                rgba(218, 165, 32, 0.08) 20px
-              )
-            `
-          }}></div>
-        </div>
-        <div className="absolute inset-0 bg-gradient-to-br from-yellow-800/20 via-yellow-900/10 to-amber-950/20"></div>
+        ></div>
+
+        {/* Realistic Carbon Fiber Base */}
+        <div className="absolute inset-0 rounded-2xl" style={{
+          background: `
+            repeating-linear-gradient(0deg, #0a0a0a 0px, #121212 1px, #0a0a0a 2px),
+            repeating-linear-gradient(90deg, #0a0a0a 0px, #0f0f0f 1px, #0a0a0a 2px)
+          `,
+          backgroundSize: '3px 3px',
+          opacity: 0.85
+        }}></div>
+
+        {/* Neon Racing Stripe Accent */}
+        <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-transparent via-cyan-400 to-transparent"
+          style={{
+            boxShadow: '0 0 20px rgba(0, 240, 255, 0.8), 0 0 40px rgba(0, 240, 255, 0.4)',
+          }}
+        ></div>
+
+        {/* Holographic Tech Overlay */}
+        <div className="absolute inset-0 rounded-2xl opacity-40" style={{
+          background: `
+            radial-gradient(circle at 20% 50%, rgba(0, 240, 255, 0.15) 0%, transparent 50%),
+            radial-gradient(circle at 80% 50%, rgba(255, 100, 0, 0.1) 0%, transparent 50%),
+            linear-gradient(135deg, rgba(0, 240, 255, 0.05) 0%, transparent 30%, rgba(0, 168, 255, 0.08) 70%, transparent 100%)
+          `
+        }}></div>
+
+        {/* Animated Tech Lines */}
+        <div className="absolute inset-0 opacity-20" style={{
+          backgroundImage: `
+            linear-gradient(90deg, transparent 0%, rgba(0, 240, 255, 0.3) 50%, transparent 100%)
+          `,
+          backgroundSize: '200px 100%',
+          animation: 'shimmer 3s infinite linear',
+        }}></div>
+
+        {/* Hex Grid Pattern */}
+        <div className="absolute inset-0 opacity-[0.03]" style={{
+          backgroundImage: `url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M30 0l25.98 15v30L30 60 4.02 45V15z' fill='none' stroke='%2300f0ff' stroke-width='1'/%3E%3C/svg%3E")`,
+          backgroundSize: '60px 60px'
+        }}></div>
+
+        {/* Glossy Inner Surface */}
+        <div className="absolute inset-0 rounded-2xl bg-gradient-to-br from-gray-900/95 via-black/90 to-gray-950/95"></div>
+
+        {/* Corner Tech Details */}
+        <div className="absolute top-4 left-4 w-12 h-12 border-t-2 border-l-2 border-cyan-400/50" style={{
+          boxShadow: '0 0 10px rgba(0, 240, 255, 0.3)'
+        }}></div>
+        <div className="absolute top-4 right-4 w-12 h-12 border-t-2 border-r-2 border-cyan-400/50" style={{
+          boxShadow: '0 0 10px rgba(0, 240, 255, 0.3)'
+        }}></div>
+        <div className="absolute bottom-4 left-4 w-12 h-12 border-b-2 border-l-2 border-orange-500/50" style={{
+          boxShadow: '0 0 10px rgba(255, 100, 0, 0.3)'
+        }}></div>
+        <div className="absolute bottom-4 right-4 w-12 h-12 border-b-2 border-r-2 border-orange-500/50" style={{
+          boxShadow: '0 0 10px rgba(255, 100, 0, 0.3)'
+        }}></div>
+
         <div className="relative z-10">
         <div className="text-center mb-8">
-          <h2 className="text-4xl md:text-5xl font-bold bg-gradient-to-r from-brand-gold to-brand-gold-light bg-clip-text text-transparent mb-6">
-            Master Your Racing Machine
+          {/* Neon Glow Title */}
+          <h2 className="text-4xl md:text-5xl font-bold mb-6 relative inline-block">
+            <span className="bg-gradient-to-r from-cyan-400 via-blue-400 to-cyan-300 bg-clip-text text-transparent" style={{
+              textShadow: '0 0 30px rgba(0, 240, 255, 0.5), 0 0 60px rgba(0, 240, 255, 0.3)',
+              filter: 'drop-shadow(0 0 10px rgba(0, 240, 255, 0.8))'
+            }}>
+              Master Your Racing Machine
+            </span>
           </h2>
-          <p className="text-xl text-gray-200 max-w-4xl mx-auto leading-relaxed">
-            Welcome to the heart of PIT-BOX.COM - your comprehensive setup management system.
+          <p className="text-xl text-gray-200 max-w-4xl mx-auto leading-relaxed drop-shadow-lg">
+            Welcome to the heart of <span className="text-cyan-400 font-semibold">PIT-BOX.COM</span> - your comprehensive setup management system.
             Our professional-grade tools are designed to help you achieve peak performance
             and maintain your competitive edge. Select your vehicle class below to access
             detailed setup sheets, track changes, and optimize your racing machine for victory.
@@ -149,29 +188,58 @@ function Home() {
         </div>
 
         <div className="max-w-3xl mx-auto space-y-4">
-          {/* Main Select Vehicle Button */}
-          <motion.button 
-            className="w-full glass-panel p-6 cursor-pointer bg-gradient-to-br from-brand-gold/5 to-brand-gold-dark/5 hover:from-brand-gold/10 hover:to-brand-gold-dark/10 transition-all duration-300 relative group"
+          {/* Main Select Vehicle Button - Motorsport Style */}
+          <motion.button
+            className="w-full p-6 cursor-pointer transition-all duration-500 relative group rounded-xl overflow-hidden"
             onClick={() => setShowVehicles(!showVehicles)}
             whileHover={{ scale: 1.02 }}
             transition={{ type: "spring", stiffness: 400, damping: 10 }}
+            style={{
+              background: 'linear-gradient(135deg, rgba(10, 10, 10, 0.95) 0%, rgba(20, 20, 20, 0.98) 100%)',
+              boxShadow: '0 8px 32px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(0, 240, 255, 0.1)',
+            }}
           >
-            <div className="absolute inset-0 rounded-xl border-2 border-brand-gold/50 opacity-0 group-hover:opacity-100 transition-opacity"></div>
-            <div className="flex items-center justify-between">
+            {/* Animated border glow */}
+            <div className="absolute inset-0 rounded-xl opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+              style={{
+                background: 'linear-gradient(90deg, transparent, rgba(0, 240, 255, 0.4), transparent)',
+                backgroundSize: '200% 100%',
+                animation: 'shimmer 2s linear infinite',
+                padding: '2px',
+                WebkitMask: 'linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)',
+                WebkitMaskComposite: 'xor',
+                maskComposite: 'exclude',
+              }}
+            ></div>
+
+            {/* Neon accent line */}
+            <div className="absolute top-0 left-0 right-0 h-0.5 bg-gradient-to-r from-transparent via-cyan-400 to-transparent opacity-60 group-hover:opacity-100 transition-opacity"></div>
+
+            <div className="flex items-center justify-between relative z-10">
               <div className="flex items-center gap-4">
-                <Tools className="w-8 h-8 text-brand-gold" />
-                <span className="text-2xl font-bold">Racing Setup Headquarters</span>
+                <div className="relative">
+                  <Tools className="w-8 h-8 text-cyan-400" style={{
+                    filter: 'drop-shadow(0 0 8px rgba(0, 240, 255, 0.6))'
+                  }} />
+                  <div className="absolute inset-0 bg-cyan-400/20 blur-xl rounded-full"></div>
+                </div>
+                <span className="text-2xl font-bold bg-gradient-to-r from-cyan-400 to-blue-400 bg-clip-text text-transparent">
+                  Racing Setup Headquarters
+                </span>
               </div>
-              <ChevronDown 
-                className={`w-6 h-6 transition-transform duration-300 ${
+              <ChevronDown
+                className={`w-6 h-6 text-cyan-400 transition-all duration-300 ${
                   showVehicles ? 'rotate-180' : ''
-                }`} 
+                }`}
+                style={{
+                  filter: 'drop-shadow(0 0 4px rgba(0, 240, 255, 0.4))'
+                }}
               />
             </div>
-            <p className="text-gray-600 dark:text-gray-400 text-left mt-2 pl-12">
+            <p className="text-gray-300 text-left mt-2 pl-12 relative z-10">
               Unlock championship-caliber performance with our professional setup tools
             </p>
-            <div className="flex items-center gap-2 mt-3 text-brand-gold font-medium pl-12">
+            <div className="flex items-center gap-2 mt-3 text-cyan-400 font-medium pl-12 relative z-10">
               <Click className="w-5 h-5" />
               <span>Click to access your racing vehicle setup tools</span>
               <ChevronRight className="w-5 h-5 transform group-hover:translate-x-2 transition-transform" />
