@@ -96,7 +96,7 @@ export const vehicleCategories = {
   'Vehicles': [
     {
       name: 'Sprint Cars',
-      image: 'https://images.pexels.com/photos/12795/pexels-photo-12795.jpeg?auto=compress&cs=tinysrgb&w=600&h=400&fit=crop',
+      image: 'https://images.pexels.com/photos/12222598/pexels-photo-12222598.jpeg?auto=compress&cs=tinysrgb&w=600&h=400&fit=crop',
       description: 'Winged open-wheel dirt track warriors',
       subcategories: [
         { name: 'Wingless Sprints', path: '/wingless' },
@@ -111,7 +111,7 @@ export const vehicleCategories = {
     },
     {
       name: 'Midget Cars',
-      image: 'https://images.pexels.com/photos/1149137/pexels-photo-1149137.jpeg?auto=compress&cs=tinysrgb&w=600&h=400&fit=crop',
+      image: 'https://images.pexels.com/photos/9037595/pexels-photo-9037595.jpeg?auto=compress&cs=tinysrgb&w=600&h=400&fit=crop',
       description: 'Compact open-wheel dirt racers',
       subcategories: [
         { name: 'Quarter Midget', path: '/quarter' },
@@ -120,7 +120,7 @@ export const vehicleCategories = {
     },
     {
       name: 'Modifieds',
-      image: 'https://images.pexels.com/photos/12801/pexels-photo-12801.jpeg?auto=compress&cs=tinysrgb&w=600&h=400&fit=crop',
+      image: 'https://images.pexels.com/photos/9800092/pexels-photo-9800092.jpeg?auto=compress&cs=tinysrgb&w=600&h=400&fit=crop',
       description: 'Custom-built dirt modified machines',
       subcategories: [
         { name: 'Dirt Modified 2', path: '/modified2' },
@@ -132,7 +132,7 @@ export const vehicleCategories = {
     },
     {
       name: 'Late Models',
-      image: 'https://images.pexels.com/photos/12789/pexels-photo-12789.jpeg?auto=compress&cs=tinysrgb&w=600&h=400&fit=crop',
+      image: 'https://images.pexels.com/photos/3764984/pexels-photo-3764984.jpeg?auto=compress&cs=tinysrgb&w=600&h=400&fit=crop',
       description: 'Full-bodied dirt track racers',
       subcategories: [
         { name: 'Late Model Dirt', path: '/latemodel' },
@@ -142,7 +142,7 @@ export const vehicleCategories = {
     },
     {
       name: 'Stock Cars',
-      image: 'https://images.pexels.com/photos/12800/pexels-photo-12800.jpeg?auto=compress&cs=tinysrgb&w=600&h=400&fit=crop',
+      image: 'https://images.pexels.com/photos/3800517/pexels-photo-3800517.jpeg?auto=compress&cs=tinysrgb&w=600&h=400&fit=crop',
       description: 'Dirt track stock car racing',
       subcategories: [
         { name: 'Street Stocks', path: '/street-stock' }
@@ -150,7 +150,7 @@ export const vehicleCategories = {
     },
     {
       name: 'Youth Racing / Kart',
-      image: 'https://images.pexels.com/photos/51981/go-kart-racing-kart-racing-go-51981.jpeg?auto=compress&cs=tinysrgb&w=600&h=400&fit=crop',
+      image: 'https://images.pexels.com/photos/5765656/pexels-photo-5765656.jpeg?auto=compress&cs=tinysrgb&w=600&h=400&fit=crop',
       description: 'Junior and kart racing classes',
       subcategories: [
         { name: 'Outlaw Kart', path: '/outlaw' },
