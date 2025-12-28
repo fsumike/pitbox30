@@ -1,4 +1,4 @@
-import React, { useState, Suspense } from 'react';
+import React, { useState, Suspense, useRef, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { ArrowLeft, Wrench, Activity, Gauge, Calculator, BookOpen, Droplet, Weight, Settings, Ruler, ChevronDown, Zap, Camera, Axis3d } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
@@ -131,23 +131,29 @@ export default function Tools() {
   const [activeTool, setActiveTool] = useState<string>('');
   const [isChanging, setIsChanging] = useState(false);
   const [showDropdown, setShowDropdown] = useState(false);
-  const [buttonRect, setButtonRect] = useState<DOMRect | null>(null);
-  const buttonRef = React.useRef<HTMLButtonElement>(null);
+  const dropdownRef = useRef<HTMLDivElement>(null);
 
   const activeToolData = tools.find(t => t.id === activeTool);
   const isNative = Capacitor.isNativePlatform();
 
-  const handleDropdownClick = () => {
-    if (buttonRef.current) {
-      setButtonRect(buttonRef.current.getBoundingClientRect());
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+        setShowDropdown(false);
+      }
+    };
+
+    if (showDropdown) {
+      document.addEventListener('mousedown', handleClickOutside);
+      return () => document.removeEventListener('mousedown', handleClickOutside);
     }
-    setShowDropdown(!showDropdown);
-  };
+  }, [showDropdown]);
 
   const handleToolChange = (toolId: string) => {
     if (toolId === activeTool) return;
 
     setIsChanging(true);
+    setShowDropdown(false);
 
     setTimeout(() => {
       setActiveTool(toolId);
@@ -187,16 +193,15 @@ export default function Tools() {
           </div>
         </div>
 
-        <div className="relative w-full">
+        <div className="relative w-full" ref={dropdownRef}>
           <label
             className="block text-sm font-semibold mb-2 text-gray-700 dark:text-gray-300"
           >
             Select a Tool
           </label>
-          <div className="relative w-full">
+          <div className="relative w-full z-10">
             <button
-              ref={buttonRef}
-              onClick={handleDropdownClick}
+              onClick={() => setShowDropdown(!showDropdown)}
               disabled={isChanging}
               className="w-full px-3 sm:px-4 py-3 sm:py-4 text-base sm:text-lg font-medium bg-white dark:bg-gray-800 text-gray-900 dark:text-white border-2 border-gray-200 dark:border-gray-700 rounded-xl cursor-pointer hover:border-brand-gold focus:border-brand-gold focus:ring-2 focus:ring-brand-gold/20 focus:outline-none transition-all disabled:opacity-50 disabled:cursor-not-allowed shadow-sm text-left flex items-center justify-between"
               style={{ minHeight: '52px' }}
@@ -211,21 +216,14 @@ export default function Tools() {
               />
             </button>
 
-            {showDropdown && buttonRect && (
-              <>
-                <div
-                  className="fixed inset-0 z-40"
-                  onClick={() => setShowDropdown(false)}
-                  aria-hidden="true"
-                />
-                <div
-                  className="fixed z-50 bg-white dark:bg-gray-800 border-2 border-gray-200 dark:border-gray-700 rounded-xl shadow-lg overflow-y-auto max-w-[calc(100vw-2rem)]"
-                  style={{
-                    left: `${Math.max(8, buttonRect.left)}px`,
-                    top: `${buttonRect.bottom + 8}px`,
-                    width: `${Math.min(buttonRect.width, window.innerWidth - 16)}px`,
-                    maxHeight: '60vh'
-                  }}
+            <AnimatePresence>
+              {showDropdown && (
+                <motion.div
+                  initial={{ opacity: 0, y: -10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -10 }}
+                  transition={{ duration: 0.15 }}
+                  className="absolute top-full left-0 right-0 mt-2 bg-white dark:bg-gray-800 border-2 border-gray-200 dark:border-gray-700 rounded-xl shadow-xl z-50 max-h-64 overflow-y-auto"
                   role="listbox"
                 >
                   <button
@@ -233,7 +231,7 @@ export default function Tools() {
                       setActiveTool('');
                       setShowDropdown(false);
                     }}
-                    className="w-full px-4 py-3 text-left text-gray-900 dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors border-b border-gray-200 dark:border-gray-700"
+                    className="w-full px-4 py-3 text-left text-gray-900 dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors border-b border-gray-200 dark:border-gray-700 font-medium"
                     role="option"
                   >
                     Select a tool...
@@ -241,10 +239,7 @@ export default function Tools() {
                   {tools.map((tool) => (
                     <button
                       key={tool.id}
-                      onClick={() => {
-                        handleToolChange(tool.id);
-                        setShowDropdown(false);
-                      }}
+                      onClick={() => handleToolChange(tool.id)}
                       className={`w-full px-4 py-3 text-left font-medium transition-colors border-b border-gray-200 dark:border-gray-700 last:border-b-0 ${
                         activeTool === tool.id
                           ? 'bg-brand-gold/10 text-brand-gold'
@@ -256,9 +251,9 @@ export default function Tools() {
                       {tool.name}
                     </button>
                   ))}
-                </div>
-              </>
-            )}
+                </motion.div>
+              )}
+            </AnimatePresence>
           </div>
         </div>
       </div>
