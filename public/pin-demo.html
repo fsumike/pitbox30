@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PIN Code Demo - PitBox</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: linear-gradient(135deg, #1a1a1a 0%, #0a0a0a 100%);
+            color: #ffffff;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* Animated background gradient */
+        body::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: radial-gradient(ellipse at top, rgba(255, 215, 0, 0.2) 0%, transparent 50%);
+            animation: pulse 4s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 0.5; }
+            50% { opacity: 0.8; }
+        }
+
+        .demo-container {
+            position: relative;
+            z-index: 1;
+            width: 100%;
+            max-width: 500px;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(20px);
+            border-radius: 32px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            padding: 48px 32px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .icon-wrapper {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #FFD700 0%, #FFA500 100%);
+            margin-bottom: 24px;
+            box-shadow: 0 8px 24px rgba(255, 215, 0, 0.4);
+        }
+
+        .icon {
+            font-size: 40px;
+        }
+
+        h1 {
+            font-size: 32px;
+            font-weight: 700;
+            margin-bottom: 8px;
+            background: linear-gradient(135deg, #FFD700 0%, #FFA500 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .subtitle {
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 16px;
+        }
+
+        .email-input {
+            width: 100%;
+            padding: 16px;
+            border-radius: 16px;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: white;
+            font-size: 16px;
+            margin-bottom: 32px;
+            transition: all 0.3s ease;
+        }
+
+        .email-input:focus {
+            outline: none;
+            border-color: #FFD700;
+            box-shadow: 0 0 0 3px rgba(255, 215, 0, 0.2);
+            background: rgba(255, 255, 255, 0.15);
+        }
+
+        .email-input::placeholder {
+            color: rgba(255, 255, 255, 0.5);
+        }
+
+        .pin-label {
+            text-align: center;
+            font-size: 14px;
+            font-weight: 600;
+            color: rgba(255, 255, 255, 0.8);
+            margin-bottom: 24px;
+        }
+
+        /* PIN display dots */
+        .pin-display {
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+            margin-bottom: 40px;
+        }
+
+        .pin-dot {
+            width: 48px;
+            height: 48px;
+            border-radius: 16px;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            font-weight: 700;
+            color: transparent;
+            transition: all 0.3s ease;
+        }
+
+        .pin-dot.filled {
+            border-color: #FFD700;
+            background: linear-gradient(135deg, rgba(255, 215, 0, 0.3) 0%, rgba(255, 165, 0, 0.3) 100%);
+            color: #FFD700;
+            transform: scale(1.1);
+            box-shadow: 0 4px 16px rgba(255, 215, 0, 0.4);
+        }
+
+        /* Number keypad */
+        .keypad {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 16px;
+            margin-bottom: 32px;
+        }
+
+        .key-button {
+            aspect-ratio: 1;
+            border-radius: 50%;
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.2) 0%, rgba(255, 255, 255, 0.1) 100%);
+            backdrop-filter: blur(15px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            color: white;
+            font-size: 28px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .key-button::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            border-radius: 50%;
+            background: rgba(255, 215, 0, 0.3);
+            transform: translate(-50%, -50%);
+            transition: width 0.5s, height 0.5s;
+        }
+
+        .key-button:hover {
+            transform: scale(1.05);
+            background: linear-gradient(135deg, rgba(255, 215, 0, 0.4) 0%, rgba(255, 165, 0, 0.4) 100%);
+            border-color: rgba(255, 215, 0, 0.5);
+            box-shadow: 0 8px 24px rgba(255, 215, 0, 0.3);
+        }
+
+        .key-button:hover::before {
+            width: 100%;
+            height: 100%;
+        }
+
+        .key-button:active {
+            transform: scale(0.95);
+        }
+
+        .key-button.delete {
+            background: linear-gradient(135deg, rgba(239, 68, 68, 0.3) 0%, rgba(220, 38, 38, 0.3) 100%);
+            border-color: rgba(239, 68, 68, 0.4);
+        }
+
+        .key-button.delete:hover {
+            background: linear-gradient(135deg, rgba(239, 68, 68, 0.5) 0%, rgba(220, 38, 38, 0.5) 100%);
+            border-color: rgba(239, 68, 68, 0.6);
+            box-shadow: 0 8px 24px rgba(239, 68, 68, 0.3);
+        }
+
+        .key-button.empty {
+            background: transparent;
+            border: none;
+            cursor: default;
+            box-shadow: none;
+        }
+
+        /* Sign in button */
+        .sign-in-btn {
+            width: 100%;
+            padding: 20px;
+            border-radius: 16px;
+            background: linear-gradient(135deg, #FFD700 0%, #FFA500 100%);
+            color: #1a1a1a;
+            font-size: 18px;
+            font-weight: 700;
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 8px 24px rgba(255, 215, 0, 0.3);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+        }
+
+        .sign-in-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 12px 32px rgba(255, 215, 0, 0.5);
+        }
+
+        .sign-in-btn:active {
+            transform: translateY(0);
+        }
+
+        .sign-in-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .info-text {
+            text-align: center;
+            margin-top: 24px;
+            color: rgba(255, 255, 255, 0.6);
+            font-size: 14px;
+            line-height: 1.6;
+        }
+
+        /* Mobile responsiveness */
+        @media (max-width: 640px) {
+            .demo-container {
+                padding: 32px 24px;
+            }
+
+            h1 {
+                font-size: 28px;
+            }
+
+            .keypad {
+                gap: 12px;
+            }
+
+            .key-button {
+                font-size: 24px;
+            }
+
+            .pin-dot {
+                width: 40px;
+                height: 40px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="demo-container">
+        <div class="header">
+            <div class="icon-wrapper">
+                <div class="icon">#</div>
+            </div>
+            <h1>Quick PIN Sign-In</h1>
+            <p class="subtitle">Fast track-side authentication</p>
+        </div>
+
+        <input
+            type="email"
+            class="email-input"
+            placeholder="your@email.com"
+            id="emailInput"
+        />
+
+        <div class="pin-label">Enter Your PIN Code</div>
+
+        <div class="pin-display">
+            <div class="pin-dot" id="dot1"></div>
+            <div class="pin-dot" id="dot2"></div>
+            <div class="pin-dot" id="dot3"></div>
+            <div class="pin-dot" id="dot4"></div>
+            <div class="pin-dot" id="dot5"></div>
+            <div class="pin-dot" id="dot6"></div>
+        </div>
+
+        <div class="keypad">
+            <button class="key-button" onclick="addNumber('1')">1</button>
+            <button class="key-button" onclick="addNumber('2')">2</button>
+            <button class="key-button" onclick="addNumber('3')">3</button>
+            <button class="key-button" onclick="addNumber('4')">4</button>
+            <button class="key-button" onclick="addNumber('5')">5</button>
+            <button class="key-button" onclick="addNumber('6')">6</button>
+            <button class="key-button" onclick="addNumber('7')">7</button>
+            <button class="key-button" onclick="addNumber('8')">8</button>
+            <button class="key-button" onclick="addNumber('9')">9</button>
+            <button class="key-button empty"></button>
+            <button class="key-button" onclick="addNumber('0')">0</button>
+            <button class="key-button delete" onclick="deleteNumber()">⌫</button>
+        </div>
+
+        <button class="sign-in-btn" id="signInBtn" disabled>
+            <span>✓</span>
+            <span>Sign In with PIN</span>
+        </button>
+
+        <p class="info-text">
+            This is a demo of the PIN sign-in interface.<br>
+            The buttons are round, translucent, and feature beautiful hover effects.
+        </p>
+    </div>
+
+    <script>
+        let pin = '';
+        const maxLength = 6;
+
+        function updateDisplay() {
+            for (let i = 1; i <= 6; i++) {
+                const dot = document.getElementById(`dot${i}`);
+                if (i <= pin.length) {
+                    dot.classList.add('filled');
+                    dot.textContent = '•';
+                } else {
+                    dot.classList.remove('filled');
+                    dot.textContent = '';
+                }
+            }
+
+            // Enable/disable sign in button
+            const email = document.getElementById('emailInput').value;
+            const signInBtn = document.getElementById('signInBtn');
+            signInBtn.disabled = pin.length < 4 || !email;
+        }
+
+        function addNumber(num) {
+            if (pin.length < maxLength) {
+                pin += num;
+                updateDisplay();
+            }
+        }
+
+        function deleteNumber() {
+            if (pin.length > 0) {
+                pin = pin.slice(0, -1);
+                updateDisplay();
+            }
+        }
+
+        // Update button state when email changes
+        document.getElementById('emailInput').addEventListener('input', updateDisplay);
+
+        // Add keyboard support
+        document.addEventListener('keydown', (e) => {
+            if (e.key >= '0' && e.key <= '9') {
+                addNumber(e.key);
+            } else if (e.key === 'Backspace') {
+                deleteNumber();
+            }
+        });
+    </script>
+</body>
+</html>

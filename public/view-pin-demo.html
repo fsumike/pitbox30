@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>View PIN Code Demo</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
+            color: white;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 600px;
+            text-align: center;
+        }
+
+        h1 {
+            font-size: 3rem;
+            margin-bottom: 20px;
+            background: linear-gradient(135deg, #FFD700 0%, #FFA500 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        p {
+            font-size: 1.2rem;
+            color: rgba(255, 255, 255, 0.8);
+            margin-bottom: 40px;
+            line-height: 1.6;
+        }
+
+        .btn-group {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .btn {
+            padding: 20px 40px;
+            border-radius: 16px;
+            font-size: 1.2rem;
+            font-weight: 600;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            transition: all 0.3s ease;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #FFD700 0%, #FFA500 100%);
+            color: #1a1a1a;
+            box-shadow: 0 8px 24px rgba(255, 215, 0, 0.3);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 12px 32px rgba(255, 215, 0, 0.5);
+        }
+
+        .btn-secondary {
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .btn-secondary:hover {
+            background: rgba(255, 255, 255, 0.15);
+            transform: translateY(-2px);
+        }
+
+        .features {
+            margin-top: 60px;
+            text-align: left;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 16px;
+            padding: 32px;
+        }
+
+        .features h2 {
+            color: #FFD700;
+            margin-bottom: 20px;
+            font-size: 1.5rem;
+        }
+
+        .features ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .features li {
+            padding: 12px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            color: rgba(255, 255, 255, 0.8);
+        }
+
+        .features li:last-child {
+            border-bottom: none;
+        }
+
+        .features li::before {
+            content: '✓';
+            color: #FFD700;
+            font-weight: bold;
+            margin-right: 12px;
+        }
+
+        .note {
+            margin-top: 30px;
+            padding: 20px;
+            background: rgba(59, 130, 246, 0.1);
+            border: 1px solid rgba(59, 130, 246, 0.2);
+            border-radius: 12px;
+            font-size: 0.95rem;
+            color: rgba(255, 255, 255, 0.7);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>PIN Code Demo</h1>
+        <p>Experience the beautiful round, translucent PIN code interface designed for track-side authentication</p>
+
+        <div class="btn-group">
+            <a href="pin-demo.html" class="btn btn-primary">
+                <span>🎨</span>
+                <span>Open Interactive Demo</span>
+            </a>
+            <a href="/pin-code-demo" class="btn btn-secondary">
+                <span>🔗</span>
+                <span>View React Demo Page</span>
+            </a>
+        </div>
+
+        <div class="features">
+            <h2>What You'll See:</h2>
+            <ul>
+                <li>Round, circular buttons (perfect for touch)</li>
+                <li>Translucent glass-morphism design</li>
+                <li>Smooth hover and press animations</li>
+                <li>Gold accent colors on hover</li>
+                <li>Glowing shadow effects</li>
+                <li>Responsive design (mobile, tablet, desktop)</li>
+                <li>Interactive PIN dot display</li>
+                <li>Professional, modern UI</li>
+            </ul>
+        </div>
+
+        <div class="note">
+            <strong>💡 Tip:</strong> Try tapping the round number buttons to see the beautiful animations and transitions. The buttons scale up on hover and glow with your brand's gold color!
+        </div>
+    </div>
+</body>
+</html>
