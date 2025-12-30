@@ -147,7 +147,7 @@ export default function Tools() {
   };
 
   const handleBackClick = () => {
-    navigate(-1);
+    navigate('/');
   };
 
   return (

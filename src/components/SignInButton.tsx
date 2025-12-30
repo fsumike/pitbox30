@@ -59,53 +59,48 @@ function SignInButton({ className }: SignInButtonProps) {
 
     try {
       setProfileError(null);
-      
+
       const result = await executeWithRetry(async () => {
         try {
-          // First check if we can connect to Supabase
-          const { error: pingError } = await supabase.from('profiles').select('count').single();
-          if (pingError) throw pingError;
-
-          // Get profile data
           const { data, error } = await supabase
             .from('profiles')
             .select('full_name, avatar_url')
             .eq('id', user.id)
-            .single();
-          
+            .maybeSingle();
+
           if (error) {
-            if (error.code === 'PGRST116') {
-              // Profile doesn't exist, create it
-              const { error: createError } = await supabase
-                .from('profiles')
-                .insert([{ 
-                  id: user.id,
-                  username: user.email,
-                  full_name: user.user_metadata?.full_name || null,
-                  avatar_url: user.user_metadata?.avatar_url || null
-                }]);
-
-              if (createError) throw createError;
-
-              // Load the newly created profile
-              const { data: newProfile, error: loadError } = await supabase
-                .from('profiles')
-                .select('full_name, avatar_url')
-                .eq('id', user.id)
-                .single();
-
-              if (loadError) throw loadError;
-              return newProfile;
-            }
             throw error;
           }
-          
+
+          if (!data) {
+            const { error: createError } = await supabase
+              .from('profiles')
+              .insert([{
+                id: user.id,
+                username: user.email?.split('@')[0] || user.email,
+                full_name: user.user_metadata?.full_name || null,
+                avatar_url: user.user_metadata?.avatar_url || null,
+                created_at: new Date().toISOString(),
+                updated_at: new Date().toISOString()
+              }]);
+
+            if (createError) throw createError;
+
+            const { data: newProfile, error: loadError } = await supabase
+              .from('profiles')
+              .select('full_name, avatar_url')
+              .eq('id', user.id)
+              .maybeSingle();
+
+            if (loadError) throw loadError;
+            return newProfile;
+          }
+
           return data;
         } catch (err) {
           if (err instanceof DOMException && err.name === 'AbortError') {
             throw new Error('Request timed out. Please try again.');
           }
-          // Handle network errors specifically
           if (err instanceof TypeError && err.message === 'Failed to fetch') {
             throw new Error('Network connection failed. Please check your internet connection.');
           }
@@ -124,18 +119,18 @@ function SignInButton({ className }: SignInButtonProps) {
 
   const checkTermsAcceptance = async () => {
     if (!user?.id) return;
-    
+
     try {
       const { data, error } = await supabase
         .from('terms_acceptance')
         .select('*')
         .eq('user_id', user.id)
-        .single();
-        
-      if (error && error.code !== 'PGRST116') {
+        .maybeSingle();
+
+      if (error) {
         console.error('Error checking terms acceptance:', error);
       }
-      
+
       setHasAcceptedTerms(!!data);
     } catch (err) {
       console.error('Error checking terms acceptance:', err);

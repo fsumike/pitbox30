@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { User, Phone, Mail, MapPin, Globe, FileText, Camera, Loader2, CheckCircle, AlertCircle, Upload, Gift, Check, Share2, Copy, Download, Car, Trophy, Briefcase, Heart, GraduationCap, Home, Wrench, Shield, Eye, EyeOff, X, Calendar, Users } from 'lucide-react';
+import { User, Phone, Mail, MapPin, Globe, FileText, Camera, Loader2, CheckCircle, AlertCircle, Upload, Gift, Check, Share2, Copy, Download, Car, Trophy, Briefcase, Heart, GraduationCap, Home, Wrench, Shield, Eye, EyeOff, X, Calendar, Users, Crown, LogOut } from 'lucide-react';
 import { useAuth } from '../contexts/AuthContext';
 import { useChat } from '../contexts/ChatContext';
 import { supabase } from '../lib/supabase';
@@ -8,12 +8,11 @@ import ChatButton from '../components/ChatButton';
 import { usePromoCode } from '../hooks/usePromoCode';
 import SubscriptionStatus from '../components/SubscriptionStatus';
 import BlockedUsersPanel from '../components/BlockedUsersPanel';
-import PinCodeManager from '../components/PinCodeManager';
 import { QRCodeSVG } from 'qrcode.react';
 import type { Profile } from '../types';
 
 function ProfilePage() {
-  const { user } = useAuth();
+  const { user, signOut } = useAuth();
   const navigate = useNavigate();
   const { startChat } = useChat();
   const { validatePromoCode, applyPromoCode } = usePromoCode();
@@ -29,6 +28,7 @@ function ProfilePage() {
   const [promoSuccess, setPromoSuccess] = useState(false);
   const [copied, setCopied] = useState(false);
   const [activeTab, setActiveTab] = useState<'basic' | 'racing' | 'career' | 'personal' | 'privacy' | 'security' | 'blocked'>('basic');
+  const [isAdmin, setIsAdmin] = useState(false);
   const [profile, setProfile] = useState<Partial<Profile>>({
     username: '',
     full_name: '',
@@ -68,24 +68,29 @@ function ProfilePage() {
   const appUrl = 'https://pit-box.com';
 
   useEffect(() => {
-    if (!user) {
-      navigate('/', { replace: true });
-      return;
+    if (user) {
+      loadProfile();
     }
-
-    loadProfile();
   }, [user]);
 
   const loadProfile = async () => {
+    if (!user?.id) return;
+
     try {
       const { data, error } = await supabase
         .from('profiles')
         .select('*')
-        .eq('id', user?.id)
-        .single();
+        .eq('id', user.id)
+        .maybeSingle();
 
-      if (error) throw error;
+      if (error) {
+        console.error('Error loading profile:', error);
+        setError('Failed to load profile. Please try again.');
+        return;
+      }
+
       if (data) {
+        setIsAdmin(data.is_admin || false);
         setProfile({
           username: data.username || '',
           full_name: data.full_name || '',
@@ -380,11 +385,23 @@ function ProfilePage() {
     );
   };
 
+  const handleSignOut = async () => {
+    await signOut();
+    navigate('/');
+  };
+
   return (
     <div className="max-w-4xl mx-auto space-y-6 pb-8">
       <div className="glass-panel p-6">
         <div className="flex justify-between items-start mb-6">
           <h1 className="text-3xl font-bold">Profile Settings</h1>
+          <button
+            onClick={handleSignOut}
+            className="flex items-center gap-2 px-4 py-2 bg-red-600 hover:bg-red-700 text-white rounded-lg transition-colors"
+          >
+            <LogOut className="w-4 h-4" />
+            Sign Out
+          </button>
         </div>
 
         {error && (
@@ -524,12 +541,26 @@ function ProfilePage() {
                   <p className="text-sm text-gray-600 dark:text-gray-400">
                     {user?.email}
                   </p>
-                  {profile.has_premium && (
-                    <div className="mt-2 flex items-center gap-2 text-brand-gold">
-                      <Gift className="w-4 h-4" />
-                      <span className="text-sm font-medium">Premium Access</span>
-                    </div>
-                  )}
+                  <div className="mt-2 flex flex-wrap items-center gap-3">
+                    {isAdmin && (
+                      <div className="flex items-center gap-2 text-red-500">
+                        <Crown className="w-4 h-4" />
+                        <span className="text-sm font-medium">Admin</span>
+                      </div>
+                    )}
+                    {profile.has_premium && (
+                      <div className="flex items-center gap-2 text-brand-gold">
+                        <Gift className="w-4 h-4" />
+                        <span className="text-sm font-medium">Premium Access</span>
+                      </div>
+                    )}
+                    {profile.promo_code && (
+                      <div className="flex items-center gap-2 text-green-500">
+                        <CheckCircle className="w-4 h-4" />
+                        <span className="text-sm font-medium">Code: {profile.promo_code}</span>
+                      </div>
+                    )}
+                  </div>
                 </div>
               </div>
 
@@ -1093,7 +1124,24 @@ function ProfilePage() {
                 Manage your account security and authentication methods.
               </p>
 
-              <PinCodeManager userId={user?.id || ''} />
+              <div className="bg-gray-50 dark:bg-gray-800/50 rounded-lg p-6 border border-gray-200 dark:border-gray-700">
+                <h3 className="font-semibold mb-3">Account Security</h3>
+                <p className="text-sm text-gray-600 dark:text-gray-400 mb-4">
+                  Your account is secured with your email and password. For best security practices:
+                </p>
+                <ul className="text-sm text-gray-600 dark:text-gray-400 space-y-2 list-disc list-inside">
+                  <li>Use a strong, unique password</li>
+                  <li>Never share your password with anyone</li>
+                  <li>Sign out when using shared devices</li>
+                  <li>Keep your email address up to date</li>
+                </ul>
+              </div>
+
+              <div className="bg-brand-gold/10 rounded-lg p-4">
+                <p className="text-sm text-gray-700 dark:text-gray-300">
+                  <strong>Email:</strong> {user?.email}
+                </p>
+              </div>
             </div>
           )}
 
