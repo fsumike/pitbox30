@@ -100,7 +100,7 @@ export const testSupabaseConnection = async (): Promise<{ success: boolean; erro
   try {
     if (import.meta.env.DEV) {
       }
-    const { data, error } = await supabase.from('profiles').select('count').limit(1);
+    const { error } = await supabase.from('profiles').select('*', { count: 'exact' }).limit(1);
 
     if (error) {
       console.error('Supabase connection test failed:', error);
@@ -112,9 +112,9 @@ export const testSupabaseConnection = async (): Promise<{ success: boolean; erro
     return { success: true };
   } catch (error) {
     console.error('Supabase connection test error:', error);
-    return { 
-      success: false, 
-      error: error instanceof Error ? error.message : 'Unknown connection error' 
+    return {
+      success: false,
+      error: error instanceof Error ? error.message : 'Unknown connection error'
     };
   }
 };
