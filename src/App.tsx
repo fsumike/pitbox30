@@ -379,7 +379,9 @@ function App() {
                     className="p-2 rounded-lg hover:bg-gray-100/10 transition-colors"
                     aria-label={menuOpen ? 'Close menu' : 'Open menu'}
                   >
-                    {menuOpen ? <MenuX className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+                    {/* ORIGINAL (white icons): {menuOpen ? <MenuX className="w-6 h-6" /> : <Menu className="w-6 h-6" />} */}
+                    {/* Updated to yellow/gold for better visibility with translucent background */}
+                    {menuOpen ? <MenuX className="w-6 h-6 text-brand-gold" /> : <Menu className="w-6 h-6 text-brand-gold" />}
                   </button>
                 </div>
               </div>
