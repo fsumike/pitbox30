@@ -69,6 +69,7 @@ const MaintenanceChecklist = lazy(() => import('./pages/MaintenanceChecklist'));
 const Tools = lazy(() => import('./pages/Tools'));
 const SocialMedia = lazy(() => import('./pages/SocialMedia'));
 const QRCodeDownload = lazy(() => import('./pages/QRCodeDownload'));
+const MyAdvertisements = lazy(() => import('./pages/MyAdvertisements'));
 
 // Loading fallback component
 function LoadingFallback() {
@@ -502,6 +503,7 @@ function App() {
           <Route path="/profile" element={<Profile />} />
           <Route path="/user/:userId" element={<UserProfile />} />
           <Route path="/friends" element={<Friends />} />
+          <Route path="/my-advertisements" element={<MyAdvertisements />} />
           <Route path="/terms" element={<TermsOfService />} />
           <Route path="/privacy" element={<Privacy />} />
           <Route path="/advertiser-terms" element={<AdvertiserTerms />} />

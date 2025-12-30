@@ -6,6 +6,7 @@ import SignInPrompt from '../components/SignInPrompt';
 import LoadingSpinner from '../components/LoadingSpinner';
 import SocialPromoBanner from '../components/SocialPromoBanner';
 import GeoSponsors from '../components/GeoSponsors';
+import LocationBasedAds from '../components/LocationBasedAds';
 import { vehicleCategories } from '../App';
 import { useAuth } from '../contexts/AuthContext';
 import { motion } from 'framer-motion';
@@ -432,6 +433,9 @@ function Home() {
 
       {/* Geo-Targeted Sponsored Affiliates */}
       <GeoSponsors maxSponsors={3} showDistance={true} />
+
+      {/* Location-Based Advertisements */}
+      <LocationBasedAds maxAds={5} autoRotate={true} rotateInterval={15000} className="mb-6" />
 
       {/* Thank You Section - Carbon Fiber Style */}
       <div className="p-8 mb-24 transform hover:scale-[1.02] transition-all duration-500 relative overflow-hidden rounded-2xl group">
