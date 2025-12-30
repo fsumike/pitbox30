@@ -31,7 +31,7 @@ function LoadingSpinner({ size = 'md', message, fullScreen = false }: LoadingSpi
 
   if (fullScreen) {
     return (
-      <div className="fixed inset-0 flex items-center justify-center bg-white/80 dark:bg-brand-black/80 backdrop-blur-sm z-50">
+      <div className="fixed inset-0 flex items-center justify-center bg-gray-900/20 dark:bg-brand-black/80 backdrop-blur-sm z-50">
         {spinner}
       </div>
     );
