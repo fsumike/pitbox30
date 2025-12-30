@@ -341,9 +341,23 @@ function SignInButton({ className }: SignInButtonProps) {
   };
 
   const handleSignOut = async () => {
-    await signOut();
-    setShowDropdown(false);
-    navigate('/');
+    try {
+      await signOut();
+      setShowDropdown(false);
+      setProfile(null);
+      setEmail('');
+      setPassword('');
+      setUsername('');
+      setFullName('');
+      setPromoCode('');
+      setError(null);
+
+      // Delay navigation to ensure session is cleared
+      setTimeout(() => navigate('/', { replace: true }), 300);
+    } catch (err) {
+      console.error('Error signing out:', err);
+      setError('Error signing out. Please try again.');
+    }
   };
 
   const handleProfileClick = () => {

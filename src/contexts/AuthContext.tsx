@@ -266,20 +266,21 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
   const signOut = async () => {
     try {
+      const { error } = await supabase.auth.signOut();
+      if (error && error.message !== 'No current user') {
+        console.error('Error signing out:', error.message);
+      }
+
       setUser(null);
       setUserProfile(null);
       setHasPremium(false);
       setConnectionError(null);
-
-      const { error } = await supabase.auth.signOut();
-      if (error) {
-        console.error('Error signing out:', error.message);
-      }
     } catch (err) {
       console.error('Error during sign out:', err);
       setUser(null);
       setUserProfile(null);
       setHasPremium(false);
+      setConnectionError(null);
     }
   };
 
