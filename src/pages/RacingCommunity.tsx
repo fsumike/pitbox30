@@ -364,6 +364,10 @@ function RacingCommunity() {
 
   return (
     <div ref={contentRef} className="min-h-screen pb-20 overflow-y-auto relative">
+      {/* Liquid glass orbs for ambient effect */}
+      <div className="liquid-orb liquid-orb-gold w-80 h-80 -top-32 -left-32 fixed z-0 opacity-30" />
+      <div className="liquid-orb liquid-orb-amber w-64 h-64 bottom-40 -right-24 fixed z-0 opacity-30" style={{ animationDelay: '-7s' }} />
+
       {/* Dark Carbon Fiber Background - Light Mode uses dark theme, Dark Mode goes even darker */}
       <div className="fixed inset-0 -z-10 dark:hidden" style={{
         background: `
@@ -391,7 +395,7 @@ function RacingCommunity() {
         backgroundSize: '12px 12px',
       }}></div>
 
-      <div className="sticky top-0 z-50 bg-black/40 dark:bg-black/60 backdrop-blur-xl border-b border-white/10 shadow-2xl">
+      <div className="sticky top-0 z-50 liquid-glass border-b border-white/10 shadow-2xl !rounded-none">
         <div className="max-w-7xl mx-auto px-3 sm:px-4 py-4">
           <div className="flex items-center justify-center">
             <div className="flex items-center gap-3">

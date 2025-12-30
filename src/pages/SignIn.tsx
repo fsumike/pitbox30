@@ -191,18 +191,23 @@ function SignIn() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center p-4 bg-gradient-to-br from-brand-black via-brand-black-light to-brand-black-dark">
-      <div className="absolute inset-0 bg-gradient-radial from-brand-gold/10 via-transparent to-transparent" />
+    <div className="min-h-screen flex items-center justify-center p-4 bg-gradient-to-br from-brand-black via-brand-black-light to-brand-black-dark relative overflow-hidden">
+      <div className="liquid-orb liquid-orb-gold w-80 h-80 -top-20 -left-20 fixed z-0" />
+      <div className="liquid-orb liquid-orb-amber w-64 h-64 -bottom-16 -right-16 fixed z-0" style={{ animationDelay: '-7s' }} />
+      <div className="liquid-orb liquid-orb-gold w-48 h-48 top-1/3 right-10 fixed z-0" style={{ animationDelay: '-12s' }} />
 
-      <div className="relative w-full max-w-md">
-        <div className="glass-panel p-8 bg-white/95 dark:bg-gray-800/95">
-          <div className="text-center mb-8">
-            <img
-              src="/android-icon-192-192.png"
-              alt="PIT-BOX.COM"
-              className="w-24 h-24 mx-auto mb-4"
-            />
-            <h1 className="text-3xl font-bold mb-2">
+      <div className="relative w-full max-w-md z-10">
+        <div className="liquid-glass p-8">
+          <div className="text-center mb-8 relative z-10">
+            <div className="relative inline-block">
+              <div className="absolute inset-0 bg-amber-400/30 blur-2xl rounded-full scale-125" />
+              <img
+                src="/android-icon-192-192.png"
+                alt="PIT-BOX.COM"
+                className="w-24 h-24 mx-auto mb-4 relative z-10"
+              />
+            </div>
+            <h1 className="text-3xl font-bold mb-2 bg-gradient-to-r from-brand-gold to-brand-gold-light bg-clip-text text-transparent">
               {isSignIn ? 'Sign In to PitBox' : 'Create PitBox Account'}
             </h1>
             <p className="text-gray-600 dark:text-gray-400">
@@ -211,7 +216,9 @@ function SignIn() {
           </div>
 
           {connectionError && (
-            <div className="mb-4 p-3 rounded-lg bg-red-100 dark:bg-red-900/30 border border-red-200 dark:border-red-800">
+            <div className="mb-4 p-3 rounded-2xl liquid-glass-card relative z-10" style={{
+              background: 'linear-gradient(135deg, rgba(239, 68, 68, 0.15) 0%, rgba(239, 68, 68, 0.05) 100%)'
+            }}>
               <div className="flex items-start gap-2">
                 <AlertTriangle className="w-4 h-4 text-red-500 mt-0.5 flex-shrink-0" />
                 <div className="flex-1 min-w-0">
@@ -230,9 +237,11 @@ function SignIn() {
             </div>
           )}
 
-          <form onSubmit={handleSubmit} className="space-y-4">
+          <form onSubmit={handleSubmit} className="space-y-4 relative z-10">
             {error && (
-              <div className="p-3 rounded-lg bg-red-100 dark:bg-red-900/30 text-red-700 dark:text-red-300 text-sm">
+              <div className="p-3 rounded-2xl liquid-glass-card text-red-700 dark:text-red-300 text-sm" style={{
+                background: 'linear-gradient(135deg, rgba(239, 68, 68, 0.15) 0%, rgba(239, 68, 68, 0.05) 100%)'
+              }}>
                 {error}
               </div>
             )}
@@ -248,7 +257,7 @@ function SignIn() {
                     id="username"
                     value={username}
                     onChange={(e) => setUsername(e.target.value)}
-                    className="w-full p-3 rounded-lg bg-white/50 dark:bg-gray-800/50 border border-gray-300 dark:border-gray-600 focus:border-brand-gold focus:ring-2 focus:ring-brand-gold/20 outline-none transition"
+                    className="liquid-glass-input"
                     placeholder="Choose a username"
                     required
                     disabled={loading}
@@ -264,7 +273,7 @@ function SignIn() {
                     id="fullName"
                     value={fullName}
                     onChange={(e) => setFullName(e.target.value)}
-                    className="w-full p-3 rounded-lg bg-white/50 dark:bg-gray-800/50 border border-gray-300 dark:border-gray-600 focus:border-brand-gold focus:ring-2 focus:ring-brand-gold/20 outline-none transition"
+                    className="liquid-glass-input"
                     placeholder="Your full name"
                     disabled={loading}
                   />
@@ -281,13 +290,13 @@ function SignIn() {
                       id="promoCode"
                       value={promoCode}
                       onChange={handlePromoCodeChange}
-                      className={`w-full p-3 rounded-lg bg-white/50 dark:bg-gray-800/50 border ${
+                      className={`liquid-glass-input ${
                         promoValid === true && !promoUsed
-                          ? 'border-green-500 dark:border-green-500'
+                          ? '!border-green-500'
                           : promoValid === false || promoUsed
-                          ? 'border-red-500 dark:border-red-500'
-                          : 'border-gray-300 dark:border-gray-600'
-                      } focus:ring-2 focus:ring-brand-gold/20 outline-none transition`}
+                          ? '!border-red-500'
+                          : ''
+                      }`}
                       placeholder="Enter promo code if you have one"
                       disabled={loading}
                     />
@@ -320,13 +329,13 @@ function SignIn() {
                 Email
               </label>
               <div className="relative">
-                <Mail className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" />
+                <Mail className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 z-10" />
                 <input
                   type="email"
                   id="email"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  className="w-full pl-10 pr-4 py-3 rounded-lg bg-white/50 dark:bg-gray-800/50 border border-gray-300 dark:border-gray-600 focus:border-brand-gold focus:ring-2 focus:ring-brand-gold/20 outline-none transition"
+                  className="liquid-glass-input !pl-11"
                   placeholder="your@email.com"
                   required
                   autoComplete="email"
@@ -340,13 +349,13 @@ function SignIn() {
                 Password
               </label>
               <div className="relative">
-                <Lock className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" />
+                <Lock className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 z-10" />
                 <input
                   type="password"
                   id="password"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
-                  className="w-full pl-10 pr-4 py-3 rounded-lg bg-white/50 dark:bg-gray-800/50 border border-gray-300 dark:border-gray-600 focus:border-brand-gold focus:ring-2 focus:ring-brand-gold/20 outline-none transition"
+                  className="liquid-glass-input !pl-11"
                   placeholder="********"
                   required
                   autoComplete={isSignIn ? "current-password" : "new-password"}
@@ -364,7 +373,7 @@ function SignIn() {
             <button
               type="submit"
               disabled={loading || (promoCode && (promoValid === false || promoUsed)) || !!connectionError}
-              className="w-full bg-brand-gold text-white py-3 px-4 rounded-lg hover:bg-brand-gold-dark transition text-lg flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed font-semibold shadow-lg hover:shadow-xl"
+              className="w-full liquid-glass-btn text-lg flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
             >
               {loading ? (
                 <>

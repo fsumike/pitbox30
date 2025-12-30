@@ -40,6 +40,10 @@ function Home() {
 
   return (
     <div className="space-y-12 relative">
+      {/* Liquid glass orbs for ambient effect */}
+      <div className="liquid-orb liquid-orb-gold w-80 h-80 -top-32 -left-32 fixed z-0 opacity-30" />
+      <div className="liquid-orb liquid-orb-amber w-64 h-64 bottom-20 -right-20 fixed z-0 opacity-30" style={{ animationDelay: '-8s' }} />
+
       {/* Dark Carbon Fiber Background - Light Mode uses dark theme, Dark Mode goes even darker */}
       <div className="fixed inset-0 -z-10 dark:hidden" style={{
         background: `
@@ -375,16 +379,16 @@ function Home() {
                         <button
                           key={subItem.path}
                           onClick={() => handleVehicleClick(subItem.path)}
-                          className="glass-panel p-4 text-left group hover:bg-brand-gold/5 transition-all duration-300"
+                          className="liquid-glass-card p-4 text-left group hover:scale-102 transition-all duration-300"
                         >
-                          <div className="flex items-center justify-between gap-3">
+                          <div className="flex items-center justify-between gap-3 relative z-10">
                             <div className="flex-1 min-w-0">
                               <span className="text-base sm:text-lg font-medium block">{subItem.name}</span>
                               <p className="text-xs sm:text-sm text-gray-600 dark:text-gray-400 mt-1">
                                 Access setup sheets and optimization tools
                               </p>
                             </div>
-                            <ChevronRight className="w-5 h-5 transform group-hover:translate-x-1 transition-transform flex-shrink-0" />
+                            <ChevronRight className="w-5 h-5 transform group-hover:translate-x-1 transition-transform flex-shrink-0 text-brand-gold" />
                           </div>
                         </button>
                       ))}
@@ -397,13 +401,13 @@ function Home() {
 
           {/* Call to Action */}
           <div className="text-center mt-12 mb-16 px-4">
-            <p className="text-gray-600 dark:text-gray-400 mb-6 text-lg">
+            <p className="text-gray-300 mb-6 text-lg">
               Get started now with our professional setup management tools
             </p>
             {!user && (
               <button
                 onClick={() => navigate('/signin')}
-                className="btn-primary mx-auto w-full sm:w-auto px-8 py-3"
+                className="liquid-glass-btn mx-auto w-full sm:w-auto px-8 py-3"
               >
                 Sign In to Access Setup Tools
               </button>
@@ -411,7 +415,7 @@ function Home() {
             {user && !showVehicles && (
               <button
                 onClick={() => setShowVehicles(true)}
-                className="bg-white/10 backdrop-blur-sm text-white border border-white/20 px-8 py-3 rounded-lg hover:bg-white/20 transition-all mx-auto w-full sm:w-auto font-medium"
+                className="liquid-glass-card px-8 py-3 mx-auto w-full sm:w-auto font-medium hover:scale-105 transition-transform"
               >
                 View Setup Tools
               </button>
@@ -419,7 +423,7 @@ function Home() {
             {user && showVehicles && (
               <button
                 onClick={() => navigate('/subscription')}
-                className="bg-white/30 backdrop-blur-md border border-white/40 hover:bg-white/40 text-gray-900 dark:text-white px-8 py-3 rounded-lg transition-all duration-300 mx-auto mb-8 font-medium shadow-lg w-full sm:w-auto"
+                className="liquid-glass-card px-8 py-3 mx-auto mb-8 font-medium w-full sm:w-auto hover:scale-105 transition-transform"
               >
                 View Subscription Plans
               </button>

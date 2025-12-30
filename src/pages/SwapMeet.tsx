@@ -392,6 +392,10 @@ function SwapMeet() {
 
   return (
     <div className="space-y-8 pb-20 md:pb-0 relative">
+      {/* Liquid glass orbs */}
+      <div className="liquid-orb liquid-orb-gold w-72 h-72 -top-24 -left-24 fixed z-0 opacity-40" />
+      <div className="liquid-orb liquid-orb-amber w-56 h-56 bottom-32 -right-16 fixed z-0 opacity-40" style={{ animationDelay: '-6s' }} />
+
       {/* Dark Carbon Fiber Background - Light Mode uses dark theme, Dark Mode goes even darker */}
       <div className="fixed inset-0 -z-10 dark:hidden" style={{
         background: `
@@ -420,7 +424,7 @@ function SwapMeet() {
       }}></div>
 
       {/* Hero Section */}
-      <div className="carbon-fiber-panel p-8 shadow-2xl shadow-brand-gold/20">
+      <div className="liquid-glass-hero p-8 shadow-2xl shadow-brand-gold/20 relative z-10">
         <div className="flex flex-col md:flex-row items-center gap-8">
           <div className="flex-1 text-center md:text-left">
             <div className="space-y-3">
@@ -451,13 +455,13 @@ function SwapMeet() {
         </div>
 
         {/* Feature Badges */}
-        <div className="mt-12 grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div className="mt-12 grid grid-cols-1 md:grid-cols-3 gap-6 relative z-10">
           <button
             onClick={() => navigate('/home')}
-            className="glass-panel p-6 rounded-xl text-center transform hover:scale-105 transition-all duration-300 relative group shadow-xl hover:shadow-brand-gold/20 bg-white/80 dark:bg-white/5"
+            className="liquid-glass-card text-center transform hover:scale-105 transition-all duration-300"
           >
             <Settings className="w-10 h-10 text-brand-gold mx-auto mb-3 drop-shadow-[0_0_10px_rgba(234,179,8,0.5)]" />
-            <div className="text-lg font-bold mb-2 text-gray-900 dark:text-white">Setup Management</div>
+            <div className="text-lg font-bold mb-2">Setup Management</div>
             <p className="text-sm text-gray-600 dark:text-gray-300 mt-2">
               Access our professional-grade setup tools to fine-tune your racing machine for peak performance
             </p>
@@ -469,10 +473,10 @@ function SwapMeet() {
 
           <button
             onClick={() => navigate('/community')}
-            className="glass-panel p-6 rounded-xl text-center transform hover:scale-105 transition-all duration-300 relative group shadow-xl hover:shadow-brand-gold/20 bg-white/80 dark:bg-white/5"
+            className="liquid-glass-card text-center transform hover:scale-105 transition-all duration-300"
           >
             <Users className="w-10 h-10 text-brand-gold mx-auto mb-3 drop-shadow-[0_0_10px_rgba(234,179,8,0.5)]" />
-            <div className="text-lg font-bold mb-2 text-gray-900 dark:text-white">Racing Community</div>
+            <div className="text-lg font-bold mb-2">Racing Community</div>
             <p className="text-sm text-gray-600 dark:text-gray-300 mt-2">
               Connect with fellow racers, share experiences, and stay updated with the latest racing insights
             </p>
@@ -484,10 +488,10 @@ function SwapMeet() {
 
           <button
             onClick={() => navigate('/affiliates')}
-            className="glass-panel p-6 rounded-xl text-center transform hover:scale-105 transition-all duration-300 relative group shadow-xl hover:shadow-brand-gold/20 bg-white/80 dark:bg-white/5"
+            className="liquid-glass-card text-center transform hover:scale-105 transition-all duration-300"
           >
             <Shield className="w-10 h-10 text-brand-gold mx-auto mb-3 drop-shadow-[0_0_10px_rgba(234,179,8,0.5)]" />
-            <div className="text-lg font-bold mb-2 text-gray-900 dark:text-white">Partner Network</div>
+            <div className="text-lg font-bold mb-2">Partner Network</div>
             <p className="text-sm text-gray-600 dark:text-gray-300 mt-2">
               Explore our trusted network of racing partners, suppliers, and industry experts
             </p>
@@ -500,7 +504,7 @@ function SwapMeet() {
       </div>
 
       {/* Search and Filter Section */}
-      <div className="carbon-fiber-panel p-6 shadow-xl">
+      <div className="liquid-glass p-6 shadow-xl relative z-10">
         <div className="flex flex-col md:flex-row gap-4">
           {/* Search Input */}
           <div className="relative flex-1">

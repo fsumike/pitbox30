@@ -151,25 +151,31 @@ export default function Tools() {
   };
 
   return (
-    <div className="min-h-screen pb-20 safe-area-bottom">
-      <div className="carbon-fiber-panel p-4 sm:p-6 mb-4 sm:mb-6 bg-gradient-to-br from-blue-500/30 to-orange-500/30 safe-area-top">
-        <div className="flex items-center gap-3 mb-4 sm:mb-6">
+    <div className="min-h-screen pb-20 safe-area-bottom relative">
+      <div className="liquid-orb liquid-orb-gold w-64 h-64 -top-20 -left-20 fixed z-0" />
+      <div className="liquid-orb liquid-orb-amber w-48 h-48 bottom-20 -right-10 fixed z-0" style={{ animationDelay: '-8s' }} />
+
+      <div className="liquid-glass-hero p-4 sm:p-6 mb-4 sm:mb-6 safe-area-top relative z-10">
+        <div className="flex items-center gap-3 mb-4 sm:mb-6 relative z-10">
           <button
             onClick={handleBackClick}
-            className="p-2 sm:p-3 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-full transition-colors active:scale-95"
+            className="p-2 sm:p-3 hover:bg-white/20 dark:hover:bg-white/10 rounded-full transition-colors active:scale-95"
             aria-label="Go back to previous page"
             style={{ minWidth: '44px', minHeight: '44px' }}
           >
             <ArrowLeft className="w-5 h-5 sm:w-6 sm:h-6" />
           </button>
           <div className="flex-1 min-w-0 flex items-center gap-3">
-            <img
-              src="/android-icon-192-192.png"
-              alt="PIT-BOX.COM"
-              className="w-16 h-16 sm:w-20 sm:h-20 object-contain flex-shrink-0"
-            />
+            <div className="relative">
+              <div className="absolute inset-0 bg-amber-400/30 blur-xl rounded-full" />
+              <img
+                src="/android-icon-192-192.png"
+                alt="PIT-BOX.COM"
+                className="w-16 h-16 sm:w-20 sm:h-20 object-contain flex-shrink-0 relative z-10"
+              />
+            </div>
             <div className="flex-1 min-w-0">
-              <h1 className="text-2xl sm:text-3xl font-bold truncate">Racing Tools</h1>
+              <h1 className="text-2xl sm:text-3xl font-bold truncate bg-gradient-to-r from-brand-gold to-brand-gold-light bg-clip-text text-transparent">Racing Tools</h1>
               <p className="text-sm sm:text-base text-gray-600 dark:text-gray-400 truncate">
                 Professional tools to help you win races
               </p>
@@ -177,7 +183,7 @@ export default function Tools() {
           </div>
         </div>
 
-        <div>
+        <div className="relative z-10">
           <label
             className="block text-sm font-semibold mb-2 text-gray-700 dark:text-gray-300"
           >
@@ -188,7 +194,7 @@ export default function Tools() {
               value={activeTool}
               onChange={(e) => handleToolChange(e.target.value)}
               disabled={isChanging}
-              className="w-full px-3 sm:px-4 py-3 sm:py-4 text-base sm:text-lg font-medium bg-white dark:bg-gray-800 text-gray-900 dark:text-white border-2 border-gray-200 dark:border-gray-700 rounded-xl cursor-pointer hover:border-brand-gold focus:border-brand-gold focus:ring-2 focus:ring-brand-gold/20 focus:outline-none transition-all disabled:opacity-50 disabled:cursor-not-allowed shadow-sm appearance-none"
+              className="liquid-glass-input text-base sm:text-lg font-medium cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed appearance-none"
               style={{ minHeight: '52px', paddingRight: '40px' }}
               aria-label="Select a racing tool"
             >
@@ -220,13 +226,13 @@ export default function Tools() {
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -20 }}
             transition={{ duration: 0.2 }}
-            className="space-y-6"
+            className="space-y-6 relative z-10"
           >
             {/* Hero Promo Section */}
-            <div className="carbon-fiber-panel p-8 bg-gradient-to-br from-brand-gold/25 to-brand-gold-dark/20 text-center">
-              <div className="mb-6">
+            <div className="liquid-glass-hero p-8 text-center relative">
+              <div className="mb-6 relative z-10">
                 <Wrench className="w-16 h-16 text-brand-gold mx-auto mb-4 animate-pulse" />
-                <h2 className="text-3xl md:text-4xl font-bold mb-4 text-gold-gradient">
+                <h2 className="text-3xl md:text-4xl font-bold mb-4 bg-gradient-to-r from-brand-gold to-brand-gold-light bg-clip-text text-transparent">
                   Professional Racing Tools
                 </h2>
                 <p className="text-xl text-gray-700 dark:text-gray-300 max-w-3xl mx-auto">
@@ -238,9 +244,9 @@ export default function Tools() {
 
             {/* Feature Grid */}
             <div className="grid md:grid-cols-3 gap-6">
-              <div className="glass-panel p-6 card-interactive">
-                <div className="w-12 h-12 rounded-full bg-green-100 dark:bg-green-900/30 flex items-center justify-center mb-4">
-                  <Activity className="w-6 h-6 text-green-600 dark:text-green-400" />
+              <div className="liquid-glass-card hover:scale-105 transition-transform">
+                <div className="w-12 h-12 rounded-full bg-green-500/20 flex items-center justify-center mb-4">
+                  <Activity className="w-6 h-6 text-green-500" />
                 </div>
                 <h3 className="text-xl font-bold mb-2">Track & Monitor</h3>
                 <p className="text-gray-600 dark:text-gray-400">
@@ -249,9 +255,9 @@ export default function Tools() {
                 </p>
               </div>
 
-              <div className="glass-panel p-6 card-interactive">
-                <div className="w-12 h-12 rounded-full bg-blue-100 dark:bg-blue-900/30 flex items-center justify-center mb-4">
-                  <Calculator className="w-6 h-6 text-blue-600 dark:text-blue-400" />
+              <div className="liquid-glass-card hover:scale-105 transition-transform">
+                <div className="w-12 h-12 rounded-full bg-blue-500/20 flex items-center justify-center mb-4">
+                  <Calculator className="w-6 h-6 text-blue-500" />
                 </div>
                 <h3 className="text-xl font-bold mb-2">Calculate Precisely</h3>
                 <p className="text-gray-600 dark:text-gray-400">
@@ -260,9 +266,9 @@ export default function Tools() {
                 </p>
               </div>
 
-              <div className="glass-panel p-6 card-interactive">
-                <div className="w-12 h-12 rounded-full bg-orange-100 dark:bg-orange-900/30 flex items-center justify-center mb-4">
-                  <Wrench className="w-6 h-6 text-orange-600 dark:text-orange-400" />
+              <div className="liquid-glass-card hover:scale-105 transition-transform">
+                <div className="w-12 h-12 rounded-full bg-orange-500/20 flex items-center justify-center mb-4">
+                  <Wrench className="w-6 h-6 text-orange-500" />
                 </div>
                 <h3 className="text-xl font-bold mb-2">Stay Organized</h3>
                 <p className="text-gray-600 dark:text-gray-400">
@@ -273,15 +279,15 @@ export default function Tools() {
             </div>
 
             {/* Available Tools List */}
-            <div className="glass-panel p-8 bg-gradient-to-br from-blue-500/20 to-purple-500/20">
-              <h3 className="text-2xl font-bold mb-6 text-center">
+            <div className="liquid-glass p-8 relative">
+              <h3 className="text-2xl font-bold mb-6 text-center relative z-10">
                 12 Professional Tools at Your Fingertips
               </h3>
-              <div className="grid md:grid-cols-2 gap-4 max-w-4xl mx-auto">
+              <div className="grid md:grid-cols-2 gap-4 max-w-4xl mx-auto relative z-10">
                 {tools.map((tool) => (
                   <div
                     key={tool.id}
-                    className="flex items-center gap-3 p-4 rounded-lg bg-white/80 dark:bg-gray-700/60 hover:bg-white dark:hover:bg-gray-700 transition-all cursor-pointer"
+                    className="flex items-center gap-3 p-4 rounded-2xl liquid-glass-card hover:scale-102 transition-all cursor-pointer"
                     onClick={() => handleToolChange(tool.id)}
                   >
                     {React.createElement(tool.icon, {
@@ -299,26 +305,28 @@ export default function Tools() {
             </div>
 
             {/* CTA Section */}
-            <div className="glass-panel p-8 text-center bg-gradient-to-br from-brand-gold/35 via-brand-gold/25 to-brand-gold/20">
-              <h3 className="text-2xl font-bold mb-4">Ready to Win More Races?</h3>
-              <p className="text-lg text-gray-700 dark:text-gray-300 mb-6 max-w-2xl mx-auto">
-                Select a tool from the dropdown above and start making better decisions today.
-                Used by champions across all racing disciplines.
-              </p>
-              <div className="flex flex-wrap gap-4 justify-center">
-                <button
-                  onClick={() => navigate('/subscription')}
-                  className="btn-primary flex items-center gap-2"
-                >
-                  <Zap className="w-5 h-5" />
-                  Upgrade to Premium
-                </button>
-                <button
-                  onClick={() => navigate('/community')}
-                  className="btn-secondary flex items-center gap-2"
-                >
-                  Join Racing Community
-                </button>
+            <div className="liquid-glass-hero p-8 text-center relative">
+              <div className="relative z-10">
+                <h3 className="text-2xl font-bold mb-4">Ready to Win More Races?</h3>
+                <p className="text-lg text-gray-700 dark:text-gray-300 mb-6 max-w-2xl mx-auto">
+                  Select a tool from the dropdown above and start making better decisions today.
+                  Used by champions across all racing disciplines.
+                </p>
+                <div className="flex flex-wrap gap-4 justify-center">
+                  <button
+                    onClick={() => navigate('/subscription')}
+                    className="liquid-glass-btn flex items-center gap-2"
+                  >
+                    <Zap className="w-5 h-5" />
+                    Upgrade to Premium
+                  </button>
+                  <button
+                    onClick={() => navigate('/community')}
+                    className="liquid-glass-card px-6 py-3 flex items-center gap-2 hover:scale-105 transition-transform"
+                  >
+                    Join Racing Community
+                  </button>
+                </div>
               </div>
             </div>
           </motion.div>
@@ -329,7 +337,7 @@ export default function Tools() {
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -20 }}
             transition={{ duration: 0.2 }}
-            className="glass-panel p-4 sm:p-6"
+            className="liquid-glass p-4 sm:p-6 relative z-10"
             role="main"
             aria-live="polite"
             aria-busy={isChanging}

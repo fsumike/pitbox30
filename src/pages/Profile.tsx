@@ -391,13 +391,16 @@ function ProfilePage() {
   };
 
   return (
-    <div className="max-w-4xl mx-auto space-y-6 pb-8">
-      <div className="glass-panel p-6">
-        <div className="flex justify-between items-start mb-6">
-          <h1 className="text-3xl font-bold">Profile Settings</h1>
+    <div className="max-w-4xl mx-auto space-y-6 pb-8 relative">
+      <div className="liquid-orb liquid-orb-gold w-64 h-64 -top-20 -left-20 fixed z-0" />
+      <div className="liquid-orb liquid-orb-amber w-48 h-48 bottom-20 -right-16 fixed z-0" style={{ animationDelay: '-8s' }} />
+
+      <div className="liquid-glass p-6 relative z-10">
+        <div className="flex justify-between items-start mb-6 relative z-10">
+          <h1 className="text-3xl font-bold bg-gradient-to-r from-brand-gold to-brand-gold-light bg-clip-text text-transparent">Profile Settings</h1>
           <button
             onClick={handleSignOut}
-            className="flex items-center gap-2 px-4 py-2 bg-red-600 hover:bg-red-700 text-white rounded-lg transition-colors"
+            className="flex items-center gap-2 px-4 py-2 bg-red-600 hover:bg-red-700 text-white rounded-2xl transition-colors"
           >
             <LogOut className="w-4 h-4" />
             Sign Out
@@ -405,16 +408,20 @@ function ProfilePage() {
         </div>
 
         {error && (
-          <div className="mb-6 p-4 rounded-lg bg-red-100 dark:bg-red-900/30 text-red-700 dark:text-red-300 flex items-center gap-2">
-            <AlertCircle className="w-5 h-5 flex-shrink-0" />
+          <div className="mb-6 p-4 rounded-2xl liquid-glass-card flex items-center gap-2 relative z-10" style={{
+            background: 'linear-gradient(135deg, rgba(239, 68, 68, 0.15) 0%, rgba(239, 68, 68, 0.05) 100%)'
+          }}>
+            <AlertCircle className="w-5 h-5 flex-shrink-0 text-red-500" />
             {error}
           </div>
         )}
 
         {success && (
-          <div className="mb-6 p-4 rounded-lg bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-300 flex items-center gap-2">
-            <CheckCircle className="w-5 h-5 flex-shrink-0" />
-            Profile updated successfully!
+          <div className="mb-6 p-4 rounded-2xl liquid-glass-card flex items-center gap-2 relative z-10" style={{
+            background: 'linear-gradient(135deg, rgba(34, 197, 94, 0.15) 0%, rgba(34, 197, 94, 0.05) 100%)'
+          }}>
+            <CheckCircle className="w-5 h-5 flex-shrink-0 text-green-500" />
+            <span className="text-green-700 dark:text-green-300">Profile updated successfully!</span>
           </div>
         )}
 
