@@ -3,8 +3,18 @@ import { User } from '@supabase/supabase-js';
 import { supabase, testSupabaseConnection } from '../lib/supabase';
 import { useRetry } from '../hooks/useRetry';
 
+interface UserProfile {
+  id: string;
+  username?: string;
+  full_name?: string;
+  avatar_url?: string;
+  is_admin?: boolean;
+  has_premium?: boolean;
+}
+
 interface AuthContextType {
   user: User | null;
+  userProfile: UserProfile | null;
   loading: boolean;
   connectionError: string | null;
   hasPremium: boolean;
@@ -28,10 +38,33 @@ const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [user, setUser] = useState<User | null>(null);
+  const [userProfile, setUserProfile] = useState<UserProfile | null>(null);
   const [loading, setLoading] = useState(true);
   const [connectionError, setConnectionError] = useState<string | null>(null);
   const [hasPremium, setHasPremium] = useState(false);
   const { executeWithRetry } = useRetry();
+
+  const fetchUserProfile = async (userId: string) => {
+    try {
+      const { data, error } = await supabase
+        .from('profiles')
+        .select('id, username, full_name, avatar_url, is_admin, has_premium')
+        .eq('id', userId)
+        .maybeSingle();
+
+      if (error) {
+        console.error('Error fetching user profile:', error);
+        setUserProfile(null);
+        return;
+      }
+
+      setUserProfile(data);
+      setHasPremium(data?.has_premium || false);
+    } catch (err) {
+      console.error('Error fetching user profile:', err);
+      setUserProfile(null);
+    }
+  };
 
   const refreshPremiumStatus = async () => {
     if (!user) {
@@ -103,15 +136,18 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
           if (error.message === 'Invalid Refresh Token: Refresh Token Not Found') {
             await supabase.auth.signOut();
             setUser(null);
+            setUserProfile(null);
           } else {
             console.error('Error getting session:', error.message);
             setConnectionError(`Authentication error: ${error.message}`);
             setUser(null);
+            setUserProfile(null);
           }
         } else {
-          setUser(data?.session?.user ?? null);
-          if (data?.session?.user) {
-            await refreshPremiumStatus();
+          const currentUser = data?.session?.user ?? null;
+          setUser(currentUser);
+          if (currentUser) {
+            await fetchUserProfile(currentUser.id);
           }
         }
       } catch (err) {
@@ -119,6 +155,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         const errorMessage = err instanceof Error ? err.message : 'Unknown initialization error';
         setConnectionError(errorMessage);
         setUser(null);
+        setUserProfile(null);
       } finally {
         setLoading(false);
       }
@@ -134,8 +171,9 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       }
 
       if (session?.user) {
-        await refreshPremiumStatus();
+        await fetchUserProfile(session.user.id);
       } else {
+        setUserProfile(null);
         setHasPremium(false);
       }
 
@@ -236,10 +274,12 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         console.error('Error signing out:', error.message);
       }
       setUser(null);
+      setUserProfile(null);
       setConnectionError(null);
     } catch (err) {
       console.error('Error during sign out:', err);
       setUser(null);
+      setUserProfile(null);
     }
   };
 
@@ -297,6 +337,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   return (
     <AuthContext.Provider value={{
       user,
+      userProfile,
       loading,
       connectionError,
       hasPremium,
