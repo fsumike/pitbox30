@@ -74,11 +74,16 @@ function SocialMedia() {
       <div className="glass-panel p-8 bg-gradient-to-br from-brand-gold/25 to-brand-gold-dark/20">
         <div className="text-center mb-8">
           <div className="flex items-center justify-center gap-3 mb-4">
-            <img
-              src="/android-icon-192-192.png"
-              alt="PIT-BOX.COM"
-              className="w-16 h-16 sm:w-20 sm:h-20 object-contain"
-            />
+            <div className="relative">
+              <div className="absolute inset-0 bg-amber-400/40 blur-xl rounded-full scale-125" style={{
+                boxShadow: '0 0 40px rgba(251, 191, 36, 0.6), 0 0 70px rgba(245, 158, 11, 0.4)'
+              }}></div>
+              <img
+                src="/android-icon-192-192.png"
+                alt="PIT-BOX.COM"
+                className="w-16 h-16 sm:w-20 sm:h-20 object-contain relative z-10"
+              />
+            </div>
             <Users className="w-10 h-10 text-brand-gold" />
             <h1 className="text-4xl md:text-5xl font-bold">
               Connect With Us

@@ -61,11 +61,14 @@ function Contact() {
               your racing goals.
             </p>
           </div>
-          <div className="flex-shrink-0">
-            <img 
-              src="/android-icon-192-192.png" 
-              alt="PIT-BOX.COM Logo" 
-              className="w-48 h-auto drop-shadow-xl"
+          <div className="flex-shrink-0 relative">
+            <div className="absolute inset-0 bg-amber-400/40 blur-2xl rounded-full scale-110" style={{
+              boxShadow: '0 0 60px rgba(251, 191, 36, 0.6), 0 0 100px rgba(245, 158, 11, 0.4)'
+            }}></div>
+            <img
+              src="/android-icon-192-192.png"
+              alt="PIT-BOX.COM Logo"
+              className="w-48 h-auto drop-shadow-xl relative z-10"
             />
           </div>
         </div>

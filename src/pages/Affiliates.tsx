@@ -63,11 +63,16 @@ function Affiliates() {
       <div className="carbon-fiber-panel p-8 bg-gradient-to-br from-brand-gold/25 to-brand-gold-dark/20">
         <div className="max-w-4xl mx-auto">
           <div className="flex flex-col items-center mb-12">
-            <img 
-              src="/android-icon-512-512.png" 
-              alt="PIT-BOX.COM Logo" 
-              className="w-full max-w-lg mb-8 drop-shadow-2xl transform hover:scale-105 transition-transform duration-300" 
-            />
+            <div className="relative">
+              <div className="absolute inset-0 bg-amber-400/30 blur-3xl rounded-full scale-110" style={{
+                boxShadow: '0 0 80px rgba(251, 191, 36, 0.6), 0 0 140px rgba(245, 158, 11, 0.4)'
+              }}></div>
+              <img
+                src="/android-icon-512-512.png"
+                alt="PIT-BOX.COM Logo"
+                className="w-full max-w-xl mb-8 drop-shadow-2xl transform hover:scale-105 transition-transform duration-300 relative z-10"
+              />
+            </div>
             <div className="h-px w-1/2 bg-gradient-to-r from-transparent via-brand-gold/50 to-transparent my-8" />
           </div>
 
@@ -383,11 +388,16 @@ function Affiliates() {
       {/* Call to Action */}
       <div className="carbon-fiber-panel p-8 bg-gradient-to-br from-brand-gold/25 to-brand-gold-dark/20 text-center">
         <div className="flex flex-col items-center">
-          <img
-            src="/android-icon-192-192.png"
-            alt="PIT-BOX.COM Logo"
-            className="w-48 h-auto mb-8 drop-shadow-xl"
-          />
+          <div className="relative mb-8">
+            <div className="absolute inset-0 bg-amber-400/40 blur-2xl rounded-full scale-110" style={{
+              boxShadow: '0 0 60px rgba(251, 191, 36, 0.6), 0 0 100px rgba(245, 158, 11, 0.4)'
+            }}></div>
+            <img
+              src="/android-icon-192-192.png"
+              alt="PIT-BOX.COM Logo"
+              className="w-56 h-auto drop-shadow-xl relative z-10"
+            />
+          </div>
           <h2 className="text-3xl font-bold mb-6">Ready to Transform Racing Together?</h2>
           <p className="text-xl text-gray-700 dark:text-gray-300 mb-8 max-w-2xl mx-auto">
             Don't miss your opportunity to be part of racing's digital revolution. Join PIT-BOX.COM and help

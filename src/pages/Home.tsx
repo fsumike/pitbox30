@@ -80,20 +80,20 @@ function Home() {
           <div className="absolute inset-0 bg-gradient-to-r from-brand-black/70 via-brand-black/50 to-brand-black/30" />
           <div className="absolute inset-0 bg-gradient-to-t from-brand-black/60 via-transparent to-transparent" />
         </div>
-        <div className="relative px-6 py-16 sm:px-12 sm:py-28">
+        <div className="relative px-6 py-10 sm:px-12 sm:py-20">
           <div className="mx-auto max-w-5xl">
-            <div className="flex flex-col md:flex-row items-center justify-center md:justify-start gap-6 md:gap-10">
-              <div className="flex-shrink-0">
+            <div className="flex flex-col md:flex-row items-center justify-center md:justify-start gap-4 md:gap-10">
+              <div className="flex-shrink-0 -mt-4 md:-mt-8">
                 <img
                   src="/android-icon-512-512.png"
                   alt="PIT-BOX.COM Logo"
-                  width="320"
-                  height="320"
-                  className="w-56 h-56 sm:w-64 sm:h-64 md:w-80 md:h-80 object-contain drop-shadow-2xl transform hover:scale-105 transition-transform duration-300"
+                  width="400"
+                  height="400"
+                  className="w-64 h-64 sm:w-72 sm:h-72 md:w-96 md:h-96 object-contain drop-shadow-2xl transform hover:scale-105 transition-transform duration-300"
                 />
               </div>
               <div className="text-center md:text-left flex-1">
-                <p className="text-amber-400 font-black text-3xl sm:text-4xl md:text-5xl lg:text-6xl mb-4 tracking-wider uppercase animate-gold-glow">
+                <p className="text-amber-400 dark:text-amber-400 font-black text-3xl sm:text-4xl md:text-5xl lg:text-6xl mb-4 tracking-wider uppercase animate-gold-glow">
                   Setup Management Tool
                 </p>
                 <h1 className="text-4xl font-bold tracking-tight text-white sm:text-5xl md:text-6xl mb-4 leading-tight">
