@@ -2,6 +2,7 @@ import React, { createContext, useContext, useEffect, useState } from 'react';
 import { User } from '@supabase/supabase-js';
 import { supabase, testSupabaseConnection } from '../lib/supabase';
 import { useRetry } from '../hooks/useRetry';
+import { updatePinToken, hasPinEnabled } from '../utils/pinTokenManager';
 
 interface AuthContextType {
   user: User | null;
@@ -131,20 +132,19 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
     initializeAuth();
 
-    // Listen for auth state changes
     const { data: { subscription } } = supabase.auth.onAuthStateChange(async (event, session) => {
-      if (event === 'SIGNED_OUT' || event === 'TOKEN_REFRESHED') {
-        setUser(session?.user ?? null);
-      } else {
-        setUser(session?.user ?? null);
-      }
+      setUser(session?.user ?? null);
 
-      // Clear connection error on successful auth events
       if (event === 'SIGNED_IN' || event === 'TOKEN_REFRESHED') {
         setConnectionError(null);
       }
 
-      // Refresh premium status when user changes
+      if (event === 'TOKEN_REFRESHED' && session?.refresh_token) {
+        if (hasPinEnabled()) {
+          await updatePinToken(session.refresh_token);
+        }
+      }
+
       if (session?.user) {
         await refreshPremiumStatus();
       } else {
@@ -247,10 +247,14 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
   const signOut = async () => {
     try {
-      const pinUserId = localStorage.getItem('pitbox_pin_user_id');
-      const hasPinEnabled = pinUserId && localStorage.getItem(`pitbox_pin_token_${pinUserId}`);
+      const pinEnabled = hasPinEnabled();
 
-      if (hasPinEnabled) {
+      if (pinEnabled) {
+        const { data: refreshedSession } = await supabase.auth.refreshSession();
+        if (refreshedSession?.session?.refresh_token) {
+          await updatePinToken(refreshedSession.session.refresh_token);
+        }
+
         const { error } = await supabase.auth.signOut({ scope: 'local' });
         if (error) {
           console.error('Error signing out:', error.message);
