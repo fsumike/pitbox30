@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { User, Phone, Mail, MapPin, Globe, FileText, Camera, Loader2, CheckCircle, AlertCircle, Upload, Gift, Check, Share2, Copy, Download, Car, Trophy, Briefcase, Heart, GraduationCap, Home, Wrench, Shield, Eye, EyeOff, X, Calendar, Users, Crown, LogOut } from 'lucide-react';
+import { User, Phone, Mail, MapPin, Globe, FileText, Camera, Loader2, CheckCircle, AlertCircle, Upload, Gift, Check, Share2, Copy, Download, Car, Trophy, Briefcase, Heart, GraduationCap, Home, Wrench, Shield, Eye, EyeOff, X, Calendar, Users, Crown } from 'lucide-react';
 import { useAuth } from '../contexts/AuthContext';
 import { useChat } from '../contexts/ChatContext';
 import { supabase } from '../lib/supabase';
@@ -12,7 +12,7 @@ import { QRCodeSVG } from 'qrcode.react';
 import type { Profile } from '../types';
 
 function ProfilePage() {
-  const { user, signOut } = useAuth();
+  const { user } = useAuth();
   const navigate = useNavigate();
   const { startChat } = useChat();
   const { validatePromoCode, applyPromoCode } = usePromoCode();
@@ -385,23 +385,11 @@ function ProfilePage() {
     );
   };
 
-  const handleSignOut = async () => {
-    await signOut();
-    navigate('/');
-  };
-
   return (
     <div className="max-w-4xl mx-auto space-y-6 pb-8">
       <div className="glass-panel p-6">
         <div className="flex justify-between items-start mb-6">
           <h1 className="text-3xl font-bold">Profile Settings</h1>
-          <button
-            onClick={handleSignOut}
-            className="flex items-center gap-2 px-4 py-2 bg-red-600 hover:bg-red-700 text-white rounded-lg transition-colors"
-          >
-            <LogOut className="w-4 h-4" />
-            Sign Out
-          </button>
         </div>
 
         {error && (
