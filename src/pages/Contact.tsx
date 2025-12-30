@@ -49,15 +49,17 @@ function Contact() {
   return (
     <div className="space-y-8">
       {/* Hero Section */}
-      <div className="carbon-fiber-panel p-8 bg-gradient-to-br from-brand-gold/25 to-brand-gold-dark/20">
-        <div className="flex flex-col md:flex-row items-center gap-8">
+      <div className="liquid-glass-hero p-8 relative">
+        <div className="liquid-orb liquid-orb-gold w-64 h-64 -top-20 -left-20 z-0" />
+        <div className="liquid-orb liquid-orb-amber w-48 h-48 -bottom-10 -right-10 z-0" style={{ animationDelay: '-5s' }} />
+        <div className="flex flex-col md:flex-row items-center gap-8 relative z-10">
           <div className="flex-1">
             <h1 className="text-4xl font-bold mb-6 bg-gradient-to-r from-brand-gold to-brand-gold-light bg-clip-text text-transparent">
               We're Here For You
             </h1>
             <p className="text-xl text-gray-700 dark:text-gray-300 leading-relaxed">
-              At PIT-BOX.COM, our commitment to your success extends far beyond the track. 
-              We're dedicated to providing an exceptional experience that helps you achieve 
+              At PIT-BOX.COM, our commitment to your success extends far beyond the track.
+              We're dedicated to providing an exceptional experience that helps you achieve
               your racing goals.
             </p>
           </div>
@@ -75,18 +77,18 @@ function Contact() {
       </div>
 
       {/* Legal & Privacy Section */}
-      <div className="carbon-fiber-panel p-8">
-        <div className="text-center mb-8">
+      <div className="liquid-glass p-8">
+        <div className="text-center mb-8 relative z-10">
           <Shield className="w-12 h-12 text-brand-gold mx-auto mb-4" />
           <h2 className="text-2xl font-bold mb-4">Legal & Privacy</h2>
           <p className="text-gray-600 dark:text-gray-400 mb-6">
             Your privacy and security are our top priorities
           </p>
         </div>
-        <div className="grid md:grid-cols-3 gap-4 max-w-3xl mx-auto">
+        <div className="grid md:grid-cols-3 gap-4 max-w-3xl mx-auto relative z-10">
           <Link
             to="/privacy"
-            className="glass-panel p-6 text-center hover:scale-105 transition-transform"
+            className="liquid-glass-card text-center hover:scale-105 transition-transform"
           >
             <FileText className="w-8 h-8 text-brand-gold mx-auto mb-2" />
             <h3 className="font-semibold mb-2">Privacy Policy</h3>
@@ -96,7 +98,7 @@ function Contact() {
           </Link>
           <Link
             to="/terms"
-            className="glass-panel p-6 text-center hover:scale-105 transition-transform"
+            className="liquid-glass-card text-center hover:scale-105 transition-transform"
           >
             <FileText className="w-8 h-8 text-brand-gold mx-auto mb-2" />
             <h3 className="font-semibold mb-2">Terms of Service</h3>
@@ -109,7 +111,7 @@ function Contact() {
               setSubject('Data Deletion Request');
               window.scrollTo({ top: document.getElementById('contact-form')?.offsetTop, behavior: 'smooth' });
             }}
-            className="glass-panel p-6 text-center hover:scale-105 transition-transform"
+            className="liquid-glass-card text-center hover:scale-105 transition-transform"
           >
             <Lock className="w-8 h-8 text-brand-gold mx-auto mb-2" />
             <h3 className="font-semibold mb-2">Delete My Data</h3>
@@ -118,9 +120,11 @@ function Contact() {
             </p>
           </button>
         </div>
-        <div className="mt-8 p-6 bg-blue-50 dark:bg-blue-900/20 rounded-lg max-w-3xl mx-auto">
+        <div className="mt-8 p-6 liquid-glass-card max-w-3xl mx-auto relative z-10" style={{
+          background: 'linear-gradient(135deg, rgba(59, 130, 246, 0.15) 0%, rgba(59, 130, 246, 0.05) 100%)'
+        }}>
           <div className="flex items-start gap-4">
-            <Shield className="w-6 h-6 text-blue-600 dark:text-blue-400 flex-shrink-0 mt-1" />
+            <Shield className="w-6 h-6 text-blue-500 dark:text-blue-400 flex-shrink-0 mt-1" />
             <div>
               <h3 className="font-semibold text-blue-900 dark:text-blue-100 mb-2">
                 Your Data is Secure
@@ -135,8 +139,9 @@ function Contact() {
       </div>
 
       {/* Contact Form Section */}
-      <div id="contact-form" className="carbon-fiber-panel p-8">
-        <div className="max-w-2xl mx-auto text-center">
+      <div id="contact-form" className="liquid-glass p-8 relative">
+        <div className="liquid-orb liquid-orb-amber w-40 h-40 top-10 right-10 z-0" style={{ animationDelay: '-10s' }} />
+        <div className="max-w-2xl mx-auto text-center relative z-10">
           <MessageSquare className="w-12 h-12 text-brand-gold mx-auto mb-6" />
           <h2 className="text-2xl font-bold mb-4">Get in Touch</h2>
           <p className="text-gray-600 dark:text-gray-400 mb-8">
@@ -144,16 +149,20 @@ function Contact() {
           </p>
 
           {error && (
-            <div className="mb-6 p-4 rounded-lg bg-red-100 dark:bg-red-900/30 text-red-700 dark:text-red-300 flex items-center gap-2">
-              <AlertCircle className="w-5 h-5 flex-shrink-0" />
-              {error}
+            <div className="mb-6 p-4 rounded-2xl liquid-glass-card flex items-center gap-2" style={{
+              background: 'linear-gradient(135deg, rgba(239, 68, 68, 0.15) 0%, rgba(239, 68, 68, 0.05) 100%)'
+            }}>
+              <AlertCircle className="w-5 h-5 flex-shrink-0 text-red-500" />
+              <span className="text-red-700 dark:text-red-300">{error}</span>
             </div>
           )}
 
           {success && (
-            <div className="mb-6 p-4 rounded-lg bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-300 flex items-center gap-2">
-              <CheckCircle className="w-5 h-5 flex-shrink-0" />
-              Message sent successfully! We'll get back to you soon.
+            <div className="mb-6 p-4 rounded-2xl liquid-glass-card flex items-center gap-2" style={{
+              background: 'linear-gradient(135deg, rgba(34, 197, 94, 0.15) 0%, rgba(34, 197, 94, 0.05) 100%)'
+            }}>
+              <CheckCircle className="w-5 h-5 flex-shrink-0 text-green-500" />
+              <span className="text-green-700 dark:text-green-300">Message sent successfully! We'll get back to you soon.</span>
             </div>
           )}
 
@@ -167,7 +176,7 @@ function Contact() {
                   name="name"
                   value={name}
                   onChange={(e) => setName(e.target.value)}
-                  className="w-full p-3 rounded-lg bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600"
+                  className="liquid-glass-input"
                   placeholder="Your name"
                   required
                 />
@@ -180,7 +189,7 @@ function Contact() {
                   name="email"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  className="w-full p-3 rounded-lg bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600"
+                  className="liquid-glass-input"
                   placeholder="your@email.com"
                   required
                 />
@@ -193,7 +202,7 @@ function Contact() {
                 name="subject"
                 value={subject}
                 onChange={(e) => setSubject(e.target.value)}
-                className="w-full p-3 rounded-lg bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600"
+                className="liquid-glass-input"
                 required
               >
                 <option value="General Inquiry">General Inquiry</option>
@@ -214,7 +223,7 @@ function Contact() {
                 name="message"
                 value={message}
                 onChange={(e) => setMessage(e.target.value)}
-                className="w-full p-3 rounded-lg bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600"
+                className="liquid-glass-input"
                 rows={6}
                 placeholder={subject === 'Data Deletion Request' ? 'Please include your account email and confirm you want to delete all your data. This action cannot be undone.' : 'Write your message here...'}
                 required
@@ -222,7 +231,7 @@ function Contact() {
             </div>
             <button
               type="submit"
-              className="w-full btn-primary flex items-center justify-center gap-2"
+              className="w-full liquid-glass-btn flex items-center justify-center gap-2"
               disabled={sending}
             >
               {sending ? (
@@ -242,15 +251,16 @@ function Contact() {
       </div>
 
       {/* Frequently Asked Questions */}
-      <div className="carbon-fiber-panel p-8">
-        <div className="text-center mb-8">
+      <div className="liquid-glass p-8 relative">
+        <div className="liquid-orb liquid-orb-gold w-32 h-32 -bottom-10 -left-10 z-0" style={{ animationDelay: '-15s' }} />
+        <div className="text-center mb-8 relative z-10">
           <MessageSquare className="w-12 h-12 text-brand-gold mx-auto mb-4" />
           <h2 className="text-2xl font-bold mb-4">Frequently Asked Questions</h2>
           <p className="text-gray-600 dark:text-gray-400">
             Find quick answers to common questions
           </p>
         </div>
-        <div className="max-w-3xl mx-auto space-y-4">
+        <div className="max-w-3xl mx-auto space-y-4 relative z-10">
           {[
             {
               q: 'How do I delete my account?',
@@ -285,7 +295,7 @@ function Contact() {
               a: 'Yes! Go to Profile → Settings → Export Data. You\'ll receive a download of all your setups, posts, and data in JSON format.'
             }
           ].map((faq, index) => (
-            <div key={index} className="glass-panel p-4">
+            <div key={index} className="liquid-glass-card">
               <button
                 onClick={() => setExpandedFaq(expandedFaq === index ? null : index)}
                 className="w-full flex items-center justify-between text-left"
@@ -308,13 +318,13 @@ function Contact() {
       </div>
 
       {/* Contact Info */}
-      <div className="glass-panel p-8 bg-white/80 dark:bg-gray-800/50">
-        <div className="text-center mb-8">
+      <div className="liquid-glass p-8">
+        <div className="text-center mb-8 relative z-10">
           <h2 className="text-2xl font-bold mb-4">Contact Information</h2>
         </div>
-        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 max-w-5xl mx-auto">
-          <div className="text-center">
-            <div className="w-12 h-12 rounded-full bg-brand-gold/10 flex items-center justify-center mx-auto mb-4">
+        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 max-w-5xl mx-auto relative z-10">
+          <div className="liquid-glass-card text-center">
+            <div className="w-12 h-12 rounded-full bg-brand-gold/20 flex items-center justify-center mx-auto mb-4">
               <Mail className="w-6 h-6 text-brand-gold" />
             </div>
             <h3 className="text-lg font-semibold mb-2">Email</h3>
@@ -323,8 +333,8 @@ function Contact() {
             </a>
           </div>
 
-          <div className="text-center">
-            <div className="w-12 h-12 rounded-full bg-brand-gold/10 flex items-center justify-center mx-auto mb-4">
+          <div className="liquid-glass-card text-center">
+            <div className="w-12 h-12 rounded-full bg-brand-gold/20 flex items-center justify-center mx-auto mb-4">
               <Phone className="w-6 h-6 text-brand-gold" />
             </div>
             <h3 className="text-lg font-semibold mb-2">Phone</h3>
@@ -333,8 +343,8 @@ function Contact() {
             </a>
           </div>
 
-          <div className="text-center">
-            <div className="w-12 h-12 rounded-full bg-brand-gold/10 flex items-center justify-center mx-auto mb-4">
+          <div className="liquid-glass-card text-center">
+            <div className="w-12 h-12 rounded-full bg-brand-gold/20 flex items-center justify-center mx-auto mb-4">
               <MapPin className="w-6 h-6 text-brand-gold" />
             </div>
             <h3 className="text-lg font-semibold mb-2">Address</h3>
@@ -345,8 +355,8 @@ function Contact() {
             </p>
           </div>
 
-          <div className="text-center">
-            <div className="w-12 h-12 rounded-full bg-brand-gold/10 flex items-center justify-center mx-auto mb-4">
+          <div className="liquid-glass-card text-center">
+            <div className="w-12 h-12 rounded-full bg-brand-gold/20 flex items-center justify-center mx-auto mb-4">
               <Clock className="w-6 h-6 text-brand-gold" />
             </div>
             <h3 className="text-lg font-semibold mb-2">Support Hours</h3>
@@ -359,59 +369,62 @@ function Contact() {
       </div>
 
       {/* Social Media */}
-      <div className="glass-panel p-8 text-center bg-white/80 dark:bg-gray-800/50">
-        <Globe className="w-12 h-12 text-brand-gold mx-auto mb-4" />
-        <h2 className="text-2xl font-bold mb-4">Follow Us</h2>
-        <p className="text-gray-600 dark:text-gray-400 mb-6">
-          Stay connected with the PIT-BOX community
-        </p>
-        <div className="flex justify-center gap-4 flex-wrap">
-          <a
-            href="https://www.tiktok.com/@pitbox2025"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="btn-primary px-6 py-3"
-          >
-            TikTok @pitbox2025
-          </a>
-          <a
-            href="https://instagram.com/pitbox25"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="btn-primary px-6 py-3"
-          >
-            Instagram @pitbox25
-          </a>
-          <a
-            href="https://facebook.com/pitbox25"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="btn-primary px-6 py-3"
-          >
-            Facebook @pitbox25
-          </a>
-          <a
-            href="https://www.threads.net/@pitbox25"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="btn-primary px-6 py-3"
-          >
-            Threads @pitbox25
-          </a>
-          <a
-            href="https://x.com/PitBox2025"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="btn-primary px-6 py-3"
-          >
-            X @PitBox2025
-          </a>
+      <div className="liquid-glass p-8 text-center relative">
+        <div className="liquid-orb liquid-orb-gold w-48 h-48 top-0 left-1/2 -translate-x-1/2 z-0" style={{ animationDelay: '-7s' }} />
+        <div className="relative z-10">
+          <Globe className="w-12 h-12 text-brand-gold mx-auto mb-4" />
+          <h2 className="text-2xl font-bold mb-4">Follow Us</h2>
+          <p className="text-gray-600 dark:text-gray-400 mb-6">
+            Stay connected with the PIT-BOX community
+          </p>
+          <div className="flex justify-center gap-4 flex-wrap">
+            <a
+              href="https://www.tiktok.com/@pitbox2025"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="liquid-glass-btn px-6 py-3"
+            >
+              TikTok @pitbox2025
+            </a>
+            <a
+              href="https://instagram.com/pitbox25"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="liquid-glass-btn px-6 py-3"
+            >
+              Instagram @pitbox25
+            </a>
+            <a
+              href="https://facebook.com/pitbox25"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="liquid-glass-btn px-6 py-3"
+            >
+              Facebook @pitbox25
+            </a>
+            <a
+              href="https://www.threads.net/@pitbox25"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="liquid-glass-btn px-6 py-3"
+            >
+              Threads @pitbox25
+            </a>
+            <a
+              href="https://x.com/PitBox2025"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="liquid-glass-btn px-6 py-3"
+            >
+              X @PitBox2025
+            </a>
+          </div>
         </div>
       </div>
 
       {/* Benefits Section */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-        <div className="glass-panel p-6 text-center transform hover:scale-105 transition-all duration-300 bg-white/80 dark:bg-gray-800/50">
+        <div className="liquid-glass-card text-center transform hover:scale-105 transition-all duration-300">
           <Trophy className="w-8 h-8 text-brand-gold mx-auto mb-2" />
           <div className="text-lg font-semibold">Racing Excellence</div>
           <p className="text-sm text-gray-600 dark:text-gray-400 mt-2">
@@ -419,7 +432,7 @@ function Contact() {
           </p>
         </div>
 
-        <div className="glass-panel p-6 text-center transform hover:scale-105 transition-all duration-300 bg-white/80 dark:bg-gray-800/50">
+        <div className="liquid-glass-card text-center transform hover:scale-105 transition-all duration-300">
           <Users className="w-8 h-8 text-brand-gold mx-auto mb-2" />
           <div className="text-lg font-semibold">Community</div>
           <p className="text-sm text-gray-600 dark:text-gray-400 mt-2">
@@ -427,7 +440,7 @@ function Contact() {
           </p>
         </div>
 
-        <div className="glass-panel p-6 text-center transform hover:scale-105 transition-all duration-300 bg-white/80 dark:bg-gray-800/50">
+        <div className="liquid-glass-card text-center transform hover:scale-105 transition-all duration-300">
           <Globe className="w-8 h-8 text-brand-gold mx-auto mb-2" />
           <div className="text-lg font-semibold">Global Access</div>
           <p className="text-sm text-gray-600 dark:text-gray-400 mt-2">
@@ -435,7 +448,7 @@ function Contact() {
           </p>
         </div>
 
-        <div className="glass-panel p-6 text-center transform hover:scale-105 transition-all duration-300 bg-white/80 dark:bg-gray-800/50">
+        <div className="liquid-glass-card text-center transform hover:scale-105 transition-all duration-300">
           <Award className="w-8 h-8 text-brand-gold mx-auto mb-2" />
           <div className="text-lg font-semibold">Expert Support</div>
           <p className="text-sm text-gray-600 dark:text-gray-400 mt-2">
@@ -445,8 +458,9 @@ function Contact() {
       </div>
 
       {/* Thank You Section */}
-      <div className="glass-panel p-8 text-center bg-white/80 dark:bg-gray-800/50">
-        <div className="max-w-3xl mx-auto">
+      <div className="liquid-glass-hero p-8 text-center relative">
+        <div className="liquid-orb liquid-orb-gold w-56 h-56 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-0" />
+        <div className="max-w-3xl mx-auto relative z-10">
           <Heart className="w-16 h-16 text-brand-gold mx-auto mb-6 animate-pulse" />
           <h2 className="text-3xl font-bold mb-6 bg-gradient-to-r from-brand-gold to-brand-gold-light bg-clip-text text-transparent">
             With Gratitude
