@@ -3,18 +3,8 @@ import { User } from '@supabase/supabase-js';
 import { supabase, testSupabaseConnection } from '../lib/supabase';
 import { useRetry } from '../hooks/useRetry';
 
-interface UserProfile {
-  id: string;
-  username?: string;
-  full_name?: string;
-  avatar_url?: string;
-  is_admin?: boolean;
-  has_premium?: boolean;
-}
-
 interface AuthContextType {
   user: User | null;
-  userProfile: UserProfile | null;
   loading: boolean;
   connectionError: string | null;
   hasPremium: boolean;
@@ -38,33 +28,10 @@ const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [user, setUser] = useState<User | null>(null);
-  const [userProfile, setUserProfile] = useState<UserProfile | null>(null);
   const [loading, setLoading] = useState(true);
   const [connectionError, setConnectionError] = useState<string | null>(null);
   const [hasPremium, setHasPremium] = useState(false);
   const { executeWithRetry } = useRetry();
-
-  const fetchUserProfile = async (userId: string) => {
-    try {
-      const { data, error } = await supabase
-        .from('profiles')
-        .select('id, username, full_name, avatar_url, is_admin, has_premium')
-        .eq('id', userId)
-        .maybeSingle();
-
-      if (error) {
-        console.error('Error fetching user profile:', error);
-        setUserProfile(null);
-        return;
-      }
-
-      setUserProfile(data);
-      setHasPremium(data?.has_premium || false);
-    } catch (err) {
-      console.error('Error fetching user profile:', err);
-      setUserProfile(null);
-    }
-  };
 
   const refreshPremiumStatus = async () => {
     if (!user) {
@@ -103,20 +70,23 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   };
 
   useEffect(() => {
+    // Initialize auth state
     const initializeAuth = async () => {
       try {
         setConnectionError(null);
-
+        
+        // Test connection first with retry mechanism
         const connectionTest = await executeWithRetry(async () => {
           return await testSupabaseConnection();
         });
-
+        
         if (!connectionTest.success) {
           setConnectionError(connectionTest.error || 'Failed to connect to Supabase');
           setLoading(false);
           return;
         }
 
+        // Get current session with retry mechanism
         const { data, error } = await executeWithRetry(async () => {
           try {
             const result = await supabase.auth.getSession();
@@ -125,29 +95,28 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
             if (err instanceof DOMException && err.name === 'AbortError') {
               throw new Error('Request timed out. Please try again.');
             }
+            // Handle network errors specifically
             if (err instanceof TypeError && err.message === 'Failed to fetch') {
               throw new Error('Network connection failed. Please check your internet connection.');
             }
             throw err;
           }
         });
-
+        
         if (error) {
           if (error.message === 'Invalid Refresh Token: Refresh Token Not Found') {
+            // Handle invalid refresh token by signing out
             await supabase.auth.signOut();
             setUser(null);
-            setUserProfile(null);
           } else {
             console.error('Error getting session:', error.message);
             setConnectionError(`Authentication error: ${error.message}`);
             setUser(null);
-            setUserProfile(null);
           }
         } else {
-          const currentUser = data?.session?.user ?? null;
-          setUser(currentUser);
-          if (currentUser) {
-            await fetchUserProfile(currentUser.id);
+          setUser(data?.session?.user ?? null);
+          if (data?.session?.user) {
+            await refreshPremiumStatus();
           }
         }
       } catch (err) {
@@ -155,7 +124,6 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         const errorMessage = err instanceof Error ? err.message : 'Unknown initialization error';
         setConnectionError(errorMessage);
         setUser(null);
-        setUserProfile(null);
       } finally {
         setLoading(false);
       }
@@ -163,17 +131,23 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
     initializeAuth();
 
+    // Listen for auth state changes
     const { data: { subscription } } = supabase.auth.onAuthStateChange(async (event, session) => {
-      setUser(session?.user ?? null);
+      if (event === 'SIGNED_OUT' || event === 'TOKEN_REFRESHED') {
+        setUser(session?.user ?? null);
+      } else {
+        setUser(session?.user ?? null);
+      }
 
+      // Clear connection error on successful auth events
       if (event === 'SIGNED_IN' || event === 'TOKEN_REFRESHED') {
         setConnectionError(null);
       }
 
+      // Refresh premium status when user changes
       if (session?.user) {
-        await fetchUserProfile(session.user.id);
+        await refreshPremiumStatus();
       } else {
-        setUserProfile(null);
         setHasPremium(false);
       }
 
@@ -188,11 +162,12 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const signIn = async (email: string, password: string) => {
     try {
       setConnectionError(null);
-
+      
+      // Test connection before attempting sign in with retry
       const connectionTest = await executeWithRetry(async () => {
         return await testSupabaseConnection();
       });
-
+      
       if (!connectionTest.success) {
         throw new Error(connectionTest.error || 'Cannot connect to authentication service');
       }
@@ -207,6 +182,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
           if (err instanceof DOMException && err.name === 'AbortError') {
             throw new Error('Sign in request timed out. Please try again.');
           }
+          // Handle network errors specifically
           if (err instanceof TypeError && err.message === 'Failed to fetch') {
             throw new Error('Network connection failed. Please check your internet connection and try again.');
           }
@@ -228,11 +204,12 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const signUp = async (email: string, password: string) => {
     try {
       setConnectionError(null);
-
+      
+      // Test connection before attempting sign up with retry
       const connectionTest = await executeWithRetry(async () => {
         return await testSupabaseConnection();
       });
-
+      
       if (!connectionTest.success) {
         throw new Error(connectionTest.error || 'Cannot connect to authentication service');
       }
@@ -250,6 +227,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
           if (err instanceof DOMException && err.name === 'AbortError') {
             throw new Error('Sign up request timed out. Please try again.');
           }
+          // Handle network errors specifically
           if (err instanceof TypeError && err.message === 'Failed to fetch') {
             throw new Error('Network connection failed. Please check your internet connection and try again.');
           }
@@ -274,12 +252,10 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         console.error('Error signing out:', error.message);
       }
       setUser(null);
-      setUserProfile(null);
       setConnectionError(null);
     } catch (err) {
       console.error('Error during sign out:', err);
       setUser(null);
-      setUserProfile(null);
     }
   };
 
@@ -337,7 +313,6 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   return (
     <AuthContext.Provider value={{
       user,
-      userProfile,
       loading,
       connectionError,
       hasPremium,
