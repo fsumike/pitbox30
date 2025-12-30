@@ -24,7 +24,20 @@ function SignIn() {
   const [showPinLogin, setShowPinLogin] = useState(false);
   const [pinCode, setPinCode] = useState('');
   const [pinEmail, setPinEmail] = useState('');
+  const [storedPinEmail, setStoredPinEmail] = useState<string | null>(null);
+  const [storedPinUserId, setStoredPinUserId] = useState<string | null>(null);
   const { executeWithRetry } = useRetry();
+
+  useEffect(() => {
+    const savedEmail = localStorage.getItem('pitbox_pin_email');
+    const savedUserId = localStorage.getItem('pitbox_pin_user_id');
+    if (savedEmail && savedUserId) {
+      setStoredPinEmail(savedEmail);
+      setStoredPinUserId(savedUserId);
+      setPinEmail(savedEmail);
+      setShowPinLogin(true);
+    }
+  }, []);
 
   const validPromoCodes = [
     'Silva57', 'Daniels5', 'Larson57', 'Colby5', 'Andy92', 'Brad49', 'Kyle54', 'Kaleb3',
@@ -350,24 +363,44 @@ function SignIn() {
                 </div>
               )}
 
-              <div>
-                <label htmlFor="pinEmail" className="block text-sm font-medium mb-1">
-                  Email
-                </label>
-                <div className="relative">
-                  <Mail className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" />
-                  <input
-                    type="email"
-                    id="pinEmail"
-                    value={pinEmail}
-                    onChange={(e) => setPinEmail(e.target.value)}
-                    className="w-full pl-10 pr-4 py-3 rounded-lg bg-white/50 dark:bg-gray-800/50 border border-gray-300 dark:border-gray-600 focus:border-brand-gold focus:ring-2 focus:ring-brand-gold/20 outline-none transition"
-                    placeholder="your@email.com"
-                    required
-                    disabled={loading}
-                  />
+              {storedPinEmail ? (
+                <div className="text-center">
+                  <p className="text-sm text-gray-600 dark:text-gray-400 mb-1">Signing in as</p>
+                  <p className="font-medium text-brand-gold">{storedPinEmail}</p>
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setStoredPinEmail(null);
+                      setStoredPinUserId(null);
+                      setPinEmail('');
+                      localStorage.removeItem('pitbox_pin_email');
+                      localStorage.removeItem('pitbox_pin_user_id');
+                    }}
+                    className="text-xs text-gray-500 hover:text-gray-700 dark:hover:text-gray-300 mt-1"
+                  >
+                    Use different account
+                  </button>
                 </div>
-              </div>
+              ) : (
+                <div>
+                  <label htmlFor="pinEmail" className="block text-sm font-medium mb-1">
+                    Email
+                  </label>
+                  <div className="relative">
+                    <Mail className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" />
+                    <input
+                      type="email"
+                      id="pinEmail"
+                      value={pinEmail}
+                      onChange={(e) => setPinEmail(e.target.value)}
+                      className="w-full pl-10 pr-4 py-3 rounded-lg bg-white/50 dark:bg-gray-800/50 border border-gray-300 dark:border-gray-600 focus:border-brand-gold focus:ring-2 focus:ring-brand-gold/20 outline-none transition"
+                      placeholder="your@email.com"
+                      required
+                      disabled={loading}
+                    />
+                  </div>
+                </div>
+              )}
 
               <div>
                 <label className="block text-sm font-medium mb-3 text-center">

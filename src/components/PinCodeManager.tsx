@@ -100,6 +100,12 @@ function PinCodeManager({ userId }: PinCodeManagerProps) {
           .from('profiles')
           .update({ pin_refresh_token: encryptedToken })
           .eq('id', userId);
+
+        const { data: { user } } = await supabase.auth.getUser();
+        if (user?.email) {
+          localStorage.setItem('pitbox_pin_email', user.email);
+          localStorage.setItem('pitbox_pin_user_id', userId);
+        }
       }
 
       setSuccess(true);
