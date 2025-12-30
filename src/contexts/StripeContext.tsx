@@ -35,9 +35,10 @@ export const tiers: SubscriptionTier[] = [
   {
     id: 'basic',
     name: 'Basic Setup Access',
-    description: 'Save setups to the database and your devices',
+    description: 'Stores and protects your setups with secure cloud storage',
     features: [
       'Unlimited setup saves',
+      'Secure cloud storage',
       'Access on all your devices',
       'Basic setup templates',
       'Community access'
@@ -52,10 +53,11 @@ export const tiers: SubscriptionTier[] = [
   {
     id: 'premium',
     name: 'Encrypted Setup Access',
-    description: 'Enhanced security with encrypted setups',
+    description: 'Highest industry standards with end-to-end encryption and advanced features',
     features: [
       'All Basic features',
       'End-to-end encryption',
+      'Maximum data privacy',
       'Advanced setup templates',
       'Priority support',
       'Early access to new features'
