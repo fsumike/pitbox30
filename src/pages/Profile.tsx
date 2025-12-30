@@ -73,14 +73,82 @@ function ProfilePage() {
   }, [user]);
 
   const loadProfile = async () => {
+    if (!user?.id) return;
+
     try {
       const { data, error } = await supabase
         .from('profiles')
         .select('*')
-        .eq('id', user?.id)
-        .single();
+        .eq('id', user.id)
+        .maybeSingle();
 
-      if (error) throw error;
+      if (error) {
+        console.error('Error loading profile:', error);
+        return;
+      }
+
+      if (!data) {
+        const { error: createError } = await supabase
+          .from('profiles')
+          .insert({
+            id: user.id,
+            username: user.email?.split('@')[0] || '',
+            full_name: '',
+            created_at: new Date().toISOString(),
+            updated_at: new Date().toISOString()
+          });
+
+        if (createError) {
+          console.error('Error creating profile:', createError);
+          return;
+        }
+
+        const { data: newData } = await supabase
+          .from('profiles')
+          .select('*')
+          .eq('id', user.id)
+          .maybeSingle();
+
+        if (newData) {
+          setProfile({
+            username: newData.username || '',
+            full_name: newData.full_name || '',
+            avatar_url: newData.avatar_url || '',
+            bio: newData.bio || '',
+            location: newData.location || '',
+            website: newData.website || '',
+            phone: newData.phone || '',
+            promo_code: newData.promo_code || '',
+            has_premium: newData.has_premium || false,
+            car_number: newData.car_number || '',
+            car_numbers: newData.car_numbers || [],
+            primary_racing_class: newData.primary_racing_class || '',
+            racing_role: newData.racing_role || '',
+            years_racing_since: newData.years_racing_since || undefined,
+            home_tracks: newData.home_tracks || [],
+            championships: newData.championships || [],
+            notable_wins: newData.notable_wins || '',
+            current_team: newData.current_team || '',
+            previous_teams: newData.previous_teams || [],
+            birthday: newData.birthday || undefined,
+            relationship_status: newData.relationship_status || '',
+            education: newData.education || '',
+            day_job: newData.day_job || '',
+            hometown: newData.hometown || '',
+            mechanical_skills: newData.mechanical_skills || [],
+            racing_interests: newData.racing_interests || [],
+            looking_for: newData.looking_for || [],
+            favorite_drivers: newData.favorite_drivers || [],
+            music_preference: newData.music_preference || '',
+            privacy_racing_info: newData.privacy_racing_info || 'public',
+            privacy_career_info: newData.privacy_career_info || 'public',
+            privacy_personal_info: newData.privacy_personal_info || 'friends',
+            privacy_contact_info: newData.privacy_contact_info || 'private'
+          });
+        }
+        return;
+      }
+
       if (data) {
         setProfile({
           username: data.username || '',
