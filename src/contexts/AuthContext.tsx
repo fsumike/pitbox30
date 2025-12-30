@@ -242,9 +242,6 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
           return await supabase.auth.signUp({
             email,
             password,
-            options: {
-              emailRedirectTo: window.location.origin,
-            },
           });
         } catch (err) {
           if (err instanceof DOMException && err.name === 'AbortError') {
