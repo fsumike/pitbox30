@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Download PIN Code Fix</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+        .container {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            max-width: 700px;
+            width: 100%;
+            padding: 40px;
+        }
+        h1 {
+            color: #1a202c;
+            font-size: 28px;
+            margin-bottom: 10px;
+            font-weight: 700;
+        }
+        .subtitle {
+            color: #718096;
+            font-size: 16px;
+            margin-bottom: 30px;
+        }
+        .error-box {
+            background: #fff5f5;
+            border-left: 4px solid #fc8181;
+            padding: 15px;
+            margin-bottom: 25px;
+            border-radius: 8px;
+        }
+        .error-box code {
+            color: #c53030;
+            font-family: 'Courier New', monospace;
+            font-size: 14px;
+        }
+        .steps {
+            margin: 30px 0;
+        }
+        .step {
+            background: #f7fafc;
+            padding: 20px;
+            margin-bottom: 15px;
+            border-radius: 12px;
+            border-left: 4px solid #667eea;
+        }
+        .step-number {
+            display: inline-block;
+            background: #667eea;
+            color: white;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            text-align: center;
+            line-height: 30px;
+            font-weight: bold;
+            margin-right: 10px;
+        }
+        .step-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: #2d3748;
+            margin-bottom: 10px;
+        }
+        .step-content {
+            color: #4a5568;
+            margin-left: 40px;
+        }
+        .download-btn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 16px 32px;
+            font-size: 18px;
+            font-weight: 600;
+            border-radius: 12px;
+            cursor: pointer;
+            width: 100%;
+            margin: 20px 0;
+            transition: transform 0.2s, box-shadow 0.2s;
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+        }
+        .download-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(102, 126, 234, 0.6);
+        }
+        .download-btn:active {
+            transform: translateY(0);
+        }
+        .info-box {
+            background: #ebf8ff;
+            border-left: 4px solid #4299e1;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 8px;
+        }
+        .info-box p {
+            color: #2c5282;
+            font-size: 14px;
+        }
+        .checkmark {
+            color: #48bb78;
+            margin-right: 8px;
+        }
+        ul {
+            margin: 15px 0;
+            padding-left: 20px;
+        }
+        li {
+            color: #4a5568;
+            margin: 8px 0;
+            line-height: 1.6;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🔧 Fix PIN Code Authentication</h1>
+        <p class="subtitle">Quick fix for the gen_salt error</p>
+
+        <div class="error-box">
+            <strong>Error:</strong><br>
+            <code>function gen_salt(unknown, integer) does not exist</code>
+        </div>
+
+        <div class="info-box">
+            <p><strong>What happened?</strong></p>
+            <p>The pgcrypto extension (needed for secure PIN hashing) isn't enabled yet in your database. This is a one-time fix that takes 2 minutes.</p>
+        </div>
+
+        <button class="download-btn" onclick="downloadSQL()">
+            📥 Download FIX_PIN_CODE_MIGRATION.sql
+        </button>
+
+        <div class="steps">
+            <div class="step">
+                <div class="step-title">
+                    <span class="step-number">1</span>
+                    Open Supabase SQL Editor
+                </div>
+                <div class="step-content">
+                    <ul>
+                        <li>Go to <a href="https://supabase.com/dashboard" target="_blank">https://supabase.com/dashboard</a></li>
+                        <li>Select your PitBox project</li>
+                        <li>Click "SQL Editor" in the left sidebar</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="step">
+                <div class="step-title">
+                    <span class="step-number">2</span>
+                    Run the Migration
+                </div>
+                <div class="step-content">
+                    <ul>
+                        <li>Click "New Query" button</li>
+                        <li>Open the downloaded SQL file</li>
+                        <li>Copy ALL contents and paste in editor</li>
+                        <li>Click "Run" (or press Ctrl+Enter)</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="step">
+                <div class="step-title">
+                    <span class="step-number">3</span>
+                    Verify Success
+                </div>
+                <div class="step-content">
+                    <p>You should see one of these success messages:</p>
+                    <ul>
+                        <li><span class="checkmark">✅</span> "Success. No rows returned"</li>
+                        <li><span class="checkmark">✅</span> "extension pgcrypto already exists"</li>
+                        <li><span class="checkmark">✅</span> "function already exists"</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="step">
+                <div class="step-title">
+                    <span class="step-number">4</span>
+                    Test It
+                </div>
+                <div class="step-content">
+                    <ul>
+                        <li>Refresh your PitBox app</li>
+                        <li>Go to Profile page</li>
+                        <li>Set up Quick PIN Sign-In</li>
+                        <li>Should work without errors!</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="info-box">
+            <p><strong>What this migration does:</strong></p>
+            <ul>
+                <li><span class="checkmark">✅</span> Enables pgcrypto extension</li>
+                <li><span class="checkmark">✅</span> Adds PIN code columns to profiles</li>
+                <li><span class="checkmark">✅</span> Creates secure PIN functions</li>
+                <li><span class="checkmark">✅</span> Sets proper permissions</li>
+            </ul>
+        </div>
+    </div>
+
+    <script>
+        function downloadSQL() {
+            const sql = `/*
+  # Add PIN Code Authentication
+
+  1. Extensions
+    - Enable pgcrypto extension for secure password hashing
+
+  2. New Columns to profiles table
+    - pin_code_hash (text, nullable) - Stores hashed PIN code for security
+    - pin_code_enabled (boolean, default false) - Whether PIN login is enabled
+
+  3. New Functions
+    - set_user_pin_code(user_id, pin_code) - Securely sets user's PIN code with bcrypt hashing
+    - disable_user_pin_code(user_id) - Disables PIN code login and clears hash
+    - verify_user_pin_code(user_id, pin_code) - Verifies PIN code for authentication
+
+  4. Security
+    - PIN codes are hashed using pgcrypto bcrypt (gen_salt('bf', 8))
+    - Only users can manage their own PIN codes (enforced in functions)
+    - PIN verification is secure and timing-attack resistant
+    - Functions use SECURITY DEFINER with search_path set to public
+*/
+
+-- Enable pgcrypto extension for password hashing
+CREATE EXTENSION IF NOT EXISTS pgcrypto;
+
+-- Add PIN code columns to profiles table
+DO $$
+BEGIN
+  IF NOT EXISTS (
+    SELECT 1 FROM information_schema.columns
+    WHERE table_name = 'profiles' AND column_name = 'pin_code_hash'
+  ) THEN
+    ALTER TABLE profiles ADD COLUMN pin_code_hash text;
+  END IF;
+
+  IF NOT EXISTS (
+    SELECT 1 FROM information_schema.columns
+    WHERE table_name = 'profiles' AND column_name = 'pin_code_enabled'
+  ) THEN
+    ALTER TABLE profiles ADD COLUMN pin_code_enabled boolean DEFAULT false;
+  END IF;
+END $$;
+
+-- Function to set user PIN code (hashed)
+CREATE OR REPLACE FUNCTION set_user_pin_code(
+  user_id uuid,
+  pin_code text
+)
+RETURNS void
+LANGUAGE plpgsql
+SECURITY DEFINER
+SET search_path = public
+AS $$
+BEGIN
+  -- Verify the user is setting their own PIN
+  IF auth.uid() != user_id THEN
+    RAISE EXCEPTION 'Unauthorized: You can only set your own PIN code';
+  END IF;
+
+  -- Validate PIN code format (4-10 digits)
+  IF pin_code !~ '^\\\\d{4,10}$' THEN
+    RAISE EXCEPTION 'Invalid PIN: Must be 4-10 digits';
+  END IF;
+
+  -- Update the user's PIN code (hashed) and enable it
+  UPDATE profiles
+  SET
+    pin_code_hash = crypt(pin_code, gen_salt('bf', 8)),
+    pin_code_enabled = true,
+    updated_at = now()
+  WHERE id = user_id;
+
+  IF NOT FOUND THEN
+    RAISE EXCEPTION 'User not found';
+  END IF;
+END;
+$$;
+
+-- Function to disable user PIN code
+CREATE OR REPLACE FUNCTION disable_user_pin_code(
+  user_id uuid
+)
+RETURNS void
+LANGUAGE plpgsql
+SECURITY DEFINER
+SET search_path = public
+AS $$
+BEGIN
+  -- Verify the user is disabling their own PIN
+  IF auth.uid() != user_id THEN
+    RAISE EXCEPTION 'Unauthorized: You can only disable your own PIN code';
+  END IF;
+
+  -- Disable PIN code and clear the hash
+  UPDATE profiles
+  SET
+    pin_code_hash = NULL,
+    pin_code_enabled = false,
+    updated_at = now()
+  WHERE id = user_id;
+
+  IF NOT FOUND THEN
+    RAISE EXCEPTION 'User not found';
+  END IF;
+END;
+$$;
+
+-- Function to verify user PIN code (for authentication)
+CREATE OR REPLACE FUNCTION verify_user_pin_code(
+  user_id uuid,
+  pin_code text
+)
+RETURNS boolean
+LANGUAGE plpgsql
+SECURITY DEFINER
+SET search_path = public
+AS $$
+DECLARE
+  stored_hash text;
+  is_enabled boolean;
+BEGIN
+  -- Get the stored hash and enabled status
+  SELECT pin_code_hash, pin_code_enabled
+  INTO stored_hash, is_enabled
+  FROM profiles
+  WHERE id = user_id;
+
+  -- Return false if user not found or PIN not enabled
+  IF NOT FOUND OR NOT is_enabled OR stored_hash IS NULL THEN
+    RETURN false;
+  END IF;
+
+  -- Verify the PIN code against the stored hash
+  RETURN (stored_hash = crypt(pin_code, stored_hash));
+END;
+$$;
+
+-- Grant execute permissions on the functions
+GRANT EXECUTE ON FUNCTION set_user_pin_code(uuid, text) TO authenticated;
+GRANT EXECUTE ON FUNCTION disable_user_pin_code(uuid) TO authenticated;
+GRANT EXECUTE ON FUNCTION verify_user_pin_code(uuid, text) TO authenticated;
+
+-- Add comments for documentation
+COMMENT ON FUNCTION set_user_pin_code IS 'Sets a hashed PIN code for quick authentication';
+COMMENT ON FUNCTION disable_user_pin_code IS 'Disables PIN code authentication for a user';
+COMMENT ON FUNCTION verify_user_pin_code IS 'Verifies a PIN code for authentication (returns boolean)';
+`;
+
+            const blob = new Blob([sql], { type: 'text/plain' });
+            const url = window.URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'FIX_PIN_CODE_MIGRATION.sql';
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            window.URL.revokeObjectURL(url);
+
+            alert('✅ Downloaded! Now paste it into Supabase SQL Editor and run it.');
+        }
+    </script>
+</body>
+</html>
