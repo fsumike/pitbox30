@@ -93,10 +93,8 @@ function Home() {
                 />
               </div>
               <div className="text-center md:text-left flex-1">
-                <p className="text-amber-400 font-extrabold text-xl sm:text-2xl md:text-3xl mb-3 tracking-wide uppercase drop-shadow-lg" style={{
-                  textShadow: '0 0 20px rgba(251, 191, 36, 0.6)'
-                }}>
-                  Your Racing Setup Tool
+                <p className="text-amber-400 font-black text-3xl sm:text-4xl md:text-5xl lg:text-6xl mb-4 tracking-wider uppercase animate-gold-glow">
+                  Setup Management Tool
                 </p>
                 <h1 className="text-4xl font-bold tracking-tight text-white sm:text-5xl md:text-6xl mb-4 leading-tight">
                   Save and Track Every Racing Setup
