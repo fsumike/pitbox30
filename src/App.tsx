@@ -167,8 +167,14 @@ function App() {
   const [hideNav, setHideNav] = useState(false);
   const [touchStartY, setTouchStartY] = useState<number | null>(null);
   const [touchEndY, setTouchEndY] = useState<number | null>(null);
-  const [showVideoSplash, setShowVideoSplash] = useState(true);
-  const [hasSeenVideo, setHasSeenVideo] = useState(false);
+  const [showVideoSplash, setShowVideoSplash] = useState(() => {
+    const seen = localStorage.getItem('hasSeenVideoSplash');
+    return seen !== 'true';
+  });
+  const [hasSeenVideo, setHasSeenVideo] = useState(() => {
+    const seen = localStorage.getItem('hasSeenVideoSplash');
+    return seen === 'true';
+  });
   const location = useLocation();
   const { user, userProfile } = useAuth();
   const { showNav } = useNavVisibility();
@@ -180,18 +186,10 @@ function App() {
     liveUpdateService.initialize();
   }, []);
 
-  useEffect(() => {
-    const seen = sessionStorage.getItem('hasSeenVideoSplash');
-    if (seen === 'true') {
-      setHasSeenVideo(true);
-      setShowVideoSplash(false);
-    }
-  }, []);
-
   const handleVideoComplete = () => {
     setShowVideoSplash(false);
     setHasSeenVideo(true);
-    sessionStorage.setItem('hasSeenVideoSplash', 'true');
+    localStorage.setItem('hasSeenVideoSplash', 'true');
   };
 
   const minSwipeDistance = 50;

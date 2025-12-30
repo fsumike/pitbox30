@@ -49,7 +49,7 @@ export class CapawesomeLiveUpdateService {
 
       if (result.nextBundleId) {
         console.log('Update available:', result.nextBundleId);
-        await this.LiveUpdate.reload();
+        console.log('Update downloaded - will apply on next app restart');
       } else {
         console.log('App is up to date');
       }
