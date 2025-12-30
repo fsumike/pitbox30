@@ -406,7 +406,7 @@ function SignInButton({ className }: SignInButtonProps) {
           </div>
           <span className="hidden md:inline text-sm font-medium truncate max-w-[150px]">
             {profileError ? (
-              <button 
+              <button
                 onClick={handleRetryProfile}
                 className="text-red-500 hover:text-red-600"
               >
@@ -416,7 +416,9 @@ function SignInButton({ className }: SignInButtonProps) {
               profile?.full_name || 'Set up profile'
             )}
           </span>
-          <ChevronDown className={`w-4 h-4 transition-transform ${showDropdown ? 'rotate-180' : ''}`} />
+          {/* ORIGINAL (default color): <ChevronDown className={`w-4 h-4 transition-transform ${showDropdown ? 'rotate-180' : ''}`} /> */}
+          {/* Updated to yellow/gold for better visibility with translucent background */}
+          <ChevronDown className={`w-4 h-4 text-brand-gold transition-transform ${showDropdown ? 'rotate-180' : ''}`} />
         </button>
 
         {/* Dropdown Menu */}
