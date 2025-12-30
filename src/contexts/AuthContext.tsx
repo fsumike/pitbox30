@@ -247,9 +247,19 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
   const signOut = async () => {
     try {
-      const { error } = await supabase.auth.signOut();
-      if (error) {
-        console.error('Error signing out:', error.message);
+      const pinUserId = localStorage.getItem('pitbox_pin_user_id');
+      const hasPinEnabled = pinUserId && localStorage.getItem(`pitbox_pin_token_${pinUserId}`);
+
+      if (hasPinEnabled) {
+        const { error } = await supabase.auth.signOut({ scope: 'local' });
+        if (error) {
+          console.error('Error signing out:', error.message);
+        }
+      } else {
+        const { error } = await supabase.auth.signOut();
+        if (error) {
+          console.error('Error signing out:', error.message);
+        }
       }
       setUser(null);
       setConnectionError(null);
