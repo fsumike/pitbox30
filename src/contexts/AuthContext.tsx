@@ -2,7 +2,6 @@ import React, { createContext, useContext, useEffect, useState } from 'react';
 import { User } from '@supabase/supabase-js';
 import { supabase, testSupabaseConnection } from '../lib/supabase';
 import { useRetry } from '../hooks/useRetry';
-import { updatePinToken, hasPinEnabled } from '../utils/pinTokenManager';
 
 interface AuthContextType {
   user: User | null;
@@ -71,23 +70,20 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   };
 
   useEffect(() => {
-    // Initialize auth state
     const initializeAuth = async () => {
       try {
         setConnectionError(null);
-        
-        // Test connection first with retry mechanism
+
         const connectionTest = await executeWithRetry(async () => {
           return await testSupabaseConnection();
         });
-        
+
         if (!connectionTest.success) {
           setConnectionError(connectionTest.error || 'Failed to connect to Supabase');
           setLoading(false);
           return;
         }
 
-        // Get current session with retry mechanism
         const { data, error } = await executeWithRetry(async () => {
           try {
             const result = await supabase.auth.getSession();
@@ -96,17 +92,15 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
             if (err instanceof DOMException && err.name === 'AbortError') {
               throw new Error('Request timed out. Please try again.');
             }
-            // Handle network errors specifically
             if (err instanceof TypeError && err.message === 'Failed to fetch') {
               throw new Error('Network connection failed. Please check your internet connection.');
             }
             throw err;
           }
         });
-        
+
         if (error) {
           if (error.message === 'Invalid Refresh Token: Refresh Token Not Found') {
-            // Handle invalid refresh token by signing out
             await supabase.auth.signOut();
             setUser(null);
           } else {
@@ -139,12 +133,6 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         setConnectionError(null);
       }
 
-      if (event === 'TOKEN_REFRESHED' && session?.refresh_token) {
-        if (hasPinEnabled()) {
-          await updatePinToken(session.refresh_token);
-        }
-      }
-
       if (session?.user) {
         await refreshPremiumStatus();
       } else {
@@ -162,12 +150,11 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const signIn = async (email: string, password: string) => {
     try {
       setConnectionError(null);
-      
-      // Test connection before attempting sign in with retry
+
       const connectionTest = await executeWithRetry(async () => {
         return await testSupabaseConnection();
       });
-      
+
       if (!connectionTest.success) {
         throw new Error(connectionTest.error || 'Cannot connect to authentication service');
       }
@@ -182,7 +169,6 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
           if (err instanceof DOMException && err.name === 'AbortError') {
             throw new Error('Sign in request timed out. Please try again.');
           }
-          // Handle network errors specifically
           if (err instanceof TypeError && err.message === 'Failed to fetch') {
             throw new Error('Network connection failed. Please check your internet connection and try again.');
           }
@@ -204,12 +190,11 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const signUp = async (email: string, password: string) => {
     try {
       setConnectionError(null);
-      
-      // Test connection before attempting sign up with retry
+
       const connectionTest = await executeWithRetry(async () => {
         return await testSupabaseConnection();
       });
-      
+
       if (!connectionTest.success) {
         throw new Error(connectionTest.error || 'Cannot connect to authentication service');
       }
@@ -227,7 +212,6 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
           if (err instanceof DOMException && err.name === 'AbortError') {
             throw new Error('Sign up request timed out. Please try again.');
           }
-          // Handle network errors specifically
           if (err instanceof TypeError && err.message === 'Failed to fetch') {
             throw new Error('Network connection failed. Please check your internet connection and try again.');
           }
@@ -247,23 +231,9 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
   const signOut = async () => {
     try {
-      const pinEnabled = hasPinEnabled();
-
-      if (pinEnabled) {
-        const { data: refreshedSession } = await supabase.auth.refreshSession();
-        if (refreshedSession?.session?.refresh_token) {
-          await updatePinToken(refreshedSession.session.refresh_token);
-        }
-
-        const { error } = await supabase.auth.signOut({ scope: 'local' });
-        if (error) {
-          console.error('Error signing out:', error.message);
-        }
-      } else {
-        const { error } = await supabase.auth.signOut();
-        if (error) {
-          console.error('Error signing out:', error.message);
-        }
+      const { error } = await supabase.auth.signOut();
+      if (error) {
+        console.error('Error signing out:', error.message);
       }
       setUser(null);
       setConnectionError(null);

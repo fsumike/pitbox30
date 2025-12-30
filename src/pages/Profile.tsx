@@ -8,7 +8,6 @@ import ChatButton from '../components/ChatButton';
 import { usePromoCode } from '../hooks/usePromoCode';
 import SubscriptionStatus from '../components/SubscriptionStatus';
 import BlockedUsersPanel from '../components/BlockedUsersPanel';
-import PinCodeManager from '../components/PinCodeManager';
 import { QRCodeSVG } from 'qrcode.react';
 import type { Profile } from '../types';
 
@@ -1090,7 +1089,24 @@ function ProfilePage() {
                 Manage your account security and authentication methods.
               </p>
 
-              <PinCodeManager userId={user?.id || ''} />
+              <div className="bg-gray-50 dark:bg-gray-800/50 rounded-lg p-6 border border-gray-200 dark:border-gray-700">
+                <h3 className="font-semibold mb-3">Account Security</h3>
+                <p className="text-sm text-gray-600 dark:text-gray-400 mb-4">
+                  Your account is secured with your email and password. For best security practices:
+                </p>
+                <ul className="text-sm text-gray-600 dark:text-gray-400 space-y-2 list-disc list-inside">
+                  <li>Use a strong, unique password</li>
+                  <li>Never share your password with anyone</li>
+                  <li>Sign out when using shared devices</li>
+                  <li>Keep your email address up to date</li>
+                </ul>
+              </div>
+
+              <div className="bg-brand-gold/10 rounded-lg p-4">
+                <p className="text-sm text-gray-700 dark:text-gray-300">
+                  <strong>Email:</strong> {user?.email}
+                </p>
+              </div>
             </div>
           )}
 

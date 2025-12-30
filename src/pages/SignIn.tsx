@@ -1,10 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
-import { LogIn, Loader2, CheckCircle, AlertTriangle, RefreshCw, Mail, Lock, Hash } from 'lucide-react';
+import { LogIn, Loader2, CheckCircle, AlertTriangle, RefreshCw, Mail, Lock } from 'lucide-react';
 import { useAuth } from '../contexts/AuthContext';
 import { supabase } from '../lib/supabase';
 import { useRetry } from '../hooks/useRetry';
-import NumericKeypad from '../components/NumericKeypad';
 
 function SignIn() {
   const [isSignIn, setIsSignIn] = useState(true);
@@ -21,23 +20,7 @@ function SignIn() {
   const location = useLocation();
 
   const { signIn, signUp, user, connectionError, retryConnection } = useAuth();
-  const [showPinLogin, setShowPinLogin] = useState(false);
-  const [pinCode, setPinCode] = useState('');
-  const [pinEmail, setPinEmail] = useState('');
-  const [storedPinEmail, setStoredPinEmail] = useState<string | null>(null);
-  const [storedPinUserId, setStoredPinUserId] = useState<string | null>(null);
   const { executeWithRetry } = useRetry();
-
-  useEffect(() => {
-    const savedEmail = localStorage.getItem('pitbox_pin_email');
-    const savedUserId = localStorage.getItem('pitbox_pin_user_id');
-    if (savedEmail && savedUserId) {
-      setStoredPinEmail(savedEmail);
-      setStoredPinUserId(savedUserId);
-      setPinEmail(savedEmail);
-      setShowPinLogin(true);
-    }
-  }, []);
 
   const validPromoCodes = [
     'Silva57', 'Daniels5', 'Larson57', 'Colby5', 'Andy92', 'Brad49', 'Kyle54', 'Kaleb3',
@@ -188,137 +171,6 @@ function SignIn() {
     }
   };
 
-  const handlePinLogin = async () => {
-    if (!pinCode) {
-      setError('Please enter your PIN code');
-      return;
-    }
-
-    if (pinCode.length < 4) {
-      setError('PIN must be at least 4 digits');
-      return;
-    }
-
-    const savedUserId = storedPinUserId || localStorage.getItem('pitbox_pin_user_id');
-
-    if (!savedUserId) {
-      setError('No PIN configured on this device. Please sign in with email and password first, then set up PIN in your profile settings.');
-      setShowPinLogin(false);
-      setLoading(false);
-      return;
-    }
-
-    setLoading(true);
-    setError(null);
-
-    try {
-      const encryptedTokenKey = `pitbox_pin_token_${savedUserId}`;
-      const pinHashKey = `pitbox_pin_hash_${savedUserId}`;
-
-      let storedEncryptedToken = localStorage.getItem(encryptedTokenKey);
-      let storedPinHash = localStorage.getItem(pinHashKey);
-
-      if (!storedEncryptedToken || !storedPinHash) {
-        const { data: profileData } = await supabase
-          .from('profiles')
-          .select('pin_refresh_token, pin_code_hash')
-          .eq('id', savedUserId)
-          .maybeSingle();
-
-        if (profileData?.pin_refresh_token && profileData?.pin_code_hash) {
-          storedEncryptedToken = profileData.pin_refresh_token;
-          storedPinHash = profileData.pin_code_hash;
-          localStorage.setItem(encryptedTokenKey, storedEncryptedToken);
-          localStorage.setItem(pinHashKey, storedPinHash);
-        } else {
-          setError('PIN not configured. Sign in with email and password, then enable PIN in settings.');
-          setShowPinLogin(false);
-          setLoading(false);
-          return;
-        }
-      }
-
-      const pinHash = btoa(pinCode);
-      if (pinHash !== storedPinHash) {
-        setError('Invalid PIN code');
-        setLoading(false);
-        return;
-      }
-
-      const decryptAndLogin = async (encryptedToken: string): Promise<boolean> => {
-        try {
-          const encrypted = atob(encryptedToken);
-          const encoder = new TextEncoder();
-          const pinBytes = encoder.encode(pinCode.padEnd(16, '0').slice(0, 16));
-          const decrypted = new Uint8Array(encrypted.length);
-          for (let i = 0; i < encrypted.length; i++) {
-            decrypted[i] = encrypted.charCodeAt(i) ^ pinBytes[i % pinBytes.length];
-          }
-          const refreshToken = new TextDecoder().decode(decrypted);
-
-          const { data: sessionData, error: refreshError } = await supabase.auth.refreshSession({
-            refresh_token: refreshToken
-          });
-
-          if (refreshError || !sessionData.session) {
-            console.error('Session refresh failed:', refreshError);
-            return false;
-          }
-
-          const newRefreshToken = sessionData.session.refresh_token;
-          if (newRefreshToken) {
-            const tokenBytes = encoder.encode(newRefreshToken);
-            const newEncrypted = new Uint8Array(tokenBytes.length);
-            for (let i = 0; i < tokenBytes.length; i++) {
-              newEncrypted[i] = tokenBytes[i] ^ pinBytes[i % pinBytes.length];
-            }
-            const newEncryptedToken = btoa(String.fromCharCode(...newEncrypted));
-            localStorage.setItem(encryptedTokenKey, newEncryptedToken);
-
-            await supabase
-              .from('profiles')
-              .update({ pin_refresh_token: newEncryptedToken })
-              .eq('id', savedUserId);
-          }
-
-          return true;
-        } catch {
-          return false;
-        }
-      };
-
-      let loginSuccess = await decryptAndLogin(storedEncryptedToken!);
-
-      if (!loginSuccess) {
-        const { data: profileData } = await supabase
-          .from('profiles')
-          .select('pin_refresh_token')
-          .eq('id', savedUserId)
-          .maybeSingle();
-
-        if (profileData?.pin_refresh_token && profileData.pin_refresh_token !== storedEncryptedToken) {
-          loginSuccess = await decryptAndLogin(profileData.pin_refresh_token);
-        }
-      }
-
-      if (!loginSuccess) {
-        localStorage.removeItem(encryptedTokenKey);
-        localStorage.removeItem(pinHashKey);
-        setError('PIN session expired. Please sign in with email and password, then re-enable PIN in settings.');
-        setShowPinLogin(false);
-        setLoading(false);
-        return;
-      }
-
-      const from = (location.state as any)?.from?.pathname || '/home';
-      navigate(from, { replace: true });
-    } catch (err) {
-      console.error('PIN login error:', err);
-      setError('Failed to sign in with PIN. Please use email and password instead.');
-      setLoading(false);
-    }
-  };
-
   const handlePromoCodeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const code = e.target.value;
     setPromoCode(code);
@@ -338,16 +190,6 @@ function SignIn() {
     await retryConnection();
   };
 
-  const handleNumberClick = (num: string) => {
-    if (pinCode.length < 10) {
-      setPinCode(prev => prev + num);
-    }
-  };
-
-  const handleBackspace = () => {
-    setPinCode(prev => prev.slice(0, -1));
-  };
-
   return (
     <div className="min-h-screen flex items-center justify-center p-4 bg-gradient-to-br from-brand-black via-brand-black-light to-brand-black-dark">
       <div className="absolute inset-0 bg-gradient-radial from-brand-gold/10 via-transparent to-transparent" />
@@ -361,10 +203,10 @@ function SignIn() {
               className="w-24 h-24 mx-auto mb-4"
             />
             <h1 className="text-3xl font-bold mb-2">
-              {showPinLogin ? 'Quick Sign In' : isSignIn ? 'Sign In to PitBox' : 'Create PitBox Account'}
+              {isSignIn ? 'Sign In to PitBox' : 'Create PitBox Account'}
             </h1>
             <p className="text-gray-600 dark:text-gray-400">
-              {showPinLogin ? 'Enter your PIN for fast track-side access' : isSignIn ? 'Welcome back!' : 'Join the winners circle'}
+              {isSignIn ? 'Welcome back!' : 'Join the winners circle'}
             </p>
           </div>
 
@@ -388,293 +230,172 @@ function SignIn() {
             </div>
           )}
 
-          {/* PIN Login View */}
-          {showPinLogin ? (
-            <div className="space-y-6">
-              {error && (
-                <div className="p-3 rounded-lg bg-red-100 dark:bg-red-900/30 text-red-700 dark:text-red-300 text-sm">
-                  {error}
-                </div>
-              )}
+          <form onSubmit={handleSubmit} className="space-y-4">
+            {error && (
+              <div className="p-3 rounded-lg bg-red-100 dark:bg-red-900/30 text-red-700 dark:text-red-300 text-sm">
+                {error}
+              </div>
+            )}
 
-              {storedPinEmail ? (
-                <div className="text-center">
-                  <p className="text-sm text-gray-600 dark:text-gray-400 mb-1">Signing in as</p>
-                  <p className="font-medium text-brand-gold">{storedPinEmail}</p>
-                  <button
-                    type="button"
-                    onClick={() => {
-                      setStoredPinEmail(null);
-                      setStoredPinUserId(null);
-                      setPinEmail('');
-                      localStorage.removeItem('pitbox_pin_email');
-                      localStorage.removeItem('pitbox_pin_user_id');
-                    }}
-                    className="text-xs text-gray-500 hover:text-gray-700 dark:hover:text-gray-300 mt-1"
-                  >
-                    Use different account
-                  </button>
-                </div>
-              ) : (
+            {!isSignIn && (
+              <>
                 <div>
-                  <label htmlFor="pinEmail" className="block text-sm font-medium mb-1">
-                    Email
+                  <label htmlFor="username" className="block text-sm font-medium mb-1">
+                    Username <span className="text-red-500">*</span>
+                  </label>
+                  <input
+                    type="text"
+                    id="username"
+                    value={username}
+                    onChange={(e) => setUsername(e.target.value)}
+                    className="w-full p-3 rounded-lg bg-white/50 dark:bg-gray-800/50 border border-gray-300 dark:border-gray-600 focus:border-brand-gold focus:ring-2 focus:ring-brand-gold/20 outline-none transition"
+                    placeholder="Choose a username"
+                    required
+                    disabled={loading}
+                  />
+                </div>
+
+                <div>
+                  <label htmlFor="fullName" className="block text-sm font-medium mb-1">
+                    Full Name
+                  </label>
+                  <input
+                    type="text"
+                    id="fullName"
+                    value={fullName}
+                    onChange={(e) => setFullName(e.target.value)}
+                    className="w-full p-3 rounded-lg bg-white/50 dark:bg-gray-800/50 border border-gray-300 dark:border-gray-600 focus:border-brand-gold focus:ring-2 focus:ring-brand-gold/20 outline-none transition"
+                    placeholder="Your full name"
+                    disabled={loading}
+                  />
+                </div>
+
+                <div>
+                  <label htmlFor="promoCode" className="block text-sm font-medium mb-1">
+                    Promo Code
+                    <span className="ml-1 text-xs text-gray-500">(Optional)</span>
                   </label>
                   <div className="relative">
-                    <Mail className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" />
-                    <input
-                      type="email"
-                      id="pinEmail"
-                      value={pinEmail}
-                      onChange={(e) => setPinEmail(e.target.value)}
-                      className="w-full pl-10 pr-4 py-3 rounded-lg bg-white/50 dark:bg-gray-800/50 border border-gray-300 dark:border-gray-600 focus:border-brand-gold focus:ring-2 focus:ring-brand-gold/20 outline-none transition"
-                      placeholder="your@email.com"
-                      required
-                      disabled={loading}
-                    />
-                  </div>
-                </div>
-              )}
-
-              <div>
-                <label className="block text-sm font-medium mb-3 text-center">
-                  Enter Your PIN Code
-                </label>
-                <div className="mb-4">
-                  <div className="flex justify-center gap-3 mb-4">
-                    {[0, 1, 2, 3, 4, 5].map((i) => (
-                      <div
-                        key={i}
-                        className={`w-12 h-12 rounded-lg border-2 flex items-center justify-center text-2xl font-bold ${
-                          pinCode.length > i
-                            ? 'border-brand-gold bg-brand-gold/10 text-brand-gold'
-                            : 'border-gray-300 dark:border-gray-600'
-                        }`}
-                      >
-                        {pinCode.length > i ? '•' : ''}
-                      </div>
-                    ))}
-                  </div>
-                  <NumericKeypad
-                    onNumberClick={handleNumberClick}
-                    onBackspace={handleBackspace}
-                    disabled={loading}
-                  />
-                </div>
-              </div>
-
-              <button
-                type="button"
-                onClick={handlePinLogin}
-                disabled={loading || !pinEmail || pinCode.length < 4 || !!connectionError}
-                className="w-full bg-brand-gold text-white py-3 px-4 rounded-lg hover:bg-brand-gold-dark transition text-lg flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed font-semibold shadow-lg hover:shadow-xl"
-              >
-                {loading ? (
-                  <>
-                    <Loader2 className="w-5 h-5 animate-spin" />
-                    Signing In...
-                  </>
-                ) : (
-                  <>
-                    <Hash className="w-5 h-5" />
-                    Sign In with PIN
-                  </>
-                )}
-              </button>
-
-              <button
-                type="button"
-                onClick={() => {
-                  setShowPinLogin(false);
-                  setPinCode('');
-                  setPinEmail('');
-                  setError(null);
-                }}
-                className="w-full text-gray-600 dark:text-gray-400 hover:text-brand-gold dark:hover:text-brand-gold transition text-sm"
-              >
-                Use Email & Password Instead
-              </button>
-            </div>
-          ) : (
-            /* Email/Password Form */
-            <form onSubmit={handleSubmit} className="space-y-4">
-              {error && (
-                <div className="p-3 rounded-lg bg-red-100 dark:bg-red-900/30 text-red-700 dark:text-red-300 text-sm">
-                  {error}
-                </div>
-              )}
-
-              {!isSignIn && (
-                <>
-                  <div>
-                    <label htmlFor="username" className="block text-sm font-medium mb-1">
-                      Username <span className="text-red-500">*</span>
-                    </label>
                     <input
                       type="text"
-                      id="username"
-                      value={username}
-                      onChange={(e) => setUsername(e.target.value)}
-                      className="w-full p-3 rounded-lg bg-white/50 dark:bg-gray-800/50 border border-gray-300 dark:border-gray-600 focus:border-brand-gold focus:ring-2 focus:ring-brand-gold/20 outline-none transition"
-                      placeholder="Choose a username"
-                      required
+                      id="promoCode"
+                      value={promoCode}
+                      onChange={handlePromoCodeChange}
+                      className={`w-full p-3 rounded-lg bg-white/50 dark:bg-gray-800/50 border ${
+                        promoValid === true && !promoUsed
+                          ? 'border-green-500 dark:border-green-500'
+                          : promoValid === false || promoUsed
+                          ? 'border-red-500 dark:border-red-500'
+                          : 'border-gray-300 dark:border-gray-600'
+                      } focus:ring-2 focus:ring-brand-gold/20 outline-none transition`}
+                      placeholder="Enter promo code if you have one"
                       disabled={loading}
                     />
-                  </div>
-
-                  <div>
-                    <label htmlFor="fullName" className="block text-sm font-medium mb-1">
-                      Full Name
-                    </label>
-                    <input
-                      type="text"
-                      id="fullName"
-                      value={fullName}
-                      onChange={(e) => setFullName(e.target.value)}
-                      className="w-full p-3 rounded-lg bg-white/50 dark:bg-gray-800/50 border border-gray-300 dark:border-gray-600 focus:border-brand-gold focus:ring-2 focus:ring-brand-gold/20 outline-none transition"
-                      placeholder="Your full name"
-                      disabled={loading}
-                    />
-                  </div>
-
-                  <div>
-                    <label htmlFor="promoCode" className="block text-sm font-medium mb-1">
-                      Promo Code
-                      <span className="ml-1 text-xs text-gray-500">(Optional)</span>
-                    </label>
-                    <div className="relative">
-                      <input
-                        type="text"
-                        id="promoCode"
-                        value={promoCode}
-                        onChange={handlePromoCodeChange}
-                        className={`w-full p-3 rounded-lg bg-white/50 dark:bg-gray-800/50 border ${
-                          promoValid === true && !promoUsed
-                            ? 'border-green-500 dark:border-green-500'
-                            : promoValid === false || promoUsed
-                            ? 'border-red-500 dark:border-red-500'
-                            : 'border-gray-300 dark:border-gray-600'
-                        } focus:ring-2 focus:ring-brand-gold/20 outline-none transition`}
-                        placeholder="Enter promo code if you have one"
-                        disabled={loading}
-                      />
-                      {promoValid === true && !promoUsed && (
-                        <CheckCircle className="absolute right-3 top-1/2 -translate-y-1/2 w-5 h-5 text-green-500" />
-                      )}
-                    </div>
-
                     {promoValid === true && !promoUsed && (
-                      <p className="mt-1 text-xs text-green-600 dark:text-green-400">
-                        Valid promo code! You'll have premium access.
-                      </p>
-                    )}
-                    {promoValid === false && promoCode && !promoUsed && (
-                      <p className="mt-1 text-xs text-red-600 dark:text-red-400">
-                        Invalid promo code.
-                      </p>
-                    )}
-                    {promoUsed && (
-                      <p className="mt-1 text-xs text-red-600 dark:text-red-400">
-                        This promo code has already been used.
-                      </p>
+                      <CheckCircle className="absolute right-3 top-1/2 -translate-y-1/2 w-5 h-5 text-green-500" />
                     )}
                   </div>
+
+                  {promoValid === true && !promoUsed && (
+                    <p className="mt-1 text-xs text-green-600 dark:text-green-400">
+                      Valid promo code! You'll have premium access.
+                    </p>
+                  )}
+                  {promoValid === false && promoCode && !promoUsed && (
+                    <p className="mt-1 text-xs text-red-600 dark:text-red-400">
+                      Invalid promo code.
+                    </p>
+                  )}
+                  {promoUsed && (
+                    <p className="mt-1 text-xs text-red-600 dark:text-red-400">
+                      This promo code has already been used.
+                    </p>
+                  )}
+                </div>
+              </>
+            )}
+
+            <div>
+              <label htmlFor="email" className="block text-sm font-medium mb-1">
+                Email
+              </label>
+              <div className="relative">
+                <Mail className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" />
+                <input
+                  type="email"
+                  id="email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  className="w-full pl-10 pr-4 py-3 rounded-lg bg-white/50 dark:bg-gray-800/50 border border-gray-300 dark:border-gray-600 focus:border-brand-gold focus:ring-2 focus:ring-brand-gold/20 outline-none transition"
+                  placeholder="your@email.com"
+                  required
+                  autoComplete="email"
+                  disabled={loading}
+                />
+              </div>
+            </div>
+
+            <div>
+              <label htmlFor="password" className="block text-sm font-medium mb-1">
+                Password
+              </label>
+              <div className="relative">
+                <Lock className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" />
+                <input
+                  type="password"
+                  id="password"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  className="w-full pl-10 pr-4 py-3 rounded-lg bg-white/50 dark:bg-gray-800/50 border border-gray-300 dark:border-gray-600 focus:border-brand-gold focus:ring-2 focus:ring-brand-gold/20 outline-none transition"
+                  placeholder="********"
+                  required
+                  autoComplete={isSignIn ? "current-password" : "new-password"}
+                  disabled={loading}
+                  minLength={6}
+                />
+              </div>
+              {!isSignIn && (
+                <p className="text-xs text-gray-500 mt-1">
+                  Password must be at least 6 characters
+                </p>
+              )}
+            </div>
+
+            <button
+              type="submit"
+              disabled={loading || (promoCode && (promoValid === false || promoUsed)) || !!connectionError}
+              className="w-full bg-brand-gold text-white py-3 px-4 rounded-lg hover:bg-brand-gold-dark transition text-lg flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed font-semibold shadow-lg hover:shadow-xl"
+            >
+              {loading ? (
+                <>
+                  <Loader2 className="w-5 h-5 animate-spin" />
+                  {isSignIn ? 'Signing In...' : 'Creating Account...'}
+                </>
+              ) : (
+                <>
+                  <LogIn className="w-5 h-5" />
+                  {isSignIn ? 'Sign In' : 'Create Account'}
                 </>
               )}
+            </button>
 
-              <div>
-                <label htmlFor="email" className="block text-sm font-medium mb-1">
-                  Email
-                </label>
-                <div className="relative">
-                  <Mail className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" />
-                  <input
-                    type="email"
-                    id="email"
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                    className="w-full pl-10 pr-4 py-3 rounded-lg bg-white/50 dark:bg-gray-800/50 border border-gray-300 dark:border-gray-600 focus:border-brand-gold focus:ring-2 focus:ring-brand-gold/20 outline-none transition"
-                    placeholder="your@email.com"
-                    required
-                    autoComplete="email"
-                    disabled={loading}
-                  />
-                </div>
-              </div>
-
-              <div>
-                <label htmlFor="password" className="block text-sm font-medium mb-1">
-                  Password
-                </label>
-                <div className="relative">
-                  <Lock className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" />
-                  <input
-                    type="password"
-                    id="password"
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
-                    className="w-full pl-10 pr-4 py-3 rounded-lg bg-white/50 dark:bg-gray-800/50 border border-gray-300 dark:border-gray-600 focus:border-brand-gold focus:ring-2 focus:ring-brand-gold/20 outline-none transition"
-                    placeholder="••••••••"
-                    required
-                    autoComplete={isSignIn ? "current-password" : "new-password"}
-                    disabled={loading}
-                    minLength={6}
-                  />
-                </div>
-                {!isSignIn && (
-                  <p className="text-xs text-gray-500 mt-1">
-                    Password must be at least 6 characters
-                  </p>
-                )}
-              </div>
-
+            <p className="text-sm text-center text-gray-600 dark:text-gray-400">
+              {isSignIn ? "Don't have an account?" : "Already have an account?"}{' '}
               <button
-                type="submit"
-                disabled={loading || (promoCode && (promoValid === false || promoUsed)) || !!connectionError}
-                className="w-full bg-brand-gold text-white py-3 px-4 rounded-lg hover:bg-brand-gold-dark transition text-lg flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed font-semibold shadow-lg hover:shadow-xl"
+                type="button"
+                className="text-brand-gold hover:text-brand-gold-dark dark:text-brand-gold-light dark:hover:text-brand-gold font-medium"
+                onClick={() => {
+                  setIsSignIn(!isSignIn);
+                  setError(null);
+                  setPromoValid(null);
+                  setPromoCode('');
+                  setPromoUsed(false);
+                }}
               >
-                {loading ? (
-                  <>
-                    <Loader2 className="w-5 h-5 animate-spin" />
-                    {isSignIn ? 'Signing In...' : 'Creating Account...'}
-                  </>
-                ) : (
-                  <>
-                    <LogIn className="w-5 h-5" />
-                    {isSignIn ? 'Sign In' : 'Create Account'}
-                  </>
-                )}
+                {isSignIn ? 'Create one' : 'Sign in'}
               </button>
-
-              {isSignIn && (
-                <button
-                  type="button"
-                  onClick={() => setShowPinLogin(true)}
-                  className="w-full text-brand-gold hover:text-brand-gold-dark dark:text-brand-gold-light dark:hover:text-brand-gold font-medium flex items-center justify-center gap-2 py-2"
-                >
-                  <Hash className="w-4 h-4" />
-                  Quick Sign In with PIN
-                </button>
-              )}
-
-              <p className="text-sm text-center text-gray-600 dark:text-gray-400">
-                {isSignIn ? "Don't have an account?" : "Already have an account?"}{' '}
-                <button
-                  type="button"
-                  className="text-brand-gold hover:text-brand-gold-dark dark:text-brand-gold-light dark:hover:text-brand-gold font-medium"
-                  onClick={() => {
-                    setIsSignIn(!isSignIn);
-                    setError(null);
-                    setPromoValid(null);
-                    setPromoCode('');
-                    setPromoUsed(false);
-                  }}
-                >
-                  {isSignIn ? 'Create one' : 'Sign in'}
-                </button>
-              </p>
-            </form>
-          )}
+            </p>
+          </form>
         </div>
 
         <div className="text-center mt-6">
