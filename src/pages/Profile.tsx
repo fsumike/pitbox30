@@ -68,12 +68,9 @@ function ProfilePage() {
   const appUrl = 'https://pit-box.com';
 
   useEffect(() => {
-    if (!user) {
-      navigate('/', { replace: true });
-      return;
+    if (user) {
+      loadProfile();
     }
-
-    loadProfile();
   }, [user]);
 
   const loadProfile = async () => {
