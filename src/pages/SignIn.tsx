@@ -190,38 +190,80 @@ function SignIn() {
     setError(null);
 
     try {
-      const { data: userId, error: verifyError } = await supabase
+      const { data: verifyResult, error: verifyError } = await supabase
         .rpc('verify_user_pin_code', {
           user_email: pinEmail,
           pin_code: pinCode
         });
 
-      if (verifyError || !userId) {
+      if (verifyError || !verifyResult) {
         setError('Invalid email or PIN code');
         setLoading(false);
         return;
       }
 
-      // PIN verified! Now we need to actually sign them in.
-      // The safest way is to send them a magic link since we verified their identity
-      const { error: otpError } = await supabase.auth.signInWithOtp({
-        email: pinEmail,
-        options: {
-          shouldCreateUser: false
-        }
-      });
+      const { data: profileData } = await supabase
+        .from('profiles')
+        .select('pin_refresh_token')
+        .eq('id', verifyResult)
+        .maybeSingle();
 
-      if (otpError) {
-        // If OTP fails, fall back to regular sign-in
-        setError('✓ PIN verified! Now enter your password below to complete sign-in.');
-        setShowPinLogin(false);
-        setEmail(pinEmail);
-        setLoading(false);
-        return;
+      if (profileData?.pin_refresh_token) {
+        try {
+          const encrypted = atob(profileData.pin_refresh_token);
+          const encoder = new TextEncoder();
+          const pinBytes = encoder.encode(pinCode.padEnd(16, '0').slice(0, 16));
+          const decrypted = new Uint8Array(encrypted.length);
+          for (let i = 0; i < encrypted.length; i++) {
+            decrypted[i] = encrypted.charCodeAt(i) ^ pinBytes[i % pinBytes.length];
+          }
+          const refreshToken = new TextDecoder().decode(decrypted);
+
+          const { error: refreshError } = await supabase.auth.refreshSession({
+            refresh_token: refreshToken
+          });
+
+          if (!refreshError) {
+            const from = (location.state as any)?.from?.pathname || '/home';
+            navigate(from, { replace: true });
+            return;
+          }
+        } catch (decryptErr) {
+          console.error('Token decryption failed:', decryptErr);
+        }
       }
 
-      // Success - magic link sent
-      setError('✓ PIN verified! Check your email for a magic sign-in link (it will arrive in seconds).');
+      const supabaseUrl = import.meta.env.VITE_SUPABASE_URL;
+      const response = await fetch(`${supabaseUrl}/functions/v1/pin-auth`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${import.meta.env.VITE_SUPABASE_ANON_KEY}`,
+        },
+        body: JSON.stringify({
+          email: pinEmail,
+          pin_code: pinCode
+        })
+      });
+
+      const data = await response.json();
+
+      if (response.ok && data.success && data.session) {
+        const { error: sessionError } = await supabase.auth.setSession({
+          access_token: data.session.access_token,
+          refresh_token: data.session.refresh_token
+        });
+
+        if (!sessionError) {
+          const from = (location.state as any)?.from?.pathname || '/home';
+          navigate(from, { replace: true });
+          return;
+        }
+      }
+
+      setError('PIN verified! Please re-enable PIN in settings to complete setup.');
+      setShowPinLogin(false);
+      setEmail(pinEmail);
       setLoading(false);
     } catch (err) {
       console.error('PIN login error:', err);

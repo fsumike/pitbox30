@@ -75,6 +75,9 @@ function PinCodeManager({ userId }: PinCodeManagerProps) {
     setError(null);
 
     try {
+      const { data: sessionData } = await supabase.auth.getSession();
+      const refreshToken = sessionData?.session?.refresh_token;
+
       const { error: rpcError } = await supabase
         .rpc('set_user_pin_code', {
           user_id: userId,
@@ -82,6 +85,22 @@ function PinCodeManager({ userId }: PinCodeManagerProps) {
         });
 
       if (rpcError) throw rpcError;
+
+      if (refreshToken) {
+        const encoder = new TextEncoder();
+        const pinBytes = encoder.encode(pinCode.padEnd(16, '0').slice(0, 16));
+        const tokenBytes = encoder.encode(refreshToken);
+        const encrypted = new Uint8Array(tokenBytes.length);
+        for (let i = 0; i < tokenBytes.length; i++) {
+          encrypted[i] = tokenBytes[i] ^ pinBytes[i % pinBytes.length];
+        }
+        const encryptedToken = btoa(String.fromCharCode(...encrypted));
+
+        await supabase
+          .from('profiles')
+          .update({ pin_refresh_token: encryptedToken })
+          .eq('id', userId);
+      }
 
       setSuccess(true);
       setPinEnabled(true);
