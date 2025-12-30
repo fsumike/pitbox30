@@ -78,34 +78,39 @@ function PinCodeManager({ userId }: PinCodeManagerProps) {
       const { data: sessionData } = await supabase.auth.getSession();
       const refreshToken = sessionData?.session?.refresh_token;
 
-      const { error: rpcError } = await supabase
-        .rpc('set_user_pin_code', {
-          user_id: userId,
-          pin_code: pinCode
-        });
+      if (!refreshToken) {
+        throw new Error('No active session. Please sign in with email and password first.');
+      }
 
-      if (rpcError) throw rpcError;
+      const encoder = new TextEncoder();
+      const pinBytes = encoder.encode(pinCode.padEnd(16, '0').slice(0, 16));
+      const tokenBytes = encoder.encode(refreshToken);
+      const encrypted = new Uint8Array(tokenBytes.length);
+      for (let i = 0; i < tokenBytes.length; i++) {
+        encrypted[i] = tokenBytes[i] ^ pinBytes[i % pinBytes.length];
+      }
+      const encryptedToken = btoa(String.fromCharCode(...encrypted));
 
-      if (refreshToken) {
-        const encoder = new TextEncoder();
-        const pinBytes = encoder.encode(pinCode.padEnd(16, '0').slice(0, 16));
-        const tokenBytes = encoder.encode(refreshToken);
-        const encrypted = new Uint8Array(tokenBytes.length);
-        for (let i = 0; i < tokenBytes.length; i++) {
-          encrypted[i] = tokenBytes[i] ^ pinBytes[i % pinBytes.length];
-        }
-        const encryptedToken = btoa(String.fromCharCode(...encrypted));
+      const pinHash = btoa(pinCode);
 
-        await supabase
-          .from('profiles')
-          .update({ pin_refresh_token: encryptedToken })
-          .eq('id', userId);
+      const { error: updateError } = await supabase
+        .from('profiles')
+        .update({
+          pin_refresh_token: encryptedToken,
+          pin_code_hash: pinHash,
+          pin_code_enabled: true
+        })
+        .eq('id', userId);
 
-        const { data: { user } } = await supabase.auth.getUser();
-        if (user?.email) {
-          localStorage.setItem('pitbox_pin_email', user.email);
-          localStorage.setItem('pitbox_pin_user_id', userId);
-        }
+      if (updateError) throw updateError;
+
+      localStorage.setItem(`pitbox_pin_token_${userId}`, encryptedToken);
+      localStorage.setItem(`pitbox_pin_hash_${userId}`, pinHash);
+
+      const { data: { user } } = await supabase.auth.getUser();
+      if (user?.email) {
+        localStorage.setItem('pitbox_pin_email', user.email);
+        localStorage.setItem('pitbox_pin_user_id', userId);
       }
 
       setSuccess(true);
@@ -134,12 +139,21 @@ function PinCodeManager({ userId }: PinCodeManagerProps) {
     setError(null);
 
     try {
-      const { error: rpcError } = await supabase
-        .rpc('disable_user_pin_code', {
-          user_id: userId
-        });
+      const { error: updateError } = await supabase
+        .from('profiles')
+        .update({
+          pin_code_hash: null,
+          pin_code_enabled: false,
+          pin_refresh_token: null
+        })
+        .eq('id', userId);
 
-      if (rpcError) throw rpcError;
+      if (updateError) throw updateError;
+
+      localStorage.removeItem('pitbox_pin_email');
+      localStorage.removeItem('pitbox_pin_user_id');
+      localStorage.removeItem(`pitbox_pin_token_${userId}`);
+      localStorage.removeItem(`pitbox_pin_hash_${userId}`);
 
       setPinEnabled(false);
       setSuccess(true);
