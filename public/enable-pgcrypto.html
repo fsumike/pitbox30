@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Enable pgcrypto Extension</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 20px;
+            background: #f5f5f5;
+        }
+        .container {
+            background: white;
+            padding: 40px;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #333;
+            margin-bottom: 20px;
+        }
+        .download-btn {
+            display: inline-block;
+            background: #3b82f6;
+            color: white;
+            padding: 12px 24px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 500;
+            margin: 20px 0;
+        }
+        .download-btn:hover {
+            background: #2563eb;
+        }
+        .instructions {
+            background: #f0f9ff;
+            border-left: 4px solid #3b82f6;
+            padding: 16px;
+            margin: 20px 0;
+        }
+        code {
+            background: #f3f4f6;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-family: 'Courier New', monospace;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Enable pgcrypto Extension</h1>
+
+        <div class="instructions">
+            <h3>Instructions:</h3>
+            <ol>
+                <li>Download the SQL file below</li>
+                <li>Go to your Supabase project dashboard</li>
+                <li>Navigate to <strong>SQL Editor</strong></li>
+                <li>Create a new query</li>
+                <li>Copy and paste the contents of the downloaded file</li>
+                <li>Click <strong>Run</strong></li>
+                <li>Refresh your app</li>
+            </ol>
+        </div>
+
+        <a href="#" class="download-btn" id="downloadBtn">Download ENABLE_PGCRYPTO.sql</a>
+
+        <p style="color: #666; margin-top: 20px;">
+            This will enable the <code>pgcrypto</code> extension which provides the <code>gen_salt()</code>
+            function needed for secure PIN code hashing.
+        </p>
+    </div>
+
+    <script>
+        document.getElementById('downloadBtn').addEventListener('click', function(e) {
+            e.preventDefault();
+            const sql = `-- Enable pgcrypto extension for PIN code hashing
+-- Run this in your Supabase SQL Editor
+
+CREATE EXTENSION IF NOT EXISTS pgcrypto;`;
+
+            const blob = new Blob([sql], { type: 'text/plain' });
+            const url = window.URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'ENABLE_PGCRYPTO.sql';
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            window.URL.revokeObjectURL(url);
+        });
+    </script>
+</body>
+</html>
