@@ -377,17 +377,26 @@ function App() {
                     </NavLink>
                   )}
 
-                  <div className="ml-2 pl-2 border-l border-gray-200/10">
+                  <div className="ml-2 pl-2 border-l border-gray-200/10 flex items-center gap-3">
                     <SignInButton className="nav-link" />
-                  </div>
 
-                  <button
-                    onClick={toggleDarkMode}
-                    className="p-2 rounded-lg hover:bg-gray-100/10 transition-colors ml-2 text-white"
-                    aria-label={darkMode ? 'Switch to light mode' : 'Switch to dark mode'}
-                  >
-                    {darkMode ? <Sun className="w-5 h-5" /> : <Moon className="w-5 h-5" />}
-                  </button>
+                    <div className="flex items-center gap-1">
+                      <button
+                        onClick={toggleDarkMode}
+                        className="p-1.5 rounded-lg hover:bg-gray-100/10 transition-colors"
+                        aria-label="Toggle light mode"
+                      >
+                        <Sun className={`w-5 h-5 ${darkMode ? 'text-yellow-500/40' : 'text-yellow-500'}`} />
+                      </button>
+                      <button
+                        onClick={toggleDarkMode}
+                        className="p-1.5 rounded-lg hover:bg-gray-100/10 transition-colors"
+                        aria-label="Toggle dark mode"
+                      >
+                        <Moon className={`w-5 h-5 ${darkMode ? 'text-yellow-500' : 'text-yellow-500/40'}`} />
+                      </button>
+                    </div>
+                  </div>
                 </div>
 
                 <div className="md:hidden flex items-center gap-2">
