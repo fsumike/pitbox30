@@ -202,23 +202,30 @@ function SignIn() {
         return;
       }
 
-      const { data: authData } = await supabase.auth.admin.getUserById(userId);
+      // PIN verified! Now we need to actually sign them in.
+      // The safest way is to send them a magic link since we verified their identity
+      const { error: otpError } = await supabase.auth.signInWithOtp({
+        email: pinEmail,
+        options: {
+          shouldCreateUser: false
+        }
+      });
 
-      if (!authData?.user?.email) {
-        setError('Unable to sign in. Please use email and password.');
+      if (otpError) {
+        // If OTP fails, fall back to regular sign-in
+        setError('✓ PIN verified! Now enter your password below to complete sign-in.');
+        setShowPinLogin(false);
+        setEmail(pinEmail);
         setLoading(false);
         return;
       }
 
-      setError('PIN verification successful. Redirecting...');
-      setTimeout(() => {
-        const from = (location.state as any)?.from?.pathname || '/home';
-        navigate(from, { replace: true });
-      }, 1000);
+      // Success - magic link sent
+      setError('✓ PIN verified! Check your email for a magic sign-in link (it will arrive in seconds).');
+      setLoading(false);
     } catch (err) {
       console.error('PIN login error:', err);
-      setError('Failed to sign in with PIN. Please try again or use email and password.');
-    } finally {
+      setError('Failed to sign in with PIN. Please use email and password instead.');
       setLoading(false);
     }
   };
