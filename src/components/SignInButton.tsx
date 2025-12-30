@@ -404,7 +404,7 @@ function SignInButton({ className }: SignInButtonProps) {
               </div>
             )}
           </div>
-          <span className="hidden md:inline text-sm font-medium truncate max-w-[150px]">
+          <span className="hidden md:inline text-sm font-medium truncate max-w-[150px] text-yellow-500">
             {profileError ? (
               <button
                 onClick={handleRetryProfile}
