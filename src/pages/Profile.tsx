@@ -8,6 +8,7 @@ import ChatButton from '../components/ChatButton';
 import { usePromoCode } from '../hooks/usePromoCode';
 import SubscriptionStatus from '../components/SubscriptionStatus';
 import BlockedUsersPanel from '../components/BlockedUsersPanel';
+import PinCodeManager from '../components/PinCodeManager';
 import { QRCodeSVG } from 'qrcode.react';
 import type { Profile } from '../types';
 
@@ -27,7 +28,7 @@ function ProfilePage() {
   const [applyingPromo, setApplyingPromo] = useState(false);
   const [promoSuccess, setPromoSuccess] = useState(false);
   const [copied, setCopied] = useState(false);
-  const [activeTab, setActiveTab] = useState<'basic' | 'racing' | 'career' | 'personal' | 'privacy' | 'blocked'>('basic');
+  const [activeTab, setActiveTab] = useState<'basic' | 'racing' | 'career' | 'personal' | 'privacy' | 'security' | 'blocked'>('basic');
   const [profile, setProfile] = useState<Partial<Profile>>({
     username: '',
     full_name: '',
@@ -451,6 +452,16 @@ function ProfilePage() {
             }`}
           >
             Privacy
+          </button>
+          <button
+            onClick={() => setActiveTab('security')}
+            className={`px-4 py-2 font-medium transition-colors ${
+              activeTab === 'security'
+                ? 'border-b-2 border-brand-gold text-brand-gold'
+                : 'text-gray-600 dark:text-gray-400 hover:text-brand-gold'
+            }`}
+          >
+            Security
           </button>
           <button
             onClick={() => setActiveTab('blocked')}
@@ -1070,6 +1081,22 @@ function ProfilePage() {
             </div>
           )}
 
+          {/* Security Tab */}
+          {activeTab === 'security' && (
+            <div className="space-y-6">
+              <div className="flex items-center gap-2 mb-4">
+                <Shield className="w-6 h-6 text-brand-gold" />
+                <h2 className="text-xl font-bold">Security Settings</h2>
+              </div>
+
+              <p className="text-sm text-gray-600 dark:text-gray-400">
+                Manage your account security and authentication methods.
+              </p>
+
+              <PinCodeManager userId={user?.id || ''} />
+            </div>
+          )}
+
           {/* Blocked Users Tab */}
           {activeTab === 'blocked' && (
             <div className="space-y-6">
@@ -1086,8 +1113,8 @@ function ProfilePage() {
             </div>
           )}
 
-          {/* Save Button - Show on all tabs except blocked */}
-          {activeTab !== 'blocked' && (
+          {/* Save Button - Show on all tabs except blocked and security */}
+          {activeTab !== 'blocked' && activeTab !== 'security' && (
             <div className="flex justify-end gap-4 pt-6 border-t border-gray-200 dark:border-gray-700">
               <button
                 type="button"
