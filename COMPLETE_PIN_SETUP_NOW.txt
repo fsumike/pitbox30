@@ -1,0 +1,47 @@
+═══════════════════════════════════════════════════════════════
+  COMPLETE PIN CODE SETUP - FINAL STEP
+═══════════════════════════════════════════════════════════════
+
+Your PIN code feature is 99% complete. Only ONE thing is missing:
+The pgcrypto extension needs to be enabled in your database.
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+🎯 FASTEST METHOD - Just 3 clicks:
+
+1. Open this page in your browser:
+   http://localhost:5173/enable-pgcrypto-now.html
+
+2. Click the "Open Supabase SQL Editor" button
+
+3. Press Cmd+Enter (the SQL is already copied for you!)
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+OR manually:
+
+1. Go to: https://supabase.com/dashboard/project/pbfdzlkdlxbwijwwysaf/sql
+
+2. Paste this single line:
+
+   CREATE EXTENSION IF NOT EXISTS pgcrypto;
+
+3. Click Run
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+✅ WHAT THIS DOES:
+
+Enables the pgcrypto PostgreSQL extension, which provides the
+gen_salt() function needed to securely hash PIN codes.
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+🎉 AFTER RUNNING:
+
+Your PIN code authentication will work immediately. Users can:
+- Set a 4-10 digit PIN in their profile settings
+- Sign in quickly using their PIN code
+- All PINs are securely hashed with bcrypt
+
+═══════════════════════════════════════════════════════════════

@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Enable pgcrypto - One Click Fix</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+
+    .container {
+      background: white;
+      border-radius: 20px;
+      padding: 50px;
+      max-width: 700px;
+      width: 100%;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+      text-align: center;
+    }
+
+    h1 {
+      color: #1a202c;
+      margin-bottom: 20px;
+      font-size: 36px;
+    }
+
+    .subtitle {
+      color: #718096;
+      margin-bottom: 40px;
+      font-size: 18px;
+      line-height: 1.6;
+    }
+
+    .big-button {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      border: none;
+      padding: 24px 48px;
+      border-radius: 16px;
+      font-size: 20px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.3s;
+      box-shadow: 0 10px 30px rgba(102, 126, 234, 0.4);
+      text-decoration: none;
+      display: inline-block;
+    }
+
+    .big-button:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 15px 40px rgba(102, 126, 234, 0.6);
+    }
+
+    .big-button:active {
+      transform: translateY(-1px);
+    }
+
+    .code-box {
+      background: #2d3748;
+      color: #63b3ed;
+      padding: 30px;
+      border-radius: 12px;
+      font-family: 'Courier New', monospace;
+      font-size: 18px;
+      margin: 30px 0;
+      text-align: left;
+      position: relative;
+    }
+
+    .copy-btn {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      background: rgba(255, 255, 255, 0.1);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      color: white;
+      padding: 8px 16px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 14px;
+      transition: all 0.2s;
+    }
+
+    .copy-btn:hover {
+      background: rgba(255, 255, 255, 0.2);
+    }
+
+    .steps {
+      text-align: left;
+      margin-top: 40px;
+      padding: 30px;
+      background: #f7fafc;
+      border-radius: 12px;
+    }
+
+    .step {
+      margin-bottom: 20px;
+      display: flex;
+      align-items: start;
+      gap: 15px;
+    }
+
+    .step-number {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: bold;
+      flex-shrink: 0;
+    }
+
+    .step-content {
+      flex: 1;
+      padding-top: 6px;
+    }
+
+    .step-content h3 {
+      margin-bottom: 5px;
+      color: #1a202c;
+    }
+
+    .step-content p {
+      color: #718096;
+      line-height: 1.5;
+    }
+
+    .success-message {
+      display: none;
+      background: #f0fff4;
+      border: 2px solid #9ae6b4;
+      color: #22543d;
+      padding: 20px;
+      border-radius: 12px;
+      margin-top: 30px;
+      font-weight: 500;
+    }
+
+    .success-message.show {
+      display: block;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>🔧 Enable pgcrypto</h1>
+    <p class="subtitle">
+      One simple step to enable PIN code authentication.<br>
+      This will take less than 30 seconds.
+    </p>
+
+    <div class="code-box">
+      <button class="copy-btn" onclick="copySQL()">Copy</button>
+      <div id="sql-code">CREATE EXTENSION IF NOT EXISTS pgcrypto;</div>
+    </div>
+
+    <a href="https://supabase.com/dashboard/project/pbfdzlkdlxbwijwwysaf/sql/new"
+       target="_blank"
+       class="big-button"
+       onclick="trackClick()">
+      Open Supabase SQL Editor
+    </a>
+
+    <div class="steps">
+      <div class="step">
+        <div class="step-number">1</div>
+        <div class="step-content">
+          <h3>Click the button above</h3>
+          <p>This opens the Supabase SQL Editor in a new tab</p>
+        </div>
+      </div>
+
+      <div class="step">
+        <div class="step-number">2</div>
+        <div class="step-content">
+          <h3>Paste the SQL code</h3>
+          <p>The code is already copied. Just press Cmd+V (Mac) or Ctrl+V (Windows)</p>
+        </div>
+      </div>
+
+      <div class="step">
+        <div class="step-number">3</div>
+        <div class="step-content">
+          <h3>Click "Run" or press Cmd+Enter</h3>
+          <p>You should see "Success. No rows returned"</p>
+        </div>
+      </div>
+    </div>
+
+    <div id="success" class="success-message">
+      ✅ Done? Great! PIN code authentication is now fully functional. Return to your app and try setting up a PIN code in your profile settings.
+    </div>
+  </div>
+
+  <script>
+    // Auto-copy SQL on page load
+    window.addEventListener('load', () => {
+      copySQL();
+    });
+
+    function copySQL() {
+      const sql = 'CREATE EXTENSION IF NOT EXISTS pgcrypto;';
+      navigator.clipboard.writeText(sql).then(() => {
+        const btn = document.querySelector('.copy-btn');
+        btn.textContent = 'Copied!';
+        setTimeout(() => {
+          btn.textContent = 'Copy';
+        }, 2000);
+      });
+    }
+
+    function trackClick() {
+      // Show success message after a delay
+      setTimeout(() => {
+        document.getElementById('success').classList.add('show');
+      }, 5000);
+    }
+  </script>
+</body>
+</html>
