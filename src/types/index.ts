@@ -14,6 +14,7 @@ export interface Profile {
   updated_at?: string;
   promo_code?: string;
   has_premium?: boolean;
+  is_admin?: boolean;
 
   // Racing Background
   car_number?: string;
@@ -227,6 +228,24 @@ export interface Notification {
   read: boolean;
   created_at: string;
   related_user?: Profile;
+}
+
+export interface Advertisement {
+  id: string;
+  business_name: string;
+  contact_email: string;
+  contact_phone?: string;
+  ad_content: string;
+  image_url?: string;
+  target_location?: { lat: number; lng: number };
+  target_radius_miles?: number;
+  start_date: string;
+  end_date: string;
+  is_active: boolean;
+  clicks: number;
+  impressions: number;
+  created_at: string;
+  updated_at: string;
 }
 
 // Component prop types

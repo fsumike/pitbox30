@@ -70,6 +70,10 @@ const Tools = lazy(() => import('./pages/Tools'));
 const SocialMedia = lazy(() => import('./pages/SocialMedia'));
 const QRCodeDownload = lazy(() => import('./pages/QRCodeDownload'));
 const MyAdvertisements = lazy(() => import('./pages/MyAdvertisements'));
+const AdminAdvertisements = lazy(() => import('./pages/AdminAdvertisements'));
+
+import { AdminRoute } from './components/AdminRoute';
+import { isDesktopWeb } from './utils/platform';
 
 // Loading fallback component
 function LoadingFallback() {
@@ -166,7 +170,7 @@ function App() {
   const [showVideoSplash, setShowVideoSplash] = useState(true);
   const [hasSeenVideo, setHasSeenVideo] = useState(false);
   const location = useLocation();
-  const { user } = useAuth();
+  const { user, userProfile } = useAuth();
   const { showNav } = useNavVisibility();
   const isLandingPage = location.pathname === '/';
 
@@ -360,6 +364,19 @@ function App() {
                     Follow Us
                   </NavLink>
 
+                  {isDesktopWeb() && userProfile?.is_admin && (
+                    <NavLink
+                      to="/admin/advertisements"
+                      className={({ isActive }) => `
+                        nav-link px-4 py-2 rounded-lg transition-all duration-200 text-white font-medium
+                        ${isActive ? 'bg-brand-gold/10 text-brand-gold' : 'hover:bg-gray-100/10'}
+                      `}
+                      onClick={closeMenu}
+                    >
+                      Admin
+                    </NavLink>
+                  )}
+
                   <div className="ml-2 pl-2 border-l border-gray-200/10">
                     <SignInButton className="nav-link" />
                   </div>
@@ -550,6 +567,15 @@ function App() {
           <Route path="/subscription/success" element={<SubscriptionSuccess />} />
           <Route path="/subscription/cancel" element={<SubscriptionCancel />} />
           <Route path="/maintenance" element={<MaintenanceChecklist />} />
+
+          <Route
+            path="/admin/advertisements"
+            element={
+              <AdminRoute>
+                <AdminAdvertisements />
+              </AdminRoute>
+            }
+          />
 
           <Route path="/" element={<Navigate to="/home" replace />} />
           </Routes>
