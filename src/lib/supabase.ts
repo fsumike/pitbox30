@@ -98,17 +98,13 @@ export const supabase = createClient(supabaseUrl, supabaseAnonKey, {
 // Add connection test function
 export const testSupabaseConnection = async (): Promise<{ success: boolean; error?: string }> => {
   try {
-    if (import.meta.env.DEV) {
-      }
-    const { error } = await supabase.from('profiles').select('*', { count: 'exact' }).limit(1);
+    const { data, error } = await supabase.auth.getSession();
 
     if (error) {
       console.error('Supabase connection test failed:', error);
       return { success: false, error: error.message };
     }
 
-    if (import.meta.env.DEV) {
-      }
     return { success: true };
   } catch (error) {
     console.error('Supabase connection test error:', error);
