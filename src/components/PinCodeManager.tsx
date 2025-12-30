@@ -76,11 +76,18 @@ function PinCodeManager({ userId }: PinCodeManagerProps) {
 
     try {
       const { data: sessionData } = await supabase.auth.getSession();
-      const refreshToken = sessionData?.session?.refresh_token;
 
-      if (!refreshToken) {
+      if (!sessionData?.session?.refresh_token) {
         throw new Error('No active session. Please sign in with email and password first.');
       }
+
+      const { data: refreshedSession, error: refreshError } = await supabase.auth.refreshSession();
+
+      if (refreshError || !refreshedSession?.session?.refresh_token) {
+        throw new Error('Failed to refresh session. Please sign out and sign in again.');
+      }
+
+      const refreshToken = refreshedSession.session.refresh_token;
 
       const encoder = new TextEncoder();
       const pinBytes = encoder.encode(pinCode.padEnd(16, '0').slice(0, 16));

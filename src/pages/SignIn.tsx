@@ -200,7 +200,6 @@ function SignIn() {
     }
 
     const savedUserId = storedPinUserId || localStorage.getItem('pitbox_pin_user_id');
-    const savedEmail = storedPinEmail || localStorage.getItem('pitbox_pin_email');
 
     if (!savedUserId) {
       setError('No PIN configured on this device. Please sign in with email and password first, then set up PIN in your profile settings.');
@@ -220,10 +219,23 @@ function SignIn() {
       let storedPinHash = localStorage.getItem(pinHashKey);
 
       if (!storedEncryptedToken || !storedPinHash) {
-        setError('PIN not configured. Sign in with email and password, then enable PIN in settings.');
-        setShowPinLogin(false);
-        setLoading(false);
-        return;
+        const { data: profileData } = await supabase
+          .from('profiles')
+          .select('pin_refresh_token, pin_code_hash')
+          .eq('id', savedUserId)
+          .maybeSingle();
+
+        if (profileData?.pin_refresh_token && profileData?.pin_code_hash) {
+          storedEncryptedToken = profileData.pin_refresh_token;
+          storedPinHash = profileData.pin_code_hash;
+          localStorage.setItem(encryptedTokenKey, storedEncryptedToken);
+          localStorage.setItem(pinHashKey, storedPinHash);
+        } else {
+          setError('PIN not configured. Sign in with email and password, then enable PIN in settings.');
+          setShowPinLogin(false);
+          setLoading(false);
+          return;
+        }
       }
 
       const pinHash = btoa(pinCode);
@@ -233,37 +245,73 @@ function SignIn() {
         return;
       }
 
-      try {
-        const encrypted = atob(storedEncryptedToken);
-        const encoder = new TextEncoder();
-        const pinBytes = encoder.encode(pinCode.padEnd(16, '0').slice(0, 16));
-        const decrypted = new Uint8Array(encrypted.length);
-        for (let i = 0; i < encrypted.length; i++) {
-          decrypted[i] = encrypted.charCodeAt(i) ^ pinBytes[i % pinBytes.length];
+      const decryptAndLogin = async (encryptedToken: string): Promise<boolean> => {
+        try {
+          const encrypted = atob(encryptedToken);
+          const encoder = new TextEncoder();
+          const pinBytes = encoder.encode(pinCode.padEnd(16, '0').slice(0, 16));
+          const decrypted = new Uint8Array(encrypted.length);
+          for (let i = 0; i < encrypted.length; i++) {
+            decrypted[i] = encrypted.charCodeAt(i) ^ pinBytes[i % pinBytes.length];
+          }
+          const refreshToken = new TextDecoder().decode(decrypted);
+
+          const { data: sessionData, error: refreshError } = await supabase.auth.refreshSession({
+            refresh_token: refreshToken
+          });
+
+          if (refreshError || !sessionData.session) {
+            console.error('Session refresh failed:', refreshError);
+            return false;
+          }
+
+          const newRefreshToken = sessionData.session.refresh_token;
+          if (newRefreshToken) {
+            const tokenBytes = encoder.encode(newRefreshToken);
+            const newEncrypted = new Uint8Array(tokenBytes.length);
+            for (let i = 0; i < tokenBytes.length; i++) {
+              newEncrypted[i] = tokenBytes[i] ^ pinBytes[i % pinBytes.length];
+            }
+            const newEncryptedToken = btoa(String.fromCharCode(...newEncrypted));
+            localStorage.setItem(encryptedTokenKey, newEncryptedToken);
+
+            await supabase
+              .from('profiles')
+              .update({ pin_refresh_token: newEncryptedToken })
+              .eq('id', savedUserId);
+          }
+
+          return true;
+        } catch {
+          return false;
         }
-        const refreshToken = new TextDecoder().decode(decrypted);
+      };
 
-        const { data: sessionData, error: refreshError } = await supabase.auth.refreshSession({
-          refresh_token: refreshToken
-        });
+      let loginSuccess = await decryptAndLogin(storedEncryptedToken!);
 
-        if (refreshError || !sessionData.session) {
-          console.error('Session refresh failed:', refreshError);
-          localStorage.removeItem(encryptedTokenKey);
-          localStorage.removeItem(pinHashKey);
-          setError('PIN session expired. Please sign in with email and password, then re-enable PIN in settings.');
-          setShowPinLogin(false);
-          setLoading(false);
-          return;
+      if (!loginSuccess) {
+        const { data: profileData } = await supabase
+          .from('profiles')
+          .select('pin_refresh_token')
+          .eq('id', savedUserId)
+          .maybeSingle();
+
+        if (profileData?.pin_refresh_token && profileData.pin_refresh_token !== storedEncryptedToken) {
+          loginSuccess = await decryptAndLogin(profileData.pin_refresh_token);
         }
-
-        const from = (location.state as any)?.from?.pathname || '/home';
-        navigate(from, { replace: true });
-      } catch (decryptErr) {
-        console.error('Token decryption failed:', decryptErr);
-        setError('PIN login failed. Please sign in with email and password.');
-        setLoading(false);
       }
+
+      if (!loginSuccess) {
+        localStorage.removeItem(encryptedTokenKey);
+        localStorage.removeItem(pinHashKey);
+        setError('PIN session expired. Please sign in with email and password, then re-enable PIN in settings.');
+        setShowPinLogin(false);
+        setLoading(false);
+        return;
+      }
+
+      const from = (location.state as any)?.from?.pathname || '/home';
+      navigate(from, { replace: true });
     } catch (err) {
       console.error('PIN login error:', err);
       setError('Failed to sign in with PIN. Please use email and password instead.');
