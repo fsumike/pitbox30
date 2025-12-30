@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fix pgcrypto Error - PitBox</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
+            color: white;
+            padding: 40px 20px;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .subtitle {
+            font-size: 1.2rem;
+            color: rgba(255, 255, 255, 0.7);
+            margin-bottom: 40px;
+        }
+
+        .error-box {
+            background: rgba(239, 68, 68, 0.1);
+            border: 2px solid rgba(239, 68, 68, 0.3);
+            border-radius: 12px;
+            padding: 24px;
+            margin-bottom: 40px;
+        }
+
+        .error-box h2 {
+            color: #ef4444;
+            margin-bottom: 12px;
+            font-size: 1.3rem;
+        }
+
+        .error-box code {
+            background: rgba(0, 0, 0, 0.3);
+            padding: 4px 8px;
+            border-radius: 4px;
+            color: #fca5a5;
+            font-family: 'Courier New', monospace;
+        }
+
+        .steps {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            padding: 32px;
+            margin-bottom: 30px;
+        }
+
+        .steps h2 {
+            color: #FFD700;
+            margin-bottom: 24px;
+            font-size: 1.5rem;
+        }
+
+        .step {
+            margin-bottom: 20px;
+            padding-left: 40px;
+            position: relative;
+        }
+
+        .step::before {
+            content: attr(data-step);
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 28px;
+            height: 28px;
+            background: linear-gradient(135deg, #FFD700 0%, #FFA500 100%);
+            color: #1a1a1a;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 0.9rem;
+        }
+
+        .step strong {
+            color: #FFD700;
+            display: block;
+            margin-bottom: 6px;
+        }
+
+        .btn-group {
+            display: flex;
+            gap: 16px;
+            margin: 30px 0;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 16px 32px;
+            border-radius: 12px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            border: none;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #FFD700 0%, #FFA500 100%);
+            color: #1a1a1a;
+            box-shadow: 0 4px 16px rgba(255, 215, 0, 0.3);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 24px rgba(255, 215, 0, 0.5);
+        }
+
+        .btn-secondary {
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .btn-secondary:hover {
+            background: rgba(255, 255, 255, 0.15);
+            transform: translateY(-2px);
+        }
+
+        .sql-preview {
+            background: rgba(0, 0, 0, 0.4);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            padding: 20px;
+            margin: 20px 0;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9rem;
+            color: #a5f3fc;
+            max-height: 300px;
+            overflow-y: auto;
+            position: relative;
+        }
+
+        .copy-badge {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: rgba(255, 215, 0, 0.2);
+            color: #FFD700;
+            padding: 4px 12px;
+            border-radius: 6px;
+            font-size: 0.8rem;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        }
+
+        .success-box {
+            background: rgba(34, 197, 94, 0.1);
+            border: 2px solid rgba(34, 197, 94, 0.3);
+            border-radius: 12px;
+            padding: 24px;
+            margin-top: 30px;
+        }
+
+        .success-box h3 {
+            color: #22c55e;
+            margin-bottom: 12px;
+        }
+
+        .success-box ul {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .success-box li {
+            padding: 8px 0;
+            color: rgba(255, 255, 255, 0.8);
+        }
+
+        .success-box li::before {
+            content: '✓';
+            color: #22c55e;
+            font-weight: bold;
+            margin-right: 10px;
+        }
+
+        .note {
+            background: rgba(59, 130, 246, 0.1);
+            border-left: 4px solid #3b82f6;
+            padding: 16px;
+            margin: 20px 0;
+            border-radius: 4px;
+        }
+
+        .note strong {
+            color: #60a5fa;
+        }
+
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2rem;
+            }
+
+            .btn-group {
+                flex-direction: column;
+            }
+
+            .btn {
+                width: 100%;
+                justify-content: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🔧 Fix pgcrypto Error</h1>
+        <p class="subtitle">Permanent solution for "gen_salt(unknown, integer) does not exist"</p>
+
+        <div class="error-box">
+            <h2>The Error You're Seeing:</h2>
+            <p><code>function gen_salt(unknown, integer) does not exist</code></p>
+            <p style="margin-top: 12px; color: rgba(255, 255, 255, 0.8);">
+                This error occurs because the pgcrypto extension is not enabled in your Supabase database.
+                The PIN code feature requires this extension for secure password hashing.
+            </p>
+        </div>
+
+        <div class="steps">
+            <h2>Quick Fix (2 Minutes)</h2>
+
+            <div class="step" data-step="1">
+                <strong>Open Supabase Dashboard</strong>
+                Click the button below to open your Supabase dashboard, then select your project.
+            </div>
+
+            <div class="step" data-step="2">
+                <strong>Go to SQL Editor</strong>
+                In the left sidebar, click on "SQL Editor"
+            </div>
+
+            <div class="step" data-step="3">
+                <strong>Create New Query</strong>
+                Click the "+ New Query" button
+            </div>
+
+            <div class="step" data-step="4">
+                <strong>Download & Copy SQL</strong>
+                Download the fix file and copy its entire contents
+            </div>
+
+            <div class="step" data-step="5">
+                <strong>Run the SQL</strong>
+                Paste the SQL and click "Run" (or press Cmd/Ctrl + Enter)
+            </div>
+
+            <div class="step" data-step="6">
+                <strong>Done!</strong>
+                You should see "Success. No rows returned" - the error is now fixed!
+            </div>
+        </div>
+
+        <div class="btn-group">
+            <a href="https://supabase.com/dashboard" target="_blank" class="btn btn-primary">
+                <span>🚀</span>
+                <span>Open Supabase Dashboard</span>
+            </a>
+            <a href="../FIX_PGCRYPTO_ONCE_AND_FOR_ALL.sql" download class="btn btn-primary">
+                <span>📥</span>
+                <span>Download SQL Fix</span>
+            </a>
+            <button onclick="copyToClipboard()" class="btn btn-secondary">
+                <span>📋</span>
+                <span id="copyBtnText">Copy SQL to Clipboard</span>
+            </button>
+        </div>
+
+        <div class="note">
+            <strong>💡 Pro Tip:</strong> You can also run this from the command line using:
+            <code style="display: block; margin-top: 8px; background: rgba(0,0,0,0.3); padding: 8px; border-radius: 4px;">
+                node apply-pgcrypto-fix.mjs
+            </code>
+        </div>
+
+        <div class="sql-preview">
+            <div class="copy-badge">SQL Preview</div>
+            <pre>-- Enable pgcrypto extension
+CREATE EXTENSION IF NOT EXISTS pgcrypto;
+
+-- Add PIN code columns
+ALTER TABLE profiles ADD COLUMN pin_code_hash text;
+ALTER TABLE profiles ADD COLUMN pin_code_enabled boolean DEFAULT false;
+
+-- Create PIN code functions
+CREATE FUNCTION set_user_pin_code(user_id uuid, pin_code text)...
+CREATE FUNCTION disable_user_pin_code(user_id uuid)...
+CREATE FUNCTION verify_user_pin_code(user_id uuid, pin_code text)...
+
+-- ...and more (download full file above)</pre>
+        </div>
+
+        <div class="success-box">
+            <h3>✅ After Running the Fix, You'll Have:</h3>
+            <ul>
+                <li>pgcrypto extension enabled (provides gen_salt function)</li>
+                <li>PIN code columns added to profiles table</li>
+                <li>Secure PIN hashing functions (bcrypt)</li>
+                <li>Full PIN code authentication ready to use</li>
+                <li>No more "gen_salt does not exist" errors</li>
+            </ul>
+        </div>
+
+        <div class="note" style="margin-top: 40px;">
+            <strong>🔒 Security Note:</strong> This fix uses bcrypt (blowfish) hashing with 8 rounds,
+            which is industry-standard for password security. Your PIN codes will be securely hashed
+            and cannot be reversed or read in plain text.
+        </div>
+    </div>
+
+    <script>
+        async function copyToClipboard() {
+            try {
+                const response = await fetch('../FIX_PGCRYPTO_ONCE_AND_FOR_ALL.sql');
+                const sql = await response.text();
+
+                await navigator.clipboard.writeText(sql);
+
+                const btn = document.getElementById('copyBtnText');
+                const originalText = btn.textContent;
+                btn.textContent = 'Copied! ✓';
+                btn.style.color = '#22c55e';
+
+                setTimeout(() => {
+                    btn.textContent = originalText;
+                    btn.style.color = '';
+                }, 2000);
+            } catch (err) {
+                alert('Could not copy to clipboard. Please download the file instead.');
+            }
+        }
+    </script>
+</body>
+</html>
