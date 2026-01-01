@@ -1069,7 +1069,7 @@ function SetupSheet({
                     }
                   }}
                   placeholder="e.g., Left Front Panhard Bar"
-                  className="w-full px-4 py-3 bg-white dark:bg-gray-700 border-2 border-gray-300 dark:border-gray-600 rounded-lg focus:border-brand-gold focus:ring-2 focus:ring-brand-gold/20 transition-colors"
+                  className="w-full px-4 py-3 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 border-2 border-gray-300 dark:border-gray-600 rounded-lg focus:border-brand-gold focus:ring-2 focus:ring-brand-gold/20 transition-colors placeholder:text-gray-500 dark:placeholder:text-gray-400"
                   autoFocus
                 />
               </div>
