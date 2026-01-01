@@ -290,7 +290,7 @@ function App() {
                   </NavLink>
                 </div>
 
-                <div className="hidden md:flex md:items-center md:space-x-1">
+                <div className="hidden lg:flex lg:items-center lg:space-x-1">
                   <NavLink
                     to="/home"
                     className={({ isActive }) => `
@@ -397,7 +397,7 @@ function App() {
                   </div>
                 </div>
 
-                <div className="md:hidden flex items-center gap-2">
+                <div className="lg:hidden flex items-center gap-2">
                   <SignInButton className="nav-link" />
                   <button
                     onClick={() => setMenuOpen(!menuOpen)}
@@ -513,7 +513,7 @@ function App() {
         </nav>
       )}
 
-      <main className="pt-24 pb-32 md:pb-8 px-4 max-w-7xl mx-auto">
+      <main className="pt-24 pb-32 lg:pb-8 px-4 max-w-7xl mx-auto">
         <Suspense fallback={<LoadingFallback />}>
           <Routes>
           <Route path="/signin" element={<SignIn />} />
