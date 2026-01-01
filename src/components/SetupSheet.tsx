@@ -836,8 +836,8 @@ function SetupSheet({
                     {(customFields[sectionKey] || []).map((customField) => (
                       <div key={customField.id} className="space-y-2">
                         <div className="flex items-center justify-between min-h-[20px]">
-                          <label className="block text-sm font-medium text-brand-gold">
-                            {customField.name} <span className="text-xs text-gray-500">(New Field)</span>
+                          <label className="block text-sm font-medium text-gray-900 dark:text-brand-gold">
+                            {customField.name} <span className="text-xs text-gray-500 dark:text-gray-400">(New Field)</span>
                           </label>
                           <button
                             onClick={() => handleDeleteCustomField(sectionKey, customField.id)}
