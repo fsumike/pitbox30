@@ -258,11 +258,11 @@ export default function ShockInventoryTool() {
             >
               <div className="flex items-start justify-between mb-3">
                 <div className="flex-1">
-                  <h3 className="text-lg font-bold text-white mb-1">
+                  <h3 className="text-lg font-bold text-white mb-1" style={{ color: '#ffffff' }}>
                     {shock.serial_number}
                   </h3>
                   {shock.last_refurbished && (
-                    <p className="text-sm text-gray-400 flex items-center gap-1">
+                    <p className="text-sm text-gray-200 flex items-center gap-1" style={{ color: '#e5e7eb' }}>
                       <Calendar className="w-4 h-4" />
                       Refurbished: {new Date(shock.last_refurbished).toLocaleDateString()}
                     </p>
