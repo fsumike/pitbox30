@@ -112,6 +112,7 @@ function SwapMeet() {
   const [deleting, setDeleting] = useState(false);
   const [distanceEnabled, setDistanceEnabled] = useState(false);
   const [selectedDistance, setSelectedDistance] = useState<number | null>(null);
+  const [customDistance, setCustomDistance] = useState('');
   const [manualZipCode, setManualZipCode] = useState('');
   const [showLocationPrompt, setShowLocationPrompt] = useState(false);
   const { user } = useAuth();
@@ -688,18 +689,19 @@ function SwapMeet() {
                   {location.latitude && (
                     <div>
                       <label className="block text-sm font-medium mb-2 text-gray-700 dark:text-gray-300">Show items within:</label>
-                      <div className="grid grid-cols-2 gap-2">
+                      <div className="grid grid-cols-2 gap-2 mb-3">
                         {[25, 50, 100, 200, 500].map(distance => (
                           <button
                             key={distance}
                             onClick={() => {
                               setSelectedDistance(distance);
+                              setCustomDistance('');
                               if (!distanceEnabled) {
                                 setDistanceEnabled(true);
                               }
                             }}
                             className={`px-4 py-2 rounded-lg font-medium transition-colors ${
-                              selectedDistance === distance
+                              selectedDistance === distance && !customDistance
                                 ? 'bg-blue-600 text-white'
                                 : 'bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 border border-gray-300 dark:border-gray-600'
                             }`}
@@ -710,16 +712,41 @@ function SwapMeet() {
                         <button
                           onClick={() => {
                             setSelectedDistance(null);
+                            setCustomDistance('');
                             setDistanceEnabled(false);
                           }}
                           className={`px-4 py-2 rounded-lg font-medium transition-colors ${
-                            selectedDistance === null && !distanceEnabled
+                            selectedDistance === null && !distanceEnabled && !customDistance
                               ? 'bg-blue-600 text-white'
                               : 'bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 border border-gray-300 dark:border-gray-600'
                           }`}
                         >
                           All
                         </button>
+                      </div>
+
+                      {/* Custom Distance Input */}
+                      <div className="flex items-center gap-2">
+                        <input
+                          type="number"
+                          placeholder="Custom miles"
+                          value={customDistance}
+                          onChange={(e) => {
+                            const value = e.target.value;
+                            setCustomDistance(value);
+                            if (value && !isNaN(Number(value)) && Number(value) > 0) {
+                              setSelectedDistance(Number(value));
+                              if (!distanceEnabled) {
+                                setDistanceEnabled(true);
+                              }
+                            } else if (!value) {
+                              setSelectedDistance(null);
+                            }
+                          }}
+                          className="flex-1 px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
+                          min="1"
+                        />
+                        <span className="text-sm text-gray-700 dark:text-gray-300 whitespace-nowrap">miles</span>
                       </div>
                     </div>
                   )}
@@ -804,6 +831,7 @@ function SwapMeet() {
                   setPriceRange({ min: '', max: '' });
                   setDistanceEnabled(false);
                   setSelectedDistance(null);
+                  setCustomDistance('');
                   location.clearLocation();
                 }}
                 className="px-4 py-2 rounded-lg bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors"
@@ -947,6 +975,7 @@ function SwapMeet() {
                   onClick={() => {
                     setDistanceEnabled(false);
                     setSelectedDistance(null);
+                    setCustomDistance('');
                   }}
                   className="px-4 py-2 rounded-lg bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 text-blue-900 dark:text-blue-100 font-medium transition-colors"
                 >
