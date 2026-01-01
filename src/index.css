@@ -770,12 +770,12 @@ select option {
 
 @keyframes goldGlow {
   0%, 100% {
-    text-shadow: 0 0 30px rgba(251, 191, 36, 0.9), 0 0 60px rgba(251, 191, 36, 0.6), 0 0 90px rgba(245, 158, 11, 0.4), 0 0 120px rgba(217, 119, 6, 0.3);
-    filter: drop-shadow(0 0 15px rgba(251, 191, 36, 0.8));
+    text-shadow: 0 0 20px rgba(251, 191, 36, 0.6), 0 0 40px rgba(251, 191, 36, 0.4), 0 0 60px rgba(245, 158, 11, 0.25);
+    filter: drop-shadow(0 0 8px rgba(251, 191, 36, 0.5));
   }
   50% {
-    text-shadow: 0 0 40px rgba(251, 191, 36, 1), 0 0 80px rgba(251, 191, 36, 0.8), 0 0 120px rgba(245, 158, 11, 0.6), 0 0 160px rgba(217, 119, 6, 0.5);
-    filter: drop-shadow(0 0 25px rgba(251, 191, 36, 1));
+    text-shadow: 0 0 25px rgba(251, 191, 36, 0.7), 0 0 50px rgba(251, 191, 36, 0.5), 0 0 75px rgba(245, 158, 11, 0.35);
+    filter: drop-shadow(0 0 12px rgba(251, 191, 36, 0.6));
   }
 }
 
