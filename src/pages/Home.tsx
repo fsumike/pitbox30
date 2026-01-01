@@ -86,7 +86,7 @@ function Home() {
         </div>
         <div className="relative px-6 py-10 sm:px-12 sm:py-20">
           <div className="mx-auto max-w-5xl">
-            <div className="flex flex-col md:flex-row items-center justify-center md:justify-start gap-4 md:gap-10">
+            <div className="flex flex-col md:flex-row-reverse items-center justify-center md:justify-start gap-4 md:gap-10">
               <div className="flex-shrink-0 -mt-4 md:-mt-8">
                 <img
                   src="/android-icon-512-512.png"
