@@ -77,7 +77,7 @@ function Affiliates() {
           </div>
 
           {/* Feature Boxes Section */}
-          <div className="grid md:grid-cols-3 gap-6 mb-12">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
             <button
               onClick={() => navigate('/home')}
               className="glass-panel p-6 text-center bg-gradient-to-br from-green-500/10 to-emerald-500/10 hover:from-green-500/20 hover:to-emerald-500/20 transition-colors group relative"
@@ -161,8 +161,8 @@ function Affiliates() {
       {/* Why Partner With Us */}
       <div className="carbon-fiber-panel p-8">
         <h2 className="text-3xl font-bold text-center mb-12">Why Partner With PIT-BOX.COM?</h2>
-        
-        <div className="grid md:grid-cols-3 gap-8">
+
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           <div className="text-center space-y-4">
             <div className="flex justify-center">
               <div className="w-16 h-16 rounded-full bg-brand-gold/10 flex items-center justify-center">
@@ -205,7 +205,7 @@ function Affiliates() {
       </div>
 
       {/* Partnership Benefits */}
-      <div className="grid md:grid-cols-2 gap-8">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
         <div className="glass-panel p-8 bg-white/80 dark:bg-gray-800/50">
           <h2 className="text-2xl font-bold mb-6">Premium Benefits</h2>
           <div className="space-y-4">

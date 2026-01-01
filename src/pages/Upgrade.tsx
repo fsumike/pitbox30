@@ -174,7 +174,7 @@ function Upgrade() {
         </div>
 
         {/* Premium Features */}
-        <div className="grid md:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           <div className="glass-panel p-6 text-center transform hover:scale-105 transition-all duration-300">
             <Star className="w-8 h-8 text-brand-gold mx-auto mb-4" />
             <h3 className="text-xl font-bold mb-2">Unlimited Setups</h3>

@@ -23,7 +23,7 @@ function Privacy() {
           <FileText className="w-6 h-6 text-brand-gold" />
           Quick Overview
         </h2>
-        <div className="grid md:grid-cols-2 gap-4">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div className="p-4 bg-green-50 dark:bg-green-900/20 rounded-lg">
             <h3 className="font-semibold text-green-900 dark:text-green-100 mb-2">We DO:</h3>
             <ul className="text-sm text-green-800 dark:text-green-200 space-y-1">
@@ -135,7 +135,7 @@ function Privacy() {
           3. How We Protect Your Data
         </h2>
 
-        <div className="grid md:grid-cols-2 gap-4 mb-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
           <div className="p-4 bg-white dark:bg-gray-800 rounded-lg">
             <h3 className="font-semibold mb-2">🔒 Encryption in Transit</h3>
             <p className="text-sm text-gray-600 dark:text-gray-400">

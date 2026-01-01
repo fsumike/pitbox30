@@ -204,21 +204,21 @@ export default function TorsionBarTool() {
           <table className="w-full text-sm">
             <thead>
               <tr className="border-b border-blue-200 dark:border-blue-800">
-                <th className="text-left py-2 px-2">Track Type</th>
-                <th className="text-center py-2 px-2">LF</th>
-                <th className="text-center py-2 px-2">RF</th>
-                <th className="text-center py-2 px-2">LR</th>
-                <th className="text-center py-2 px-2">RR</th>
+                <th className="text-left py-2 px-2 md:py-3 md:px-3 text-sm md:text-base">Track Type</th>
+                <th className="text-center py-2 px-2 md:py-3 md:px-3 text-sm md:text-base">LF</th>
+                <th className="text-center py-2 px-2 md:py-3 md:px-3 text-sm md:text-base">RF</th>
+                <th className="text-center py-2 px-2 md:py-3 md:px-3 text-sm md:text-base">LR</th>
+                <th className="text-center py-2 px-2 md:py-3 md:px-3 text-sm md:text-base">RR</th>
               </tr>
             </thead>
             <tbody>
               {trackRecommendations.map((rec, idx) => (
                 <tr key={idx} className="border-b border-blue-100 dark:border-blue-900/50">
-                  <td className="py-2 px-2 font-medium">{rec.type}</td>
-                  <td className="text-center py-2 px-2">{rec.lfRate}</td>
-                  <td className="text-center py-2 px-2">{rec.rfRate}</td>
-                  <td className="text-center py-2 px-2">{rec.lrRate}</td>
-                  <td className="text-center py-2 px-2">{rec.rrRate}</td>
+                  <td className="py-2 px-2 md:py-3 md:px-3 font-medium text-sm md:text-base">{rec.type}</td>
+                  <td className="text-center py-2 px-2 md:py-3 md:px-3 text-sm md:text-base">{rec.lfRate}</td>
+                  <td className="text-center py-2 px-2 md:py-3 md:px-3 text-sm md:text-base">{rec.rfRate}</td>
+                  <td className="text-center py-2 px-2 md:py-3 md:px-3 text-sm md:text-base">{rec.lrRate}</td>
+                  <td className="text-center py-2 px-2 md:py-3 md:px-3 text-sm md:text-base">{rec.rrRate}</td>
                 </tr>
               ))}
             </tbody>

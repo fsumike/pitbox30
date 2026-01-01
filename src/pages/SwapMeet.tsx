@@ -1198,7 +1198,7 @@ function SwapMeet() {
           </p>
         </div>
 
-        <div className="grid md:grid-cols-3 gap-6 max-w-7xl mx-auto">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-7xl mx-auto">
           {/* Silver Dollar Speedway */}
           <a
             href="https://www.silverdollarspeedway.com"
@@ -1322,7 +1322,7 @@ function SwapMeet() {
       </div>
 
       {/* Advertisement Spaces */}
-      <div className="grid md:grid-cols-2 gap-6">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         <div className="glass-panel p-6 shadow-xl hover:shadow-purple-500/20 transition-all hover:border-purple-500/30">
           <h3 className="text-xl font-bold mb-2">Premium Advertising Space</h3>
           <p className="text-gray-600 dark:text-gray-300 mb-4">

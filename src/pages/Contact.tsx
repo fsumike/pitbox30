@@ -85,7 +85,7 @@ function Contact() {
             Your privacy and security are our top priorities
           </p>
         </div>
-        <div className="grid md:grid-cols-3 gap-4 max-w-3xl mx-auto relative z-10">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 max-w-3xl mx-auto relative z-10">
           <Link
             to="/privacy"
             className="liquid-glass-card text-center hover:scale-105 transition-transform"
@@ -167,7 +167,7 @@ function Contact() {
           )}
 
           <form onSubmit={handleSubmit} className="space-y-6 text-left">
-            <div className="grid md:grid-cols-2 gap-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div>
                 <label htmlFor="name" className="block text-sm font-medium mb-2">Name *</label>
                 <input

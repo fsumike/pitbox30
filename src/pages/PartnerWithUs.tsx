@@ -117,8 +117,8 @@ function PartnerWithUs() {
       {/* Partnership Benefits */}
       <div className="glass-panel p-8 bg-white/80 dark:bg-gray-800/50">
         <h2 className="text-3xl font-bold text-center mb-12">Why Partner With PIT-BOX.COM?</h2>
-        
-        <div className="grid md:grid-cols-3 gap-8">
+
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           <div className="flex flex-col items-center text-center space-y-4">
             <div className="w-16 h-16 rounded-full bg-brand-gold/10 flex items-center justify-center">
               <Target className="w-8 h-8 text-brand-gold" />
@@ -152,7 +152,7 @@ function PartnerWithUs() {
       </div>
 
       {/* Partnership Opportunities */}
-      <div className="grid md:grid-cols-2 gap-8">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
         <div className="glass-panel p-8 bg-white/80 dark:bg-gray-800/50">
           <h2 className="text-2xl font-bold mb-6">Premium Advertising</h2>
           <div className="space-y-4">
@@ -201,8 +201,8 @@ function PartnerWithUs() {
       {/* Success Stories */}
       <div className="glass-panel p-8 bg-white/80 dark:bg-gray-800/50">
         <h2 className="text-3xl font-bold text-center mb-8">Partner Success Stories</h2>
-        
-        <div className="grid md:grid-cols-2 gap-8">
+
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
           <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md">
             <div className="flex items-center gap-4 mb-4">
               <img 
@@ -256,9 +256,9 @@ function PartnerWithUs() {
             Thank you for your interest in partnering with PIT-BOX.COM! Our team will review your information and contact you shortly.
           </div>
         )}
-        
+
         <form onSubmit={handleSubmit} className="max-w-2xl mx-auto space-y-6">
-          <div className="grid md:grid-cols-2 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div>
               <label htmlFor="companyName" className="block text-sm font-medium mb-2">Company Name</label>
               <input
@@ -287,8 +287,8 @@ function PartnerWithUs() {
               />
             </div>
           </div>
-          
-          <div className="grid md:grid-cols-2 gap-6">
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div>
               <label htmlFor="email" className="block text-sm font-medium mb-2">Email</label>
               <input

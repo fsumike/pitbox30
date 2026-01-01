@@ -104,12 +104,12 @@ export const SetupComparison: React.FC<SetupComparisonProps> = ({
 
     return (
       <tr className={isDifferent ? 'bg-yellow-50' : ''}>
-        <td className="px-4 py-3 text-sm font-medium text-gray-700 border-r">{label}</td>
-        <td className="px-4 py-3 text-sm text-gray-900 border-r">{valueA}</td>
-        <td className="px-4 py-3 text-center border-r">
+        <td className="px-2 md:px-4 py-2 md:py-3 text-xs md:text-sm font-medium text-gray-700 border-r">{label}</td>
+        <td className="px-2 md:px-4 py-2 md:py-3 text-xs md:text-sm text-gray-900 border-r">{valueA}</td>
+        <td className="px-2 md:px-4 py-2 md:py-3 text-center border-r">
           {compareValues(valueA, valueB)}
         </td>
-        <td className="px-4 py-3 text-sm text-gray-900">{valueB}</td>
+        <td className="px-2 md:px-4 py-2 md:py-3 text-xs md:text-sm text-gray-900">{valueB}</td>
       </tr>
     );
   };
@@ -119,7 +119,7 @@ export const SetupComparison: React.FC<SetupComparisonProps> = ({
       <div className="bg-white rounded-lg shadow-lg p-6">
         <h2 className="text-2xl font-bold text-gray-900 mb-6">Compare Setups</h2>
 
-        <div className="grid md:grid-cols-2 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-2">
               Setup A
@@ -183,7 +183,7 @@ export const SetupComparison: React.FC<SetupComparisonProps> = ({
         )}
       </div>
 
-      <div className="grid md:grid-cols-2 gap-4 mb-6">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
         <div className="bg-blue-50 rounded-lg p-4">
           <h3 className="font-bold text-blue-900 mb-2">Setup A</h3>
           <p className="text-sm text-blue-800">{setupA.location}</p>
@@ -200,13 +200,13 @@ export const SetupComparison: React.FC<SetupComparisonProps> = ({
       </div>
 
       <div className="overflow-x-auto mb-6">
-        <table className="w-full border border-gray-200 rounded-lg">
+        <table className="w-full border border-gray-200 rounded-lg text-xs md:text-sm">
           <thead className="bg-gray-50">
             <tr>
-              <th className="px-4 py-3 text-left text-sm font-bold text-gray-700 border-r">Setting</th>
-              <th className="px-4 py-3 text-left text-sm font-bold text-blue-700 border-r">Setup A</th>
-              <th className="px-4 py-3 text-center text-sm font-bold text-gray-700 border-r">Change</th>
-              <th className="px-4 py-3 text-left text-sm font-bold text-green-700">Setup B</th>
+              <th className="px-2 md:px-4 py-2 md:py-3 text-left font-bold text-gray-700 border-r">Setting</th>
+              <th className="px-2 md:px-4 py-2 md:py-3 text-left font-bold text-blue-700 border-r">Setup A</th>
+              <th className="px-2 md:px-4 py-2 md:py-3 text-center font-bold text-gray-700 border-r">Change</th>
+              <th className="px-2 md:px-4 py-2 md:py-3 text-left font-bold text-green-700">Setup B</th>
             </tr>
           </thead>
           <tbody className="divide-y divide-gray-200">

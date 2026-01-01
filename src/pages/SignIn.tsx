@@ -192,9 +192,9 @@ function SignIn() {
 
   return (
     <div className="min-h-screen flex items-center justify-center p-4 bg-gradient-to-br from-brand-black via-brand-black-light to-brand-black-dark relative overflow-hidden">
-      <div className="liquid-orb liquid-orb-gold w-80 h-80 -top-20 -left-20 fixed z-0" />
-      <div className="liquid-orb liquid-orb-amber w-64 h-64 -bottom-16 -right-16 fixed z-0" style={{ animationDelay: '-7s' }} />
-      <div className="liquid-orb liquid-orb-gold w-48 h-48 top-1/3 right-10 fixed z-0" style={{ animationDelay: '-12s' }} />
+      <div className="liquid-orb liquid-orb-gold w-48 sm:w-64 md:w-80 h-48 sm:h-64 md:h-80 -top-16 sm:-top-20 md:-top-20 -left-16 sm:-left-20 md:-left-20 fixed z-0" />
+      <div className="liquid-orb liquid-orb-amber w-40 sm:w-56 md:w-64 h-40 sm:h-56 md:h-64 -bottom-12 sm:-bottom-16 md:-bottom-16 -right-12 sm:-right-16 md:-right-16 fixed z-0" style={{ animationDelay: '-7s' }} />
+      <div className="liquid-orb liquid-orb-gold w-32 sm:w-40 md:w-48 h-32 sm:h-40 md:h-48 top-1/3 right-2 sm:right-6 md:right-10 fixed z-0" style={{ animationDelay: '-12s' }} />
 
       <div className="relative w-full max-w-md z-10">
         <div className="liquid-glass p-8">

@@ -758,7 +758,7 @@ function ProfilePage() {
                 <h2 className="text-xl font-bold">Racing Background</h2>
               </div>
 
-              <div className="grid md:grid-cols-2 gap-4">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
                   <label className="block text-sm font-medium mb-1">
                     Primary Car Number
@@ -902,7 +902,7 @@ function ProfilePage() {
                 <h2 className="text-xl font-bold">Personal Information</h2>
               </div>
 
-              <div className="grid md:grid-cols-2 gap-4">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
                   <label className="block text-sm font-medium mb-1">
                     Birthday
@@ -1214,7 +1214,7 @@ function ProfilePage() {
           Help grow the racing community by sharing Pit-Box.com with your crew, friends, and fellow racers.
         </p>
 
-        <div className="grid md:grid-cols-2 gap-8 items-start">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-start">
           <div className="flex flex-col items-center">
             <div className="bg-white p-6 rounded-lg shadow-lg mb-4">
               <QRCodeSVG

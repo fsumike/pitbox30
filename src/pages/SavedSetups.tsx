@@ -1024,7 +1024,7 @@ function SavedSetups() {
       {/* Instructions */}
       <div className="glass-panel p-6 bg-gradient-to-br from-blue-500/5 to-purple-500/5">
         <h2 className="text-xl font-bold mb-4">Setup Sharing Instructions</h2>
-        <div className="grid md:grid-cols-2 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <div>
             <h3 className="text-lg font-semibold mb-2 flex items-center gap-2">
               <Download className="w-5 h-5 text-green-500" />

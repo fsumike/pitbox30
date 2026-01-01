@@ -242,8 +242,8 @@ export default function Tools() {
               </div>
             </div>
 
-            {/* Feature Grid */}
-            <div className="grid md:grid-cols-3 gap-6">
+            {/* Feature Grid - Responsive: 1 col mobile, 2 cols tablet, 3 cols desktop */}
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
               <div className="liquid-glass-card hover:scale-105 transition-transform">
                 <div className="w-12 h-12 rounded-full bg-green-500/20 flex items-center justify-center mb-4">
                   <Activity className="w-6 h-6 text-green-500" />
@@ -283,7 +283,7 @@ export default function Tools() {
               <h3 className="text-2xl font-bold mb-6 text-center relative z-10">
                 12 Professional Tools at Your Fingertips
               </h3>
-              <div className="grid md:grid-cols-2 gap-4 max-w-4xl mx-auto relative z-10">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 max-w-4xl mx-auto relative z-10">
                 {tools.map((tool) => (
                   <div
                     key={tool.id}

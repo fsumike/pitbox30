@@ -30,16 +30,26 @@
     }
   }
 
-  /* Improve touch targets for mobile */
-  @media (max-width: 640px) {
-    button, a, [role="button"] {
+  /* Improve touch targets for mobile and tablets (WCAG 2.1 Level AAA - 44x44px minimum) */
+  @media (max-width: 1024px) {
+    button, a, [role="button"], .interactive {
       min-height: 44px;
       min-width: 44px;
       padding: 12px;
+      touch-action: manipulation;
     }
 
     input, select, textarea {
+      min-height: 44px;
       font-size: 16px !important; /* Prevent iOS zoom */
+      touch-action: manipulation;
+    }
+  }
+
+  /* Tablet-specific input optimization */
+  @media (max-width: 1024px) and (min-width: 641px) {
+    input, select, textarea {
+      padding: 12px 12px;
     }
   }
 
