@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { createPortal } from 'react-dom';
 import { Image, Search, X, Loader2 } from 'lucide-react';
 
 interface GifPickerProps {
@@ -92,7 +93,7 @@ function GifPicker({ onGifSelect, buttonClassName = '' }: GifPickerProps) {
   };
 
   return (
-    <div className="relative">
+    <>
       <button
         type="button"
         onClick={handleButtonClick}
@@ -102,7 +103,7 @@ function GifPicker({ onGifSelect, buttonClassName = '' }: GifPickerProps) {
         <Image className="w-5 h-5" />
       </button>
 
-      {showPicker && (
+      {showPicker && createPortal(
         <>
           {/* Full Screen Backdrop */}
           <div
@@ -112,7 +113,10 @@ function GifPicker({ onGifSelect, buttonClassName = '' }: GifPickerProps) {
 
           {/* Centered Full Screen Modal - Like Facebook */}
           <div className="fixed inset-0 z-[9999] flex items-center justify-center p-4 sm:p-6">
-            <div className="w-full max-w-2xl bg-white dark:bg-gray-900 rounded-2xl shadow-2xl flex flex-col max-h-[90vh] sm:max-h-[85vh] overflow-hidden">
+            <div
+              className="w-full max-w-2xl bg-white dark:bg-gray-900 rounded-2xl shadow-2xl flex flex-col max-h-[90vh] sm:max-h-[85vh] overflow-hidden"
+              onClick={(e) => e.stopPropagation()}
+            >
 
               {/* Header with centered X button */}
               <div className="relative p-4 sm:p-6 border-b border-gray-200 dark:border-gray-700 flex-shrink-0">
@@ -182,9 +186,10 @@ function GifPicker({ onGifSelect, buttonClassName = '' }: GifPickerProps) {
               </div>
             </div>
           </div>
-        </>
+        </>,
+        document.body
       )}
-    </div>
+    </>
   );
 }
 
