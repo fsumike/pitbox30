@@ -1052,8 +1052,8 @@ function SetupSheet({
             <div className="flex items-start gap-3">
               <Plus className="w-6 h-6 text-brand-gold flex-shrink-0 mt-1" />
               <div className="flex-1">
-                <h3 className="text-xl font-bold mb-2">Add New Field</h3>
-                <p className="text-gray-600 dark:text-gray-300 text-sm mb-4">
+                <h3 className="text-xl font-bold mb-2 text-gray-900 dark:text-white">Add New Field</h3>
+                <p className="text-gray-700 dark:text-gray-300 text-sm mb-4">
                   Enter a name for your new field
                 </p>
                 <input
