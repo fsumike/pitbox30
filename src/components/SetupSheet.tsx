@@ -718,7 +718,7 @@ function SetupSheet({
 
         {/* Best Lap Time Input */}
         <div className="border-t border-gray-200 dark:border-gray-700 pt-4">
-          <label className="flex items-center gap-2 text-sm font-medium mb-2">
+          <label className="flex items-center gap-2 text-sm font-medium mb-2 text-gray-900 dark:text-white">
             <Clock className="w-4 h-4 text-brand-gold" />
             Best Lap Time (optional)
           </label>
@@ -729,7 +729,7 @@ function SetupSheet({
               value={bestLapTime}
               onChange={(e) => setBestLapTime(e.target.value)}
               placeholder="15.234"
-              className="flex-1 px-4 py-2 bg-white/50 dark:bg-gray-800/50 rounded-lg border border-gray-200 dark:border-gray-700 focus:outline-none focus:ring-2 focus:ring-brand-gold"
+              className="flex-1 px-4 py-2 bg-white/50 dark:bg-gray-800/50 text-gray-900 dark:text-white rounded-lg border border-gray-200 dark:border-gray-700 focus:outline-none focus:ring-2 focus:ring-brand-gold placeholder:text-gray-500 dark:placeholder:text-gray-400"
             />
             <span className="text-sm text-gray-600 dark:text-gray-400">seconds</span>
           </div>
@@ -740,18 +740,18 @@ function SetupSheet({
 
         {/* Race Type Selector */}
         <div className="border-t border-gray-200 dark:border-gray-700 pt-4 mt-4">
-          <label className="flex items-center gap-2 text-sm font-medium mb-2">
+          <label className="flex items-center gap-2 text-sm font-medium mb-2 text-gray-900 dark:text-white">
             <Settings className="w-4 h-4 text-brand-gold" />
             Race Type (optional)
           </label>
           <select
             value={raceType}
             onChange={(e) => setRaceType(e.target.value)}
-            className="w-full max-w-md px-4 py-2 bg-white/50 dark:bg-gray-800/50 rounded-lg border border-gray-200 dark:border-gray-700 focus:outline-none focus:ring-2 focus:ring-brand-gold"
+            className="w-full max-w-md px-4 py-2 bg-white/50 dark:bg-gray-800/50 text-gray-900 dark:text-white rounded-lg border border-gray-200 dark:border-gray-700 focus:outline-none focus:ring-2 focus:ring-brand-gold"
           >
-            <option value="">Select race type...</option>
+            <option value="" className="text-gray-900">Select race type...</option>
             {RACE_TYPE_OPTIONS.map((option) => (
-              <option key={option.value} value={option.value}>
+              <option key={option.value} value={option.value} className="text-gray-900">
                 {option.label}
               </option>
             ))}

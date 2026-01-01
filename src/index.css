@@ -53,12 +53,12 @@
 
   /* Global select option fixes for all browsers */
   select {
-    color: black;
+    color: #111827;
   }
 
   select option {
     background-color: white;
-    color: black !important;
+    color: #111827 !important;
   }
 
   .dark select {
@@ -74,11 +74,16 @@
   @supports (-webkit-touch-callout: none) {
     select {
       background-color: transparent;
+      color: #111827;
     }
 
     select option {
       background-color: white !important;
-      color: black !important;
+      color: #111827 !important;
+    }
+
+    .dark select {
+      color: white;
     }
 
     .dark select option {
@@ -92,11 +97,16 @@
     select {
       max-width: 100vw;
       width: 100%;
+      color: #111827;
     }
 
     select option {
       background-color: white !important;
-      color: black !important;
+      color: #111827 !important;
+    }
+
+    .dark select {
+      color: white;
     }
 
     .dark select option {
@@ -356,12 +366,12 @@
 /* Select dropdown options styling */
 select {
   color-scheme: light;
-  color: black;
+  color: #111827;
 }
 
 select option {
   background-color: white;
-  color: black !important;
+  color: #111827 !important;
 }
 
 @media (prefers-color-scheme: dark) {
