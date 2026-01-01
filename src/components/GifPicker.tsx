@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Image, Search, X, Loader2 } from 'lucide-react';
 
 interface GifPickerProps {
@@ -20,24 +20,20 @@ function GifPicker({ onGifSelect, buttonClassName = '' }: GifPickerProps) {
   const [searchTerm, setSearchTerm] = useState('');
   const [gifs, setGifs] = useState<GifResult[]>([]);
   const [loading, setLoading] = useState(false);
-  const containerRef = useRef<HTMLDivElement>(null);
 
   const GIPHY_API_KEY = 'sXpGFDGZs0Dv1mmNFvYaGUvYwKX0PWIh';
 
   useEffect(() => {
-    const handleClickOutside = (event: MouseEvent) => {
-      if (containerRef.current && !containerRef.current.contains(event.target as Node)) {
-        setShowPicker(false);
-      }
-    };
-
     if (showPicker) {
-      document.addEventListener('mousedown', handleClickOutside);
       loadTrendingGifs();
+      // Prevent body scroll when modal is open
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = '';
     }
 
     return () => {
-      document.removeEventListener('mousedown', handleClickOutside);
+      document.body.style.overflow = '';
     };
   }, [showPicker]);
 
@@ -96,7 +92,7 @@ function GifPicker({ onGifSelect, buttonClassName = '' }: GifPickerProps) {
   };
 
   return (
-    <div className="relative" ref={containerRef}>
+    <div className="relative">
       <button
         type="button"
         onClick={handleButtonClick}
@@ -108,17 +104,21 @@ function GifPicker({ onGifSelect, buttonClassName = '' }: GifPickerProps) {
 
       {showPicker && (
         <>
-          {/* Backdrop for all screen sizes */}
+          {/* Full Screen Backdrop */}
           <div
-            className="fixed inset-0 z-[60] bg-black/50 backdrop-blur-sm"
+            className="fixed inset-0 z-[9998] bg-black/70 backdrop-blur-sm"
             onClick={() => setShowPicker(false)}
           />
 
-          {/* Mobile: Bottom Sheet Modal */}
-          <div className="fixed inset-x-0 bottom-0 z-[70] bg-white dark:bg-gray-800 rounded-t-2xl shadow-xl sm:hidden max-h-[80vh] flex flex-col">
-            <div className="p-4 border-b border-gray-200 dark:border-gray-700 flex-shrink-0">
-              <div className="flex items-center justify-between mb-3">
-                <h3 className="font-semibold text-lg">Choose a GIF</h3>
+          {/* Centered Full Screen Modal - Like Facebook */}
+          <div className="fixed inset-0 z-[9999] flex items-center justify-center p-4 sm:p-6">
+            <div className="w-full max-w-2xl bg-white dark:bg-gray-900 rounded-2xl shadow-2xl flex flex-col max-h-[90vh] sm:max-h-[85vh] overflow-hidden">
+
+              {/* Header with centered X button */}
+              <div className="relative p-4 sm:p-6 border-b border-gray-200 dark:border-gray-700 flex-shrink-0">
+                <h3 className="font-bold text-xl sm:text-2xl text-center text-gray-900 dark:text-white mb-4">
+                  Choose a GIF
+                </h3>
                 <button
                   type="button"
                   onClick={(e) => {
@@ -126,103 +126,39 @@ function GifPicker({ onGifSelect, buttonClassName = '' }: GifPickerProps) {
                     e.stopPropagation();
                     setShowPicker(false);
                   }}
-                  className="p-2 hover:bg-gray-200 dark:hover:bg-gray-700 rounded-full transition-colors relative z-[80] touch-manipulation"
+                  className="absolute top-4 right-4 p-2 sm:p-3 bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 rounded-full transition-colors touch-manipulation"
                   aria-label="Close GIF picker"
                 >
-                  <X className="w-6 h-6 text-gray-700 dark:text-gray-300" />
+                  <X className="w-6 h-6 sm:w-7 sm:h-7 text-gray-700 dark:text-gray-200" />
                 </button>
-              </div>
-              <div className="relative">
-                <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
-                <input
-                  type="text"
-                  value={searchTerm}
-                  onChange={(e) => setSearchTerm(e.target.value)}
-                  placeholder="Search GIFs..."
-                  className="w-full pl-10 pr-3 py-3 rounded-lg bg-gray-100 dark:bg-gray-700"
-                />
-              </div>
-            </div>
 
-            <div className="p-3 overflow-y-auto flex-1">
-              {loading ? (
-                <div className="flex justify-center items-center py-12">
-                  <Loader2 className="w-8 h-8 animate-spin text-brand-gold" />
-                </div>
-              ) : (
-                <div className="grid grid-cols-2 gap-3">
-                  {gifs.map((gif) => (
-                    <button
-                      type="button"
-                      key={gif.id}
-                      onClick={() => handleGifSelect(gif.images.fixed_height_small.url)}
-                      className="aspect-square rounded-lg overflow-hidden hover:opacity-80 transition-opacity active:scale-95"
-                    >
-                      <img
-                        src={gif.images.fixed_height_small.url}
-                        alt="GIF"
-                        className="w-full h-full object-cover"
-                      />
-                    </button>
-                  ))}
-                </div>
-              )}
-              {!loading && gifs.length === 0 && (
-                <div className="text-center py-12 text-gray-500">
-                  No GIFs found
-                </div>
-              )}
-            </div>
-
-            <div className="p-3 text-xs text-gray-400 text-center border-t border-gray-200 dark:border-gray-700 flex-shrink-0">
-              Powered by GIPHY
-            </div>
-          </div>
-
-          {/* Tablet & Desktop: Centered Modal */}
-          <div className="hidden sm:flex fixed inset-0 z-[70] items-center justify-center p-4">
-            <div className="w-full max-w-md bg-white dark:bg-gray-800 rounded-2xl shadow-xl border border-gray-200 dark:border-gray-700 max-h-[85vh] flex flex-col">
-              <div className="p-4 border-b border-gray-200 dark:border-gray-700 flex-shrink-0">
-                <div className="flex items-center justify-between mb-3">
-                  <h3 className="font-semibold text-lg">Choose a GIF</h3>
-                  <button
-                    type="button"
-                    onClick={(e) => {
-                      e.preventDefault();
-                      e.stopPropagation();
-                      setShowPicker(false);
-                    }}
-                    className="p-2 hover:bg-gray-200 dark:hover:bg-gray-700 rounded-full transition-colors relative z-[80] touch-manipulation"
-                    aria-label="Close GIF picker"
-                  >
-                    <X className="w-6 h-6 text-gray-700 dark:text-gray-300" />
-                  </button>
-                </div>
+                {/* Search Bar */}
                 <div className="relative">
-                  <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
+                  <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
                   <input
                     type="text"
                     value={searchTerm}
                     onChange={(e) => setSearchTerm(e.target.value)}
                     placeholder="Search GIFs..."
-                    className="w-full pl-10 pr-3 py-3 rounded-lg bg-gray-100 dark:bg-gray-700"
+                    className="w-full pl-12 pr-4 py-3 sm:py-4 rounded-xl text-base sm:text-lg bg-gray-100 dark:bg-gray-800 border-2 border-transparent focus:border-blue-500 dark:focus:border-blue-400 transition-colors"
                   />
                 </div>
               </div>
 
-              <div className="p-3 overflow-y-auto flex-1">
+              {/* Scrollable GIF Grid */}
+              <div className="flex-1 overflow-y-auto p-4 sm:p-6">
                 {loading ? (
-                  <div className="flex justify-center items-center py-12">
-                    <Loader2 className="w-8 h-8 animate-spin text-brand-gold" />
+                  <div className="flex justify-center items-center py-20">
+                    <Loader2 className="w-12 h-12 animate-spin text-blue-500" />
                   </div>
                 ) : (
-                  <div className="grid grid-cols-2 gap-3">
+                  <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 sm:gap-4">
                     {gifs.map((gif) => (
                       <button
                         type="button"
                         key={gif.id}
                         onClick={() => handleGifSelect(gif.images.fixed_height_small.url)}
-                        className="aspect-square rounded-lg overflow-hidden hover:opacity-80 transition-opacity active:scale-95"
+                        className="aspect-square rounded-xl overflow-hidden hover:opacity-80 hover:scale-105 transition-all active:scale-95 shadow-md hover:shadow-xl"
                       >
                         <img
                           src={gif.images.fixed_height_small.url}
@@ -234,13 +170,14 @@ function GifPicker({ onGifSelect, buttonClassName = '' }: GifPickerProps) {
                   </div>
                 )}
                 {!loading && gifs.length === 0 && (
-                  <div className="text-center py-12 text-gray-500">
+                  <div className="text-center py-20 text-gray-500 dark:text-gray-400 text-lg">
                     No GIFs found
                   </div>
                 )}
               </div>
 
-              <div className="p-3 text-xs text-gray-400 text-center border-t border-gray-200 dark:border-gray-700 flex-shrink-0">
+              {/* Footer */}
+              <div className="p-4 text-sm text-gray-400 text-center border-t border-gray-200 dark:border-gray-700 flex-shrink-0">
                 Powered by GIPHY
               </div>
             </div>
