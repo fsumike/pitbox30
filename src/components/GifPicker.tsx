@@ -114,7 +114,8 @@ function GifPicker({ onGifSelect, buttonClassName = '' }: GifPickerProps) {
           {/* Centered Full Screen Modal - Like Facebook */}
           <div className="fixed inset-0 z-[9999] flex items-center justify-center p-4 sm:p-6">
             <div
-              className="w-full max-w-2xl bg-white dark:bg-gray-900 rounded-2xl shadow-2xl flex flex-col max-h-[90vh] sm:max-h-[85vh] overflow-hidden"
+              className="w-full max-w-2xl bg-white dark:bg-gray-900 rounded-2xl shadow-2xl flex flex-col overflow-hidden"
+              style={{ height: '90vh', maxHeight: '90vh' }}
               onClick={(e) => e.stopPropagation()}
             >
 
