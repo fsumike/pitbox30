@@ -198,7 +198,7 @@ function CreatePostModal({ isOpen, onClose, onSuccess }: CreatePostModalProps) {
         <div className="relative p-6">
           <button
             onClick={onClose}
-            className="absolute top-4 right-4 p-2 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-full"
+            className="absolute top-4 right-4 p-2 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-full text-gray-700 dark:text-gray-300"
           >
             <X className="w-6 h-6" />
           </button>
@@ -369,7 +369,7 @@ function CreatePostModal({ isOpen, onClose, onSuccess }: CreatePostModalProps) {
               <button
                 type="button"
                 onClick={onClose}
-                className="px-6 py-2 rounded-lg bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors"
+                className="px-6 py-2 rounded-lg bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors text-gray-900 dark:text-white font-medium"
               >
                 Cancel
               </button>
