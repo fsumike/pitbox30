@@ -204,26 +204,26 @@ function CreateListingModal({ isOpen, onClose, onSuccess }: CreateListingModalPr
   return (
     <div className="fixed inset-0 z-50 overflow-y-auto">
       <div className="fixed inset-0 bg-black/50 backdrop-blur-sm" onClick={onClose} />
-      
+
       <div className="min-h-screen px-4 text-center">
         <span className="inline-block h-screen align-middle" aria-hidden="true">&#8203;</span>
 
-        <div 
-          className="inline-block w-full max-w-2xl p-6 my-8 text-left align-middle bg-white dark:bg-brand-black-light rounded-2xl shadow-xl transform transition-all relative"
+        <div
+          className="inline-block w-full max-w-2xl p-6 my-8 text-left align-middle bg-gray-800 rounded-2xl shadow-xl transform transition-all relative"
           onClick={e => e.stopPropagation()}
         >
           <button
             onClick={onClose}
-            className="absolute top-4 right-4 p-2 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-full transition-colors text-gray-700 dark:text-gray-300"
+            className="absolute top-4 right-4 p-2 hover:bg-gray-700 rounded-full transition-colors text-gray-300"
             aria-label="Close modal"
           >
             <X className="w-6 h-6" />
           </button>
 
-          <h2 className="text-2xl font-bold mb-6 pr-12 text-gray-900 dark:text-white">Create New Listing</h2>
+          <h2 className="text-2xl font-bold mb-6 pr-12 text-white">Create New Listing</h2>
 
           {error && (
-            <div className="mb-4 p-3 rounded-lg bg-red-100 dark:bg-red-900/30 text-red-700 dark:text-red-300 flex items-center gap-2">
+            <div className="mb-4 p-3 rounded-lg bg-red-900/30 text-red-300 flex items-center gap-2">
               <AlertCircle className="w-5 h-5 flex-shrink-0" />
               {error}
             </div>
@@ -232,7 +232,7 @@ function CreateListingModal({ isOpen, onClose, onSuccess }: CreateListingModalPr
           <form onSubmit={handleSubmit} className="space-y-6">
             {/* Image Upload Section */}
             <div className="space-y-2">
-              <label className="block text-sm font-medium mb-1 text-gray-900 dark:text-white">
+              <label className="block text-sm font-medium mb-1 text-white">
                 Photos (max 4)
               </label>
               <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
@@ -253,13 +253,13 @@ function CreateListingModal({ isOpen, onClose, onSuccess }: CreateListingModalPr
                   </div>
                 ))}
                 {images.length < 4 && (
-                  <label className="aspect-square border-2 border-dashed border-gray-300 dark:border-gray-600 rounded-lg flex flex-col items-center justify-center cursor-pointer hover:border-brand-gold transition-colors">
+                  <label className="aspect-square border-2 border-dashed border-gray-600 rounded-lg flex flex-col items-center justify-center cursor-pointer hover:border-brand-gold transition-colors">
                     {uploading ? (
                       <Loader2 className="w-8 h-8 animate-spin text-brand-gold" />
                     ) : (
                       <>
-                        <Upload className="w-8 h-8 mb-2 text-gray-400 dark:text-gray-500" />
-                        <span className="text-sm text-gray-700 dark:text-gray-400">Upload Photo</span>
+                        <Upload className="w-8 h-8 mb-2 text-gray-400" />
+                        <span className="text-sm text-gray-400">Upload Photo</span>
                       </>
                     )}
                     <input
@@ -276,7 +276,7 @@ function CreateListingModal({ isOpen, onClose, onSuccess }: CreateListingModalPr
 
             {/* Title Input */}
             <div>
-              <label htmlFor="title" className="block text-sm font-medium mb-1 text-gray-900 dark:text-white">
+              <label htmlFor="title" className="block text-sm font-medium mb-1 text-white">
                 Title
               </label>
               <input
@@ -284,7 +284,7 @@ function CreateListingModal({ isOpen, onClose, onSuccess }: CreateListingModalPr
                 id="title"
                 value={title}
                 onChange={(e) => setTitle(e.target.value)}
-                className="w-full p-3 rounded-lg"
+                className="w-full p-3 rounded-lg bg-gray-700 border border-gray-600 text-white placeholder-gray-400"
                 placeholder="What are you selling?"
                 maxLength={100}
                 required
@@ -293,14 +293,14 @@ function CreateListingModal({ isOpen, onClose, onSuccess }: CreateListingModalPr
 
             {/* Category Select */}
             <div>
-              <label htmlFor="category" className="block text-sm font-medium mb-1 text-gray-900 dark:text-white">
+              <label htmlFor="category" className="block text-sm font-medium mb-1 text-white">
                 Category
               </label>
               <select
                 id="category"
                 value={category}
                 onChange={(e) => setCategory(e.target.value)}
-                className="w-full p-3 rounded-lg"
+                className="w-full p-3 rounded-lg bg-gray-700 border border-gray-600 text-white"
                 required
               >
                 <option value="">Select a category</option>
@@ -314,14 +314,14 @@ function CreateListingModal({ isOpen, onClose, onSuccess }: CreateListingModalPr
 
             {/* Vehicle Type Select */}
             <div>
-              <label htmlFor="vehicleType" className="block text-sm font-medium mb-1 text-gray-900 dark:text-white">
+              <label htmlFor="vehicleType" className="block text-sm font-medium mb-1 text-white">
                 Vehicle Type
               </label>
               <select
                 id="vehicleType"
                 value={vehicleType}
                 onChange={(e) => setVehicleType(e.target.value)}
-                className="w-full p-3 rounded-lg"
+                className="w-full p-3 rounded-lg bg-gray-700 border border-gray-600 text-white"
               >
                 <option value="">Select vehicle type (optional)</option>
                 {vehicleTypes.map(vehicle => (
@@ -334,14 +334,14 @@ function CreateListingModal({ isOpen, onClose, onSuccess }: CreateListingModalPr
 
             {/* Condition Select */}
             <div>
-              <label htmlFor="condition" className="block text-sm font-medium mb-1 text-gray-900 dark:text-white">
+              <label htmlFor="condition" className="block text-sm font-medium mb-1 text-white">
                 Condition
               </label>
               <select
                 id="condition"
                 value={condition}
                 onChange={(e) => setCondition(e.target.value as any)}
-                className="w-full p-3 rounded-lg"
+                className="w-full p-3 rounded-lg bg-gray-700 border border-gray-600 text-white"
                 required
               >
                 <option value="new">New</option>
@@ -354,7 +354,7 @@ function CreateListingModal({ isOpen, onClose, onSuccess }: CreateListingModalPr
 
             {/* Price Input */}
             <div>
-              <label htmlFor="price" className="block text-sm font-medium mb-1 text-gray-900 dark:text-white">
+              <label htmlFor="price" className="block text-sm font-medium mb-1 text-white">
                 Price
               </label>
               <div className="relative">
@@ -364,7 +364,7 @@ function CreateListingModal({ isOpen, onClose, onSuccess }: CreateListingModalPr
                   id="price"
                   value={price}
                   onChange={(e) => setPrice(e.target.value)}
-                  className="w-full pl-10 p-3 rounded-lg"
+                  className="w-full pl-10 p-3 rounded-lg bg-gray-700 border border-gray-600 text-white placeholder-gray-400"
                   placeholder="0.00"
                   min="0"
                   step="0.01"
@@ -375,14 +375,14 @@ function CreateListingModal({ isOpen, onClose, onSuccess }: CreateListingModalPr
 
             {/* Description Textarea */}
             <div>
-              <label htmlFor="description" className="block text-sm font-medium mb-1 text-gray-900 dark:text-white">
+              <label htmlFor="description" className="block text-sm font-medium mb-1 text-white">
                 Description
               </label>
               <textarea
                 id="description"
                 value={description}
                 onChange={(e) => setDescription(e.target.value)}
-                className="w-full p-3 rounded-lg"
+                className="w-full p-3 rounded-lg bg-gray-700 border border-gray-600 text-white placeholder-gray-400"
                 rows={4}
                 placeholder="Describe what you're selling..."
                 required
@@ -398,19 +398,19 @@ function CreateListingModal({ isOpen, onClose, onSuccess }: CreateListingModalPr
                   onChange={(e) => setIsNegotiable(e.target.checked)}
                   className="form-checkbox h-5 w-5 text-brand-gold rounded"
                 />
-                <span className="text-sm font-medium text-gray-900 dark:text-white">Price is negotiable</span>
+                <span className="text-sm font-medium text-white">Price is negotiable</span>
               </label>
-              <p className="ml-7 text-xs text-gray-500 dark:text-gray-400 mt-1">
+              <p className="ml-7 text-xs text-gray-400 mt-1">
                 Allow buyers to make offers on your listing
               </p>
             </div>
 
             {/* Contact Information */}
             <div className="space-y-4">
-              <h3 className="text-lg font-semibold text-gray-900 dark:text-white">Contact Information</h3>
+              <h3 className="text-lg font-semibold text-white">Contact Information</h3>
 
               <div>
-                <label htmlFor="contactPhone" className="block text-sm font-medium mb-1 text-gray-900 dark:text-white">
+                <label htmlFor="contactPhone" className="block text-sm font-medium mb-1 text-white">
                   Phone Number
                 </label>
                 <div className="relative">
@@ -420,14 +420,14 @@ function CreateListingModal({ isOpen, onClose, onSuccess }: CreateListingModalPr
                     id="contactPhone"
                     value={contactPhone}
                     onChange={(e) => setContactPhone(e.target.value)}
-                    className="w-full pl-10 p-3 rounded-lg"
+                    className="w-full pl-10 p-3 rounded-lg bg-gray-700 border border-gray-600 text-white placeholder-gray-400"
                     placeholder="Your phone number"
                   />
                 </div>
               </div>
 
               <div>
-                <label htmlFor="contactEmail" className="block text-sm font-medium mb-1 text-gray-900 dark:text-white">
+                <label htmlFor="contactEmail" className="block text-sm font-medium mb-1 text-white">
                   Email
                 </label>
                 <div className="relative">
@@ -437,18 +437,18 @@ function CreateListingModal({ isOpen, onClose, onSuccess }: CreateListingModalPr
                     id="contactEmail"
                     value={contactEmail}
                     onChange={(e) => setContactEmail(e.target.value)}
-                    className="w-full pl-10 p-3 rounded-lg"
+                    className="w-full pl-10 p-3 rounded-lg bg-gray-700 border border-gray-600 text-white placeholder-gray-400"
                     placeholder="Your email address"
                   />
                 </div>
               </div>
 
               <div>
-                <label className="block text-sm font-medium mb-2 text-gray-900 dark:text-white">
+                <label className="block text-sm font-medium mb-2 text-white">
                   Preferred Contact Method
                 </label>
                 <div className="flex gap-4">
-                  <label className="flex items-center text-gray-900 dark:text-white">
+                  <label className="flex items-center text-white">
                     <input
                       type="radio"
                       name="preferredContact"
@@ -459,7 +459,7 @@ function CreateListingModal({ isOpen, onClose, onSuccess }: CreateListingModalPr
                     />
                     Phone
                   </label>
-                  <label className="flex items-center text-gray-900 dark:text-white">
+                  <label className="flex items-center text-white">
                     <input
                       type="radio"
                       name="preferredContact"
@@ -483,18 +483,18 @@ function CreateListingModal({ isOpen, onClose, onSuccess }: CreateListingModalPr
                   onChange={handleLocationToggle}
                   className="form-checkbox h-5 w-5 text-brand-gold rounded"
                 />
-                <span className="text-sm font-medium text-gray-900 dark:text-white">Include my location in this listing</span>
+                <span className="text-sm font-medium text-white">Include my location in this listing</span>
               </label>
 
               {includeLocation && (
-                <div className="ml-7 text-sm text-gray-500 dark:text-gray-400">
+                <div className="ml-7 text-sm text-gray-400">
                   {locationLoading ? (
                     <div className="flex items-center gap-2">
                       <Loader2 className="w-4 h-4 animate-spin" />
                       <span>Getting location...</span>
                     </div>
                   ) : locationError ? (
-                    <div className="flex items-center gap-2 text-red-500">
+                    <div className="flex items-center gap-2 text-red-400">
                       <AlertCircle className="w-4 h-4" />
                       <span>{locationError}</span>
                     </div>
@@ -519,7 +519,7 @@ function CreateListingModal({ isOpen, onClose, onSuccess }: CreateListingModalPr
                 </div>
               )}
 
-              <p className="ml-7 text-xs text-gray-500 dark:text-gray-400">
+              <p className="ml-7 text-xs text-gray-400">
                 {includeLocation
                   ? 'Buyers will see your city and state only - no street address.'
                   : 'Your location will not be shared with buyers.'}
@@ -531,7 +531,7 @@ function CreateListingModal({ isOpen, onClose, onSuccess }: CreateListingModalPr
               <button
                 type="button"
                 onClick={onClose}
-                className="px-6 py-2 rounded-lg bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors text-gray-900 dark:text-white font-medium"
+                className="px-6 py-2 rounded-lg bg-gray-700 hover:bg-gray-600 transition-colors text-white font-medium"
               >
                 Cancel
               </button>

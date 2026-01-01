@@ -191,22 +191,22 @@ function CreatePostModal({ isOpen, onClose, onSuccess }: CreatePostModalProps) {
 
   return (
     <div className="fixed inset-0 z-[1200] flex items-center justify-center p-4 bg-black/50">
-      <div 
-        className="bg-white dark:bg-gray-800 rounded-xl shadow-xl w-full max-w-xl"
+      <div
+        className="bg-gray-800 rounded-xl shadow-xl w-full max-w-xl"
         onClick={e => e.stopPropagation()}
       >
         <div className="relative p-6">
           <button
             onClick={onClose}
-            className="absolute top-4 right-4 p-2 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-full text-gray-700 dark:text-gray-300"
+            className="absolute top-4 right-4 p-2 hover:bg-gray-700 rounded-full text-gray-300"
           >
             <X className="w-6 h-6" />
           </button>
 
-          <h2 className="text-2xl font-bold mb-6">Create Post</h2>
+          <h2 className="text-2xl font-bold mb-6 text-white">Create Post</h2>
 
           {error && (
-            <div className="mb-4 p-3 rounded-lg bg-red-100 dark:bg-red-900/30 text-red-700 dark:text-red-300 flex items-center gap-2">
+            <div className="mb-4 p-3 rounded-lg bg-red-900/30 text-red-300 flex items-center gap-2">
               <AlertCircle className="w-5 h-5 flex-shrink-0" />
               {error}
             </div>
@@ -218,13 +218,13 @@ function CreatePostModal({ isOpen, onClose, onSuccess }: CreatePostModalProps) {
                 value={content}
                 onChange={(e) => setContent(e.target.value)}
                 placeholder="What's on your mind?"
-                className="w-full p-4 rounded-lg resize-none bg-gray-50 dark:bg-gray-700/50 border border-gray-200 dark:border-gray-600"
+                className="w-full p-4 rounded-lg resize-none bg-gray-700/50 border border-gray-600 text-white placeholder-gray-400"
                 rows={4}
               />
               <div className="absolute bottom-2 right-2">
-                <EmojiPicker 
+                <EmojiPicker
                   onEmojiSelect={handleEmojiSelect}
-                  theme={document.documentElement.classList.contains('dark') ? 'dark' : 'light'}
+                  theme="dark"
                 />
               </div>
             </div>
@@ -235,9 +235,9 @@ function CreatePostModal({ isOpen, onClose, onSuccess }: CreatePostModalProps) {
                 type="button"
                 onClick={handleLocationToggle}
                 className={`flex items-center gap-2 px-3 py-1.5 rounded-full text-sm ${
-                  includeLocation 
-                    ? 'bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-300' 
-                    : 'bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300'
+                  includeLocation
+                    ? 'bg-green-900/30 text-green-300'
+                    : 'bg-gray-700 text-gray-300'
                 }`}
               >
                 {includeLocation ? (
@@ -252,16 +252,16 @@ function CreatePostModal({ isOpen, onClose, onSuccess }: CreatePostModalProps) {
                   </>
                 )}
               </button>
-              
+
               {includeLocation && (
-                <div className="text-sm text-gray-500 dark:text-gray-400 flex-1 truncate">
+                <div className="text-sm text-gray-400 flex-1 truncate">
                   {locationLoading ? (
                     <div className="flex items-center gap-2">
                       <Loader2 className="w-4 h-4 animate-spin" />
                       <span>Getting location...</span>
                     </div>
                   ) : locationError ? (
-                    <div className="flex items-center gap-2 text-red-500">
+                    <div className="flex items-center gap-2 text-red-400">
                       <AlertCircle className="w-4 h-4" />
                       <span>{locationError}</span>
                     </div>
@@ -283,7 +283,7 @@ function CreatePostModal({ isOpen, onClose, onSuccess }: CreatePostModalProps) {
             </div>
 
             {media ? (
-              <div className="relative rounded-lg overflow-hidden bg-gray-100 dark:bg-gray-700">
+              <div className="relative rounded-lg overflow-hidden bg-gray-700">
                 {media.type === 'image' ? (
                   <img
                     src={media.url}
@@ -326,14 +326,14 @@ function CreatePostModal({ isOpen, onClose, onSuccess }: CreatePostModalProps) {
                   <button
                     type="button"
                     onClick={() => fileInputRef.current?.click()}
-                    className="w-full p-4 border-2 border-dashed border-gray-300 dark:border-gray-600 rounded-lg hover:border-brand-gold dark:hover:border-brand-gold transition-colors flex flex-col items-center gap-2"
+                    className="w-full p-4 border-2 border-dashed border-gray-600 rounded-lg hover:border-brand-gold transition-colors flex flex-col items-center gap-2"
                   >
                     {uploading ? (
                       <Loader2 className="w-8 h-8 animate-spin text-brand-gold" />
                     ) : (
                       <>
                         <ImageIcon className="w-8 h-8 text-gray-400" />
-                        <span className="text-gray-500">Add Photo</span>
+                        <span className="text-gray-400">Add Photo</span>
                       </>
                     )}
                   </button>
@@ -350,14 +350,14 @@ function CreatePostModal({ isOpen, onClose, onSuccess }: CreatePostModalProps) {
                   <button
                     type="button"
                     onClick={() => videoInputRef.current?.click()}
-                    className="w-full p-4 border-2 border-dashed border-gray-300 dark:border-gray-600 rounded-lg hover:border-brand-gold dark:hover:border-brand-gold transition-colors flex flex-col items-center gap-2"
+                    className="w-full p-4 border-2 border-dashed border-gray-600 rounded-lg hover:border-brand-gold transition-colors flex flex-col items-center gap-2"
                   >
                     {uploading ? (
                       <Loader2 className="w-8 h-8 animate-spin text-brand-gold" />
                     ) : (
                       <>
                         <Film className="w-8 h-8 text-gray-400" />
-                        <span className="text-gray-500">Add Video</span>
+                        <span className="text-gray-400">Add Video</span>
                       </>
                     )}
                   </button>
@@ -369,7 +369,7 @@ function CreatePostModal({ isOpen, onClose, onSuccess }: CreatePostModalProps) {
               <button
                 type="button"
                 onClick={onClose}
-                className="px-6 py-2 rounded-lg bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors text-gray-900 dark:text-white font-medium"
+                className="px-6 py-2 rounded-lg bg-gray-700 hover:bg-gray-600 transition-colors text-white font-medium"
               >
                 Cancel
               </button>

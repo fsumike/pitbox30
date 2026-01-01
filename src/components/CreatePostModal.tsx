@@ -278,8 +278,8 @@ function CreatePostModal({ isOpen, onClose, post, onSuccess }: CreatePostModalPr
 
   return (
     <div className="fixed inset-0 z-[1200] flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm">
-      <motion.div 
-        className="bg-white dark:bg-gray-800 rounded-xl shadow-xl w-full max-w-xl"
+      <motion.div
+        className="bg-gray-800 rounded-xl shadow-xl w-full max-w-xl"
         onClick={e => e.stopPropagation()}
         initial={{ opacity: 0, scale: 0.9 }}
         animate={{ opacity: 1, scale: 1 }}
@@ -289,15 +289,15 @@ function CreatePostModal({ isOpen, onClose, post, onSuccess }: CreatePostModalPr
         <div className="relative p-6">
           <button
             onClick={onClose}
-            className="absolute top-4 right-4 p-2 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-full text-gray-700 dark:text-gray-300"
+            className="absolute top-4 right-4 p-2 hover:bg-gray-700 rounded-full text-gray-300"
           >
             <X className="w-6 h-6" />
           </button>
 
-          <h2 className="text-2xl font-bold mb-6">{isEditing ? 'Edit Post' : 'Create Post'}</h2>
+          <h2 className="text-2xl font-bold mb-6 text-white">{isEditing ? 'Edit Post' : 'Create Post'}</h2>
 
           {error && (
-            <div className="mb-4 p-3 rounded-lg bg-red-100 dark:bg-red-900/30 text-red-700 dark:text-red-300 flex items-center gap-2">
+            <div className="mb-4 p-3 rounded-lg bg-red-900/30 text-red-300 flex items-center gap-2">
               <AlertCircle className="w-5 h-5 flex-shrink-0" />
               {error}
             </div>
@@ -309,13 +309,13 @@ function CreatePostModal({ isOpen, onClose, post, onSuccess }: CreatePostModalPr
                 value={content}
                 onChange={(e) => setContent(e.target.value)}
                 placeholder="What's on your mind?"
-                className="w-full p-4 rounded-lg resize-none bg-gray-50 dark:bg-gray-700/50 border border-gray-200 dark:border-gray-600"
+                className="w-full p-4 rounded-lg resize-none bg-gray-700/50 border border-gray-600 text-white placeholder-gray-400"
                 rows={4}
               />
               <div className="absolute bottom-2 right-2">
-                <EmojiPicker 
+                <EmojiPicker
                   onEmojiSelect={handleEmojiSelect}
-                  theme={document.documentElement.classList.contains('dark') ? 'dark' : 'light'}
+                  theme="dark"
                 />
               </div>
             </div>
@@ -326,35 +326,35 @@ function CreatePostModal({ isOpen, onClose, post, onSuccess }: CreatePostModalPr
                 type="button"
                 onClick={() => setVisibility('public')}
                 className={`flex items-center gap-2 px-3 py-1.5 rounded-full text-sm ${
-                  visibility === 'public' 
-                    ? 'bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-300' 
-                    : 'bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300'
+                  visibility === 'public'
+                    ? 'bg-green-900/30 text-green-300'
+                    : 'bg-gray-700 text-gray-300'
                 }`}
               >
                 <Globe className="w-4 h-4" />
                 <span>Public</span>
               </button>
-              
+
               <button
                 type="button"
                 onClick={() => setVisibility('friends')}
                 className={`flex items-center gap-2 px-3 py-1.5 rounded-full text-sm ${
-                  visibility === 'friends' 
-                    ? 'bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300' 
-                    : 'bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300'
+                  visibility === 'friends'
+                    ? 'bg-blue-900/30 text-blue-300'
+                    : 'bg-gray-700 text-gray-300'
                 }`}
               >
                 <Users className="w-4 h-4" />
                 <span>Friends Only</span>
               </button>
-              
+
               <button
                 type="button"
                 onClick={() => setVisibility('private')}
                 className={`flex items-center gap-2 px-3 py-1.5 rounded-full text-sm ${
-                  visibility === 'private' 
-                    ? 'bg-purple-100 dark:bg-purple-900/30 text-purple-700 dark:text-purple-300' 
-                    : 'bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300'
+                  visibility === 'private'
+                    ? 'bg-gray-600 text-gray-300'
+                    : 'bg-gray-700 text-gray-300'
                 }`}
               >
                 <Lock className="w-4 h-4" />
@@ -368,9 +368,9 @@ function CreatePostModal({ isOpen, onClose, post, onSuccess }: CreatePostModalPr
                 type="button"
                 onClick={handleLocationToggle}
                 className={`flex items-center gap-2 px-3 py-1.5 rounded-full text-sm ${
-                  includeLocation 
-                    ? 'bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-300' 
-                    : 'bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300'
+                  includeLocation
+                    ? 'bg-green-900/30 text-green-300'
+                    : 'bg-gray-700 text-gray-300'
                 }`}
               >
                 {includeLocation ? (
@@ -385,16 +385,16 @@ function CreatePostModal({ isOpen, onClose, post, onSuccess }: CreatePostModalPr
                   </>
                 )}
               </button>
-              
+
               {includeLocation && (
-                <div className="text-sm text-gray-500 dark:text-gray-400 flex-1 truncate">
+                <div className="text-sm text-gray-400 flex-1 truncate">
                   {locationLoading ? (
                     <div className="flex items-center gap-2">
                       <Loader2 className="w-4 h-4 animate-spin" />
                       <span>Getting location...</span>
                     </div>
                   ) : locationError ? (
-                    <div className="flex items-center gap-2 text-red-500">
+                    <div className="flex items-center gap-2 text-red-400">
                       <AlertCircle className="w-4 h-4" />
                       <span>{locationError}</span>
                     </div>
@@ -416,7 +416,7 @@ function CreatePostModal({ isOpen, onClose, post, onSuccess }: CreatePostModalPr
             </div>
 
             {/* Pinned Post Option */}
-            {user && ( // Only show if user is logged in
+            {user && (
               <div className="flex items-center gap-2">
                 <input
                   type="checkbox"
@@ -425,14 +425,14 @@ function CreatePostModal({ isOpen, onClose, post, onSuccess }: CreatePostModalPr
                   onChange={(e) => setIsPinned(e.target.checked)}
                   className="form-checkbox h-5 w-5 text-brand-gold rounded"
                 />
-                <label htmlFor="isPinned" className="text-sm font-medium text-gray-700 dark:text-gray-300">
+                <label htmlFor="isPinned" className="text-sm font-medium text-gray-300">
                   Pin to top of feed (for testing, normally admin only)
                 </label>
               </div>
             )}
 
             {media ? (
-              <div className="relative rounded-lg overflow-hidden bg-gray-100 dark:bg-gray-700">
+              <div className="relative rounded-lg overflow-hidden bg-gray-700">
                 {media.type === 'image' ? (
                   <img
                     src={media.url}
@@ -461,13 +461,13 @@ function CreatePostModal({ isOpen, onClose, post, onSuccess }: CreatePostModalPr
                 >
                   <Trash2 className="w-5 h-5" />
                 </button>
-                
+
                 {/* Upload Progress Bar */}
                 {uploading && (
                   <div className="absolute bottom-0 left-0 right-0 bg-black/50 p-2">
                     <div className="w-full bg-gray-200 rounded-full h-2.5">
-                      <div 
-                        className="bg-brand-gold h-2.5 rounded-full transition-all duration-300" 
+                      <div
+                        className="bg-brand-gold h-2.5 rounded-full transition-all duration-300"
                         style={{ width: `${uploadProgress}%` }}
                       ></div>
                     </div>
@@ -490,14 +490,14 @@ function CreatePostModal({ isOpen, onClose, post, onSuccess }: CreatePostModalPr
                   <button
                     type="button"
                     onClick={() => fileInputRef.current?.click()}
-                    className="w-full p-4 border-2 border-dashed border-gray-300 dark:border-gray-600 rounded-lg hover:border-brand-gold dark:hover:border-brand-gold transition-colors flex flex-col items-center gap-2"
+                    className="w-full p-4 border-2 border-dashed border-gray-600 rounded-lg hover:border-brand-gold transition-colors flex flex-col items-center gap-2"
                   >
                     {uploading ? (
                       <Loader2 className="w-8 h-8 animate-spin text-brand-gold" />
                     ) : (
                       <>
                         <ImageIcon className="w-8 h-8 text-gray-400" />
-                        <span className="text-gray-500">Add Photo</span>
+                        <span className="text-gray-400">Add Photo</span>
                       </>
                     )}
                   </button>
@@ -514,14 +514,14 @@ function CreatePostModal({ isOpen, onClose, post, onSuccess }: CreatePostModalPr
                   <button
                     type="button"
                     onClick={() => videoInputRef.current?.click()}
-                    className="w-full p-4 border-2 border-dashed border-gray-300 dark:border-gray-600 rounded-lg hover:border-brand-gold dark:hover:border-brand-gold transition-colors flex flex-col items-center gap-2"
+                    className="w-full p-4 border-2 border-dashed border-gray-600 rounded-lg hover:border-brand-gold transition-colors flex flex-col items-center gap-2"
                   >
                     {uploading ? (
                       <Loader2 className="w-8 h-8 animate-spin text-brand-gold" />
                     ) : (
                       <>
                         <Film className="w-8 h-8 text-gray-400" />
-                        <span className="text-gray-500">Add Video</span>
+                        <span className="text-gray-400">Add Video</span>
                       </>
                     )}
                   </button>
@@ -533,7 +533,7 @@ function CreatePostModal({ isOpen, onClose, post, onSuccess }: CreatePostModalPr
               <button
                 type="button"
                 onClick={onClose}
-                className="px-6 py-2 rounded-lg bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors text-gray-900 dark:text-white font-medium"
+                className="px-6 py-2 rounded-lg bg-gray-700 hover:bg-gray-600 transition-colors text-white font-medium"
               >
                 Cancel
               </button>
@@ -541,7 +541,7 @@ function CreatePostModal({ isOpen, onClose, post, onSuccess }: CreatePostModalPr
                 type="submit"
                 disabled={posting || uploading || (!content.trim() && !media)}
                 className="px-6 py-2 bg-brand-gold text-white rounded-lg hover:bg-brand-gold-dark transition-colors disabled:opacity-50 flex items-center gap-2"
-              > 
+              >
                 {posting ? (
                   <>
                     <Loader2 className="w-5 h-5 animate-spin" />
@@ -549,7 +549,7 @@ function CreatePostModal({ isOpen, onClose, post, onSuccess }: CreatePostModalPr
                   </>
                 ) : (
                   'Post'
-                )} 
+                )}
               </button>
             </div>
           </form>
