@@ -1057,14 +1057,14 @@ function SwapMeet() {
                   
                   <div className="p-3 sm:p-4">
                     <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-1 sm:gap-2 mb-2">
-                      <h3 className="text-sm sm:text-xl font-bold line-clamp-2 text-white">{listing.title}</h3>
+                      <h3 className="text-sm sm:text-xl font-bold line-clamp-2 text-gray-900 dark:text-white">{listing.title}</h3>
                       <p className="text-base sm:text-xl font-black text-brand-gold flex items-center whitespace-nowrap drop-shadow-[0_0_8px_rgba(234,179,8,0.5)]">
                         <DollarSign className="w-4 h-4 sm:w-5 sm:h-5" />
                         {listing.price.toLocaleString()}
                       </p>
                     </div>
 
-                    <div className="flex items-center gap-2 text-gray-300 mb-2 sm:mb-3">
+                    <div className="flex items-center gap-2 text-gray-700 dark:text-gray-300 mb-2 sm:mb-3">
                       <div className="flex items-center gap-1">
                         <MapPin className="w-3 h-3 sm:w-4 sm:h-4 flex-shrink-0 text-brand-gold" />
                         <span className="text-xs sm:text-sm truncate">{listing.location}</span>
@@ -1076,11 +1076,11 @@ function SwapMeet() {
                       )}
                     </div>
 
-                    <p className="text-xs sm:text-sm text-gray-300 mb-3 sm:mb-4 line-clamp-2 hidden sm:block">
+                    <p className="text-xs sm:text-sm text-gray-700 dark:text-gray-300 mb-3 sm:mb-4 line-clamp-2 hidden sm:block">
                       {listing.description}
                     </p>
 
-                    <div className="flex items-center justify-between text-xs sm:text-sm text-gray-400">
+                    <div className="flex items-center justify-between text-xs sm:text-sm text-gray-600 dark:text-gray-400">
                       <div className="flex items-center gap-1">
                         <Clock className="w-3 h-3 sm:w-4 sm:h-4" />
                         {formatDate(listing.created_at)}
@@ -1133,8 +1133,8 @@ function SwapMeet() {
                   {showDeleteConfirm === listing.id && (
                     <div className="absolute inset-0 bg-black/70 flex items-center justify-center p-4">
                       <div className="bg-gray-100 dark:bg-gray-800 p-4 rounded-lg max-w-xs w-full">
-                        <h4 className="font-bold mb-2">Delete Listing?</h4>
-                        <p className="text-sm text-gray-600 dark:text-gray-400 mb-4">
+                        <h4 className="font-bold mb-2 text-gray-900 dark:text-white">Delete Listing?</h4>
+                        <p className="text-sm text-gray-700 dark:text-gray-400 mb-4">
                           This action cannot be undone.
                         </p>
                         <div className="flex gap-2">
@@ -1143,7 +1143,7 @@ function SwapMeet() {
                               e.stopPropagation();
                               setShowDeleteConfirm(null);
                             }}
-                            className="flex-1 py-2 px-3 bg-gray-200 dark:bg-gray-700 rounded-lg"
+                            className="flex-1 py-2 px-3 bg-gray-200 dark:bg-gray-700 rounded-lg text-gray-900 dark:text-white"
                           >
                             Cancel
                           </button>
