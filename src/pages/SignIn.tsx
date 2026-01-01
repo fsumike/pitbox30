@@ -249,7 +249,7 @@ function SignIn() {
             {!isSignIn && (
               <>
                 <div>
-                  <label htmlFor="username" className="block text-sm font-medium mb-1">
+                  <label htmlFor="username" className="block text-sm font-medium mb-1 text-gray-900 dark:text-white">
                     Username <span className="text-red-500">*</span>
                   </label>
                   <input
@@ -265,7 +265,7 @@ function SignIn() {
                 </div>
 
                 <div>
-                  <label htmlFor="fullName" className="block text-sm font-medium mb-1">
+                  <label htmlFor="fullName" className="block text-sm font-medium mb-1 text-gray-900 dark:text-white">
                     Full Name
                   </label>
                   <input
@@ -280,9 +280,9 @@ function SignIn() {
                 </div>
 
                 <div>
-                  <label htmlFor="promoCode" className="block text-sm font-medium mb-1">
+                  <label htmlFor="promoCode" className="block text-sm font-medium mb-1 text-gray-900 dark:text-white">
                     Promo Code
-                    <span className="ml-1 text-xs text-gray-500">(Optional)</span>
+                    <span className="ml-1 text-xs text-gray-500 dark:text-gray-400">(Optional)</span>
                   </label>
                   <div className="relative">
                     <input
@@ -325,7 +325,7 @@ function SignIn() {
             )}
 
             <div>
-              <label htmlFor="email" className="block text-sm font-medium mb-1">
+              <label htmlFor="email" className="block text-sm font-medium mb-1 text-gray-900 dark:text-white">
                 Email
               </label>
               <div className="relative">
@@ -345,7 +345,7 @@ function SignIn() {
             </div>
 
             <div>
-              <label htmlFor="password" className="block text-sm font-medium mb-1">
+              <label htmlFor="password" className="block text-sm font-medium mb-1 text-gray-900 dark:text-white">
                 Password
               </label>
               <div className="relative">
@@ -364,7 +364,7 @@ function SignIn() {
                 />
               </div>
               {!isSignIn && (
-                <p className="text-xs text-gray-500 mt-1">
+                <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">
                   Password must be at least 6 characters
                 </p>
               )}

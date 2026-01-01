@@ -166,7 +166,7 @@ function TermsOfService() {
             )}
             
             <div className="mb-8">
-              <p className="text-lg mb-4">
+              <p className="text-lg mb-4 text-gray-900 dark:text-gray-100">
                 Please read and accept the following Terms of Service to continue using PIT-BOX.COM.
               </p>
               <div className="flex items-center gap-2 text-amber-600 dark:text-amber-400 mb-4 bg-amber-50 dark:bg-amber-900/20 p-3 rounded-lg">
@@ -177,9 +177,9 @@ function TermsOfService() {
               </div>
             </div>
             
-            <div className="bg-gray-50 dark:bg-gray-800/50 p-6 rounded-lg mb-8 max-h-[400px] overflow-y-auto border border-gray-200 dark:border-gray-700">
+            <div className="bg-gray-50 dark:bg-gray-800/50 p-6 rounded-lg mb-8 max-h-[400px] overflow-y-auto border border-gray-200 dark:border-gray-700 text-gray-900 dark:text-gray-100">
               <h2 className="text-xl font-bold mb-4">PIT-BOX.COM Terms of Service</h2>
-              
+
               <h3 className="text-lg font-semibold mt-6 mb-2">1. Acceptance of Terms</h3>
               <p className="mb-4">
                 By accessing or using PIT-BOX.COM ("the Service"), you agree to be bound by these Terms of Service. If you do not agree to all the terms and conditions, you must not access or use the Service.
@@ -264,13 +264,13 @@ function TermsOfService() {
                   onChange={(e) => setIsChecked(e.target.checked)}
                   className="mt-1"
                 />
-                <label htmlFor="accept-terms" className="text-lg">
+                <label htmlFor="accept-terms" className="text-lg text-gray-900 dark:text-gray-100">
                   I have read, understood, and agree to the Terms of Service. I understand that by using PIT-BOX.COM, I do so at my own risk.
                 </label>
               </div>
               
               <div>
-                <label htmlFor="signature" className="block text-lg font-medium mb-2">
+                <label htmlFor="signature" className="block text-lg font-medium mb-2 text-gray-900 dark:text-white">
                   Electronic Signature (Type your full name)
                 </label>
                 <input
