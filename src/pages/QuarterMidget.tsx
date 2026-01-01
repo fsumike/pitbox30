@@ -112,19 +112,11 @@ function QuarterMidget() {
 
   return (
     <div className="space-y-6">
-      <div className="relative rounded-2xl overflow-hidden">
-        <img
-          src="/495479702_1321020539654208_5408440298677452810_n.jpg"
-          alt="Quarter Midget race car"
-          className="w-full h-64 md:h-80 object-cover"
-        />
-        <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent" />
-        <div className="absolute bottom-0 left-0 right-0 p-6">
-          <h1 className="text-3xl md:text-4xl font-bold text-white mb-2">Quarter Midget Cars</h1>
-          <p className="text-gray-200 text-sm md:text-base max-w-2xl">
-            Designed for young racers ages 5-16, providing a safe introduction to motorsports.
-          </p>
-        </div>
+      <div className="relative rounded-2xl overflow-hidden bg-gradient-to-br from-cyan-600 via-cyan-700 to-blue-800 p-8">
+        <h1 className="text-3xl md:text-4xl font-bold text-white mb-2">Quarter Midget Cars</h1>
+        <p className="text-gray-100 text-sm md:text-base max-w-2xl">
+          Designed for young racers ages 5-16, providing a safe introduction to motorsports.
+        </p>
       </div>
 
       <div className="glass-panel p-6 bg-gradient-to-br from-cyan-500/10 to-blue-500/10 dark:from-cyan-500/20 dark:to-blue-500/20">

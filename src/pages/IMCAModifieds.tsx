@@ -152,19 +152,11 @@ function IMCAModifieds() {
 
   return (
     <div className="space-y-6">
-      <div className="relative rounded-2xl overflow-hidden">
-        <img
-          src="/69298c4cd988988b07f26b2b_jja_6613-min.jpg"
-          alt="IMCA Modified race car"
-          className="w-full h-64 md:h-80 object-cover"
-        />
-        <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent" />
-        <div className="absolute bottom-0 left-0 right-0 p-6">
-          <h1 className="text-3xl md:text-4xl font-bold text-white mb-2">IMCA Modifieds</h1>
-          <p className="text-gray-200 text-sm md:text-base max-w-2xl">
-            One of the most widespread and competitive dirt track racing classes in North America.
-          </p>
-        </div>
+      <div className="relative rounded-2xl overflow-hidden bg-gradient-to-br from-blue-600 via-blue-700 to-sky-800 p-8">
+        <h1 className="text-3xl md:text-4xl font-bold text-white mb-2">IMCA Modifieds</h1>
+        <p className="text-gray-100 text-sm md:text-base max-w-2xl">
+          One of the most widespread and competitive dirt track racing classes in North America.
+        </p>
       </div>
 
       <div className="glass-panel p-6 bg-gradient-to-br from-blue-500/10 to-sky-500/10 dark:from-blue-500/20 dark:to-sky-500/20">
