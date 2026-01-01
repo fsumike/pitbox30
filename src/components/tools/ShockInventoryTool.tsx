@@ -588,10 +588,10 @@ export default function ShockInventoryTool() {
               alt={`Dyno sheet for ${selectedShock.serial_number}`}
               className="w-full h-auto rounded-lg"
             />
-            <div className="mt-4 text-center text-white">
-              <h3 className="text-xl font-bold">Shock: {selectedShock.serial_number}</h3>
+            <div className="mt-4 text-center">
+              <h3 className="text-xl font-bold text-gray-900 dark:text-white">Shock: {selectedShock.serial_number}</h3>
               {selectedShock.last_refurbished && (
-                <p className="text-gray-400 mt-1">
+                <p className="text-gray-700 dark:text-gray-400 mt-1">
                   Last Refurbished:{' '}
                   {new Date(selectedShock.last_refurbished).toLocaleDateString()}
                 </p>
