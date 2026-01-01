@@ -116,9 +116,10 @@ function GifPicker({ onGifSelect, buttonClassName = '' }: GifPickerProps) {
                 <h3 className="font-semibold text-lg">Choose a GIF</h3>
                 <button
                   onClick={() => setShowPicker(false)}
-                  className="p-2 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-full"
+                  className="p-2 hover:bg-gray-200 dark:hover:bg-gray-700 rounded-full transition-colors"
+                  aria-label="Close GIF picker"
                 >
-                  <X className="w-5 h-5" />
+                  <X className="w-5 h-5 text-gray-700 dark:text-gray-300" />
                 </button>
               </div>
               <div className="relative">
@@ -174,9 +175,10 @@ function GifPicker({ onGifSelect, buttonClassName = '' }: GifPickerProps) {
                 <h3 className="font-semibold">Choose a GIF</h3>
                 <button
                   onClick={() => setShowPicker(false)}
-                  className="p-1 hover:bg-gray-100 dark:hover:bg-gray-700 rounded"
+                  className="p-1 hover:bg-gray-200 dark:hover:bg-gray-700 rounded transition-colors"
+                  aria-label="Close GIF picker"
                 >
-                  <X className="w-4 h-4" />
+                  <X className="w-4 h-4 text-gray-700 dark:text-gray-300" />
                 </button>
               </div>
               <div className="relative">
