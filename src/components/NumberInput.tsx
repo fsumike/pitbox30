@@ -197,7 +197,7 @@ const NumberInput: React.FC<NumberInputProps> = ({
             type="text"
             value={displayValue}
             readOnly
-            className="w-full px-4 py-3 text-right text-2xl font-mono bg-white dark:bg-gray-800 rounded-lg mb-4 shadow-inner"
+            className="w-full px-4 py-3 text-right text-2xl font-mono bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 rounded-lg mb-4 shadow-inner"
           />
 
           <div className="grid grid-cols-5 gap-2">
@@ -207,7 +207,7 @@ const NumberInput: React.FC<NumberInputProps> = ({
                 <button
                   key={num}
                   onClick={() => handleNumberClick(num.toString())}
-                  className="p-4 text-xl font-medium bg-white dark:bg-gray-800 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors shadow-sm"
+                  className="p-4 text-xl font-medium bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors shadow-sm"
                 >
                   {num}
                 </button>
@@ -220,31 +220,31 @@ const NumberInput: React.FC<NumberInputProps> = ({
               </button>
               <button
                 onClick={() => handleNumberClick('0')}
-                className="p-4 text-xl font-medium bg-white dark:bg-gray-800 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors shadow-sm"
+                className="p-4 text-xl font-medium bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors shadow-sm"
               >
                 0
               </button>
               <button
                 onClick={handleDecimalPoint}
-                className="p-4 text-xl font-medium bg-white dark:bg-gray-800 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors shadow-sm"
+                className="p-4 text-xl font-medium bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors shadow-sm"
               >
                 .
               </button>
               <button
                 onClick={handleSpace}
-                className="p-3 text-sm font-medium bg-gray-100 dark:bg-gray-700 rounded-lg hover:bg-gray-200 dark:hover:bg-gray-600 shadow-sm"
+                className="p-3 text-sm font-medium bg-gray-100 dark:bg-gray-700 text-gray-900 dark:text-gray-100 rounded-lg hover:bg-gray-200 dark:hover:bg-gray-600 shadow-sm"
               >
                 Space
               </button>
               <button
                 onClick={handleSlash}
-                className="p-3 text-xl font-medium bg-white dark:bg-gray-800 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors shadow-sm"
+                className="p-3 text-xl font-medium bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors shadow-sm"
               >
                 /
               </button>
               <button
                 onClick={handleBackspace}
-                className="p-3 text-sm font-medium bg-gray-100 dark:bg-gray-700 rounded-lg hover:bg-gray-200 dark:hover:bg-gray-600 shadow-sm"
+                className="p-3 text-sm font-medium bg-gray-100 dark:bg-gray-700 text-gray-900 dark:text-gray-100 rounded-lg hover:bg-gray-200 dark:hover:bg-gray-600 shadow-sm"
               >
                 Back
               </button>
@@ -277,7 +277,7 @@ const NumberInput: React.FC<NumberInputProps> = ({
           <div className="grid grid-cols-3 gap-2 mt-4">
             <button
               onClick={handleCancel}
-              className="p-4 text-base font-medium bg-gray-100 dark:bg-gray-700 rounded-lg hover:bg-gray-200 dark:hover:bg-gray-600 shadow-sm"
+              className="p-4 text-base font-medium bg-gray-100 dark:bg-gray-700 text-gray-900 dark:text-gray-100 rounded-lg hover:bg-gray-200 dark:hover:bg-gray-600 shadow-sm"
             >
               Cancel
             </button>
