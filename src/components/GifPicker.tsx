@@ -109,14 +109,18 @@ function GifPicker({ onGifSelect, buttonClassName = '' }: GifPickerProps) {
       {showPicker && (
         <>
           {/* Mobile: Full Screen Modal */}
-          <div className="fixed inset-0 z-50 bg-black/50 backdrop-blur-sm lg:hidden" onClick={() => setShowPicker(false)} />
-          <div className="fixed inset-x-0 bottom-0 z-50 bg-white dark:bg-gray-800 rounded-t-2xl shadow-xl lg:hidden max-h-[80vh] flex flex-col">
+          <div className="fixed inset-0 z-50 bg-black/50 backdrop-blur-sm md:hidden" onClick={() => setShowPicker(false)} />
+          <div className="fixed inset-x-0 bottom-0 z-50 bg-white dark:bg-gray-800 rounded-t-2xl shadow-xl md:hidden max-h-[80vh] flex flex-col">
             <div className="p-4 border-b border-gray-200 dark:border-gray-700 flex-shrink-0">
               <div className="flex items-center justify-between mb-3">
                 <h3 className="font-semibold text-lg">Choose a GIF</h3>
                 <button
-                  onClick={() => setShowPicker(false)}
-                  className="p-2 hover:bg-gray-200 dark:hover:bg-gray-700 rounded-full transition-colors"
+                  type="button"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    setShowPicker(false);
+                  }}
+                  className="p-2 hover:bg-gray-200 dark:hover:bg-gray-700 rounded-full transition-colors z-10"
                   aria-label="Close GIF picker"
                 >
                   <X className="w-5 h-5 text-gray-700 dark:text-gray-300" />
@@ -169,16 +173,20 @@ function GifPicker({ onGifSelect, buttonClassName = '' }: GifPickerProps) {
           </div>
 
           {/* Desktop & Tablet: Dropdown */}
-          <div className="hidden lg:block absolute bottom-full left-1/2 -translate-x-1/2 mb-2 z-50 w-80 bg-white dark:bg-gray-800 rounded-lg shadow-xl border border-gray-200 dark:border-gray-700">
+          <div className="hidden md:block absolute bottom-full left-1/2 -translate-x-1/2 mb-2 z-50 w-80 md:w-96 bg-white dark:bg-gray-800 rounded-lg shadow-xl border border-gray-200 dark:border-gray-700">
             <div className="p-3 border-b border-gray-200 dark:border-gray-700">
               <div className="flex items-center justify-between mb-2">
                 <h3 className="font-semibold">Choose a GIF</h3>
                 <button
-                  onClick={() => setShowPicker(false)}
-                  className="p-1 hover:bg-gray-200 dark:hover:bg-gray-700 rounded transition-colors"
+                  type="button"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    setShowPicker(false);
+                  }}
+                  className="p-1.5 hover:bg-gray-200 dark:hover:bg-gray-700 rounded-full transition-colors z-10"
                   aria-label="Close GIF picker"
                 >
-                  <X className="w-4 h-4 text-gray-700 dark:text-gray-300" />
+                  <X className="w-5 h-5 text-gray-700 dark:text-gray-300" />
                 </button>
               </div>
               <div className="relative">

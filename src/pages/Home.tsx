@@ -86,8 +86,8 @@ function Home() {
         </div>
         <div className="relative px-4 py-8 sm:px-8 sm:py-16 md:px-12 md:py-20">
           <div className="mx-auto max-w-6xl">
-            <div className="flex flex-col lg:flex-row items-center justify-center gap-6 lg:gap-12">
-              <div className="flex-shrink-0 order-2 lg:order-2 -mt-2 sm:-mt-4 lg:-mt-8 lg:mr-8">
+            <div className="flex flex-col md:flex-row items-center justify-center gap-6 md:gap-10 lg:gap-12">
+              <div className="flex-shrink-0 order-2 md:order-2 -mt-2 sm:-mt-4 md:-mt-6 lg:-mt-8 md:mr-6 lg:mr-8">
                 <img
                   src="/android-icon-512-512.png"
                   alt="PIT-BOX.COM Logo"
@@ -96,17 +96,17 @@ function Home() {
                   className="w-56 h-56 sm:w-64 sm:h-64 md:w-72 md:h-72 lg:w-80 lg:h-80 object-contain drop-shadow-2xl transform hover:scale-105 transition-transform duration-300"
                 />
               </div>
-              <div className="text-center lg:text-left flex-1 order-1 lg:order-1 max-w-2xl">
+              <div className="text-center md:text-left flex-1 order-1 md:order-1 max-w-2xl">
                 <p className="text-amber-400 dark:text-amber-400 font-black text-2xl sm:text-3xl md:text-4xl lg:text-5xl mb-3 tracking-wider uppercase animate-gold-glow leading-tight">
                   Setup Management Tool
                 </p>
-                <h1 className="text-3xl font-bold tracking-tight text-white sm:text-4xl md:text-5xl lg:text-5xl mb-4 leading-tight">
+                <h1 className="text-3xl font-bold tracking-tight text-white sm:text-4xl md:text-5xl mb-4 leading-tight">
                   Save and Track Every Racing Setup
                 </h1>
                 <p className="text-base sm:text-lg leading-relaxed text-gray-300 mb-6">
                   Store, compare, and track all your racing setups in one place. Never lose a winning setup again.
                 </p>
-                <div className="flex flex-col sm:flex-row gap-3 justify-center lg:justify-start">
+                <div className="flex flex-col sm:flex-row gap-3 justify-center md:justify-start">
                   {!user && (
                     <button
                       onClick={() => navigate('/signin')}
@@ -546,7 +546,7 @@ function Home() {
       <SocialPromoBanner variant="inline" dismissible={true} />
 
       {/* Extra spacing for mobile to prevent overlap */}
-      <div className="h-16 md:h-0"></div>
+      <div className="h-20 sm:h-16 md:h-0"></div>
 
       {/* Sign In Prompt Modal */}
       <SignInPrompt 
