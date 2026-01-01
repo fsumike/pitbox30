@@ -57,7 +57,7 @@ function Contact() {
             <h1 className="text-4xl font-bold mb-6 bg-gradient-to-r from-brand-gold to-brand-gold-light bg-clip-text text-transparent">
               We're Here For You
             </h1>
-            <p className="text-xl text-gray-700 dark:text-gray-300 leading-relaxed">
+            <p className="text-xl leading-relaxed">
               At PIT-BOX.COM, our commitment to your success extends far beyond the track.
               We're dedicated to providing an exceptional experience that helps you achieve
               your racing goals.
@@ -81,7 +81,7 @@ function Contact() {
         <div className="text-center mb-8 relative z-10">
           <Shield className="w-12 h-12 text-brand-gold mx-auto mb-4" />
           <h2 className="text-2xl font-bold mb-4">Legal & Privacy</h2>
-          <p className="text-gray-600 dark:text-gray-400 mb-6">
+          <p className="mb-6">
             Your privacy and security are our top priorities
           </p>
         </div>
@@ -92,7 +92,7 @@ function Contact() {
           >
             <FileText className="w-8 h-8 text-brand-gold mx-auto mb-2" />
             <h3 className="font-semibold mb-2">Privacy Policy</h3>
-            <p className="text-sm text-gray-600 dark:text-gray-400">
+            <p className="text-sm">
               How we protect your data
             </p>
           </Link>
@@ -102,7 +102,7 @@ function Contact() {
           >
             <FileText className="w-8 h-8 text-brand-gold mx-auto mb-2" />
             <h3 className="font-semibold mb-2">Terms of Service</h3>
-            <p className="text-sm text-gray-600 dark:text-gray-400">
+            <p className="text-sm">
               User agreement & rules
             </p>
           </Link>
@@ -115,7 +115,7 @@ function Contact() {
           >
             <Lock className="w-8 h-8 text-brand-gold mx-auto mb-2" />
             <h3 className="font-semibold mb-2">Delete My Data</h3>
-            <p className="text-sm text-gray-600 dark:text-gray-400">
+            <p className="text-sm">
               Request account deletion
             </p>
           </button>
@@ -129,7 +129,7 @@ function Contact() {
               <h3 className="font-semibold text-blue-900 dark:text-blue-100 mb-2">
                 Your Data is Secure
               </h3>
-              <p className="text-sm text-blue-800 dark:text-blue-200">
+              <p className="text-sm text-blue-800 dark:text-blue-200 leading-relaxed">
                 All data is encrypted in transit (HTTPS/TLS) and at rest (AES-256).
                 We use industry-standard security measures and never sell your data to third parties.
               </p>
@@ -144,7 +144,7 @@ function Contact() {
         <div className="max-w-2xl mx-auto text-center relative z-10">
           <MessageSquare className="w-12 h-12 text-brand-gold mx-auto mb-6" />
           <h2 className="text-2xl font-bold mb-4">Get in Touch</h2>
-          <p className="text-gray-600 dark:text-gray-400 mb-8">
+          <p className="mb-8">
             We typically respond within 2-3 business days
           </p>
 
@@ -256,7 +256,7 @@ function Contact() {
         <div className="text-center mb-8 relative z-10">
           <MessageSquare className="w-12 h-12 text-brand-gold mx-auto mb-4" />
           <h2 className="text-2xl font-bold mb-4">Frequently Asked Questions</h2>
-          <p className="text-gray-600 dark:text-gray-400">
+          <p>
             Find quick answers to common questions
           </p>
         </div>
@@ -308,7 +308,7 @@ function Contact() {
                 />
               </button>
               {expandedFaq === index && (
-                <p className="mt-3 text-gray-600 dark:text-gray-400 text-sm">
+                <p className="mt-3 text-sm leading-relaxed">
                   {faq.a}
                 </p>
               )}
@@ -320,7 +320,7 @@ function Contact() {
       {/* Contact Info */}
       <div className="liquid-glass p-8">
         <div className="text-center mb-8 relative z-10">
-          <h2 className="text-2xl font-bold mb-4">Contact Information</h2>
+          <h2 className="text-2xl font-bold mb-4 text-gray-900 dark:text-white">Contact Information</h2>
         </div>
         <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 max-w-5xl mx-auto relative z-10">
           <div className="liquid-glass-card text-center">
@@ -328,7 +328,7 @@ function Contact() {
               <Mail className="w-6 h-6 text-brand-gold" />
             </div>
             <h3 className="text-lg font-semibold mb-2">Email</h3>
-            <a href="mailto:pitboxcom@gmail.com" className="text-gray-600 dark:text-gray-400 hover:text-brand-gold">
+            <a href="mailto:pitboxcom@gmail.com" className="hover:text-brand-gold transition-colors">
               pitboxcom@gmail.com
             </a>
           </div>
@@ -338,7 +338,7 @@ function Contact() {
               <Phone className="w-6 h-6 text-brand-gold" />
             </div>
             <h3 className="text-lg font-semibold mb-2">Phone</h3>
-            <a href="tel:+12792450737" className="text-gray-600 dark:text-gray-400 hover:text-brand-gold">
+            <a href="tel:+12792450737" className="hover:text-brand-gold transition-colors">
               (279) 245-0737
             </a>
           </div>
@@ -348,7 +348,7 @@ function Contact() {
               <MapPin className="w-6 h-6 text-brand-gold" />
             </div>
             <h3 className="text-lg font-semibold mb-2">Address</h3>
-            <p className="text-gray-600 dark:text-gray-400">
+            <p>
               8 Densmore Way<br />
               Folsom, CA 95630<br />
               United States
@@ -360,7 +360,7 @@ function Contact() {
               <Clock className="w-6 h-6 text-brand-gold" />
             </div>
             <h3 className="text-lg font-semibold mb-2">Support Hours</h3>
-            <p className="text-gray-600 dark:text-gray-400">
+            <p>
               Monday - Friday<br />
               9AM - 5PM PST
             </p>
@@ -374,7 +374,7 @@ function Contact() {
         <div className="relative z-10">
           <Globe className="w-12 h-12 text-brand-gold mx-auto mb-4" />
           <h2 className="text-2xl font-bold mb-4">Follow Us</h2>
-          <p className="text-gray-600 dark:text-gray-400 mb-6">
+          <p className="mb-6">
             Stay connected with the PIT-BOX community
           </p>
           <div className="flex justify-center gap-4 flex-wrap">
@@ -427,7 +427,7 @@ function Contact() {
         <div className="liquid-glass-card text-center transform hover:scale-105 transition-all duration-300">
           <Trophy className="w-8 h-8 text-brand-gold mx-auto mb-2" />
           <div className="text-lg font-semibold">Racing Excellence</div>
-          <p className="text-sm text-gray-600 dark:text-gray-400 mt-2">
+          <p className="text-sm mt-2">
             Professional-grade setup tools for peak performance
           </p>
         </div>
@@ -435,7 +435,7 @@ function Contact() {
         <div className="liquid-glass-card text-center transform hover:scale-105 transition-all duration-300">
           <Users className="w-8 h-8 text-brand-gold mx-auto mb-2" />
           <div className="text-lg font-semibold">Community</div>
-          <p className="text-sm text-gray-600 dark:text-gray-400 mt-2">
+          <p className="text-sm mt-2">
             Connect with fellow racers and share experiences
           </p>
         </div>
@@ -443,7 +443,7 @@ function Contact() {
         <div className="liquid-glass-card text-center transform hover:scale-105 transition-all duration-300">
           <Globe className="w-8 h-8 text-brand-gold mx-auto mb-2" />
           <div className="text-lg font-semibold">Global Access</div>
-          <p className="text-sm text-gray-600 dark:text-gray-400 mt-2">
+          <p className="text-sm mt-2">
             Access your setups from anywhere, anytime
           </p>
         </div>
@@ -451,7 +451,7 @@ function Contact() {
         <div className="liquid-glass-card text-center transform hover:scale-105 transition-all duration-300">
           <Award className="w-8 h-8 text-brand-gold mx-auto mb-2" />
           <div className="text-lg font-semibold">Expert Support</div>
-          <p className="text-sm text-gray-600 dark:text-gray-400 mt-2">
+          <p className="text-sm mt-2">
             Dedicated team to help you achieve victory
           </p>
         </div>
@@ -465,7 +465,7 @@ function Contact() {
           <h2 className="text-3xl font-bold mb-6 bg-gradient-to-r from-brand-gold to-brand-gold-light bg-clip-text text-transparent">
             With Gratitude
           </h2>
-          <p className="text-lg text-gray-700 dark:text-gray-300 leading-relaxed">
+          <p className="text-lg leading-relaxed">
             Thank you for being part of the PIT-BOX.COM community. Together, we're changing the future of racing.
           </p>
         </div>
