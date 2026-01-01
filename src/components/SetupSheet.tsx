@@ -978,9 +978,15 @@ function SetupSheet({
             <div className="flex items-start gap-3">
               <AlertCircle className="w-6 h-6 text-red-500 flex-shrink-0 mt-1" />
               <div>
-                <h3 className="text-xl font-bold mb-2">Confirm Reset</h3>
-                <p className="text-gray-600 dark:text-gray-300">
+                <h3 className="text-xl font-bold mb-2 text-gray-900 dark:text-white">Confirm Reset</h3>
+                <p className="text-gray-600 dark:text-gray-300 mb-3">
                   Are you sure you want to restore default settings? This will clear all your current setup data and cannot be undone.
+                </p>
+                <p className="text-gray-900 dark:text-white font-semibold mb-2">
+                  Warning: All added custom fields will be permanently deleted.
+                </p>
+                <p className="text-sm text-gray-600 dark:text-gray-400">
+                  Tip: You can delete individual custom fields using the red X button next to each field instead of resetting everything.
                 </p>
               </div>
             </div>
