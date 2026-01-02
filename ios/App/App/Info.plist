@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CFBundleDevelopmentRegion</key>
+	<string>en</string>
+	<key>CFBundleDisplayName</key>
+	<string>Pit-Box</string>
+	<key>CFBundleExecutable</key>
+	<string>$(EXECUTABLE_NAME)</string>
+	<key>CFBundleIdentifier</key>
+	<string>$(PRODUCT_BUNDLE_IDENTIFIER)</string>
+	<key>CFBundleInfoDictionaryVersion</key>
+	<string>6.0</string>
+	<key>CFBundleName</key>
+	<string>$(PRODUCT_NAME)</string>
+	<key>CFBundlePackageType</key>
+	<string>APPL</string>
+	<key>CFBundleShortVersionString</key>
+	<string>1.0</string>
+	<key>CFBundleVersion</key>
+	<string>1</string>
+	<key>LSRequiresIPhoneOS</key>
+	<true/>
+	<key>UILaunchStoryboardName</key>
+	<string>LaunchScreen</string>
+	<key>UIRequiredDeviceCapabilities</key>
+	<array>
+		<string>armv7</string>
+	</array>
+	<key>UISupportedInterfaceOrientations</key>
+	<array>
+		<string>UIInterfaceOrientationPortrait</string>
+		<string>UIInterfaceOrientationLandscapeLeft</string>
+		<string>UIInterfaceOrientationLandscapeRight</string>
+	</array>
+	<key>UISupportedInterfaceOrientations~ipad</key>
+	<array>
+		<string>UIInterfaceOrientationPortrait</string>
+		<string>UIInterfaceOrientationPortraitUpsideDown</string>
+		<string>UIInterfaceOrientationLandscapeLeft</string>
+		<string>UIInterfaceOrientationLandscapeRight</string>
+	</array>
+	
+	<!-- PHOTO & CAMERA PERMISSIONS -->
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>Pit-Box needs access to your photo library to select and attach images to your racing sessions, parts listings, and garage documentation.</string>
+	
+	<key>NSPhotoLibraryAddUsageDescription</key>
+	<string>Pit-Box saves photos and videos from your racing sessions, lap times, and telemetry data to your photo library.</string>
+	
+	<key>NSCameraUsageDescription</key>
+	<string>Pit-Box uses your camera to capture photos and videos of your racing sessions, track conditions, parts for sale, and vehicle setup.</string>
+	
+	<!-- LOCATION PERMISSIONS -->
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>Pit-Box uses your location to show nearby tracks, racing events, parts for sale in the Swap Meet, and to automatically log track locations during sessions. Your location is only used when the app is active.</string>
+	
+	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
+	<string>Pit-Box uses your location to track your racing sessions, record lap times with GPS data, and provide accurate telemetry even when the app is in the background during track days.</string>
+	
+	<!-- MOTION & FITNESS -->
+	<key>NSMotionUsageDescription</key>
+	<string>Pit-Box uses motion sensors to track G-forces, acceleration, braking intensity, cornering speed, and analyze your driving performance during racing sessions.</string>
+	
+	<!-- MICROPHONE -->
+	<key>NSMicrophoneUsageDescription</key>
+	<string>Pit-Box uses your microphone to record audio notes during racing sessions, capture video with sound, and enable voice commands while driving.</string>
+	
+	<!-- BLUETOOTH -->
+	<key>NSBluetoothAlwaysUsageDescription</key>
+	<string>Pit-Box connects to Bluetooth racing equipment including OBD-II scanners, telemetry devices, tire pressure sensors, and lap timing systems.</string>
+	
+	<key>NSBluetoothPeripheralUsageDescription</key>
+	<string>Pit-Box connects to Bluetooth devices to receive real-time telemetry data from your vehicle and racing equipment.</string>
+	
+	<!-- CALENDAR & REMINDERS -->
+	<key>NSCalendarsUsageDescription</key>
+	<string>Pit-Box can add your race events, track days, and maintenance schedules to your calendar so you never miss an important date.</string>
+	
+	<key>NSRemindersUsageDescription</key>
+	<string>Pit-Box creates reminders for upcoming races, vehicle maintenance, tire changes, and important racing deadlines.</string>
+	
+	<!-- CONTACTS -->
+	<key>NSContactsUsageDescription</key>
+	<string>Pit-Box can access your contacts to help you share racing data, lap times, and marketplace listings with friends and racing teammates.</string>
+	
+	<!-- SPEECH RECOGNITION -->
+	<key>NSSpeechRecognitionUsageDescription</key>
+	<string>Pit-Box uses speech recognition to enable hands-free voice commands while driving, allowing you to log notes and control features safely.</string>
+	
+	<!-- LOCAL NETWORK -->
+	<key>NSLocalNetworkUsageDescription</key>
+	<string>Pit-Box connects to racing equipment and telemetry devices on your local network to receive live data during track sessions.</string>
+	
+	<!-- MEDIA LIBRARY (MUSIC) -->
+	<key>NSAppleMusicUsageDescription</key>
+	<string>Pit-Box can access your music library to play your favorite tracks during racing sessions and track days.</string>
+	
+	<key>kTCCServiceMediaLibrary</key>
+	<string>Pit-Box can access your media library to play music during your racing sessions.</string>
+	
+	<!-- FACE ID / TOUCH ID -->
+	<key>NSFaceIDUsageDescription</key>
+	<string>Pit-Box uses Face ID to securely protect your racing data, session history, and personal information.</string>
+	
+	<!-- SIRI -->
+	<key>NSSiriUsageDescription</key>
+	<string>Pit-Box integrates with Siri to let you check lap times, upcoming events, and racing stats using voice commands.</string>
+	
+	<!-- HEALTH (for fitness tracking during racing) -->
+	<key>NSHealthShareUsageDescription</key>
+	<string>Pit-Box can access your heart rate and fitness data to track your physical condition during intense racing sessions.</string>
+	
+	<key>NSHealthUpdateUsageDescription</key>
+	<string>Pit-Box can save workout data from your racing sessions to your Health app.</string>
+	
+	<!-- FILE ACCESS -->
+	<key>NSDocumentsFolderUsageDescription</key>
+	<string>Pit-Box needs access to save and load racing session data, telemetry files, and setup sheets.</string>
+	
+	<key>NSDownloadsFolderUsageDescription</key>
+	<string>Pit-Box can save exported telemetry data, lap time reports, and session summaries to your Downloads folder.</string>
+	
+	<!-- NETWORK (for API calls) -->
+	<key>NSAppTransportSecurity</key>
+	<dict>
+		<key>NSAllowsArbitraryLoads</key>
+		<true/>
+	</dict>
+	
+	<!-- USER TRACKING (if you add analytics later) -->
+	<key>NSUserTrackingUsageDescription</key>
+	<string>Pit-Box uses tracking to provide personalized racing insights and improve your experience with relevant content.</string>
+	
+	<!-- CAPACITOR SETTINGS -->
+	<key>UIViewControllerBasedStatusBarAppearance</key>
+	<true/>
+	<key>UIStatusBarStyle</key>
+	<string>UIStatusBarStyleDefault</string>
+</dict>
+</plist>
