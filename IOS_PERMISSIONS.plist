@@ -21,20 +21,18 @@
 
     <key>NSPhotoLibraryUsageDescription</key>
     <string>Pit-Box needs access to your photo library to allow you to upload profile pictures, share race-day images, and save setup sheets.</string>
+    
     <key>NSPhotoLibraryAddUsageDescription</key>
     <string>Pit-Box needs permission to save racing photos and data sheets directly to your device gallery.</string>
 
     <key>NSLocationWhenInUseUsageDescription</key>
     <string>Pit-Box uses your location to provide local track weather data and help you find racing events nearby.</string>
-    <key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
-    <string>Pit-Box uses your location to provide local track weather data and help you find racing events nearby.</string>
 
     <key>NSCameraUsageDescription</key>
     <string>Pit-Box needs camera access to take photos of your vehicle, dyno sheets, and track conditions.</string>
+
     <key>NSMicrophoneUsageDescription</key>
     <string>Pit-Box uses the microphone if you choose to record voice notes about your race setups.</string>
-    <key>NSBluetoothAlwaysUsageDescription</key>
-    <string>Pit-Box uses Bluetooth to connect to racing sensors and track data equipment.</string>
 
     <key>LSRequiresIPhoneOS</key>
     <true/>
@@ -45,6 +43,12 @@
     <key>UIRequiredDeviceCapabilities</key>
     <array>
         <string>armv7</string>
+    </array>
+    <key>UISupportedInterfaceOrientations</key>
+    <array>
+        <string>UIInterfaceOrientationPortrait</string>
+        <string>UIInterfaceOrientationLandscapeLeft</string>
+        <string>UIInterfaceOrientationLandscapeRight</string>
     </array>
     <key>UIViewControllerBasedStatusBarAppearance</key>
     <true/>
