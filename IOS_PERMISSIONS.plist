@@ -9,7 +9,7 @@
 	<key>CFBundleExecutable</key>
 	<string>$(EXECUTABLE_NAME)</string>
 	<key>CFBundleIdentifier</key>
-	<string>YOUR_BUNDLE_IDENTIFIER</string>
+	<string>com.pitbox.app</string>
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
 	<key>CFBundleName</key>
@@ -19,7 +19,7 @@
 	<key>CFBundleShortVersionString</key>
 	<string>1.0</string>
 	<key>CFBundleVersion</key>
-	<string>1</string>
+	<string>2</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>UILaunchStoryboardName</key>
@@ -36,7 +36,6 @@
 		<string>UIInterfaceOrientationLandscapeLeft</string>
 		<string>UIInterfaceOrientationLandscapeRight</string>
 	</array>
-
 	<!-- PRIVACY USAGE DESCRIPTIONS REQUIRED BY APP STORE -->
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>Pit-Box needs access to your photo library so you can select and attach images to your racing sessions.</string>
@@ -44,7 +43,6 @@
 	<string>Pit-Box needs permission to save images and videos from your racing sessions to your photo library.</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string>Pit-Box uses your location while the app is in use to show track-related information and improve your session data.</string>
-
 	<!-- CAPACITOR / WEB VIEW BASELINE (COMMON FOR BOLT.NEW/CAPACITOR APPS) -->
 	<key>NSAppTransportSecurity</key>
 	<dict>
