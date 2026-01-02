@@ -19,6 +19,7 @@
     <key>CFBundleDevelopmentRegion</key>
     <string>en</string>
 
+    <!-- THESE ARE THE PRIVACY KEYS YOU NEED -->
     <key>NSPhotoLibraryUsageDescription</key>
     <string>Pit-Box needs access to your photo library to allow you to upload profile pictures, share race-day images, and save setup sheets.</string>
     
@@ -33,6 +34,7 @@
 
     <key>NSMicrophoneUsageDescription</key>
     <string>Pit-Box uses the microphone if you choose to record voice notes about your race setups.</string>
+    <!-- END OF PRIVACY KEYS -->
 
     <key>LSRequiresIPhoneOS</key>
     <true/>
