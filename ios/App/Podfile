@@ -5,8 +5,8 @@ use_frameworks! :linkage => :static
 
 install! 'cocoapods', :disable_input_output_paths => true
 
-# 🔴 REQUIRED FOR CI / CAPAWESOME CLOUD
-project 'App.xcodeproj'
+# ✅ CORRECT PROJECT PATH FOR CAPACITOR + CAPAWESOME CLOUD
+project 'App/App.xcodeproj'
 
 def capacitor_pods
   pod 'Capacitor', :path => '../../node_modules/@capacitor/ios'
