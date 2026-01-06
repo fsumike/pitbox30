@@ -23,7 +23,7 @@ function JrSprint() {
     setCarNumber(carNum);
 
     // Extract track name from database column or setup_data
-    const trackNm = setup?.track_name || setup?.setup_data?.general?.track_track?.feature || '';
+    const trackNm = setup?.track_name || setup?.setup_data?.general?.track_name?.feature || '';
     setTrackName(trackNm);
 
     // Extract date from setup_data or use created_at
@@ -39,62 +39,114 @@ function JrSprint() {
   }, [location.state]);
 
 
-  // Define the setup data structure with consistent sections
+  // Organized by corner with all related components
   const initialSetupData = {
     general: {
       car_number: { feature: '', comment: '' },
-      track_track: { feature: '', comment: '' },
-      track_conditions: { feature: '', comment: '' },
-      date: { feature: new Date().toISOString().split('T')[0], comment: '' }
-    },
-    other: {
-      other_engine: { feature: '', comment: '' },
-      other_fuel: { feature: '', comment: '' },
-      other_ignition: { feature: '', comment: '' },
-      other_weight_total: { feature: '', comment: '' },
-      other_weight_left: { feature: '', comment: '' },
-      other_weight_rear: { feature: '', comment: '' }
+      track_name: { feature: '', comment: '' },
+      track_size: { feature: '', comment: '' },
+      track_condition: { feature: '', comment: '' },
+      configuration: { feature: '', comment: '' },
+      date: { feature: new Date().toISOString().split('T')[0], comment: '' },
+      weather: { feature: '', comment: '' }
     },
     left_front: {
-      left_front_spring: { feature: '', comment: '' },
-      left_front_shock: { feature: '', comment: '' },
-      left_front_ride_height: { feature: '', comment: '' },
-      left_front_stagger: { feature: '', comment: '' },
-      left_front_offset: { feature: '', comment: '' },
-      left_front_camber: { feature: '', comment: '' },
-      left_front_tire_pressure: { feature: '', comment: '' }
+      lf_torsion_bar_size: { feature: '', comment: '' },
+      lf_torsion_bar_turns: { feature: '', comment: '' },
+      lf_shock: { feature: '', comment: '' },
+      lf_tire_compound: { feature: '', comment: '' },
+      lf_cold_pressure: { feature: '', comment: '' },
+      lf_hot_pressure: { feature: '', comment: '' },
+      lf_ride_height: { feature: '', comment: '' },
+      lf_camber: { feature: '', comment: '' },
+      lf_weight: { feature: '', comment: '' }
     },
     right_front: {
-      right_front_spring: { feature: '', comment: '' },
-      right_front_shock: { feature: '', comment: '' },
-      right_front_ride_height: { feature: '', comment: '' },
-      right_front_stagger: { feature: '', comment: '' },
-      right_front_offset: { feature: '', comment: '' },
-      right_front_camber: { feature: '', comment: '' },
-      right_front_tire_pressure: { feature: '', comment: '' }
+      rf_torsion_bar_size: { feature: '', comment: '' },
+      rf_torsion_bar_turns: { feature: '', comment: '' },
+      rf_shock: { feature: '', comment: '' },
+      rf_tire_compound: { feature: '', comment: '' },
+      rf_cold_pressure: { feature: '', comment: '' },
+      rf_hot_pressure: { feature: '', comment: '' },
+      rf_ride_height: { feature: '', comment: '' },
+      rf_tire_offset: { feature: '', comment: '' },
+      rf_caster: { feature: '', comment: '' },
+      rf_camber: { feature: '', comment: '' },
+      rf_toe: { feature: '', comment: '' },
+      rf_weight: { feature: '', comment: '' }
     },
     left_rear: {
-      left_rear_spring: { feature: '', comment: '' },
-      left_rear_shock: { feature: '', comment: '' },
-      left_rear_ride_height: { feature: '', comment: '' },
-      left_rear_stagger: { feature: '', comment: '' },
-      left_rear_offset: { feature: '', comment: '' },
-      left_rear_tire_pressure: { feature: '', comment: '' }
+      lr_torsion_bar_size: { feature: '', comment: '' },
+      lr_torsion_bar_turns: { feature: '', comment: '' },
+      lr_shock: { feature: '', comment: '' },
+      lr_tire_compound: { feature: '', comment: '' },
+      lr_cold_pressure: { feature: '', comment: '' },
+      lr_hot_pressure: { feature: '', comment: '' },
+      lr_ride_height: { feature: '', comment: '' },
+      lr_tire_circumference: { feature: '', comment: '' },
+      lr_weight: { feature: '', comment: '' }
     },
     right_rear: {
-      right_rear_spring: { feature: '', comment: '' },
-      right_rear_shock: { feature: '', comment: '' },
-      right_rear_ride_height: { feature: '', comment: '' },
-      right_rear_stagger: { feature: '', comment: '' },
-      right_rear_offset: { feature: '', comment: '' },
-      right_rear_tire_pressure: { feature: '', comment: '' }
+      rr_torsion_bar_size: { feature: '', comment: '' },
+      rr_torsion_bar_turns: { feature: '', comment: '' },
+      rr_shock: { feature: '', comment: '' },
+      rr_tire_compound: { feature: '', comment: '' },
+      rr_cold_pressure: { feature: '', comment: '' },
+      rr_hot_pressure: { feature: '', comment: '' },
+      rr_ride_height: { feature: '', comment: '' },
+      rr_tire_offset: { feature: '', comment: '' },
+      rr_tire_circumference: { feature: '', comment: '' },
+      rr_weight: { feature: '', comment: '' }
     },
+    stagger_alignment: {
+      stagger: { feature: '', comment: '' },
+      rear_axle_square: { feature: '', comment: '' }
+    },
+    wing_winged: {
+      wing_angle: { feature: '', comment: '' },
+      wing_position: { feature: '', comment: '' },
+      left_sideboard_height: { feature: '', comment: '' },
+      right_sideboard_height: { feature: '', comment: '' }
+    },
+    wing_nonwinged: {
+      nonwing_notes: { feature: '', comment: '' },
+      nonwing_setup_differences: { feature: '', comment: '' }
+    },
+    gearing: {
+      engine_sprocket: { feature: '', comment: '' },
+      jackshaft_sprocket_engine: { feature: '', comment: '' },
+      jackshaft_sprocket_axle: { feature: '', comment: '' },
+      axle_sprocket: { feature: '', comment: '' },
+      overall_ratio: { feature: '', comment: '' },
+      clutch_type: { feature: '', comment: '' },
+      clutch_springs: { feature: '', comment: '' },
+      chain_tension: { feature: '', comment: '' }
+    },
+    engine: {
+      engine_type: { feature: '', comment: '' },
+      fuel_type: { feature: '', comment: '' },
+      carburetor: { feature: '', comment: '' },
+      jetting_main: { feature: '', comment: '' },
+      jetting_pilot: { feature: '', comment: '' },
+      air_filter: { feature: '', comment: '' }
+    },
+    chassis: {
+      wheelbase: { feature: '', comment: '' },
+      panhard_bar_height: { feature: '', comment: '' },
+      front_axle_offset: { feature: '', comment: '' }
+    },
+    weight_distribution: {
+      total_weight: { feature: '', comment: '' },
+      cross_weight: { feature: '', comment: '' },
+      rear_percentage: { feature: '', comment: '' },
+      left_side_percentage: { feature: '', comment: '' }
+    },
+
     notes: {
-      notes_general: { feature: '', comment: '' },
-      notes_track: { feature: '', comment: '' },
-      notes_performance: { feature: '', comment: '' },
-      notes_driver_feedback: { feature: '', comment: '' },
-      notes_future_changes: { feature: '', comment: '' }
+      setup_notes: { feature: '', comment: '' },
+      track_notes: { feature: '', comment: '' },
+      what_worked: { feature: '', comment: '' },
+      next_time: { feature: '', comment: '' }
     }
   };
 
@@ -113,12 +165,11 @@ function JrSprint() {
     <div className="space-y-6">
       <div className="glass-panel p-6 bg-gradient-to-br from-orange-500/10 to-yellow-500/10 dark:from-orange-500/20 dark:to-yellow-500/20">
         <div className="mb-6">
-          <h1 className="text-3xl font-bold mb-4 text-orange-600 dark:text-orange-400">Jr Sprint Cars</h1>
+          <h1 className="text-3xl font-bold mb-4 text-orange-600 dark:text-orange-400">Junior Sprints</h1>
           <p className="text-gray-700 dark:text-gray-300">
-            Jr Sprint Cars are designed for young racers to develop their skills in a safe, competitive environment. 
-            These smaller-scale sprint cars feature restricted engines and safety-focused designs while still delivering 
-            exciting racing action. Use our comprehensive setup tools to help young drivers learn about car setup and 
-            optimize their Jr Sprint's performance.
+            Junior Sprints deliver intense racing action in a compact package. Track your essential setup changes
+            from hot laps through the feature race. Each corner section includes torsion bars, shocks, tires, measurements,
+            and weights - everything you need organized by corner for quick reference and adjustments.
           </p>
         </div>
 
@@ -162,10 +213,10 @@ function JrSprint() {
 
       <DynoImageCapture title="Motor" type="motor" />
 
-      <SetupSheet 
-        title="Jr Sprint"
+      <SetupSheet
+        title="Junior Sprint"
         carType="jr"
-        description="Track and optimize your Jr Sprint car setup with our detailed setup sheet. Monitor engine parameters, chassis adjustments, and suspension settings to help young racers understand setup fundamentals and improve their performance."
+        description="Quick-reference setup tracking organized by corner. Each corner includes torsion bars, shocks, tires, measurements, and weights. Separate sections for winged and non-winged configurations. Track what works and build your setup library."
         initialSetup={currentSetup}
         initialSetupData={initialSetupData}
         carNumber={carNumber}
@@ -174,31 +225,55 @@ function JrSprint() {
         sections={[
           {
             title: "General",
-            fields: ["car_number", "track_track", "track_conditions", "date"]
-          },
-          {
-            title: "Other",
-            fields: ["other_engine", "other_fuel", "other_ignition", "other_weight_total", "other_weight_left", "other_weight_rear", "final_gear"]
+            fields: ["car_number", "track_name", "track_size", "track_condition", "configuration", "date", "weather"]
           },
           {
             title: "Left Front",
-            fields: ["left_front_spring", "left_front_shock", "left_front_ride_height", "left_front_stagger", "left_front_offset", "left_front_camber", "left_front_tire_pressure"]
+            fields: ["lf_torsion_bar_size", "lf_torsion_bar_turns", "lf_shock", "lf_tire_compound", "lf_cold_pressure", "lf_hot_pressure", "lf_ride_height", "lf_camber", "lf_weight"]
           },
           {
             title: "Right Front",
-            fields: ["right_front_spring", "right_front_shock", "right_front_ride_height", "right_front_stagger", "right_front_offset", "right_front_camber", "right_front_tire_pressure"]
+            fields: ["rf_torsion_bar_size", "rf_torsion_bar_turns", "rf_shock", "rf_tire_compound", "rf_cold_pressure", "rf_hot_pressure", "rf_ride_height", "rf_tire_offset", "rf_caster", "rf_camber", "rf_toe", "rf_weight"]
           },
           {
             title: "Left Rear",
-            fields: ["left_rear_spring", "left_rear_shock", "left_rear_ride_height", "left_rear_stagger", "left_rear_offset", "left_rear_tire_pressure"]
+            fields: ["lr_torsion_bar_size", "lr_torsion_bar_turns", "lr_shock", "lr_tire_compound", "lr_cold_pressure", "lr_hot_pressure", "lr_ride_height", "lr_tire_circumference", "lr_weight"]
           },
           {
             title: "Right Rear",
-            fields: ["right_rear_spring", "right_rear_shock", "right_rear_ride_height", "right_rear_stagger", "right_rear_offset", "right_rear_tire_pressure"]
+            fields: ["rr_torsion_bar_size", "rr_torsion_bar_turns", "rr_shock", "rr_tire_compound", "rr_cold_pressure", "rr_hot_pressure", "rr_ride_height", "rr_tire_offset", "rr_tire_circumference", "rr_weight"]
+          },
+          {
+            title: "Stagger & Alignment",
+            fields: ["stagger", "rear_axle_square"]
+          },
+          {
+            title: "Wing Setup (Winged)",
+            fields: ["wing_angle", "wing_position", "left_sideboard_height", "right_sideboard_height"]
+          },
+          {
+            title: "Non-Winged Setup",
+            fields: ["nonwing_notes", "nonwing_setup_differences"]
+          },
+          {
+            title: "Gearing & Drivetrain",
+            fields: ["engine_sprocket", "jackshaft_sprocket_engine", "jackshaft_sprocket_axle", "axle_sprocket", "overall_ratio", "clutch_type", "clutch_springs", "chain_tension"]
+          },
+          {
+            title: "Engine",
+            fields: ["engine_type", "fuel_type", "carburetor", "jetting_main", "jetting_pilot", "air_filter"]
+          },
+          {
+            title: "Chassis Setup",
+            fields: ["wheelbase", "panhard_bar_height", "front_axle_offset"]
+          },
+          {
+            title: "Weight Distribution",
+            fields: ["total_weight", "cross_weight", "rear_percentage", "left_side_percentage"]
           },
           {
             title: "Notes",
-            fields: ["notes_general", "notes_track", "notes_performance", "notes_driver_feedback", "notes_future_changes"]
+            fields: ["setup_notes", "track_notes", "what_worked", "next_time"]
           }
         ]}
       />
