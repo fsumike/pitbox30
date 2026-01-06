@@ -103,7 +103,7 @@ export const vehicleCategories = {
       name: 'Sprint Cars',
       subcategories: [
         { name: 'Wingless Sprints (National - Various engines)', path: '/wingless' },
-        { name: 'Crate Sprints (Regional - 602/604)', path: '/crate' },
+        { name: '305 / Crate Sprints (RaceSaver/602/604)', path: '/crate' },
         { name: '360 Sprints (National - All regions)', path: '/360' },
         { name: '410 Sprints (High Limit - PA/OH/National - WoO)', path: '/410' },
         { name: 'Non-Winged 410 Sprints (Midwest/Southwest - USAC)', path: '/nonwinged410' },
