@@ -1,0 +1,158 @@
+╔══════════════════════════════════════════════════════════════════╗
+║          APP STORE ENCRYPTION QUESTIONS - DECISION TREE          ║
+╚══════════════════════════════════════════════════════════════════╝
+
+┌─────────────────────────────────────────────────────────────────┐
+│ QUESTION 1: Does your app use encryption?                      │
+└─────────────────────────────────────────────────────────────────┘
+                              │
+                              │
+                    ┌─────────▼─────────┐
+                    │    ANSWER: NO     │  ✅ PREFERRED
+                    └─────────┬─────────┘
+                              │
+                              ▼
+                    ┌───────────────────┐
+                    │  ✓ APPROVED!      │
+                    │  No more questions│
+                    └───────────────────┘
+
+
+┌─────────────────────────────────────────────────────────────────┐
+│ ALTERNATE PATH (If you must answer YES):                        │
+└─────────────────────────────────────────────────────────────────┘
+
+┌─────────────────────────────────────────────────────────────────┐
+│ QUESTION 1: Does your app use encryption?                      │
+└─────────────────────────────────────────────────────────────────┘
+                              │
+                              │
+                    ┌─────────▼─────────┐
+                    │    ANSWER: YES    │  (If forced)
+                    └─────────┬─────────┘
+                              │
+                              ▼
+┌─────────────────────────────────────────────────────────────────┐
+│ QUESTION 2: Which encryption algorithms does your app           │
+│ implement? (Select all that apply)                              │
+│                                                                  │
+│ ☐ Proprietary or non-standard algorithms                        │
+│ ☐ Standard encryption algorithms                                │
+└─────────────────────────────────────────────────────────────────┘
+                              │
+                              │
+                    ┌─────────▼─────────────┐
+                    │  ANSWER: NEITHER      │  ✅ CORRECT
+                    │  (Check NO boxes)     │
+                    └─────────┬─────────────┘
+                              │
+                              ▼
+              ┌───────────────────────────────────┐
+              │ OR if form requires selection:    │
+              │                                   │
+              │ ☐ Proprietary algorithms    (NO)  │
+              │ ☑ Standard algorithms       (YES) │
+              └───────────────┬───────────────────┘
+                              │
+                              ▼
+┌─────────────────────────────────────────────────────────────────┐
+│ QUESTION 3: Does your app qualify for encryption export         │
+│ exemptions?                                                      │
+└─────────────────────────────────────────────────────────────────┘
+                              │
+                              │
+                    ┌─────────▼─────────┐
+                    │   ANSWER: YES     │  ✅ CORRECT
+                    └─────────┬─────────┘
+                              │
+                              ▼
+┌─────────────────────────────────────────────────────────────────┐
+│ Select exemptions that apply:                                   │
+│                                                                  │
+│ ☑ Category 5, Part 2 (e)(2) - Authentication encryption        │
+│ ☑ Category 5, Part 2 (d) - Standard cryptography               │
+└─────────────────────────────────────────────────────────────────┘
+                              │
+                              ▼
+                    ┌───────────────────┐
+                    │  ✓ APPROVED!      │
+                    │  You're exempt    │
+                    └───────────────────┘
+
+
+╔══════════════════════════════════════════════════════════════════╗
+║                         KEY CONCEPTS                             ║
+╚══════════════════════════════════════════════════════════════════╝
+
+┌──────────────────────────────────────────────────────────────────┐
+│ IMPLEMENT vs USE                                                 │
+├──────────────────────────────────────────────────────────────────┤
+│                                                                  │
+│ ❌ IMPLEMENT = You wrote the encryption code                     │
+│    Example: You coded AES encryption from scratch               │
+│                                                                  │
+│ ✅ USE = You call Apple's APIs that have encryption              │
+│    Example: You use URLSession which does HTTPS                 │
+│                                                                  │
+│ PitBox = USES Apple's encryption, does NOT IMPLEMENT            │
+│                                                                  │
+└──────────────────────────────────────────────────────────────────┘
+
+
+╔══════════════════════════════════════════════════════════════════╗
+║                      PITBOX TECHNICAL FACTS                      ║
+╚══════════════════════════════════════════════════════════════════╝
+
+What PitBox Uses:
+  ✅ URLSession with HTTPS (Apple's networking stack)
+  ✅ Supabase client (uses URLSession under the hood)
+  ✅ iOS Keychain for secure storage (Apple's API)
+  ✅ iOS file encryption (Apple's built-in)
+
+What PitBox Does NOT Use:
+  ❌ Custom encryption algorithms
+  ❌ Third-party crypto libraries (OpenSSL, etc.)
+  ❌ Manual AES/RSA/DES implementation
+  ❌ Custom TLS implementation
+  ❌ End-to-end encryption code
+
+
+╔══════════════════════════════════════════════════════════════════╗
+║                      QUICK REFERENCE                             ║
+╚══════════════════════════════════════════════════════════════════╝
+
+Q1: Use encryption?          → NO ✅
+Q2: Implement algorithms?    → NEITHER ✅ (leave unchecked)
+Q3: Qualify for exemption?   → YES (if Q1 was YES)
+Need documentation?          → NO ✅
+Need ERN number?             → NO ✅
+Need annual reports?         → NO ✅
+
+
+╔══════════════════════════════════════════════════════════════════╗
+║                    IF APPLE CONTACTS YOU                         ║
+╚══════════════════════════════════════════════════════════════════╝
+
+Copy/paste this response:
+
+"PitBox uses only standard HTTPS/TLS encryption provided by Apple's
+URLSession networking framework for secure API communication with our
+Supabase backend. We do not implement any encryption algorithms in
+our application code. All cryptographic operations are performed by
+iOS system frameworks, not by our application.
+
+Our app qualifies for encryption export exemption under Category 5,
+Part 2 of the U.S. Export Administration Regulations because we only
+access encryption provided by Apple's operating system for
+authentication and secure data transmission."
+
+
+═══════════════════════════════════════════════════════════════════
+
+✓ You are EXEMPT from encryption export compliance
+✓ No documentation needed
+✓ No special registration required
+✓ Answer NO to Question 1 (or NEITHER to Question 2)
+✓ You will be approved!
+
+═══════════════════════════════════════════════════════════════════

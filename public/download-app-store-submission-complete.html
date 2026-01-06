@@ -224,7 +224,9 @@
 
         <div class="important">
             <h3>⚠️ Important: Encryption Compliance</h3>
-            <p>Apple will ask if your app uses encryption. <strong>Your answer: NO</strong> (or if you must select yes, choose "exempt"). Your app only uses standard HTTPS/TLS encryption provided by iOS. See the encryption guides below for details.</p>
+            <p><strong>Question 1:</strong> "Does your app use encryption?" → Answer: <strong>NO</strong></p>
+            <p><strong>Question 2:</strong> "Which algorithms does your app implement?" → Answer: <strong>CHECK NEITHER BOX</strong></p>
+            <p style="margin-top: 12px;">Your app only uses standard HTTPS/TLS encryption provided by iOS. You don't implement any encryption algorithms yourself. See the encryption guides below for complete details and explanations.</p>
         </div>
 
         <!-- Step 1: Read These First -->
@@ -233,10 +235,46 @@
             <div class="file-list">
                 <div class="file-item">
                     <div class="file-info">
+                        <div class="file-name">📚 ENCRYPTION_DOCS_README.md</div>
+                        <div class="file-desc">⭐ START HERE! Overview of all encryption documentation</div>
+                    </div>
+                    <button class="download-btn" onclick="downloadFile('ENCRYPTION_DOCS_README.md')">
+                        📥 Download
+                    </button>
+                </div>
+                <div class="file-item">
+                    <div class="file-info">
+                        <div class="file-name">📄 ENCRYPTION_CHEAT_SHEET.txt</div>
+                        <div class="file-desc">⭐ PRINT THIS! One-page reference for all questions</div>
+                    </div>
+                    <button class="download-btn" onclick="downloadFile('ENCRYPTION_CHEAT_SHEET.txt')">
+                        📥 Download
+                    </button>
+                </div>
+                <div class="file-item">
+                    <div class="file-info">
                         <div class="file-name">🔒 ENCRYPTION_QUICK_ANSWER.txt</div>
-                        <div class="file-desc">Quick answer for encryption compliance question</div>
+                        <div class="file-desc">Quick answers for ALL encryption questions (Q1 & Q2)</div>
                     </div>
                     <button class="download-btn" onclick="downloadFile('ENCRYPTION_QUICK_ANSWER.txt')">
+                        📥 Download
+                    </button>
+                </div>
+                <div class="file-item">
+                    <div class="file-info">
+                        <div class="file-name">🌳 ENCRYPTION_DECISION_TREE.txt</div>
+                        <div class="file-desc">Visual decision tree for encryption questions</div>
+                    </div>
+                    <button class="download-btn" onclick="downloadFile('ENCRYPTION_DECISION_TREE.txt')">
+                        📥 Download
+                    </button>
+                </div>
+                <div class="file-item">
+                    <div class="file-info">
+                        <div class="file-name">🔐 ENCRYPTION_ALGORITHM_SELECTION.md</div>
+                        <div class="file-desc">Detailed guide for Question 2 (algorithm selection)</div>
+                    </div>
+                    <button class="download-btn" onclick="downloadFile('ENCRYPTION_ALGORITHM_SELECTION.md')">
                         📥 Download
                     </button>
                 </div>
@@ -380,7 +418,11 @@
 
         function downloadAllFiles() {
             const files = [
+                'ENCRYPTION_DOCS_README.md',
+                'ENCRYPTION_CHEAT_SHEET.txt',
                 'ENCRYPTION_QUICK_ANSWER.txt',
+                'ENCRYPTION_DECISION_TREE.txt',
+                'ENCRYPTION_ALGORITHM_SELECTION.md',
                 'ENCRYPTION_COMPLIANCE_GUIDE.md',
                 'APP_STORE_SUBMISSION_READY.md',
                 'CREATE_TEST_ACCOUNT_GUIDE.md',

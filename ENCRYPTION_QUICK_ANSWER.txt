@@ -2,7 +2,7 @@
 ║                ENCRYPTION COMPLIANCE - QUICK ANSWER               ║
 ╚═══════════════════════════════════════════════════════════════════╝
 
-📱 WHEN APPLE ASKS: "Does your app use encryption?"
+📱 QUESTION 1: "Does your app use encryption?"
 
 ✅ ANSWER: NO
 
@@ -12,6 +12,18 @@ WHY? Your app only uses:
   • No custom encryption algorithms
 
 YOU ARE EXEMPT! ✅
+
+───────────────────────────────────────────────────────────────────
+
+📱 QUESTION 2: "Which encryption algorithms does your app implement?"
+
+☐ Proprietary encryption algorithms
+☐ Standard encryption algorithms
+
+✅ ANSWER: CHECK NEITHER BOX (leave both unchecked)
+
+WHY? Your app doesn't IMPLEMENT any encryption. It only USES
+Apple's built-in encryption. You didn't write any crypto code.
 
 ───────────────────────────────────────────────────────────────────
 
