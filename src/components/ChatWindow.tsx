@@ -3,6 +3,7 @@ import { Send, X, Loader2, ChevronLeft } from 'lucide-react';
 import { useAuth } from '../contexts/AuthContext';
 import { supabase } from '../lib/supabase';
 import type { Message, Profile } from '../types';
+import EmojiPicker from './EmojiPicker';
 
 interface ChatWindowProps {
   recipientId: string;
@@ -273,7 +274,7 @@ function ChatWindow({ recipientId, onClose, isMinimized = false, onMinimize }: C
 
       {/* Message Input */}
       <form onSubmit={handleSendMessage} className="p-4 border-t border-gray-200 dark:border-gray-700">
-        <div className="flex gap-2">
+        <div className="flex gap-2 items-center">
           <input
             ref={messageInputRef}
             type="text"
@@ -281,6 +282,11 @@ function ChatWindow({ recipientId, onClose, isMinimized = false, onMinimize }: C
             onChange={(e) => setNewMessage(e.target.value)}
             placeholder="Type a message..."
             className="flex-1 p-2 rounded-lg bg-gray-100 dark:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-brand-gold"
+          />
+          <EmojiPicker
+            onEmojiSelect={(emoji) => setNewMessage(prev => prev + emoji)}
+            buttonClassName="bg-gray-100 dark:bg-gray-700"
+            theme="dark"
           />
           <button
             type="submit"
