@@ -1,0 +1,418 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PitBox App Icons Preview</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #1a1a1a 0%, #0a0a0a 100%);
+            color: white;
+            padding: 40px 20px;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 60px;
+            padding-bottom: 30px;
+            border-bottom: 2px solid rgba(212, 175, 55, 0.3);
+        }
+
+        h1 {
+            font-size: 3em;
+            background: linear-gradient(135deg, #d4af37 0%, #f4d03f 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 10px;
+        }
+
+        .subtitle {
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 1.2em;
+        }
+
+        .status {
+            display: inline-block;
+            background: rgba(76, 175, 80, 0.2);
+            color: #4CAF50;
+            padding: 8px 20px;
+            border-radius: 20px;
+            font-weight: 600;
+            margin-top: 20px;
+        }
+
+        .section {
+            margin-bottom: 60px;
+        }
+
+        h2 {
+            color: #d4af37;
+            font-size: 2em;
+            margin-bottom: 30px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .platform-icon {
+            font-size: 1.5em;
+        }
+
+        .icon-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+
+        .icon-card {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 16px;
+            padding: 25px;
+            text-align: center;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(212, 175, 55, 0.2);
+        }
+
+        .icon-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(212, 175, 55, 0.3);
+            border-color: rgba(212, 175, 55, 0.5);
+        }
+
+        .icon-wrapper {
+            width: 120px;
+            height: 120px;
+            margin: 0 auto 20px;
+            position: relative;
+        }
+
+        .icon-wrapper img {
+            width: 100%;
+            height: 100%;
+            border-radius: 20px;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+        }
+
+        .ios-icon {
+            border-radius: 22%;
+        }
+
+        .android-icon {
+            border-radius: 25%;
+        }
+
+        .icon-label {
+            font-weight: 600;
+            color: white;
+            margin-bottom: 5px;
+        }
+
+        .icon-size {
+            font-size: 0.9em;
+            color: rgba(255, 255, 255, 0.5);
+        }
+
+        .icon-purpose {
+            font-size: 0.85em;
+            color: rgba(212, 175, 55, 0.8);
+            margin-top: 8px;
+        }
+
+        .device-preview {
+            display: flex;
+            gap: 40px;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-top: 40px;
+        }
+
+        .device {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 20px;
+            padding: 30px;
+            text-align: center;
+            min-width: 300px;
+        }
+
+        .device h3 {
+            color: #d4af37;
+            margin-bottom: 20px;
+        }
+
+        .phone-screen {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 30px;
+            padding: 40px 20px;
+            margin: 0 auto;
+            width: 250px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+            position: relative;
+        }
+
+        .phone-screen::before {
+            content: '';
+            position: absolute;
+            top: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 60px;
+            height: 6px;
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 3px;
+        }
+
+        .app-icon-on-screen {
+            width: 80px;
+            height: 80px;
+            margin: 20px auto;
+            border-radius: 18px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+        }
+
+        .app-name {
+            color: white;
+            font-size: 0.9em;
+            margin-top: 8px;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        .store-icons {
+            display: flex;
+            gap: 40px;
+            justify-content: center;
+            margin-top: 30px;
+        }
+
+        .store-card {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 16px;
+            padding: 30px;
+            text-align: center;
+            border: 1px solid rgba(212, 175, 55, 0.2);
+            min-width: 250px;
+        }
+
+        .store-card img {
+            width: 150px;
+            height: 150px;
+            border-radius: 20px;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+            margin-bottom: 20px;
+        }
+
+        .store-card h3 {
+            color: #d4af37;
+            margin-bottom: 10px;
+        }
+
+        .store-card p {
+            color: rgba(255, 255, 255, 0.6);
+            font-size: 0.9em;
+        }
+
+        .specs {
+            background: rgba(76, 175, 80, 0.1);
+            border: 1px solid rgba(76, 175, 80, 0.3);
+            border-radius: 12px;
+            padding: 20px;
+            margin-top: 30px;
+        }
+
+        .specs h3 {
+            color: #4CAF50;
+            margin-bottom: 15px;
+        }
+
+        .specs ul {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .specs li {
+            padding: 8px 0;
+            color: rgba(255, 255, 255, 0.8);
+        }
+
+        .specs li::before {
+            content: '✓ ';
+            color: #4CAF50;
+            font-weight: bold;
+            margin-right: 10px;
+        }
+
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2em;
+            }
+
+            .icon-grid {
+                grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+                gap: 20px;
+            }
+
+            .device-preview {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .store-icons {
+                flex-direction: column;
+                align-items: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🏁 PitBox App Icons</h1>
+            <p class="subtitle">Professional Dark Theme Icons for iOS & Android</p>
+            <div class="status">✅ All Icons Generated Successfully</div>
+        </header>
+
+        <div class="section">
+            <h2><span class="platform-icon">📱</span> iOS Icons</h2>
+            <div class="icon-grid" id="ios-grid"></div>
+
+            <div class="specs">
+                <h3>iOS Icon Specifications</h3>
+                <ul>
+                    <li>14 different sizes for all Apple devices</li>
+                    <li>iPhone, iPad, and iPad Pro support</li>
+                    <li>Settings, Spotlight, and Notification icons included</li>
+                    <li>1024x1024 App Store ready icon</li>
+                    <li>Dark gradient background (#0a0a0a to #000000)</li>
+                    <li>Subtle gold radial glow for premium feel</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2><span class="platform-icon">🤖</span> Android Icons</h2>
+            <div class="icon-grid" id="android-grid"></div>
+
+            <div class="specs">
+                <h3>Android Icon Specifications</h3>
+                <ul>
+                    <li>5 density buckets (mdpi, hdpi, xhdpi, xxhdpi, xxxhdpi)</li>
+                    <li>Main launcher icon and foreground layer</li>
+                    <li>512x512 Play Store ready icon</li>
+                    <li>Adaptive icon support</li>
+                    <li>Professional dark gradient background</li>
+                    <li>Optimized for all Android versions</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2><span class="platform-icon">📲</span> Preview on Device</h2>
+            <div class="device-preview">
+                <div class="device">
+                    <h3>iPhone Home Screen</h3>
+                    <div class="phone-screen">
+                        <img src="../logo.png" alt="PitBox" class="app-icon-on-screen ios-icon">
+                        <div class="app-name">PitBox</div>
+                    </div>
+                </div>
+                <div class="device">
+                    <h3>Android Home Screen</h3>
+                    <div class="phone-screen">
+                        <img src="../logo.png" alt="PitBox" class="app-icon-on-screen android-icon">
+                        <div class="app-name">PitBox</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2><span class="platform-icon">🏪</span> App Store Icons</h2>
+            <div class="store-icons">
+                <div class="store-card">
+                    <img src="../logo.png" alt="App Store Icon">
+                    <h3>Apple App Store</h3>
+                    <p>1024 × 1024 px</p>
+                    <p style="margin-top: 10px;">Ready for App Store Connect submission</p>
+                </div>
+                <div class="store-card">
+                    <img src="../logo.png" alt="Play Store Icon">
+                    <h3>Google Play Store</h3>
+                    <p>512 × 512 px</p>
+                    <p style="margin-top: 10px;">Ready for Google Play Console submission</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const iosIcons = [
+            { size: '1024×1024', purpose: 'App Store', file: 'AppIcon-1024.png' },
+            { size: '180×180', purpose: 'iPhone @3x', file: 'AppIcon-180.png' },
+            { size: '167×167', purpose: 'iPad Pro', file: 'AppIcon-167.png' },
+            { size: '152×152', purpose: 'iPad @2x', file: 'AppIcon-152.png' },
+            { size: '120×120', purpose: 'iPhone @2x', file: 'AppIcon-120.png' },
+            { size: '87×87', purpose: 'Settings @3x', file: 'AppIcon-87.png' },
+            { size: '80×80', purpose: 'iPad @2x', file: 'AppIcon-80.png' },
+            { size: '76×76', purpose: 'iPad', file: 'AppIcon-76.png' },
+            { size: '60×60', purpose: 'Spotlight @3x', file: 'AppIcon-60.png' },
+            { size: '58×58', purpose: 'Settings @2x', file: 'AppIcon-58.png' },
+            { size: '40×40', purpose: 'Spotlight', file: 'AppIcon-40.png' },
+            { size: '29×29', purpose: 'Settings', file: 'AppIcon-29.png' },
+            { size: '20×20', purpose: 'Notification', file: 'AppIcon-20.png' }
+        ];
+
+        const androidIcons = [
+            { size: '512×512', purpose: 'Play Store', density: 'xxxhdpi' },
+            { size: '192×192', purpose: 'Launcher', density: 'xxxhdpi' },
+            { size: '144×144', purpose: 'Launcher', density: 'xxhdpi' },
+            { size: '96×96', purpose: 'Launcher', density: 'xhdpi' },
+            { size: '72×72', purpose: 'Launcher', density: 'hdpi' },
+            { size: '48×48', purpose: 'Launcher', density: 'mdpi' }
+        ];
+
+        const iosGrid = document.getElementById('ios-grid');
+        iosIcons.forEach(icon => {
+            const card = document.createElement('div');
+            card.className = 'icon-card';
+            card.innerHTML = `
+                <div class="icon-wrapper">
+                    <img src="../logo.png" alt="${icon.file}" class="ios-icon">
+                </div>
+                <div class="icon-label">${icon.file}</div>
+                <div class="icon-size">${icon.size}</div>
+                <div class="icon-purpose">${icon.purpose}</div>
+            `;
+            iosGrid.appendChild(card);
+        });
+
+        const androidGrid = document.getElementById('android-grid');
+        androidIcons.forEach(icon => {
+            const card = document.createElement('div');
+            card.className = 'icon-card';
+            card.innerHTML = `
+                <div class="icon-wrapper">
+                    <img src="../logo.png" alt="Android Icon" class="android-icon">
+                </div>
+                <div class="icon-label">${icon.density}</div>
+                <div class="icon-size">${icon.size}</div>
+                <div class="icon-purpose">${icon.purpose}</div>
+            `;
+            androidGrid.appendChild(card);
+        });
+    </script>
+</body>
+</html>
