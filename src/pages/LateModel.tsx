@@ -138,7 +138,7 @@ function LateModel() {
     setCarNumber(carNum);
 
     // Extract track name from database column or setup_data
-    const trackNm = setup?.track_name || setup?.setup_data?.general?.track_track?.feature || '';
+    const trackNm = setup?.track_name || setup?.setup_data?.general?.track_name?.feature || '';
     setTrackName(trackNm);
 
     // Extract date from setup_data or use created_at

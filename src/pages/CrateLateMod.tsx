@@ -18,15 +18,12 @@ function CrateLateMod() {
   const handleLoadSetup = (setup: Setup) => {
     setCurrentSetup(setup);
 
-    // Extract car number from database column or setup_data
     const carNum = setup?.car_number || setup?.setup_data?.general?.car_number?.feature || '';
     setCarNumber(carNum);
 
-    // Extract track name from database column or setup_data
-    const trackNm = setup?.track_name || setup?.setup_data?.general?.track_track?.feature || '';
+    const trackNm = setup?.track_name || setup?.setup_data?.general?.track_name?.feature || '';
     setTrackName(trackNm);
 
-    // Extract date from setup_data or use created_at
     const setupDate = setup?.setup_data?.general?.date?.feature ||
                      (setup?.created_at ? new Date(setup.created_at).toISOString().split('T')[0] : new Date().toISOString().split('T')[0]);
     setDate(setupDate);
@@ -38,150 +35,114 @@ function CrateLateMod() {
     }
   }, [location.state]);
 
-
-  // Define the setup data structure with Crate Late Model specific sections
   const initialSetupData = {
     general: {
+      driver: { feature: '', comment: '' },
       car_number: { feature: '', comment: '' },
-      track_track: { feature: '', comment: '' },
-      track_conditions: { feature: '', comment: '' },
+      track_name: { feature: '', comment: '' },
+      track_condition: { feature: '', comment: 'Dry Slick, Tacky, Heavy, Wet' },
+      class: { feature: 'Crate', comment: 'Crate Late Model' },
       date: { feature: new Date().toISOString().split('T')[0], comment: '' }
     },
-    chassis: {
-      chassis_manufacturer: { feature: '', comment: 'e.g., Rocket, Longhorn, etc.' },
-      chassis_year: { feature: '', comment: 'Year of chassis' },
-      chassis_type: { feature: '', comment: 'Model designation' }
+    weight_balance: {
+      total_weight: { feature: '', comment: '2200-2400 lbs typical for Crate' },
+      lf_weight: { feature: '', comment: '600-700 lbs' },
+      rf_weight: { feature: '', comment: '650-750 lbs' },
+      lr_weight: { feature: '', comment: '550-650 lbs' },
+      rr_weight: { feature: '', comment: '500-600 lbs' },
+      cross_weight_percent: { feature: '', comment: '50-54%' },
+      left_side_percent: { feature: '', comment: '48-52%' },
+      rear_percent: { feature: '', comment: '48-52%' }
     },
-    weight: {
-      total_weight: { feature: '', comment: 'Total weight with driver (lbs)' },
-      left_side_weight: { feature: '', comment: 'Left side percentage (%)' },
-      rear_weight: { feature: '', comment: 'Rear weight percentage (%)' },
-      cross_weight: { feature: '', comment: 'Cross weight percentage (%)' },
-      fuel_load: { feature: '', comment: 'Starting fuel weight (lbs)' }
-    },
-    front_end: {
-      front_clip: { feature: '', comment: 'Clip type and measurements' },
-      steering_box: { feature: '', comment: 'Type and ratio' },
-      spindle_length: { feature: '', comment: 'Spindle measurements' },
-      bumpsteer: { feature: '', comment: 'Bumpsteer settings' },
-      ackermann: { feature: '', comment: 'Ackermann adjustment' },
-      camber_gain: { feature: '', comment: 'Camber gain through travel' }
-    },
-    suspension: {
-      front_suspension: { feature: '', comment: 'Type and configuration' },
-      rear_suspension: { feature: '', comment: '4-link measurements' },
-      bird_cages: { feature: '', comment: 'Bird cage settings' },
-      trailing_arms: { feature: '', comment: 'Trailing arm angles and lengths' },
-      pull_bar: { feature: '', comment: 'Pull bar settings' },
-      lift_arm: { feature: '', comment: 'Lift arm settings' },
-      shock_angles: { feature: '', comment: 'Front and rear shock angles' }
-    },
-    left_front: {
-      lf_spring: { feature: '', comment: 'Spring rate (lbs)' },
-      lf_spring_rubber: { feature: '', comment: 'Spring rubber configuration' },
-      lf_shock: { feature: '', comment: 'Shock type, valving, gas pressure' },
+    front_suspension: {
+      lf_spring_rate: { feature: '', comment: '250-350 lbs/in typical for Crate' },
+      rf_spring_rate: { feature: '', comment: '250-350 lbs/in typical for Crate' },
       lf_shock_compression: { feature: '', comment: 'Compression setting' },
       lf_shock_rebound: { feature: '', comment: 'Rebound setting' },
-      lf_ride_height: { feature: '', comment: 'Ride height measurement' },
-      lf_camber: { feature: '', comment: 'Static camber' },
-      lf_caster: { feature: '', comment: 'Static caster' },
-      lf_toe: { feature: '', comment: 'Toe setting' },
-      lf_shock_travel: { feature: '', comment: 'Available shock travel' },
-      lf_droop: { feature: '', comment: 'Droop limiter setting' }
-    },
-    right_front: {
-      rf_spring: { feature: '', comment: 'Spring rate (lbs)' },
-      rf_spring_rubber: { feature: '', comment: 'Spring rubber configuration' },
-      rf_shock: { feature: '', comment: 'Shock type, valving, gas pressure' },
       rf_shock_compression: { feature: '', comment: 'Compression setting' },
       rf_shock_rebound: { feature: '', comment: 'Rebound setting' },
-      rf_ride_height: { feature: '', comment: 'Ride height measurement' },
-      rf_camber: { feature: '', comment: 'Static camber' },
-      rf_caster: { feature: '', comment: 'Static caster' },
-      rf_toe: { feature: '', comment: 'Toe setting' },
-      rf_shock_travel: { feature: '', comment: 'Available shock travel' },
-      rf_droop: { feature: '', comment: 'Droop limiter setting' }
+      camber_lf: { feature: '', comment: 'Left front camber' },
+      camber_rf: { feature: '', comment: 'Right front camber' },
+      caster_lf: { feature: '', comment: 'Left front caster' },
+      caster_rf: { feature: '', comment: 'Right front caster' },
+      ride_height_lf: { feature: '', comment: 'Left front ride height' },
+      ride_height_rf: { feature: '', comment: 'Right front ride height' }
     },
-    left_rear: {
-      lr_spring: { feature: '', comment: 'Spring rate (lbs)' },
-      lr_spring_rubber: { feature: '', comment: 'Spring rubber configuration' },
-      lr_shock: { feature: '', comment: 'Shock type, valving, gas pressure' },
+    rear_suspension: {
+      rear_suspension_type: { feature: '', comment: '4-Link or Pull Bar' },
+      lr_spring_rate: { feature: '', comment: '200-300 lbs/in typical for Crate' },
+      rr_spring_rate: { feature: '', comment: '200-300 lbs/in typical for Crate' },
       lr_shock_compression: { feature: '', comment: 'Compression setting' },
       lr_shock_rebound: { feature: '', comment: 'Rebound setting' },
-      lr_ride_height: { feature: '', comment: 'Ride height measurement' },
-      lr_shock_travel: { feature: '', comment: 'Available shock travel' },
-      lr_droop: { feature: '', comment: 'Droop limiter setting' },
-      lr_link_heights: { feature: '', comment: 'Upper/lower link heights' },
-      lr_trailing_arm_angle: { feature: '', comment: 'Trailing arm angle' },
-      lr_pinion_angle: { feature: '', comment: 'Pinion angle' }
-    },
-    right_rear: {
-      rr_spring: { feature: '', comment: 'Spring rate (lbs)' },
-      rr_spring_rubber: { feature: '', comment: 'Spring rubber configuration' },
-      rr_shock: { feature: '', comment: 'Shock type, valving, gas pressure' },
       rr_shock_compression: { feature: '', comment: 'Compression setting' },
       rr_shock_rebound: { feature: '', comment: 'Rebound setting' },
-      rr_ride_height: { feature: '', comment: 'Ride height measurement' },
-      rr_shock_travel: { feature: '', comment: 'Available shock travel' },
-      rr_droop: { feature: '', comment: 'Droop limiter setting' },
-      rr_link_heights: { feature: '', comment: 'Upper/lower link heights' },
-      rr_trailing_arm_angle: { feature: '', comment: 'Trailing arm angle' },
-      rr_pinion_angle: { feature: '', comment: 'Pinion angle' }
+      ride_height_lr: { feature: '', comment: 'Left rear ride height' },
+      ride_height_rr: { feature: '', comment: 'Right rear ride height' },
+      rear_steer: { feature: '', comment: 'Rear steer measurement' },
+      pinion_angle: { feature: '', comment: 'Pinion angle' }
+    },
+    steering_alignment: {
+      toe_total_front: { feature: '', comment: '1/16" to 1/4" out' },
+      ackermann_percent: { feature: '', comment: '50-100%' },
+      bump_steer_lf: { feature: '', comment: 'Minimal' },
+      bump_steer_rf: { feature: '', comment: 'Minimal' }
     },
     tires: {
-      lf_tire: { feature: '', comment: 'Compound, size, pressure' },
-      rf_tire: { feature: '', comment: 'Compound, size, pressure' },
-      lr_tire: { feature: '', comment: 'Compound, size, pressure' },
-      rr_tire: { feature: '', comment: 'Compound, size, pressure' },
-      cross: { feature: '', comment: 'Cross pattern' },
-      stagger: { feature: '', comment: 'Front/rear stagger' },
-      grooving: { feature: '', comment: 'Tire grooving pattern' },
-      siping: { feature: '', comment: 'Tire siping pattern' }
+      lf_compound: { feature: '', comment: 'Tire compound' },
+      lf_size: { feature: '', comment: 'Tire size' },
+      lf_cold_pressure: { feature: '', comment: '18-25 psi typical' },
+      lf_hot_pressure: { feature: '', comment: 'Hot pressure' },
+      rf_compound: { feature: '', comment: 'Tire compound' },
+      rf_size: { feature: '', comment: 'Tire size' },
+      rf_cold_pressure: { feature: '', comment: '18-25 psi typical' },
+      rf_hot_pressure: { feature: '', comment: 'Hot pressure' },
+      front_stagger: { feature: '', comment: '1"-4" typical' },
+      lr_compound: { feature: '', comment: 'Tire compound' },
+      lr_size: { feature: '', comment: 'Tire size' },
+      lr_cold_pressure: { feature: '', comment: '18-25 psi typical' },
+      lr_hot_pressure: { feature: '', comment: 'Hot pressure' },
+      rr_compound: { feature: '', comment: 'Tire compound' },
+      rr_size: { feature: '', comment: 'Tire size' },
+      rr_cold_pressure: { feature: '', comment: '18-25 psi typical' },
+      rr_hot_pressure: { feature: '', comment: 'Hot pressure' },
+      rear_stagger: { feature: '', comment: '1"-4" typical' }
     },
-    engine: {
-      engine_type: { feature: '', comment: 'Crate engine model (e.g., GM 604)' },
-      displacement: { feature: '', comment: 'Engine displacement (ci)' },
-      carburetor: { feature: '', comment: 'Carburetor specs' },
-      timing: { feature: '', comment: 'Total timing' },
-      fuel_pressure: { feature: '', comment: 'Fuel pressure setting' },
-      oil_pressure: { feature: '', comment: 'Oil pressure reading' },
-      water_temp: { feature: '', comment: 'Water temperature' }
+    fourlink_settings: {
+      upper_lr_link_length: { feature: '', comment: 'Affects roll center & bite' },
+      upper_rr_link_length: { feature: '', comment: 'Affects roll center & bite' },
+      lower_lr_link_length: { feature: '', comment: 'Affects axle location' },
+      lower_rr_link_length: { feature: '', comment: 'Affects axle location' },
+      upper_lr_link_angle_front: { feature: '', comment: 'Typical: 3-8° up' },
+      upper_rr_link_angle_front: { feature: '', comment: 'Typical: 3-8° up' },
+      lower_lr_link_angle_front: { feature: '', comment: 'Typical: 0-5° up or down' },
+      lower_rr_link_angle_front: { feature: '', comment: 'Typical: 0-5° up or down' },
+      upper_link_instant_center: { feature: '', comment: 'Side view measurement' },
+      lower_link_instant_center: { feature: '', comment: 'Side view measurement' },
+      fourlink_roll_center_height: { feature: '', comment: 'Typically 10-18"' },
+      bird_cage_position_lr: { feature: '', comment: 'Affects link angles' },
+      bird_cage_position_rr: { feature: '', comment: 'Affects link angles' }
+    },
+    pullbar_settings: {
+      pull_bar_angle: { feature: '', comment: 'Typical: 5-12° up' },
+      pull_bar_spring_rate: { feature: '', comment: 'Typical: 200-400 lbs/in' },
+      pull_bar_spring_preload: { feature: '', comment: 'Affects rear steer' },
+      pull_bar_length: { feature: '', comment: 'Measure axle to chassis' }
     },
     drivetrain: {
-      transmission: { feature: '', comment: 'Transmission type and ratios' },
-      rear_end: { feature: '', comment: 'Rear end specifications' },
-      gear_ratio: { feature: '', comment: 'Final drive ratio' },
-      differential: { feature: '', comment: 'Differential/spool setup' }
+      gear_ratio: { feature: '', comment: 'Gear ratio' },
+      final_drive: { feature: '', comment: 'Final drive' },
+      transmission_type: { feature: '', comment: 'Transmission type' }
     },
-    aero: {
-      nose_height: { feature: '', comment: 'Front nose height' },
-      spoiler_angle: { feature: '', comment: 'Rear spoiler angle' },
-      spoiler_height: { feature: '', comment: 'Spoiler height' },
-      body_height: { feature: '', comment: 'Quarter panel heights' },
-      side_boards: { feature: '', comment: 'Side board configuration' }
-    },
-    track_data: {
-      banking: { feature: '', comment: 'Track banking angle' },
-      surface: { feature: '', comment: 'Track surface type' },
-      grip_level: { feature: '', comment: 'Track grip conditions' },
-      temperature: { feature: '', comment: 'Track temperature' },
-      moisture: { feature: '', comment: 'Track moisture level' }
-    },
-    notes: {
-      track_notes: { feature: '', comment: 'Track condition notes' },
-      setup_notes: { feature: '', comment: 'General setup notes' },
-      performance_notes: { feature: '', comment: 'Performance feedback' },
-      maintenance_notes: { feature: '', comment: 'Maintenance items' }
+    session_notes: {
+      changes_made: { feature: '', comment: 'Document any changes made during practice, qualifying, or features' },
+      driver_notes: { feature: '', comment: 'Track conditions, car handling, lap times, observations' }
     }
   };
 
-
-  // Track input for track name
   const handleTrackChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setTrackName(e.target.value);
   };
 
-  // Track input for date
   const handleDateChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setDate(e.target.value);
   };
@@ -190,24 +151,21 @@ function CrateLateMod() {
     <div className="space-y-6">
       <div className="glass-panel p-6 bg-gradient-to-br from-orange-500/10 to-red-500/10 dark:from-orange-500/20 dark:to-red-500/20">
         <div className="mb-6">
-          <h1 className="text-3xl font-bold mb-4 text-orange-600 dark:text-orange-400">Crate Late Models</h1>
+          <h1 className="text-3xl font-bold mb-4 text-orange-600 dark:text-orange-400">Crate Late Model</h1>
           <p className="text-gray-700 dark:text-gray-300">
-            Crate Late Models offer a more affordable entry point into late model racing by utilizing sealed crate engines to control costs. 
-            These cars maintain the same sleek body style and handling characteristics of their open-engine counterparts, but with more 
-            standardized power plants to level the playing field and reduce expenses. Use our comprehensive setup tools to find the competitive 
-            edge in chassis setup and handling that makes the difference in this popular class.
+            Crate Late Models offer competitive, cost-effective racing with sealed crate engines. While engine modifications are restricted,
+            chassis setup remains critical for performance. Use this comprehensive setup sheet to document weight distribution, suspension
+            settings, and tire management to maximize your competitive edge.
           </p>
         </div>
 
         <div className="flex flex-col sm:flex-row gap-4 items-stretch">
-          <LoadSetupsButton carType="crate-latemodel" onLoadSetup={handleLoadSetup} />
-          
-          
+          <LoadSetupsButton carType="crate-late-model" onLoadSetup={handleLoadSetup} />
         </div>
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-        <CarNumberBox 
+        <CarNumberBox
           value={carNumber}
           onChange={setCarNumber}
         />
@@ -236,13 +194,12 @@ function CrateLateMod() {
         </div>
       </div>
 
-
       <DynoImageCapture title="Motor" type="motor" />
 
-      <SetupSheet 
+      <SetupSheet
         title="Crate Late Model"
-        carType="crate-latemodel"
-        description="Track and optimize your Crate Late Model setup with our comprehensive setup sheet. Monitor chassis adjustments, suspension settings, and tire data to maximize performance while working within the constraints of crate engine specifications."
+        carType="crate-late-model"
+        description="Crate Late Model setup documentation with comprehensive weight, suspension, and tire tracking."
         initialSetup={currentSetup}
         initialSetupData={initialSetupData}
         carNumber={carNumber}
@@ -250,64 +207,48 @@ function CrateLateMod() {
         date={date}
         sections={[
           {
-            title: "General",
-            fields: ["car_number", "track_track", "track_conditions", "date"]
+            title: "General Information",
+            fields: ["driver", "car_number", "track_name", "track_condition", "class", "date"]
           },
           {
-            title: "Chassis",
-            fields: ["chassis_manufacturer", "chassis_year", "chassis_type"]
+            title: "Weight & Balance",
+            fields: ["total_weight", "lf_weight", "rf_weight", "lr_weight", "rr_weight", "cross_weight_percent", "left_side_percent", "rear_percent"]
           },
           {
-            title: "Weight",
-            fields: ["total_weight", "left_side_weight", "rear_weight", "cross_weight", "fuel_load"]
+            title: "Front Suspension",
+            fields: ["lf_spring_rate", "rf_spring_rate", "lf_shock_compression", "lf_shock_rebound", "rf_shock_compression", "rf_shock_rebound", "camber_lf", "camber_rf", "caster_lf", "caster_rf", "ride_height_lf", "ride_height_rf"]
           },
           {
-            title: "Front End",
-            fields: ["front_clip", "steering_box", "spindle_length", "bumpsteer", "ackermann", "camber_gain"]
+            title: "Rear Suspension",
+            fields: ["rear_suspension_type", "lr_spring_rate", "rr_spring_rate", "lr_shock_compression", "lr_shock_rebound", "rr_shock_compression", "rr_shock_rebound", "ride_height_lr", "ride_height_rr", "rear_steer", "pinion_angle"]
           },
           {
-            title: "Suspension",
-            fields: ["front_suspension", "rear_suspension", "bird_cages", "trailing_arms", "pull_bar", "lift_arm", "shock_angles"]
+            title: "Steering & Alignment",
+            fields: ["toe_total_front", "ackermann_percent", "bump_steer_lf", "bump_steer_rf"]
           },
           {
-            title: "Left Front",
-            fields: ["lf_spring", "lf_spring_rubber", "lf_shock", "lf_shock_compression", "lf_shock_rebound", "lf_ride_height", "lf_camber", "lf_caster", "lf_toe", "lf_shock_travel", "lf_droop"]
+            title: "Tires - Front",
+            fields: ["lf_compound", "lf_size", "lf_cold_pressure", "lf_hot_pressure", "rf_compound", "rf_size", "rf_cold_pressure", "rf_hot_pressure", "front_stagger"]
           },
           {
-            title: "Right Front",
-            fields: ["rf_spring", "rf_spring_rubber", "rf_shock", "rf_shock_compression", "rf_shock_rebound", "rf_ride_height", "rf_camber", "rf_caster", "rf_toe", "rf_shock_travel", "rf_droop"]
+            title: "Tires - Rear",
+            fields: ["lr_compound", "lr_size", "lr_cold_pressure", "lr_hot_pressure", "rr_compound", "rr_size", "rr_cold_pressure", "rr_hot_pressure", "rear_stagger"]
           },
           {
-            title: "Left Rear",
-            fields: ["lr_spring", "lr_spring_rubber", "lr_shock", "lr_shock_compression", "lr_shock_rebound", "lr_ride_height", "lr_shock_travel", "lr_droop", "lr_link_heights", "lr_trailing_arm_angle", "lr_pinion_angle"]
+            title: "4-Link Settings (If Applicable)",
+            fields: ["upper_lr_link_length", "upper_rr_link_length", "lower_lr_link_length", "lower_rr_link_length", "upper_lr_link_angle_front", "upper_rr_link_angle_front", "lower_lr_link_angle_front", "lower_rr_link_angle_front", "upper_link_instant_center", "lower_link_instant_center", "fourlink_roll_center_height", "bird_cage_position_lr", "bird_cage_position_rr"]
           },
           {
-            title: "Right Rear",
-            fields: ["rr_spring", "rr_spring_rubber", "rr_shock", "rr_shock_compression", "rr_shock_rebound", "rr_ride_height", "rr_shock_travel", "rr_droop", "rr_link_heights", "rr_trailing_arm_angle", "rr_pinion_angle"]
-          },
-          {
-            title: "Tires",
-            fields: ["lf_tire", "rf_tire", "lr_tire", "rr_tire", "cross", "stagger", "grooving", "siping"]
-          },
-          {
-            title: "Engine",
-            fields: ["engine_type", "displacement", "carburetor", "timing", "fuel_pressure", "oil_pressure", "water_temp"]
+            title: "Pull Bar Settings (If Applicable)",
+            fields: ["pull_bar_angle", "pull_bar_spring_rate", "pull_bar_spring_preload", "pull_bar_length"]
           },
           {
             title: "Drivetrain",
-            fields: ["transmission", "rear_end", "gear_ratio", "differential"]
+            fields: ["gear_ratio", "final_drive", "transmission_type"]
           },
           {
-            title: "Aero",
-            fields: ["nose_height", "spoiler_angle", "spoiler_height", "body_height", "side_boards"]
-          },
-          {
-            title: "Track Data",
-            fields: ["banking", "surface", "grip_level", "temperature", "moisture"]
-          },
-          {
-            title: "Notes",
-            fields: ["track_notes", "setup_notes", "performance_notes", "maintenance_notes"]
+            title: "Session Notes",
+            fields: ["changes_made", "driver_notes"]
           }
         ]}
       />
