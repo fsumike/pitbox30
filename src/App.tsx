@@ -102,59 +102,59 @@ export const vehicleCategories = {
     {
       name: 'Sprint Cars',
       subcategories: [
-        { name: 'Wingless Sprints', path: '/wingless' },
-        { name: 'Crate Sprints', path: '/crate' },
-        { name: '360 Sprints', path: '/360' },
-        { name: '410 Sprints', path: '/410' },
-        { name: 'Non-Winged 410 Sprints', path: '/nonwinged410' },
-        { name: '600 Micro', path: '/600' },
-        { name: 'Mini Sprint', path: '/mini' },
-        { name: 'Jr Sprint', path: '/jr' }
+        { name: 'Wingless Sprints (National - Various engines)', path: '/wingless' },
+        { name: 'Crate Sprints (Regional - 602/604)', path: '/crate' },
+        { name: '360 Sprints (National - All regions)', path: '/360' },
+        { name: '410 Sprints (PA/OH/National - WoO)', path: '/410' },
+        { name: 'Non-Winged 410 Sprints (Midwest/Southwest - USAC)', path: '/nonwinged410' },
+        { name: '600 Micro (National - Restricted/Non-Wing)', path: '/600' },
+        { name: 'Mini Sprint (West Coast/Midwest)', path: '/mini' },
+        { name: 'Jr Sprint (National - Youth 8-15)', path: '/jr' }
       ]
     },
     {
       name: 'Midget Cars',
       subcategories: [
-        { name: 'Quarter Midget', path: '/quarter' },
-        { name: 'Focus Midget', path: '/focus' }
+        { name: 'Quarter Midget (National - Youth ages 5-16)', path: '/quarter' },
+        { name: 'Focus Midget (National - 1000cc Honda)', path: '/focus' }
       ]
     },
     {
       name: 'Modifieds',
       subcategories: [
-        { name: 'Dirt Modified 2', path: '/modified2' },
-        { name: 'UMP Modifieds', path: '/ump-modified' },
-        { name: 'IMCA Modifieds', path: '/imca-modified' },
-        { name: 'IMCA SportMods', path: '/imca-sportmod' },
-        { name: 'B-Modifieds', path: '/b-modified' }
+        { name: 'Big Block Modified (Northeast - 480ci, 4-link)', path: '/modified2' },
+        { name: 'UMP / USMTS Modified (Southern/National Open)', path: '/ump-modified' },
+        { name: 'IMCA Modifieds (Midwest/Western - 365ci sealed)', path: '/imca-modified' },
+        { name: 'IMCA SportMods (Midwest/Western - Crate)', path: '/imca-sportmod' },
+        { name: 'B-Modifieds (Regional - Budget Class)', path: '/b-modified' }
       ]
     },
     {
       name: 'Late Models',
       subcategories: [
-        { name: 'Late Model Dirt', path: '/latemodel' },
-        { name: 'Crate Late Models', path: '/crate-latemodel' },
-        { name: 'Super Late Model', path: '/super-latemodel' }
+        { name: 'Late Model Dirt (Regional - Open motor)', path: '/latemodel' },
+        { name: 'Crate Late Models (Southeast/Midwest - 604/525)', path: '/crate-latemodel' },
+        { name: 'Super Late Model (National - WoO/Lucas Oil)', path: '/super-latemodel' }
       ]
     },
     {
       name: 'Stock Cars',
       subcategories: [
-        { name: 'Street Stocks', path: '/street-stock' }
+        { name: 'Street Stocks (Regional - Factory frame)', path: '/street-stock' }
       ]
     },
     {
       name: 'Youth Racing / Kart',
       subcategories: [
-        { name: 'Outlaw Kart', path: '/outlaw' },
-        { name: 'LO206 Kart', path: '/lo206-kart' },
-        { name: 'Restricted Box Stock', path: '/restricted-boxstock' },
-        { name: 'Box Stock Class', path: '/boxstock' },
-        { name: '250 Intermediate', path: '/intermediate250' },
-        { name: 'Open Intermediate', path: '/open-intermediate' },
-        { name: 'Open Class', path: '/open-class' },
-        { name: 'Sportsman Class', path: '/sportsman' },
-        { name: 'Caged Clone Class', path: '/caged-clone' }
+        { name: 'Outlaw Kart (National - Various classes)', path: '/outlaw' },
+        { name: 'LO206 Kart (National - Spec motor)', path: '/lo206-kart' },
+        { name: 'Restricted Box Stock (Regional - Ages 5-7)', path: '/restricted-boxstock' },
+        { name: 'Box Stock Class (Regional - Clone/Predator)', path: '/boxstock' },
+        { name: '250 Intermediate (Regional - Ages 12-15)', path: '/intermediate250' },
+        { name: 'Open Intermediate (Regional)', path: '/open-intermediate' },
+        { name: 'Open Class (Regional - Unrestricted)', path: '/open-class' },
+        { name: 'Sportsman Class (Regional - Entry level)', path: '/sportsman' },
+        { name: 'Caged Clone Class (Regional - Clone motor)', path: '/caged-clone' }
       ]
     }
   ]
