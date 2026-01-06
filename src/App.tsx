@@ -107,7 +107,7 @@ export const vehicleCategories = {
         { name: '360 Sprints (National - All regions)', path: '/360' },
         { name: '410 Sprints (High Limit - PA/OH/National - WoO)', path: '/410' },
         { name: 'Non-Winged 410 Sprints (Midwest/Southwest - USAC)', path: '/nonwinged410' },
-        { name: '600 Micro (National - Restricted/Non-Wing)', path: '/600' },
+        { name: '600 Micro (National - Winged and Non-Winged)', path: '/600' },
         { name: 'Mini Sprint (West Coast/Midwest)', path: '/mini' },
         { name: 'Jr Sprint (National - Youth 8-15)', path: '/jr' }
       ]
