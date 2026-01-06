@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Download App Store Submission Files - PitBox</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 40px 20px;
+            color: #333;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+        }
+
+        h1 {
+            color: #667eea;
+            font-size: 32px;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .subtitle {
+            color: #666;
+            font-size: 16px;
+            margin-bottom: 30px;
+        }
+
+        .section {
+            background: #f8f9fa;
+            border-radius: 12px;
+            padding: 25px;
+            margin-bottom: 25px;
+            border-left: 4px solid #667eea;
+        }
+
+        .section h2 {
+            color: #333;
+            font-size: 20px;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .file-list {
+            display: grid;
+            gap: 12px;
+        }
+
+        .download-btn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 14px 24px;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 15px;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+        }
+
+        .download-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(102, 126, 234, 0.6);
+        }
+
+        .download-btn:active {
+            transform: translateY(0);
+        }
+
+        .file-item {
+            background: white;
+            padding: 15px;
+            border-radius: 8px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border: 2px solid #e0e0e0;
+            transition: all 0.2s ease;
+        }
+
+        .file-item:hover {
+            border-color: #667eea;
+            box-shadow: 0 2px 8px rgba(102, 126, 234, 0.2);
+        }
+
+        .file-info {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .file-name {
+            font-weight: 600;
+            color: #333;
+            font-size: 15px;
+        }
+
+        .file-desc {
+            font-size: 13px;
+            color: #666;
+        }
+
+        .important {
+            background: #fff3cd;
+            border-left-color: #ffc107;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 25px;
+        }
+
+        .important h3 {
+            color: #856404;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .important p {
+            color: #856404;
+            line-height: 1.6;
+        }
+
+        .status-badge {
+            display: inline-block;
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+            background: #d4edda;
+            color: #155724;
+        }
+
+        .download-all {
+            background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+            margin-top: 30px;
+            padding: 18px 32px;
+            font-size: 18px;
+            width: 100%;
+            justify-content: center;
+        }
+
+        .download-all:hover {
+            box-shadow: 0 6px 20px rgba(40, 167, 69, 0.6);
+        }
+
+        .step-number {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 32px;
+            height: 32px;
+            background: #667eea;
+            color: white;
+            border-radius: 50%;
+            font-weight: 700;
+            font-size: 16px;
+        }
+
+        ul {
+            margin: 15px 0;
+            padding-left: 20px;
+        }
+
+        li {
+            margin: 8px 0;
+            color: #555;
+            line-height: 1.6;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 25px;
+            }
+
+            h1 {
+                font-size: 24px;
+            }
+
+            .file-item {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 12px;
+            }
+
+            .download-btn {
+                width: 100%;
+                justify-content: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>
+            <span>📱</span>
+            App Store Submission Files
+        </h1>
+        <p class="subtitle">Everything you need to submit PitBox to the iOS App Store</p>
+
+        <div class="important">
+            <h3>⚠️ Important: Encryption Compliance</h3>
+            <p>Apple will ask if your app uses encryption. <strong>Your answer: NO</strong> (or if you must select yes, choose "exempt"). Your app only uses standard HTTPS/TLS encryption provided by iOS. See the encryption guides below for details.</p>
+        </div>
+
+        <!-- Step 1: Read These First -->
+        <div class="section">
+            <h2><span class="step-number">1</span> Read These Guides First</h2>
+            <div class="file-list">
+                <div class="file-item">
+                    <div class="file-info">
+                        <div class="file-name">🔒 ENCRYPTION_QUICK_ANSWER.txt</div>
+                        <div class="file-desc">Quick answer for encryption compliance question</div>
+                    </div>
+                    <button class="download-btn" onclick="downloadFile('ENCRYPTION_QUICK_ANSWER.txt')">
+                        📥 Download
+                    </button>
+                </div>
+                <div class="file-item">
+                    <div class="file-info">
+                        <div class="file-name">📖 ENCRYPTION_COMPLIANCE_GUIDE.md</div>
+                        <div class="file-desc">Complete encryption compliance documentation</div>
+                    </div>
+                    <button class="download-btn" onclick="downloadFile('ENCRYPTION_COMPLIANCE_GUIDE.md')">
+                        📥 Download
+                    </button>
+                </div>
+                <div class="file-item">
+                    <div class="file-info">
+                        <div class="file-name">📋 APP_STORE_SUBMISSION_READY.md</div>
+                        <div class="file-desc">Complete App Store listing copy (description, keywords, URLs)</div>
+                    </div>
+                    <button class="download-btn" onclick="downloadFile('APP_STORE_SUBMISSION_READY.md')">
+                        📥 Download
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Step 2: Create Test Account -->
+        <div class="section">
+            <h2><span class="step-number">2</span> Create Test Account</h2>
+            <div class="file-list">
+                <div class="file-item">
+                    <div class="file-info">
+                        <div class="file-name">👤 CREATE_TEST_ACCOUNT_GUIDE.md</div>
+                        <div class="file-desc">Step-by-step guide to create reviewer test account</div>
+                    </div>
+                    <button class="download-btn" onclick="downloadFile('CREATE_TEST_ACCOUNT_GUIDE.md')">
+                        📥 Download
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Step 3: Take Screenshots -->
+        <div class="section">
+            <h2><span class="step-number">3</span> Take Screenshots (From Windows!)</h2>
+            <div class="file-list">
+                <div class="file-item">
+                    <div class="file-info">
+                        <div class="file-name">📸 SCREENSHOT_GUIDE_WINDOWS.md</div>
+                        <div class="file-desc">How to create App Store screenshots using Chrome DevTools</div>
+                    </div>
+                    <button class="download-btn" onclick="downloadFile('SCREENSHOT_GUIDE_WINDOWS.md')">
+                        📥 Download
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Step 4: iOS Project Configuration -->
+        <div class="section">
+            <h2><span class="step-number">4</span> iOS Configuration Files</h2>
+            <div class="file-list">
+                <div class="file-item">
+                    <div class="file-info">
+                        <div class="file-name">⚙️ Info.plist.encryption-config.xml</div>
+                        <div class="file-desc">Add this to your Info.plist to handle encryption question automatically</div>
+                    </div>
+                    <button class="download-btn" onclick="downloadFile('Info.plist.encryption-config.xml')">
+                        📥 Download
+                    </button>
+                </div>
+                <div class="file-item">
+                    <div class="file-info">
+                        <div class="file-name">🔐 PrivacyInfo.xcprivacy.template</div>
+                        <div class="file-desc">Privacy manifest for iOS (already configured)</div>
+                    </div>
+                    <button class="download-btn" onclick="downloadFile('PrivacyInfo.xcprivacy.template')">
+                        📥 Download
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Step 5: Submission Checklist -->
+        <div class="section">
+            <h2><span class="step-number">5</span> Launch Checklist</h2>
+            <div class="file-list">
+                <div class="file-item">
+                    <div class="file-info">
+                        <div class="file-name">✅ APP_STORE_LAUNCH_CHECKLIST.md</div>
+                        <div class="file-desc">Complete checklist for App Store submission</div>
+                    </div>
+                    <button class="download-btn" onclick="downloadFile('APP_STORE_LAUNCH_CHECKLIST.md')">
+                        📥 Download
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- What You Can Do From Windows -->
+        <div class="important" style="background: #d1ecf1; border-left-color: #17a2b8;">
+            <h3 style="color: #0c5460;">✨ What You Can Do From Windows</h3>
+            <ul style="margin-top: 10px;">
+                <li style="color: #0c5460;"><strong>✅ Create test account</strong> - Use Supabase dashboard</li>
+                <li style="color: #0c5460;"><strong>✅ Take screenshots</strong> - Use Chrome DevTools</li>
+                <li style="color: #0c5460;"><strong>✅ Upload to App Store Connect</strong> - Web browser</li>
+                <li style="color: #0c5460;"><strong>✅ Fill in app information</strong> - Web browser</li>
+                <li style="color: #0c5460;"><strong>✅ Answer encryption questions</strong> - See guides above</li>
+                <li style="color: #0c5460;"><strong>❌ Build IPA file</strong> - Need Mac or Capawesome Cloud</li>
+            </ul>
+        </div>
+
+        <!-- Download All Button -->
+        <button class="download-all" onclick="downloadAllFiles()">
+            📦 Download All Files as ZIP
+        </button>
+
+        <div style="text-align: center; margin-top: 30px; color: #666; font-size: 14px;">
+            <p>Need help? Check the guides above or contact support.</p>
+            <p style="margin-top: 10px;"><span class="status-badge">Ready for Submission ✓</span></p>
+        </div>
+    </div>
+
+    <script>
+        function downloadFile(filename) {
+            const link = document.createElement('a');
+            link.href = `/${filename}`;
+            link.download = filename;
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+
+            // Show success message
+            const btn = event.target;
+            const originalText = btn.innerHTML;
+            btn.innerHTML = '✓ Downloaded';
+            btn.style.background = '#28a745';
+            setTimeout(() => {
+                btn.innerHTML = originalText;
+                btn.style.background = '';
+            }, 2000);
+        }
+
+        function downloadAllFiles() {
+            const files = [
+                'ENCRYPTION_QUICK_ANSWER.txt',
+                'ENCRYPTION_COMPLIANCE_GUIDE.md',
+                'APP_STORE_SUBMISSION_READY.md',
+                'CREATE_TEST_ACCOUNT_GUIDE.md',
+                'SCREENSHOT_GUIDE_WINDOWS.md',
+                'Info.plist.encryption-config.xml',
+                'PrivacyInfo.xcprivacy.template',
+                'APP_STORE_LAUNCH_CHECKLIST.md'
+            ];
+
+            const btn = event.target;
+            const originalText = btn.innerHTML;
+            btn.innerHTML = '📦 Downloading...';
+            btn.disabled = true;
+
+            // Download each file with a small delay
+            files.forEach((file, index) => {
+                setTimeout(() => {
+                    const link = document.createElement('a');
+                    link.href = `/${file}`;
+                    link.download = file;
+                    document.body.appendChild(link);
+                    link.click();
+                    document.body.removeChild(link);
+                }, index * 500);
+            });
+
+            setTimeout(() => {
+                btn.innerHTML = '✓ All Files Downloaded';
+                btn.style.background = '#28a745';
+                setTimeout(() => {
+                    btn.innerHTML = originalText;
+                    btn.style.background = '';
+                    btn.disabled = false;
+                }, 3000);
+            }, files.length * 500 + 1000);
+        }
+    </script>
+</body>
+</html>

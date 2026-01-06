@@ -1,0 +1,22 @@
+<!--
+  IMPORTANT: Add this to your iOS Info.plist file
+  Location: ios/App/App/Info.plist
+
+  This tells Apple that your app uses only standard encryption
+  and is exempt from export compliance documentation.
+-->
+
+<!-- Copy the lines below and paste inside the <dict> tag in Info.plist -->
+
+<key>ITSAppUsesNonExemptEncryption</key>
+<false/>
+
+<!--
+  EXPLANATION:
+  - Your app uses HTTPS/TLS for Supabase API calls
+  - This is standard encryption provided by Apple's iOS
+  - You do NOT need to provide encryption documentation
+  - You qualify for encryption export exemption
+
+  See ENCRYPTION_COMPLIANCE_GUIDE.md for full details
+-->
