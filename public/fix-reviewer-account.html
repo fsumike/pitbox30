@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Fix Reviewer Account SQL</title>
+    <style>
+        body {
+            font-family: system-ui, -apple-system, sans-serif;
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 20px;
+            background: #f5f5f5;
+        }
+        .container {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #2563eb;
+            margin-bottom: 20px;
+        }
+        .instructions {
+            background: #eff6ff;
+            border-left: 4px solid #2563eb;
+            padding: 15px;
+            margin: 20px 0;
+        }
+        .credentials {
+            background: #fef3c7;
+            border-left: 4px solid #f59e0b;
+            padding: 15px;
+            margin: 20px 0;
+            font-family: 'Courier New', monospace;
+        }
+        button {
+            background: #2563eb;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 16px;
+            margin-top: 20px;
+        }
+        button:hover {
+            background: #1d4ed8;
+        }
+        .step {
+            margin: 15px 0;
+            padding-left: 30px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🔧 Fix App Store Reviewer Account</h1>
+
+        <div class="instructions">
+            <h3>The Problem:</h3>
+            <p>The SQL created a tracking record but didn't add a username to the actual user profile. The app requires a username to sign in.</p>
+        </div>
+
+        <div class="credentials">
+            <h3>📧 Reviewer Credentials:</h3>
+            <p><strong>Email:</strong> reviewer@pitbox-demo.com</p>
+            <p><strong>Password:</strong> AppleReview2025!</p>
+            <p><strong>Username:</strong> AppleReviewer (will be added)</p>
+        </div>
+
+        <h3>✅ Solution - Choose ONE option:</h3>
+
+        <div class="step">
+            <h4>OPTION 1: If you already signed up in the app</h4>
+            <ol>
+                <li>Download the SQL file below</li>
+                <li>Go to Supabase Dashboard → SQL Editor</li>
+                <li>Paste the SQL and run it</li>
+                <li>This will add the username "AppleReviewer" to your account</li>
+                <li>Try signing in again - it should work now!</li>
+            </ol>
+            <button onclick="downloadSQL()">📥 Download FIX_REVIEWER_ACCOUNT.sql</button>
+        </div>
+
+        <div class="step">
+            <h4>OPTION 2: Start fresh (recommended if you haven't signed up yet)</h4>
+            <ol>
+                <li>Go to your app's sign-in page</li>
+                <li>Click "Sign Up" (not Sign In)</li>
+                <li>Enter these details:
+                    <ul>
+                        <li><strong>Email:</strong> reviewer@pitbox-demo.com</li>
+                        <li><strong>Password:</strong> AppleReview2025!</li>
+                        <li><strong>Username:</strong> AppleReviewer</li>
+                        <li><strong>Full Name:</strong> Apple Reviewer</li>
+                    </ul>
+                </li>
+                <li>Complete the sign-up</li>
+                <li>Then run the SQL file to grant premium access</li>
+            </ol>
+            <button onclick="downloadSQL()">📥 Download FIX_REVIEWER_ACCOUNT.sql</button>
+        </div>
+
+        <div class="instructions">
+            <h3>💡 What This SQL Does:</h3>
+            <ul>
+                <li>Looks for the reviewer@pitbox-demo.com account</li>
+                <li>Adds the username "AppleReviewer"</li>
+                <li>Sets the account to premium status</li>
+                <li>Shows you the results so you can verify</li>
+            </ul>
+        </div>
+    </div>
+
+    <script>
+        function downloadSQL() {
+            const sqlContent = `-- ============================================
+-- FIX APP STORE REVIEWER ACCOUNT
+-- This adds/updates the username for the reviewer account
+-- ============================================
+
+-- First, let's check if a profile exists for reviewer@pitbox-demo.com
+-- and update it with a username if it does
+
+-- Option 1: If the auth user exists, update their profile
+DO $$
+DECLARE
+  reviewer_id uuid;
+BEGIN
+  -- Find the user ID from auth.users
+  SELECT id INTO reviewer_id
+  FROM auth.users
+  WHERE email = 'reviewer@pitbox-demo.com';
+
+  IF reviewer_id IS NOT NULL THEN
+    -- Update the profile with username
+    UPDATE profiles
+    SET
+      username = 'AppleReviewer',
+      full_name = 'Apple Reviewer',
+      subscription_status = 'active',
+      subscription_tier = 'premium',
+      updated_at = now()
+    WHERE id = reviewer_id;
+
+    RAISE NOTICE 'Updated profile for reviewer@pitbox-demo.com with username AppleReviewer';
+  ELSE
+    RAISE NOTICE 'No auth user found for reviewer@pitbox-demo.com - you need to sign up through the app first';
+  END IF;
+END $$;
+
+-- Verify the update
+SELECT
+  p.id,
+  p.username,
+  p.full_name,
+  p.email,
+  p.subscription_status,
+  p.subscription_tier,
+  au.email as auth_email
+FROM profiles p
+LEFT JOIN auth.users au ON au.id = p.id
+WHERE p.email = 'reviewer@pitbox-demo.com'
+   OR au.email = 'reviewer@pitbox-demo.com';`;
+
+            const blob = new Blob([sqlContent], { type: 'text/plain' });
+            const url = window.URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'FIX_REVIEWER_ACCOUNT.sql';
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            window.URL.revokeObjectURL(url);
+        }
+    </script>
+</body>
+</html>
