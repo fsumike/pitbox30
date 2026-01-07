@@ -1,0 +1,437 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PitBox - Professional App Store Screenshots</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #1a1a1a;
+            color: white;
+            padding: 40px 20px;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+
+        .header h1 {
+            font-size: 48px;
+            font-weight: 700;
+            margin-bottom: 20px;
+            background: linear-gradient(135deg, #f5af19 0%, #f12711 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .header p {
+            font-size: 20px;
+            color: #999;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .screenshots-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 60px;
+            max-width: 1600px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .screenshot-card {
+            background: #2a2a2a;
+            border-radius: 24px;
+            padding: 40px;
+            position: relative;
+            overflow: hidden;
+            transition: transform 0.3s ease;
+        }
+
+        .screenshot-card:hover {
+            transform: translateY(-10px);
+        }
+
+        .screenshot-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 6px;
+            background: linear-gradient(90deg, #f5af19, #f12711);
+        }
+
+        .phone-mockup {
+            position: relative;
+            width: 100%;
+            max-width: 350px;
+            margin: 0 auto 30px;
+            aspect-ratio: 9 / 19.5;
+            background: #000;
+            border-radius: 50px;
+            padding: 14px;
+            box-shadow: 0 30px 80px rgba(0, 0, 0, 0.6),
+                        0 0 0 1px rgba(255, 255, 255, 0.1);
+        }
+
+        .phone-screen {
+            width: 100%;
+            height: 100%;
+            border-radius: 40px;
+            overflow: hidden;
+            background: white;
+            position: relative;
+        }
+
+        .phone-notch {
+            position: absolute;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 120px;
+            height: 30px;
+            background: #000;
+            border-radius: 0 0 20px 20px;
+            z-index: 10;
+        }
+
+        .phone-screen img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: top center;
+        }
+
+        .screenshot-info {
+            text-align: center;
+        }
+
+        .screenshot-number {
+            display: inline-block;
+            background: linear-gradient(135deg, #f5af19 0%, #f12711 100%);
+            color: white;
+            padding: 8px 20px;
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: 600;
+            margin-bottom: 20px;
+        }
+
+        .screenshot-info h2 {
+            font-size: 28px;
+            font-weight: 700;
+            margin-bottom: 15px;
+            color: white;
+        }
+
+        .screenshot-info p {
+            font-size: 16px;
+            line-height: 1.6;
+            color: #999;
+            max-width: 450px;
+            margin: 0 auto;
+        }
+
+        .download-section {
+            max-width: 1200px;
+            margin: 80px auto 40px;
+            text-align: center;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 60px 40px;
+            border-radius: 24px;
+        }
+
+        .download-section h2 {
+            font-size: 36px;
+            margin-bottom: 20px;
+            color: white;
+        }
+
+        .download-section p {
+            font-size: 18px;
+            color: rgba(255, 255, 255, 0.9);
+            margin-bottom: 30px;
+        }
+
+        .download-btn {
+            display: inline-block;
+            background: white;
+            color: #667eea;
+            padding: 18px 40px;
+            border-radius: 12px;
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 18px;
+            margin: 0 10px;
+            transition: all 0.3s ease;
+        }
+
+        .download-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+        }
+
+        .instructions {
+            max-width: 1200px;
+            margin: 0 auto 40px;
+            background: #2a2a2a;
+            padding: 40px;
+            border-radius: 24px;
+        }
+
+        .instructions h3 {
+            font-size: 24px;
+            margin-bottom: 20px;
+            color: #f5af19;
+        }
+
+        .instructions ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .instructions li {
+            padding: 12px 0;
+            padding-left: 30px;
+            position: relative;
+            color: #ccc;
+            font-size: 16px;
+            line-height: 1.6;
+        }
+
+        .instructions li::before {
+            content: '✓';
+            position: absolute;
+            left: 0;
+            color: #f5af19;
+            font-weight: bold;
+        }
+
+        @media (max-width: 768px) {
+            .screenshots-grid {
+                grid-template-columns: 1fr;
+                gap: 40px;
+            }
+
+            .header h1 {
+                font-size: 32px;
+            }
+
+            .screenshot-info h2 {
+                font-size: 22px;
+            }
+
+            .download-section {
+                padding: 40px 20px;
+            }
+
+            .download-section h2 {
+                font-size: 28px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>🏁 PitBox App Store Screenshots</h1>
+        <p>Professional, production-ready screenshots for App Store and Google Play. Right-click any image to save.</p>
+    </div>
+
+    <div class="instructions">
+        <h3>📱 How to Use These Screenshots</h3>
+        <ul>
+            <li>Right-click on any phone mockup and select "Save Image As"</li>
+            <li>For best quality, take a screenshot of each card at 1242x2688 pixels (iPhone)</li>
+            <li>Or use your browser's screenshot tool to capture individual cards</li>
+            <li>Recommended: Use full-page screenshot extensions for perfect quality</li>
+            <li>These work for both iOS App Store and Google Play Store submissions</li>
+        </ul>
+    </div>
+
+    <div class="screenshots-grid">
+        <!-- Screenshot 1: Racing Community -->
+        <div class="screenshot-card">
+            <div class="phone-mockup">
+                <div class="phone-notch"></div>
+                <div class="phone-screen">
+                    <img src="screenshot_2026-01-06_195817.png" alt="Racing Community">
+                </div>
+            </div>
+            <div class="screenshot-info">
+                <span class="screenshot-number">Screenshot 1</span>
+                <h2>Connect With Racers</h2>
+                <p>Join the largest racing community. Share stories, watch reels, message friends, and stay connected with fellow racers worldwide.</p>
+            </div>
+        </div>
+
+        <!-- Screenshot 2: Setup Sheets -->
+        <div class="screenshot-card">
+            <div class="phone-mockup">
+                <div class="phone-notch"></div>
+                <div class="phone-screen">
+                    <img src="screenshot_2026-01-06_195658.png" alt="Setup Sheets">
+                </div>
+            </div>
+            <div class="screenshot-info">
+                <span class="screenshot-number">Screenshot 2</span>
+                <h2>Professional Setup Sheets</h2>
+                <p>Track every detail of your car setup with customizable fields, shock inventory, lap times, and race notes that help you win.</p>
+            </div>
+        </div>
+
+        <!-- Screenshot 3: Swap Meet -->
+        <div class="screenshot-card">
+            <div class="phone-mockup">
+                <div class="phone-notch"></div>
+                <div class="phone-screen">
+                    <img src="screenshot_2026-01-06_195920.png" alt="Swap Meet">
+                </div>
+            </div>
+            <div class="screenshot-info">
+                <span class="screenshot-number">Screenshot 3</span>
+                <h2>Buy & Sell Racing Parts</h2>
+                <p>The ultimate marketplace for racing parts. Browse listings, connect with sellers, and find exactly what you need for your car.</p>
+            </div>
+        </div>
+
+        <!-- Screenshot 4: Racing Tools -->
+        <div class="screenshot-card">
+            <div class="phone-mockup">
+                <div class="phone-notch"></div>
+                <div class="phone-screen">
+                    <img src="screenshot_2026-01-06_200006.png" alt="Racing Tools">
+                </div>
+            </div>
+            <div class="screenshot-info">
+                <span class="screenshot-number">Screenshot 4</span>
+                <h2>11 Professional Tools</h2>
+                <p>Complete racing toolkit with gear calculators, weight distribution, spring rates, fuel calculator, and track notebook.</p>
+            </div>
+        </div>
+
+        <!-- Screenshot 5: Main Screen -->
+        <div class="screenshot-card">
+            <div class="phone-mockup">
+                <div class="phone-notch"></div>
+                <div class="phone-screen">
+                    <img src="main_screen.png" alt="Main Screen">
+                </div>
+            </div>
+            <div class="screenshot-info">
+                <span class="screenshot-number">Screenshot 5</span>
+                <h2>Everything in One Place</h2>
+                <p>Access setup management, racing community, swap meet, and professional tools all from one beautifully designed interface.</p>
+            </div>
+        </div>
+
+        <!-- Screenshot 6: Pit Community -->
+        <div class="screenshot-card">
+            <div class="phone-mockup">
+                <div class="phone-notch"></div>
+                <div class="phone-screen">
+                    <img src="pit_community.png" alt="Pit Community">
+                </div>
+            </div>
+            <div class="screenshot-info">
+                <span class="screenshot-number">Screenshot 6</span>
+                <h2>Share Your Racing Life</h2>
+                <p>Post updates, share photos, get advice from experienced racers, and build your reputation in the racing community.</p>
+            </div>
+        </div>
+
+        <!-- Screenshot 7: Swap Meet Marketplace -->
+        <div class="screenshot-card">
+            <div class="phone-mockup">
+                <div class="phone-notch"></div>
+                <div class="phone-screen">
+                    <img src="swap_meet.png" alt="Swap Meet Marketplace">
+                </div>
+            </div>
+            <div class="screenshot-info">
+                <span class="screenshot-number">Screenshot 7</span>
+                <h2>Marketplace Dashboard</h2>
+                <p>Browse all categories, search listings, save favorites, and manage your own parts for sale all in one powerful marketplace.</p>
+            </div>
+        </div>
+
+        <!-- Screenshot 8: More Options -->
+        <div class="screenshot-card">
+            <div class="phone-mockup">
+                <div class="phone-notch"></div>
+                <div class="phone-screen">
+                    <img src="more.png" alt="More Options">
+                </div>
+            </div>
+            <div class="screenshot-info">
+                <span class="screenshot-number">Screenshot 8</span>
+                <h2>Powerful Features</h2>
+                <p>Access premium tools, manage your profile, connect with partners, and explore everything PitBox has to offer.</p>
+            </div>
+        </div>
+
+        <!-- Screenshot 9: Racing Tools Selection -->
+        <div class="screenshot-card">
+            <div class="phone-mockup">
+                <div class="phone-notch"></div>
+                <div class="phone-screen">
+                    <img src="racing_tools.png" alt="Racing Tools">
+                </div>
+            </div>
+            <div class="screenshot-info">
+                <span class="screenshot-number">Screenshot 9</span>
+                <h2>Choose Your Tool</h2>
+                <p>Select from motor health tracking, tire management, maintenance checklists, gear calculators, and more professional tools.</p>
+            </div>
+        </div>
+
+        <!-- Screenshot 10: I Save This -->
+        <div class="screenshot-card">
+            <div class="phone-mockup">
+                <div class="phone-notch"></div>
+                <div class="phone-screen">
+                    <img src="i_save_this.png" alt="Saved Setups">
+                </div>
+            </div>
+            <div class="screenshot-info">
+                <span class="screenshot-number">Screenshot 10</span>
+                <h2>Save Your Best Setups</h2>
+                <p>Keep track of winning setups, compare performance across different tracks, and never lose your competitive edge.</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="download-section">
+        <h2>🎯 Ready for App Store Submission</h2>
+        <p>Right-click any screenshot above to save. These are professionally designed for maximum impact.</p>
+        <a href="#" class="download-btn" onclick="window.print(); return false;">Print All Screenshots</a>
+    </div>
+
+    <script>
+        // Add smooth scroll behavior
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth' });
+                }
+            });
+        });
+
+        console.log('✅ PitBox App Store Screenshots loaded successfully!');
+        console.log('📱 Total screenshots: 10');
+        console.log('🎨 Professional phone mockups with marketing copy');
+    </script>
+</body>
+</html>
