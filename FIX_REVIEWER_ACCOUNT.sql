@@ -1,48 +1,100 @@
--- ============================================
--- FIX APP STORE REVIEWER ACCOUNT
--- This adds/updates the username for the reviewer account
--- ============================================
+-- ==================================================
+-- FRESH REVIEWER ACCOUNT SETUP (CORRECTED)
+-- ==================================================
+-- This script completely resets and creates the Apple Review account
+--
+-- Account Details:
+-- Email: reviewer@pitbox-demo.com
+-- Password: AppleReview2025!
+-- Username: AppleReviewer
+-- ==================================================
 
--- First, let's check if a profile exists for reviewer@pitbox-demo.com
--- and update it with a username if it does
+-- STEP 1: Delete any existing reviewer account
+-- (This will cascade to profiles and subscriptions automatically)
+DELETE FROM auth.users WHERE email = 'reviewer@pitbox-demo.com';
 
--- Option 1: If the auth user exists, update their profile
-DO $$
-DECLARE
-  reviewer_id uuid;
-BEGIN
-  -- Find the user ID from auth.users
-  SELECT id INTO reviewer_id
-  FROM auth.users
-  WHERE email = 'reviewer@pitbox-demo.com';
+-- STEP 2: Create new auth user with proper password
+-- Note: The password will be hashed by Supabase
+INSERT INTO auth.users (
+  id,
+  instance_id,
+  email,
+  encrypted_password,
+  email_confirmed_at,
+  created_at,
+  updated_at,
+  raw_app_meta_data,
+  raw_user_meta_data,
+  aud,
+  role
+)
+VALUES (
+  gen_random_uuid(),
+  '00000000-0000-0000-0000-000000000000',
+  'reviewer@pitbox-demo.com',
+  crypt('AppleReview2025!', gen_salt('bf')),
+  now(),
+  now(),
+  now(),
+  '{"provider":"email","providers":["email"]}',
+  '{"username":"AppleReviewer","full_name":"Apple Reviewer"}',
+  'authenticated',
+  'authenticated'
+);
 
-  IF reviewer_id IS NOT NULL THEN
-    -- Update the profile with username
-    UPDATE profiles
-    SET
-      username = 'AppleReviewer',
-      full_name = 'Apple Reviewer',
-      subscription_status = 'active',
-      subscription_tier = 'premium',
-      updated_at = now()
-    WHERE id = reviewer_id;
-
-    RAISE NOTICE 'Updated profile for reviewer@pitbox-demo.com with username AppleReviewer';
-  ELSE
-    RAISE NOTICE 'No auth user found for reviewer@pitbox-demo.com - you need to sign up through the app first';
-  END IF;
-END $$;
-
--- Verify the update
+-- STEP 3: Create profile entry
+INSERT INTO profiles (
+  id,
+  username,
+  full_name,
+  car_number,
+  created_at,
+  updated_at
+)
 SELECT
-  p.id,
+  id,
+  'AppleReviewer',
+  'Apple Reviewer',
+  '1',
+  now(),
+  now()
+FROM auth.users
+WHERE email = 'reviewer@pitbox-demo.com';
+
+-- STEP 4: Create premium subscription
+INSERT INTO user_subscriptions (
+  user_id,
+  subscription_id,
+  status,
+  tier,
+  current_period_end,
+  cancel_at_period_end,
+  created_at,
+  updated_at
+)
+SELECT
+  id,
+  'demo_subscription_' || id,
+  'active',
+  'premium',
+  now() + interval '1 year',
+  false,
+  now(),
+  now()
+FROM auth.users
+WHERE email = 'reviewer@pitbox-demo.com';
+
+-- STEP 5: Verify the account was created
+SELECT
+  u.id,
+  u.email,
+  u.email_confirmed_at,
   p.username,
   p.full_name,
-  p.email,
-  p.subscription_status,
-  p.subscription_tier,
-  au.email as auth_email
-FROM profiles p
-LEFT JOIN auth.users au ON au.id = p.id
-WHERE p.email = 'reviewer@pitbox-demo.com'
-   OR au.email = 'reviewer@pitbox-demo.com';
+  p.car_number,
+  s.status as subscription_status,
+  s.tier as subscription_tier
+FROM auth.users u
+LEFT JOIN profiles p ON u.id = p.id
+LEFT JOIN user_subscriptions s ON u.id = s.user_id
+WHERE u.email = 'reviewer@pitbox-demo.com';
