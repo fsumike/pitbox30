@@ -1,19 +1,19 @@
 -- ============================================
 -- SETUP REVIEWER ACCOUNT WITH PREMIUM ACCESS
 -- ============================================
+-- This script finds the user by email automatically
+-- No need to copy/paste any UUIDs!
 --
--- STEP 1: Go to Supabase Dashboard > Authentication > Users
--- STEP 2: Click "Add user" > "Create new user"
--- STEP 3: Enter:
+-- STEP 1: Create the user first in Supabase Dashboard:
+--    Go to Authentication > Users > Add user > Create new user
 --    Email: reviewer@pitbox.app
 --    Password: ReviewerPitBox2025!
 --    Check "Auto Confirm User"
--- STEP 4: Copy the User ID that was created
--- STEP 5: Replace 'PASTE_USER_ID_HERE' below with that ID
--- STEP 6: Run this SQL in the SQL Editor
+--
+-- STEP 2: Run this entire SQL script
 -- ============================================
 
--- Replace PASTE_USER_ID_HERE with the actual UUID from Step 4
+-- Create or update the profile for the reviewer account
 INSERT INTO public.profiles (
   id,
   username,
@@ -23,18 +23,29 @@ INSERT INTO public.profiles (
   created_at,
   updated_at
 )
-VALUES (
-  'PASTE_USER_ID_HERE',
+SELECT
+  au.id,
   'AppReviewer',
   'App Store Reviewer',
   true,
   false,
   NOW(),
   NOW()
-)
+FROM auth.users au
+WHERE au.email = 'reviewer@pitbox.app'
 ON CONFLICT (id) DO UPDATE SET
+  username = 'AppReviewer',
+  full_name = 'App Store Reviewer',
   has_premium = true,
   updated_at = NOW();
 
 -- Verify it worked
-SELECT id, username, full_name, has_premium FROM profiles WHERE username = 'AppReviewer';
+SELECT
+  p.id,
+  p.username,
+  p.full_name,
+  p.has_premium,
+  au.email
+FROM profiles p
+JOIN auth.users au ON au.id = p.id
+WHERE au.email = 'reviewer@pitbox.app';
