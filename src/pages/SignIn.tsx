@@ -149,16 +149,43 @@ function SignIn() {
           }
         }
 
-        const { error, success } = await signUp(trimmedEmail, trimmedPassword);
+        const trimmedUsername = username.trim();
+        const trimmedFullName = fullName.trim();
+
+        const { data: existingProfile } = await supabase
+          .from('profiles')
+          .select('id')
+          .eq('username', trimmedUsername)
+          .maybeSingle();
+
+        if (existingProfile) {
+          setError('This username is already taken. Please choose another.');
+          setLoading(false);
+          return;
+        }
+
+        const { error, success } = await signUp(trimmedEmail, trimmedPassword, {
+          username: trimmedUsername,
+          full_name: trimmedFullName,
+        });
+
         if (error) {
-          if (error.message.includes('user_already_exists')) {
+          if (error.message.includes('user_already_exists') || error.message.includes('already registered')) {
             setError('An account with this email already exists. Please sign in instead.');
             setIsSignIn(true);
           } else {
             setError(error.message);
           }
         } else if (success) {
-          const { data: { user: newUser } } = await supabase.auth.getUser();
+          let retries = 0;
+          let newUser = null;
+
+          while (retries < 3 && !newUser) {
+            await new Promise(resolve => setTimeout(resolve, 500));
+            const { data } = await supabase.auth.getUser();
+            newUser = data?.user;
+            retries++;
+          }
 
           if (newUser) {
             let normalizedPromoCode = null;
@@ -167,19 +194,23 @@ function SignIn() {
               normalizedPromoCode = code.charAt(0).toUpperCase() + code.slice(1);
             }
 
-            const { error: profileError } = await supabase
-              .from('profiles')
-              .upsert({
-                id: newUser.id,
-                username: username.trim(),
-                full_name: fullName.trim() || null,
-                promo_code: normalizedPromoCode,
-                has_premium: !!normalizedPromoCode,
-                updated_at: new Date().toISOString()
-              });
+            try {
+              const { error: profileError } = await supabase
+                .from('profiles')
+                .upsert({
+                  id: newUser.id,
+                  username: trimmedUsername,
+                  full_name: trimmedFullName || null,
+                  promo_code: normalizedPromoCode,
+                  has_premium: !!normalizedPromoCode,
+                  updated_at: new Date().toISOString()
+                }, { onConflict: 'id' });
 
-            if (profileError) {
-              console.error('Error creating profile:', profileError);
+              if (profileError) {
+                console.error('Error creating profile:', profileError);
+              }
+            } catch (profileErr) {
+              console.error('Profile creation error:', profileErr);
             }
           }
 
@@ -213,13 +244,13 @@ function SignIn() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center p-4 bg-gradient-to-br from-brand-black via-brand-black-light to-brand-black-dark relative overflow-hidden">
-      <div className="liquid-orb liquid-orb-gold w-48 sm:w-64 md:w-80 h-48 sm:h-64 md:h-80 -top-16 sm:-top-20 md:-top-20 -left-16 sm:-left-20 md:-left-20 fixed z-0" />
-      <div className="liquid-orb liquid-orb-amber w-40 sm:w-56 md:w-64 h-40 sm:h-56 md:h-64 -bottom-12 sm:-bottom-16 md:-bottom-16 -right-12 sm:-right-16 md:-right-16 fixed z-0" style={{ animationDelay: '-7s' }} />
-      <div className="liquid-orb liquid-orb-gold w-32 sm:w-40 md:w-48 h-32 sm:h-40 md:h-48 top-1/3 right-2 sm:right-6 md:right-10 fixed z-0" style={{ animationDelay: '-12s' }} />
+    <div className="min-h-screen flex items-center justify-center p-4 bg-gradient-to-br from-gray-900 via-gray-800 to-black relative overflow-hidden">
+      <div className="liquid-orb liquid-orb-gold w-48 sm:w-64 md:w-80 h-48 sm:h-64 md:h-80 -top-16 sm:-top-20 md:-top-20 -left-16 sm:-left-20 md:-left-20 fixed z-0 opacity-60" />
+      <div className="liquid-orb liquid-orb-amber w-40 sm:w-56 md:w-64 h-40 sm:h-56 md:h-64 -bottom-12 sm:-bottom-16 md:-bottom-16 -right-12 sm:-right-16 md:-right-16 fixed z-0 opacity-60" style={{ animationDelay: '-7s' }} />
+      <div className="liquid-orb liquid-orb-gold w-32 sm:w-40 md:w-48 h-32 sm:h-40 md:h-48 top-1/3 right-2 sm:right-6 md:right-10 fixed z-0 opacity-60" style={{ animationDelay: '-12s' }} />
 
       <div className="relative w-full max-w-md z-10">
-        <div className="liquid-glass p-8">
+        <div className="bg-gray-900/95 backdrop-blur-xl rounded-3xl p-8 border border-gray-700/50 shadow-2xl">
           <div className="text-center mb-8 relative z-10">
             <div className="relative inline-block">
               <div className="absolute inset-0 bg-amber-400/30 blur-2xl rounded-full scale-125" />
@@ -229,27 +260,25 @@ function SignIn() {
                 className="w-24 h-24 mx-auto mb-4 relative z-10"
               />
             </div>
-            <h1 className="text-3xl font-bold mb-2 bg-gradient-to-r from-brand-gold to-brand-gold-light bg-clip-text text-transparent">
+            <h1 className="text-3xl font-bold mb-2 bg-gradient-to-r from-amber-400 to-yellow-500 bg-clip-text text-transparent">
               {isSignIn ? 'Sign In to PitBox' : 'Create PitBox Account'}
             </h1>
-            <p className="text-gray-600 dark:text-gray-400">
+            <p className="text-gray-300">
               {isSignIn ? 'Welcome back!' : 'Join the winners circle'}
             </p>
           </div>
 
           {connectionError && (
-            <div className="mb-4 p-3 rounded-2xl liquid-glass-card relative z-10" style={{
-              background: 'linear-gradient(135deg, rgba(239, 68, 68, 0.15) 0%, rgba(239, 68, 68, 0.05) 100%)'
-            }}>
-              <div className="flex items-start gap-2">
-                <AlertTriangle className="w-4 h-4 text-red-500 mt-0.5 flex-shrink-0" />
+            <div className="mb-4 p-4 rounded-xl bg-red-900/30 border border-red-500/50 relative z-10">
+              <div className="flex items-start gap-3">
+                <AlertTriangle className="w-5 h-5 text-red-400 mt-0.5 flex-shrink-0" />
                 <div className="flex-1 min-w-0">
-                  <p className="text-sm text-red-700 dark:text-red-300 mb-2">
+                  <p className="text-sm text-red-300 mb-2">
                     Connection Error: {connectionError}
                   </p>
                   <button
                     onClick={handleRetryConnection}
-                    className="flex items-center gap-1 text-xs text-red-600 dark:text-red-400 hover:text-red-700 dark:hover:text-red-300"
+                    className="flex items-center gap-1 text-xs text-red-400 hover:text-red-300 transition-colors"
                   >
                     <RefreshCw className="w-3 h-3" />
                     Retry Connection
@@ -261,9 +290,7 @@ function SignIn() {
 
           <form onSubmit={handleSubmit} className="space-y-4 relative z-10">
             {error && (
-              <div className="p-3 rounded-2xl liquid-glass-card text-red-700 dark:text-red-300 text-sm" style={{
-                background: 'linear-gradient(135deg, rgba(239, 68, 68, 0.15) 0%, rgba(239, 68, 68, 0.05) 100%)'
-              }}>
+              <div className="p-4 rounded-xl bg-red-900/30 border border-red-500/50 text-red-300 text-sm">
                 {error}
               </div>
             )}
@@ -271,15 +298,15 @@ function SignIn() {
             {!isSignIn && (
               <>
                 <div>
-                  <label htmlFor="username" className="block text-sm font-medium mb-1 text-gray-900 dark:text-white">
-                    Username <span className="text-red-500">*</span>
+                  <label htmlFor="username" className="block text-sm font-medium mb-1 text-white">
+                    Username <span className="text-red-400">*</span>
                   </label>
                   <input
                     type="text"
                     id="username"
                     value={username}
                     onChange={(e) => setUsername(e.target.value)}
-                    className="liquid-glass-input"
+                    className="w-full px-4 py-3 bg-gray-800/80 border border-gray-600 rounded-xl text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-amber-500 focus:border-transparent transition-all"
                     placeholder="Choose a username"
                     required
                     disabled={loading}
@@ -287,7 +314,7 @@ function SignIn() {
                 </div>
 
                 <div>
-                  <label htmlFor="fullName" className="block text-sm font-medium mb-1 text-gray-900 dark:text-white">
+                  <label htmlFor="fullName" className="block text-sm font-medium mb-1 text-white">
                     Full Name
                   </label>
                   <input
@@ -295,16 +322,16 @@ function SignIn() {
                     id="fullName"
                     value={fullName}
                     onChange={(e) => setFullName(e.target.value)}
-                    className="liquid-glass-input"
+                    className="w-full px-4 py-3 bg-gray-800/80 border border-gray-600 rounded-xl text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-amber-500 focus:border-transparent transition-all"
                     placeholder="Your full name"
                     disabled={loading}
                   />
                 </div>
 
                 <div>
-                  <label htmlFor="promoCode" className="block text-sm font-medium mb-1 text-gray-900 dark:text-white">
+                  <label htmlFor="promoCode" className="block text-sm font-medium mb-1 text-white">
                     Promo Code
-                    <span className="ml-1 text-xs text-gray-500 dark:text-gray-400">(Optional)</span>
+                    <span className="ml-1 text-xs text-gray-400">(Optional)</span>
                   </label>
                   <div className="relative">
                     <input
@@ -312,12 +339,12 @@ function SignIn() {
                       id="promoCode"
                       value={promoCode}
                       onChange={handlePromoCodeChange}
-                      className={`liquid-glass-input ${
+                      className={`w-full px-4 py-3 bg-gray-800/80 border rounded-xl text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-amber-500 focus:border-transparent transition-all ${
                         promoValid === true && !promoUsed
-                          ? '!border-green-500'
+                          ? 'border-green-500'
                           : promoValid === false || promoUsed
-                          ? '!border-red-500'
-                          : ''
+                          ? 'border-red-500'
+                          : 'border-gray-600'
                       }`}
                       placeholder="Enter promo code if you have one"
                       disabled={loading}
@@ -328,17 +355,17 @@ function SignIn() {
                   </div>
 
                   {promoValid === true && !promoUsed && (
-                    <p className="mt-1 text-xs text-green-600 dark:text-green-400">
+                    <p className="mt-1 text-xs text-green-400">
                       Valid promo code! You'll have premium access.
                     </p>
                   )}
                   {promoValid === false && promoCode && !promoUsed && (
-                    <p className="mt-1 text-xs text-red-600 dark:text-red-400">
+                    <p className="mt-1 text-xs text-red-400">
                       Invalid promo code.
                     </p>
                   )}
                   {promoUsed && (
-                    <p className="mt-1 text-xs text-red-600 dark:text-red-400">
+                    <p className="mt-1 text-xs text-red-400">
                       This promo code has already been used.
                     </p>
                   )}
@@ -347,7 +374,7 @@ function SignIn() {
             )}
 
             <div>
-              <label htmlFor="email" className="block text-sm font-medium mb-1 text-gray-900 dark:text-white">
+              <label htmlFor="email" className="block text-sm font-medium mb-1 text-white">
                 Email
               </label>
               <div className="relative">
@@ -357,7 +384,7 @@ function SignIn() {
                   id="email"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  className="liquid-glass-input !pl-11"
+                  className="w-full pl-11 pr-4 py-3 bg-gray-800/80 border border-gray-600 rounded-xl text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-amber-500 focus:border-transparent transition-all"
                   placeholder="your@email.com"
                   required
                   autoComplete="email"
@@ -367,7 +394,7 @@ function SignIn() {
             </div>
 
             <div>
-              <label htmlFor="password" className="block text-sm font-medium mb-1 text-gray-900 dark:text-white">
+              <label htmlFor="password" className="block text-sm font-medium mb-1 text-white">
                 Password
               </label>
               <div className="relative">
@@ -377,7 +404,7 @@ function SignIn() {
                   id="password"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
-                  className="liquid-glass-input !pl-11"
+                  className="w-full pl-11 pr-4 py-3 bg-gray-800/80 border border-gray-600 rounded-xl text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-amber-500 focus:border-transparent transition-all"
                   placeholder="********"
                   required
                   autoComplete={isSignIn ? "current-password" : "new-password"}
@@ -386,7 +413,7 @@ function SignIn() {
                 />
               </div>
               {!isSignIn && (
-                <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">
+                <p className="text-xs text-gray-400 mt-1">
                   Password must be at least 6 characters
                 </p>
               )}
@@ -395,7 +422,7 @@ function SignIn() {
             <button
               type="submit"
               disabled={loading || (promoCode && (promoValid === false || promoUsed)) || !!connectionError}
-              className="w-full liquid-glass-btn text-lg flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
+              className="w-full py-3 px-4 bg-gradient-to-r from-amber-500 to-yellow-500 hover:from-amber-600 hover:to-yellow-600 text-black font-semibold rounded-xl text-lg flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed transition-all shadow-lg hover:shadow-amber-500/25"
             >
               {loading ? (
                 <>
@@ -410,11 +437,11 @@ function SignIn() {
               )}
             </button>
 
-            <p className="text-sm text-center text-gray-600 dark:text-gray-400">
+            <p className="text-sm text-center text-gray-300">
               {isSignIn ? "Don't have an account?" : "Already have an account?"}{' '}
               <button
                 type="button"
-                className="text-brand-gold hover:text-brand-gold-dark dark:text-brand-gold-light dark:hover:text-brand-gold font-medium"
+                className="text-amber-400 hover:text-amber-300 font-medium"
                 onClick={() => {
                   setIsSignIn(!isSignIn);
                   setError(null);
@@ -432,7 +459,7 @@ function SignIn() {
         <div className="text-center mt-6">
           <button
             onClick={() => navigate(-1)}
-            className="text-gray-400 hover:text-gray-300 text-sm"
+            className="text-gray-400 hover:text-white text-sm transition-colors"
           >
             Go Back
           </button>

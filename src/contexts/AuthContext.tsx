@@ -23,7 +23,7 @@ interface AuthContextType {
     error: Error | null;
     success: boolean;
   }>;
-  signUp: (email: string, password: string) => Promise<{
+  signUp: (email: string, password: string, metadata?: { username?: string; full_name?: string }) => Promise<{
     error: Error | null;
     success: boolean;
   }>;
@@ -226,7 +226,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     }
   };
 
-  const signUp = async (email: string, password: string) => {
+  const signUp = async (email: string, password: string, metadata?: { username?: string; full_name?: string }) => {
     try {
       setConnectionError(null);
 
@@ -243,6 +243,12 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
           return await supabase.auth.signUp({
             email,
             password,
+            options: {
+              data: metadata ? {
+                username: metadata.username,
+                full_name: metadata.full_name,
+              } : undefined,
+            },
           });
         } catch (err) {
           if (err instanceof DOMException && err.name === 'AbortError') {
