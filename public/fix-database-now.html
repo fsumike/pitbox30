@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Fix Database - Run This SQL</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+      min-height: 100vh;
+      color: #fff;
+      padding: 20px;
+    }
+    .container { max-width: 900px; margin: 0 auto; }
+    h1 {
+      text-align: center;
+      color: #f59e0b;
+      margin-bottom: 10px;
+      font-size: 28px;
+    }
+    .subtitle {
+      text-align: center;
+      color: #9ca3af;
+      margin-bottom: 30px;
+    }
+    .steps {
+      background: rgba(255,255,255,0.05);
+      border-radius: 12px;
+      padding: 20px;
+      margin-bottom: 20px;
+    }
+    .step {
+      display: flex;
+      align-items: flex-start;
+      margin-bottom: 15px;
+    }
+    .step-num {
+      background: #f59e0b;
+      color: #000;
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: bold;
+      margin-right: 12px;
+      flex-shrink: 0;
+    }
+    .step-text { color: #e5e7eb; line-height: 1.5; }
+    .step-text a { color: #60a5fa; }
+    .sql-container {
+      background: #0f172a;
+      border: 1px solid #334155;
+      border-radius: 12px;
+      overflow: hidden;
+    }
+    .sql-header {
+      background: #1e293b;
+      padding: 12px 16px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid #334155;
+    }
+    .sql-title { color: #94a3b8; font-size: 14px; }
+    .copy-btn {
+      background: #f59e0b;
+      color: #000;
+      border: none;
+      padding: 8px 16px;
+      border-radius: 6px;
+      cursor: pointer;
+      font-weight: 600;
+      transition: all 0.2s;
+    }
+    .copy-btn:hover { background: #d97706; }
+    .copy-btn.copied { background: #10b981; color: #fff; }
+    .sql-code {
+      padding: 16px;
+      overflow-x: auto;
+      font-family: 'Monaco', 'Menlo', monospace;
+      font-size: 13px;
+      line-height: 1.6;
+      color: #e2e8f0;
+      white-space: pre;
+      max-height: 500px;
+      overflow-y: auto;
+    }
+    .warning {
+      background: rgba(239, 68, 68, 0.15);
+      border: 1px solid rgba(239, 68, 68, 0.3);
+      border-radius: 8px;
+      padding: 16px;
+      margin-bottom: 20px;
+      color: #fca5a5;
+    }
+    .warning strong { color: #f87171; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Fix Database Signup Issue</h1>
+    <p class="subtitle">Run this SQL in your Supabase dashboard to fix the "Database error finding user" issue</p>
+
+    <div class="warning">
+      <strong>Important:</strong> This SQL must be run in your Supabase SQL Editor. It will fix the user signup trigger that is causing the database error.
+    </div>
+
+    <div class="steps">
+      <div class="step">
+        <div class="step-num">1</div>
+        <div class="step-text">Open your <a href="https://supabase.com/dashboard" target="_blank">Supabase Dashboard</a></div>
+      </div>
+      <div class="step">
+        <div class="step-num">2</div>
+        <div class="step-text">Select your project, then click <strong>SQL Editor</strong> in the left sidebar</div>
+      </div>
+      <div class="step">
+        <div class="step-num">3</div>
+        <div class="step-text">Click <strong>New Query</strong></div>
+      </div>
+      <div class="step">
+        <div class="step-num">4</div>
+        <div class="step-text">Click the <strong>Copy SQL</strong> button below, paste into the editor, then click <strong>Run</strong></div>
+      </div>
+    </div>
+
+    <div class="sql-container">
+      <div class="sql-header">
+        <span class="sql-title">SQL to fix signup</span>
+        <button class="copy-btn" onclick="copySQL()">Copy SQL</button>
+      </div>
+      <pre class="sql-code" id="sqlCode">-- Fix user signup trigger
+-- Run this in Supabase SQL Editor
+
+-- Step 1: Drop existing function
+DROP FUNCTION IF EXISTS public.handle_new_user() CASCADE;
+
+-- Step 2: Create helper function for unique usernames
+CREATE OR REPLACE FUNCTION public.generate_unique_username(base_username text)
+RETURNS text
+LANGUAGE plpgsql
+SECURITY DEFINER
+SET search_path = public, pg_temp
+AS $$
+DECLARE
+  new_username text;
+  counter integer := 0;
+BEGIN
+  new_username := base_username;
+  WHILE EXISTS (SELECT 1 FROM public.profiles WHERE username = new_username) LOOP
+    counter := counter + 1;
+    new_username := base_username || counter::text;
+  END LOOP;
+  RETURN new_username;
+END;
+$$;
+
+-- Step 3: Create new handle_new_user function
+CREATE OR REPLACE FUNCTION public.handle_new_user()
+RETURNS TRIGGER
+LANGUAGE plpgsql
+SECURITY DEFINER
+SET search_path = public, pg_temp
+AS $$
+DECLARE
+  base_username text;
+  final_username text;
+  user_full_name text;
+BEGIN
+  base_username := COALESCE(
+    NEW.raw_user_meta_data->>'username',
+    split_part(NEW.email, '@', 1)
+  );
+  base_username := regexp_replace(base_username, '[^a-zA-Z0-9_]', '', 'g');
+  base_username := substring(base_username from 1 for 20);
+  IF base_username = '' OR base_username IS NULL THEN
+    base_username := 'user';
+  END IF;
+  final_username := public.generate_unique_username(base_username);
+  user_full_name := COALESCE(NEW.raw_user_meta_data->>'full_name', '');
+
+  INSERT INTO public.profiles (id, username, full_name, created_at, updated_at)
+  VALUES (NEW.id, final_username, user_full_name, now(), now())
+  ON CONFLICT (id) DO UPDATE SET
+    username = COALESCE(EXCLUDED.username, profiles.username),
+    full_name = COALESCE(NULLIF(EXCLUDED.full_name, ''), profiles.full_name),
+    updated_at = now();
+  RETURN NEW;
+EXCEPTION
+  WHEN unique_violation THEN
+    final_username := public.generate_unique_username(base_username || '_' || substring(NEW.id::text from 1 for 8));
+    INSERT INTO public.profiles (id, username, full_name, created_at, updated_at)
+    VALUES (NEW.id, final_username, user_full_name, now(), now())
+    ON CONFLICT (id) DO UPDATE SET updated_at = now();
+    RETURN NEW;
+  WHEN OTHERS THEN
+    RAISE WARNING 'Error in handle_new_user for user %: %', NEW.id, SQLERRM;
+    RETURN NEW;
+END;
+$$;
+
+-- Step 4: Recreate the trigger
+DROP TRIGGER IF EXISTS on_auth_user_created ON auth.users;
+CREATE TRIGGER on_auth_user_created
+  AFTER INSERT ON auth.users
+  FOR EACH ROW
+  EXECUTE FUNCTION public.handle_new_user();
+
+-- Step 5: Grant permissions
+GRANT EXECUTE ON FUNCTION public.handle_new_user() TO service_role;
+GRANT EXECUTE ON FUNCTION public.generate_unique_username(text) TO service_role;</pre>
+    </div>
+  </div>
+
+  <script>
+    function copySQL() {
+      const sql = document.getElementById('sqlCode').textContent;
+      navigator.clipboard.writeText(sql).then(() => {
+        const btn = document.querySelector('.copy-btn');
+        btn.textContent = 'Copied!';
+        btn.classList.add('copied');
+        setTimeout(() => {
+          btn.textContent = 'Copy SQL';
+          btn.classList.remove('copied');
+        }, 2000);
+      });
+    }
+  </script>
+</body>
+</html>
