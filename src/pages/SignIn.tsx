@@ -88,9 +88,31 @@ function SignIn() {
     setLoading(true);
     setError(null);
 
+    const trimmedEmail = email.trim();
+    const trimmedPassword = password;
+
+    if (!trimmedEmail) {
+      setError('Please enter an email address');
+      setLoading(false);
+      return;
+    }
+
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(trimmedEmail)) {
+      setError('Please enter a valid email address');
+      setLoading(false);
+      return;
+    }
+
+    if (!trimmedPassword || trimmedPassword.length < 6) {
+      setError('Password must be at least 6 characters');
+      setLoading(false);
+      return;
+    }
+
     try {
       if (isSignIn) {
-        const { error } = await signIn(email, password);
+        const { error } = await signIn(trimmedEmail, trimmedPassword);
         if (error) {
           if (error.message.includes('Invalid login credentials')) {
             setError('Invalid email or password');
@@ -127,7 +149,7 @@ function SignIn() {
           }
         }
 
-        const { error, success } = await signUp(email, password);
+        const { error, success } = await signUp(trimmedEmail, trimmedPassword);
         if (error) {
           if (error.message.includes('user_already_exists')) {
             setError('An account with this email already exists. Please sign in instead.');
