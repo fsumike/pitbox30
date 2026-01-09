@@ -1,5 +1,6 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { Settings, Save, Loader2, CheckCircle, AlertCircle, Sliders, Eye, EyeOff, Clock, RotateCcw, Plus, X } from 'lucide-react';
+import { Haptics, ImpactStyle } from '@capacitor/haptics';
 import { useAuth } from '../contexts/AuthContext';
 import { useSetups } from '../hooks/useSetups';
 import { useSetupCustomization } from '../hooks/useSetupCustomization';
@@ -97,6 +98,17 @@ function SetupSheet({
     fieldName: string;
   } | null>(null);
   const [savedFieldIds, setSavedFieldIds] = useState<Set<string>>(new Set());
+  const sectionRefs = useRef<Map<string, HTMLDivElement>>(new Map());
+  const [swipeStartX, setSwipeStartX] = useState<number | null>(null);
+  const [swipeSection, setSwipeSection] = useState<string | null>(null);
+
+  const triggerHaptic = async (style: ImpactStyle = ImpactStyle.Light) => {
+    try {
+      await Haptics.impact({ style });
+    } catch (err) {
+      // Haptics not available, silently ignore
+    }
+  };
 
   // Initialize custom fields from templates
   useEffect(() => {
@@ -367,6 +379,7 @@ function SetupSheet({
     if (!user) return;
 
     try {
+      triggerHaptic(ImpactStyle.Medium);
       const lapTimeValue = bestLapTime ? parseFloat(bestLapTime) : null;
       const raceTypeValue = raceType || null;
 
@@ -383,6 +396,7 @@ function SetupSheet({
       );
 
       if (result) {
+        triggerHaptic(ImpactStyle.Heavy);
         console.log('Setup saved successfully with ID:', result.id);
         console.log('Custom fields saved:', result.custom_fields);
         setSavedSetupId(result.id);
@@ -574,11 +588,41 @@ function SetupSheet({
   };
 
   const toggleSection = (sectionKey: string) => {
-    setExpandedSections(prev => 
-      prev.includes(sectionKey) 
+    triggerHaptic(ImpactStyle.Light);
+    setExpandedSections(prev =>
+      prev.includes(sectionKey)
         ? prev.filter(key => key !== sectionKey)
         : [...prev, sectionKey]
     );
+  };
+
+  const handleSectionSwipeStart = (e: React.TouchEvent, sectionKey: string) => {
+    setSwipeStartX(e.touches[0].clientX);
+    setSwipeSection(sectionKey);
+  };
+
+  const handleSectionSwipeMove = (e: React.TouchEvent) => {
+    if (swipeStartX === null || swipeSection === null) return;
+    // Optional: Add visual feedback during swipe
+  };
+
+  const handleSectionSwipeEnd = (e: React.TouchEvent, sectionKey: string) => {
+    if (swipeStartX === null || swipeSection !== sectionKey) {
+      setSwipeStartX(null);
+      setSwipeSection(null);
+      return;
+    }
+
+    const touchEndX = e.changedTouches[0].clientX;
+    const diffX = touchEndX - swipeStartX;
+
+    if (Math.abs(diffX) > 50) {
+      triggerHaptic(ImpactStyle.Light);
+      toggleSection(sectionKey);
+    }
+
+    setSwipeStartX(null);
+    setSwipeSection(null);
   };
 
   const handleCustomizeSave = async (groups: any[]) => {
@@ -787,7 +831,11 @@ function SetupSheet({
             <div key={group.title} className={`glass-panel overflow-hidden bg-gradient-to-br ${getSectionBgColor(group.title)} border-2 border-gray-200 dark:border-gray-700 shadow-md`}>
               <button
                 onClick={() => toggleSection(sectionKey)}
-                className="w-full p-4 text-left hover:bg-white/5 transition-colors flex items-center justify-between"
+                onTouchStart={(e) => handleSectionSwipeStart(e, sectionKey)}
+                onTouchMove={handleSectionSwipeMove}
+                onTouchEnd={(e) => handleSectionSwipeEnd(e, sectionKey)}
+                className="w-full min-h-[56px] p-4 text-left active:bg-white/10 transition-colors flex items-center justify-between touch-manipulation"
+                style={{ WebkitTapHighlightColor: 'transparent' }}
               >
                 <h3 className="text-xl font-bold">{group.title}</h3>
                 <div className="flex items-center gap-2">
@@ -814,11 +862,15 @@ function SetupSheet({
                             {formatFieldName(fieldKey)}
                           </label>
                           <button
-                            onClick={() => handleFieldClick(sectionKey, fieldKey)}
-                            className="w-full p-3 text-left bg-white dark:bg-gray-800 rounded-lg border-2 border-gray-300 dark:border-gray-600 hover:border-brand-gold hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors shadow-sm font-medium"
+                            onClick={() => {
+                              triggerHaptic(ImpactStyle.Light);
+                              handleFieldClick(sectionKey, fieldKey);
+                            }}
+                            className="w-full min-h-[48px] p-3 text-left bg-white dark:bg-gray-800 rounded-lg border-2 border-gray-300 dark:border-gray-600 active:border-brand-gold active:bg-gray-50 dark:active:bg-gray-700 transition-colors shadow-sm font-medium touch-manipulation"
+                            style={{ WebkitTapHighlightColor: 'transparent' }}
                           >
                             <span className={value ? 'text-gray-900 dark:text-gray-100' : 'text-gray-500 dark:text-gray-400'}>
-                              {value || 'Click to enter value'}
+                              {value || 'Tap to enter value'}
                             </span>
                           </button>
                           <textarea
@@ -849,11 +901,15 @@ function SetupSheet({
                           </button>
                         </div>
                         <button
-                          onClick={() => handleCustomFieldClick(sectionKey, customField.id, customField.name)}
-                          className="w-full p-3 text-left bg-white dark:bg-gray-800 rounded-lg border-2 border-brand-gold/50 dark:border-brand-gold/30 hover:border-brand-gold hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors shadow-sm font-medium"
+                          onClick={() => {
+                            triggerHaptic(ImpactStyle.Light);
+                            handleCustomFieldClick(sectionKey, customField.id, customField.name);
+                          }}
+                          className="w-full min-h-[48px] p-3 text-left bg-white dark:bg-gray-800 rounded-lg border-2 border-brand-gold/50 dark:border-brand-gold/30 active:border-brand-gold active:bg-gray-50 dark:active:bg-gray-700 transition-colors shadow-sm font-medium touch-manipulation"
+                          style={{ WebkitTapHighlightColor: 'transparent' }}
                         >
                           <span className={customField.value ? 'text-gray-900 dark:text-gray-100' : 'text-gray-500 dark:text-gray-400'}>
-                            {customField.value || 'Click to enter value'}
+                            {customField.value || 'Tap to enter value'}
                           </span>
                         </button>
                         <textarea
