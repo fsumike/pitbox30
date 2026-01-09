@@ -416,7 +416,7 @@ function Home() {
             {user && !showVehicles && (
               <button
                 onClick={() => setShowVehicles(true)}
-                className="liquid-glass-card px-8 py-3 mx-auto w-full sm:w-auto font-medium hover:scale-105 transition-transform"
+                className="liquid-glass-card px-8 py-3 mx-auto w-full sm:w-auto font-medium hover:scale-105 transition-transform !text-white"
               >
                 View Setup Tools
               </button>
@@ -424,7 +424,7 @@ function Home() {
             {user && showVehicles && (
               <button
                 onClick={() => navigate('/subscription')}
-                className="liquid-glass-card px-8 py-3 mx-auto mb-8 font-medium w-full sm:w-auto hover:scale-105 transition-transform"
+                className="liquid-glass-card px-8 py-3 mx-auto mb-8 font-medium w-full sm:w-auto hover:scale-105 transition-transform !text-white"
               >
                 View Subscription Plans
               </button>
