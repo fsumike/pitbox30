@@ -260,7 +260,7 @@ function App() {
   }
 
   return (
-    <div className={`min-h-screen ${darkMode ? 'dark' : 'light'}`}>
+    <div className={`min-h-screen overflow-x-hidden ${darkMode ? 'dark' : 'light'}`} style={{ touchAction: 'pan-y', maxWidth: '100vw' }}>
       <div className="bg-pattern-wrapper">
         <div className="bg-pattern"></div>
         <div className="bg-pattern-overlay"></div>
@@ -513,7 +513,7 @@ function App() {
         </nav>
       )}
 
-      <main className="pt-24 pb-32 lg:pb-8 px-4 max-w-7xl mx-auto">
+      <main className="pt-24 pb-32 lg:pb-8 px-4 max-w-7xl mx-auto overflow-x-hidden" style={{ touchAction: 'pan-y' }}>
         <Suspense fallback={<LoadingFallback />}>
           <Routes>
           <Route path="/signin" element={<SignIn />} />

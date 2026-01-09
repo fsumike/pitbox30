@@ -39,10 +39,10 @@ function Home() {
   };
 
   return (
-    <div className="space-y-12 relative">
+    <div className="space-y-12 relative overflow-x-hidden max-w-full" style={{ touchAction: 'pan-y' }}>
       {/* Liquid glass orbs for ambient effect - responsive for tablets */}
-      <div className="liquid-orb liquid-orb-gold w-48 sm:w-64 md:w-80 h-48 sm:h-64 md:h-80 -top-24 sm:-top-32 md:-top-32 -left-24 sm:-left-32 md:-left-32 fixed z-0 opacity-30" />
-      <div className="liquid-orb liquid-orb-amber w-40 sm:w-56 md:w-64 h-40 sm:h-56 md:h-64 bottom-16 sm:bottom-20 md:bottom-20 -right-16 sm:-right-20 md:-right-20 fixed z-0 opacity-30" style={{ animationDelay: '-8s' }} />
+      <div className="liquid-orb liquid-orb-gold w-48 sm:w-64 md:w-80 h-48 sm:h-64 md:h-80 -top-24 sm:-top-32 md:-top-32 -left-24 sm:-left-32 md:-left-32 fixed z-0 opacity-30 pointer-events-none" />
+      <div className="liquid-orb liquid-orb-amber w-40 sm:w-56 md:w-64 h-40 sm:h-56 md:h-64 bottom-16 sm:bottom-20 md:bottom-20 -right-16 sm:-right-20 md:-right-20 fixed z-0 opacity-30 pointer-events-none" style={{ animationDelay: '-8s' }} />
 
       {/* Dark Carbon Fiber Background - Light Mode uses dark theme, Dark Mode goes even darker */}
       <div className="fixed inset-0 -z-10 dark:hidden" style={{
