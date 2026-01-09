@@ -1,5 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { X, Trash2, AlertCircle, Loader2, Image as ImageIcon, Check, Film, MapPin, Globe, Users, Lock } from 'lucide-react';
+import { Haptics, ImpactStyle } from '@capacitor/haptics';
 import { useAuth } from '../contexts/AuthContext';
 import { supabase } from '../lib/supabase';
 import EmojiPicker from '../components/EmojiPicker';
@@ -36,8 +37,19 @@ function CreatePostModal({ isOpen, onClose, post, onSuccess }: CreatePostModalPr
   const [includeLocation, setIncludeLocation] = useState(false);
   const [uploadProgress, setUploadProgress] = useState(0);
   const [visibility, setVisibility] = useState<'public' | 'friends' | 'private'>('public');
-  
-  const [isPinned, setIsPinned] = useState(false); // State for pinned post
+  const [isPinned, setIsPinned] = useState(false);
+  const [dragOffset, setDragOffset] = useState(0);
+  const [isDragging, setIsDragging] = useState(false);
+  const dragStartY = useRef(0);
+  const modalRef = useRef<HTMLDivElement>(null);
+
+  const triggerHaptic = async (style: ImpactStyle = ImpactStyle.Light) => {
+    try {
+      await Haptics.impact({ style });
+    } catch (err) {
+      // Haptics not available, silently ignore
+    }
+  };
   // Get user's location
   const { 
     latitude, 
@@ -274,22 +286,74 @@ function CreatePostModal({ isOpen, onClose, post, onSuccess }: CreatePostModalPr
     setIncludeLocation(!includeLocation);
   };
 
+  const handleTouchStart = (e: React.TouchEvent) => {
+    const touch = e.touches[0];
+    dragStartY.current = touch.clientY;
+    setIsDragging(true);
+    triggerHaptic(ImpactStyle.Light);
+  };
+
+  const handleTouchMove = (e: React.TouchEvent) => {
+    if (!isDragging) return;
+    const touch = e.touches[0];
+    const diff = touch.clientY - dragStartY.current;
+    if (diff > 0) {
+      setDragOffset(diff);
+    }
+  };
+
+  const handleTouchEnd = () => {
+    if (dragOffset > 100) {
+      triggerHaptic(ImpactStyle.Medium);
+      onClose();
+    } else {
+      setDragOffset(0);
+    }
+    setIsDragging(false);
+  };
+
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 z-[1200] flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm">
+    <div
+      className="fixed inset-0 z-[1200] flex items-end sm:items-center justify-center p-0 sm:p-4 bg-black/50 backdrop-blur-sm"
+      onClick={(e) => {
+        if (e.target === e.currentTarget) {
+          onClose();
+        }
+      }}
+      style={{ WebkitTapHighlightColor: 'transparent' }}
+    >
       <motion.div
-        className="bg-gray-800 rounded-xl shadow-xl w-full max-w-xl"
+        ref={modalRef}
+        className="bg-gray-800 rounded-t-2xl sm:rounded-xl shadow-xl w-full max-w-xl overflow-hidden"
         onClick={e => e.stopPropagation()}
-        initial={{ opacity: 0, scale: 0.9 }}
-        animate={{ opacity: 1, scale: 1 }}
-        exit={{ opacity: 0, scale: 0.9 }}
-        transition={{ type: 'spring', damping: 20, stiffness: 300 }}
+        initial={{ opacity: 0, y: 100 }}
+        animate={{ opacity: 1, y: 0 }}
+        exit={{ opacity: 0, y: 100 }}
+        transition={{ type: 'spring', damping: 25, stiffness: 300 }}
+        style={{
+          transform: `translateY(${dragOffset}px)`,
+          maxHeight: '90vh',
+          overflowY: 'auto'
+        }}
+        onTouchStart={handleTouchStart}
+        onTouchMove={handleTouchMove}
+        onTouchEnd={handleTouchEnd}
       >
+        {/* Drag handle indicator */}
+        <div className="w-full flex justify-center pt-2 pb-1 sm:hidden">
+          <div className="w-12 h-1 bg-gray-600 rounded-full" />
+        </div>
+
         <div className="relative p-6">
           <button
-            onClick={onClose}
-            className="absolute top-4 right-4 p-2 hover:bg-gray-700 rounded-full text-gray-300"
+            onClick={() => {
+              triggerHaptic(ImpactStyle.Light);
+              onClose();
+            }}
+            className="absolute top-4 right-4 p-2 min-h-[44px] min-w-[44px] flex items-center justify-center hover:bg-gray-700 active:bg-gray-600 rounded-full text-gray-300 touch-manipulation"
+            style={{ WebkitTapHighlightColor: 'transparent' }}
           >
             <X className="w-6 h-6" />
           </button>
@@ -324,12 +388,16 @@ function CreatePostModal({ isOpen, onClose, post, onSuccess }: CreatePostModalPr
             <div className="flex flex-wrap gap-3">
               <button
                 type="button"
-                onClick={() => setVisibility('public')}
-                className={`flex items-center gap-2 px-3 py-1.5 rounded-full text-sm ${
+                onClick={() => {
+                  triggerHaptic(ImpactStyle.Light);
+                  setVisibility('public');
+                }}
+                className={`flex items-center gap-2 px-3 py-1.5 min-h-[44px] rounded-full text-sm touch-manipulation ${
                   visibility === 'public'
                     ? 'bg-green-900/30 text-green-300'
                     : 'bg-gray-700 text-gray-300'
                 }`}
+                style={{ WebkitTapHighlightColor: 'transparent' }}
               >
                 <Globe className="w-4 h-4" />
                 <span>Public</span>
@@ -337,12 +405,16 @@ function CreatePostModal({ isOpen, onClose, post, onSuccess }: CreatePostModalPr
 
               <button
                 type="button"
-                onClick={() => setVisibility('friends')}
-                className={`flex items-center gap-2 px-3 py-1.5 rounded-full text-sm ${
+                onClick={() => {
+                  triggerHaptic(ImpactStyle.Light);
+                  setVisibility('friends');
+                }}
+                className={`flex items-center gap-2 px-3 py-1.5 min-h-[44px] rounded-full text-sm touch-manipulation ${
                   visibility === 'friends'
                     ? 'bg-blue-900/30 text-blue-300'
                     : 'bg-gray-700 text-gray-300'
                 }`}
+                style={{ WebkitTapHighlightColor: 'transparent' }}
               >
                 <Users className="w-4 h-4" />
                 <span>Friends Only</span>
@@ -350,12 +422,16 @@ function CreatePostModal({ isOpen, onClose, post, onSuccess }: CreatePostModalPr
 
               <button
                 type="button"
-                onClick={() => setVisibility('private')}
-                className={`flex items-center gap-2 px-3 py-1.5 rounded-full text-sm ${
+                onClick={() => {
+                  triggerHaptic(ImpactStyle.Light);
+                  setVisibility('private');
+                }}
+                className={`flex items-center gap-2 px-3 py-1.5 min-h-[44px] rounded-full text-sm touch-manipulation ${
                   visibility === 'private'
                     ? 'bg-gray-600 text-gray-300'
                     : 'bg-gray-700 text-gray-300'
                 }`}
+                style={{ WebkitTapHighlightColor: 'transparent' }}
               >
                 <Lock className="w-4 h-4" />
                 <span>Only Me</span>
@@ -366,12 +442,16 @@ function CreatePostModal({ isOpen, onClose, post, onSuccess }: CreatePostModalPr
             <div className="flex items-center gap-3">
               <button
                 type="button"
-                onClick={handleLocationToggle}
-                className={`flex items-center gap-2 px-3 py-1.5 rounded-full text-sm ${
+                onClick={() => {
+                  triggerHaptic(ImpactStyle.Light);
+                  handleLocationToggle();
+                }}
+                className={`flex items-center gap-2 px-3 py-1.5 min-h-[44px] rounded-full text-sm touch-manipulation ${
                   includeLocation
                     ? 'bg-green-900/30 text-green-300'
                     : 'bg-gray-700 text-gray-300'
                 }`}
+                style={{ WebkitTapHighlightColor: 'transparent' }}
               >
                 {includeLocation ? (
                   <>
@@ -453,11 +533,13 @@ function CreatePostModal({ isOpen, onClose, post, onSuccess }: CreatePostModalPr
                 <button
                   type="button"
                   onClick={() => {
+                    triggerHaptic(ImpactStyle.Medium);
                     setMedia(null);
                     if (fileInputRef.current) fileInputRef.current.value = '';
                     if (videoInputRef.current) videoInputRef.current.value = '';
                   }}
-                  className="absolute top-2 right-2 p-2 bg-red-500 text-white rounded-full hover:bg-red-600 transition-colors"
+                  className="absolute top-2 right-2 p-2 min-h-[44px] min-w-[44px] flex items-center justify-center bg-red-500 text-white rounded-full active:bg-red-600 transition-colors touch-manipulation"
+                  style={{ WebkitTapHighlightColor: 'transparent' }}
                 >
                   <Trash2 className="w-5 h-5" />
                 </button>
@@ -489,8 +571,12 @@ function CreatePostModal({ isOpen, onClose, post, onSuccess }: CreatePostModalPr
                   />
                   <button
                     type="button"
-                    onClick={() => fileInputRef.current?.click()}
-                    className="w-full p-4 border-2 border-dashed border-gray-600 rounded-lg hover:border-brand-gold transition-colors flex flex-col items-center gap-2"
+                    onClick={() => {
+                      triggerHaptic(ImpactStyle.Light);
+                      fileInputRef.current?.click();
+                    }}
+                    className="w-full p-4 min-h-[88px] border-2 border-dashed border-gray-600 rounded-lg active:border-brand-gold transition-colors flex flex-col items-center gap-2 touch-manipulation"
+                    style={{ WebkitTapHighlightColor: 'transparent' }}
                   >
                     {uploading ? (
                       <Loader2 className="w-8 h-8 animate-spin text-brand-gold" />
@@ -513,8 +599,12 @@ function CreatePostModal({ isOpen, onClose, post, onSuccess }: CreatePostModalPr
                   />
                   <button
                     type="button"
-                    onClick={() => videoInputRef.current?.click()}
-                    className="w-full p-4 border-2 border-dashed border-gray-600 rounded-lg hover:border-brand-gold transition-colors flex flex-col items-center gap-2"
+                    onClick={() => {
+                      triggerHaptic(ImpactStyle.Light);
+                      videoInputRef.current?.click();
+                    }}
+                    className="w-full p-4 min-h-[88px] border-2 border-dashed border-gray-600 rounded-lg active:border-brand-gold transition-colors flex flex-col items-center gap-2 touch-manipulation"
+                    style={{ WebkitTapHighlightColor: 'transparent' }}
                   >
                     {uploading ? (
                       <Loader2 className="w-8 h-8 animate-spin text-brand-gold" />
@@ -532,15 +622,25 @@ function CreatePostModal({ isOpen, onClose, post, onSuccess }: CreatePostModalPr
             <div className="flex justify-end gap-4">
               <button
                 type="button"
-                onClick={onClose}
-                className="px-6 py-2 rounded-lg bg-gray-700 hover:bg-gray-600 transition-colors text-white font-medium"
+                onClick={() => {
+                  triggerHaptic(ImpactStyle.Light);
+                  onClose();
+                }}
+                className="px-6 py-2 min-h-[48px] rounded-lg bg-gray-700 active:bg-gray-600 transition-colors text-white font-medium touch-manipulation"
+                style={{ WebkitTapHighlightColor: 'transparent' }}
               >
                 Cancel
               </button>
               <button
                 type="submit"
                 disabled={posting || uploading || (!content.trim() && !media)}
-                className="px-6 py-2 bg-brand-gold text-white rounded-lg hover:bg-brand-gold-dark transition-colors disabled:opacity-50 flex items-center gap-2"
+                onClick={() => {
+                  if (!posting && !uploading && (content.trim() || media)) {
+                    triggerHaptic(ImpactStyle.Medium);
+                  }
+                }}
+                className="px-6 py-2 min-h-[48px] bg-brand-gold text-white rounded-lg active:bg-brand-gold-dark transition-colors disabled:opacity-50 flex items-center gap-2 touch-manipulation"
+                style={{ WebkitTapHighlightColor: 'transparent' }}
               >
                 {posting ? (
                   <>
