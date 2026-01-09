@@ -384,8 +384,8 @@ function Home() {
                         >
                           <div className="flex items-center justify-between gap-2 sm:gap-3 relative z-10">
                             <div className="flex-1 min-w-0">
-                              <span className="text-sm sm:text-base font-medium block">{subItem.name}</span>
-                              <p className="text-xs text-gray-600 dark:text-gray-400 mt-0.5 sm:mt-1">
+                              <span className="text-sm sm:text-base font-medium block text-white">{subItem.name}</span>
+                              <p className="text-xs text-gray-300 mt-0.5 sm:mt-1">
                                 Access setup sheets and tools
                               </p>
                             </div>
