@@ -18,6 +18,28 @@
 
 ---
 
+## Ultra Short (Under 100 Characters)
+
+1. **"Never lose a winning setup again"** (35 chars)
+2. **"Your racing crew in your pocket"** (32 chars)
+3. **"Track setups. Connect racers. Win."** (37 chars)
+4. **"Save setups, track motors, win races"** (38 chars)
+5. **"The complete racing app for winners"** (36 chars)
+6. **"Racing setups and tools in one app"** (35 chars)
+7. **"Stop losing setups. Start winning."** (36 chars)
+8. **"Your ultimate racing companion"** (31 chars)
+9. **"Save every setup. Dominate every track."** (42 chars)
+10. **"Racing tools, community, and setups"** (36 chars)
+11. **"Keep your setups. Track your wins."** (36 chars)
+12. **"The app every racer needs"** (27 chars)
+13. **"Racing made simple. Winning made easy."** (41 chars)
+14. **"Setups, motors, community - all in one"** (40 chars)
+15. **"From pit to podium - PIT-BOX has you covered"** (48 chars)
+
+**BEST PICK:** "Never lose a winning setup again" (35 characters)
+
+---
+
 ## Tagline Options
 
 1. **"Your Racing Crew in Your Pocket"**
