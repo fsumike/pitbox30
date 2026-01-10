@@ -40,6 +40,23 @@
 
 ---
 
+## Medium Length (Under 170 Characters)
+
+1. **"Never lose a winning setup again. PIT-BOX saves your setups, tracks motors, connects racers. Your complete racing companion in one app."** (141 chars)
+2. **"Save setups with photos. Track motor hours. Connect with racers. Buy and sell parts. PIT-BOX is the complete racing app you need to win."** (141 chars)
+3. **"Stop recreating setups from memory. PIT-BOX logs every setup, lap time, and motor hour. Connect with your racing crew. Dominate the track."** (143 chars)
+4. **"Your racing crew in your pocket. Save unlimited setups, track maintenance, connect with racers nationwide. All racing classes covered."** (138 chars)
+5. **"PIT-BOX keeps your winning setups, motor logs, and racing community in one place. From Sprint Cars to Late Models - everything you need."** (141 chars)
+6. **"Track every setup. Log every motor hour. Connect with racers at your track. PIT-BOX is your ultimate racing companion. Download now."** (136 chars)
+7. **"Racing made simple. Save setups with photos and notes. Track motor health. Connect with racers. Access pro tools. All in PIT-BOX."** (133 chars)
+8. **"Never lose data at the track. PIT-BOX saves setups offline, tracks motors, connects racers. Professional racing tools in your pocket."** (138 chars)
+9. **"From pit to podium - PIT-BOX has you covered. Save setups, track motors, connect with racers, buy/sell parts. Your complete racing app."** (141 chars)
+10. **"Stop losing your best setups. PIT-BOX tracks everything: setups with photos, motor hours, lap times. Connect with racers nationwide."** (137 chars)
+
+**BEST PICK FOR 170 CHARS:** "Never lose a winning setup again. PIT-BOX saves your setups, tracks motors, connects racers. Your complete racing companion in one app." (141 characters)
+
+---
+
 ## Tagline Options
 
 1. **"Your Racing Crew in Your Pocket"**
