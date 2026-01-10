@@ -3,6 +3,15 @@
   "private": true,
   "version": "3.0.0",
   "type": "module",
+  "homepage": "https://pitbox.app",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/pitbox/pitbox-app"
+  },
+  "bugs": {
+    "url": "https://pitbox.app/contact",
+    "email": "pitboxcom@gmail.com"
+  },
   "scripts": {
     "dev": "vite",
     "build": "npx cap add android || true && npx cap add ios || true && node scripts/fix-gradle.mjs && vite build && npx cap sync",
