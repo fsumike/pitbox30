@@ -214,8 +214,7 @@ Free Trial: 7 Days
 ### Premium Yearly
 
 ```
-Reference Name: Encrypted Setup Access - Yearly
-Product ID: com.pitbox.premium.yearly
+Reference Name: 
 Duration: 1 Year
 Price: $134.99 USD
 
