@@ -58,10 +58,11 @@ export const SUBSCRIPTION_PLANS: SubscriptionPlan[] = [
     price: 9.99,
     interval: 'month',
     features: [
-      'Unlimited setup saves',
-      'Access on all your devices',
-      'Basic setup templates',
-      'Community access'
+      'Save unlimited racing setups',
+      'Access setups on all devices',
+      'Basic setup sheet templates',
+      'Setup comparison tools',
+      'Plus: FREE Community, Swap Meet & All Tools'
     ],
     stripeProductId: 'price_1RRU4fANikXpQi11v5yoYilZ',
     appleSku: 'com.pitbox.basic.monthly',
@@ -74,10 +75,11 @@ export const SUBSCRIPTION_PLANS: SubscriptionPlan[] = [
     price: 24.99,
     interval: 'quarter',
     features: [
-      'Unlimited setup saves',
-      'Access on all your devices',
-      'Basic setup templates',
-      'Community access',
+      'Save unlimited racing setups',
+      'Access setups on all devices',
+      'Basic setup sheet templates',
+      'Setup comparison tools',
+      'Plus: FREE Community, Swap Meet & All Tools',
       'Save $5 vs monthly'
     ],
     stripeProductId: 'price_1RRU4fANikXpQi11xJ5EG1vx',
@@ -91,10 +93,11 @@ export const SUBSCRIPTION_PLANS: SubscriptionPlan[] = [
     price: 99.99,
     interval: 'year',
     features: [
-      'Unlimited setup saves',
-      'Access on all your devices',
-      'Basic setup templates',
-      'Community access',
+      'Save unlimited racing setups',
+      'Access setups on all devices',
+      'Basic setup sheet templates',
+      'Setup comparison tools',
+      'Plus: FREE Community, Swap Meet & All Tools',
       'Save $20 vs monthly'
     ],
     stripeProductId: 'price_1RRU4fANikXpQi11GZmyUEwK',
@@ -108,11 +111,12 @@ export const SUBSCRIPTION_PLANS: SubscriptionPlan[] = [
     price: 12.99,
     interval: 'month',
     features: [
-      'All Basic features',
-      'End-to-end encryption',
+      'All Basic setup features',
+      'End-to-end setup encryption',
       'Advanced setup templates',
       'Priority support',
-      'Early access to new features'
+      'Early access to new features',
+      'Plus: FREE Community, Swap Meet & All Tools'
     ],
     stripeProductId: 'price_1RRU7iANikXpQi11N4km6XFf',
     appleSku: 'com.pitbox.premium.monthly',
@@ -125,11 +129,12 @@ export const SUBSCRIPTION_PLANS: SubscriptionPlan[] = [
     price: 34.99,
     interval: 'quarter',
     features: [
-      'All Basic features',
-      'End-to-end encryption',
+      'All Basic setup features',
+      'End-to-end setup encryption',
       'Advanced setup templates',
       'Priority support',
       'Early access to new features',
+      'Plus: FREE Community, Swap Meet & All Tools',
       'Save $4 vs monthly'
     ],
     stripeProductId: 'price_1RRUhCANikXpQi11RVy5KKbK',
@@ -143,11 +148,12 @@ export const SUBSCRIPTION_PLANS: SubscriptionPlan[] = [
     price: 134.99,
     interval: 'year',
     features: [
-      'All Basic features',
-      'End-to-end encryption',
+      'All Basic setup features',
+      'End-to-end setup encryption',
       'Advanced setup templates',
       'Priority support',
       'Early access to new features',
+      'Plus: FREE Community, Swap Meet & All Tools',
       'Save $21 vs monthly'
     ],
     stripeProductId: 'price_1RRUhCANikXpQi11Ya6mzjHl',

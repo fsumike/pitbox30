@@ -39,7 +39,7 @@ Click **"+"** in the subscription group to add a new subscription:
 - **Display Name**: `Basic Setup Access`
 - **Description**:
   ```
-  Unlimited setup saves and access across all your devices. Includes full community access, racing tools, swap meet marketplace, and track locations. Perfect for racers who want essential features.
+  Save unlimited racing setup sheets and access them on all your devices. Never lose a winning setup again. Note: Community, Swap Meet, and all Racing Tools are FREE for everyone!
   ```
 
 **Introductory Offer (Free Trial):**
@@ -70,7 +70,7 @@ Add second subscription to the same group:
 - **Display Name**: `Encrypted Setup Access`
 - **Description**:
   ```
-  All Basic features plus end-to-end encryption for your setups, advanced setup templates, priority customer support, and early access to new features. For professional teams who need maximum security.
+  All Basic features plus end-to-end encryption for your setup sheets, advanced templates, priority support, and early access. For professional teams who need maximum security. Note: Community, Swap Meet, and all Racing Tools are FREE for everyone!
   ```
 
 **Introductory Offer (Free Trial):**
@@ -87,12 +87,14 @@ If you want to offer quarterly options (recommended for better revenue):
 - **Duration**: 3 Months
 - **Price**: $24.99 (save 17%)
 - **Display Name**: `Basic Setup Access - Quarterly`
+- **Description**: `Save unlimited racing setup sheets for 3 months. Community and all tools are FREE!`
 
 ### Premium Quarterly
 - **Product ID**: `com.pitbox.premium.quarterly`
 - **Duration**: 3 Months
 - **Price**: $34.99 (save 10%)
 - **Display Name**: `Encrypted Setup Access - Quarterly`
+- **Description**: `All Basic features plus encryption for 3 months. Community and all tools are FREE!`
 
 ---
 

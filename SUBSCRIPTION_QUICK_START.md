@@ -24,7 +24,7 @@ Duration: 1 Month
 Price: $9.99 USD
 
 Display Name: Basic Setup Access
-Description: Unlimited setup saves, full community access, all racing tools.
+Description: Save unlimited racing setup sheets on all devices. Community, Swap Meet & Tools are FREE!
 
 Free Trial: 7 days
 ```
@@ -39,7 +39,7 @@ Duration: 1 Month
 Price: $12.99 USD
 
 Display Name: Encrypted Setup Access
-Description: All Basic features plus encryption, advanced templates, priority support.
+Description: All Basic features plus setup encryption, advanced templates, priority support. Community & Tools are FREE!
 
 Free Trial: 7 days
 ```
