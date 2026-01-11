@@ -48,7 +48,7 @@ Click **Create**
 ### Basic Information
 ```
 Reference Name: Basic Setup Access - Monthly
-Product ID: com.pitbox.basic.monthly
+Product ID: com.pitbox.app.setupsheets.basic.monthly
 ```
 
 ### Subscription Duration
@@ -109,7 +109,7 @@ Click **"Save"** at the top right
 ### Basic Information
 ```
 Reference Name: Encrypted Setup Access - Monthly
-Product ID: com.pitbox.premium.monthly
+Product ID: com.pitbox.app.setupsheets.premium.monthly
 ```
 
 ### Subscription Duration
@@ -151,7 +151,7 @@ Click **"Save"**
 
 ```
 Reference Name: Basic Setup Access - Quarterly
-Product ID: com.pitbox.basic.quarterly
+Product ID: com.pitbox.app.setupsheets.basic.quarterly
 Duration: 3 Months
 Price: $24.99 USD
 
@@ -171,7 +171,7 @@ Free Trial: 7 Days
 
 ```
 Reference Name: Encrypted Setup Access - Quarterly
-Product ID: com.pitbox.premium.quarterly
+Product ID: com.pitbox.app.setupsheets.premium.quarterly
 Duration: 3 Months
 Price: $34.99 USD
 
@@ -195,7 +195,7 @@ Free Trial: 7 Days
 
 ```
 Reference Name: Basic Setup Access - Yearly
-Product ID: com.pitbox.basic.yearly
+Product ID: com.pitbox.app.setupsheets.basic.yearly
 Duration: 1 Year
 Price: $99.99 USD
 
@@ -214,7 +214,8 @@ Free Trial: 7 Days
 ### Premium Yearly
 
 ```
-Reference Name: 
+Reference Name: Encrypted Setup Access - Yearly
+Product ID: com.pitbox.app.setupsheets.premium.yearly
 Duration: 1 Year
 Price: $134.99 USD
 
@@ -561,13 +562,13 @@ When users ask "What do I get with premium?":
 ## iOS (App Store Connect)
 
 ```
-com.pitbox.basic.monthly     - $9.99/month
-com.pitbox.basic.quarterly   - $24.99/3 months
-com.pitbox.basic.yearly      - $99.99/year
+com.pitbox.app.setupsheets.basic.monthly     - $9.99/month
+com.pitbox.app.setupsheets.basic.quarterly   - $24.99/3 months
+com.pitbox.app.setupsheets.basic.yearly      - $99.99/year
 
-com.pitbox.premium.monthly   - $12.99/month
-com.pitbox.premium.quarterly - $34.99/3 months
-com.pitbox.premium.yearly    - $134.99/year
+com.pitbox.app.setupsheets.premium.monthly   - $12.99/month
+com.pitbox.app.setupsheets.premium.quarterly - $34.99/3 months
+com.pitbox.app.setupsheets.premium.yearly    - $134.99/year
 ```
 
 ## Android (Google Play)

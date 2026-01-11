@@ -46,12 +46,12 @@
 ├──────────────────────────────────────────────────────────────────────────┤
 │                                                                          │
 │ iOS (App Store Connect):                                                │
-│   com.pitbox.basic.monthly                                              │
-│   com.pitbox.basic.quarterly                                            │
-│   com.pitbox.basic.yearly                                               │
-│   com.pitbox.premium.monthly                                            │
-│   com.pitbox.premium.quarterly                                          │
-│   com.pitbox.premium.yearly                                             │
+│   com.pitbox.app.setupsheets.basic.monthly                              │
+│   com.pitbox.app.setupsheets.basic.quarterly                            │
+│   com.pitbox.app.setupsheets.basic.yearly                               │
+│   com.pitbox.app.setupsheets.premium.monthly                            │
+│   com.pitbox.app.setupsheets.premium.quarterly                          │
+│   com.pitbox.app.setupsheets.premium.yearly                             │
 │                                                                          │
 │ Android (Google Play):                                                  │
 │   basic_monthly                                                         │

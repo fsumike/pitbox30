@@ -65,7 +65,7 @@ export const SUBSCRIPTION_PLANS: SubscriptionPlan[] = [
       'Plus: FREE Community, Swap Meet & All Tools'
     ],
     stripeProductId: 'price_1RRU4fANikXpQi11v5yoYilZ',
-    appleSku: 'com.pitbox.basic.monthly',
+    appleSku: 'com.pitbox.app.setupsheets.basic.monthly',
     googleSku: 'basic_monthly'
   },
   {
@@ -83,7 +83,7 @@ export const SUBSCRIPTION_PLANS: SubscriptionPlan[] = [
       'Save $5 vs monthly'
     ],
     stripeProductId: 'price_1RRU4fANikXpQi11xJ5EG1vx',
-    appleSku: 'com.pitbox.basic.quarterly',
+    appleSku: 'com.pitbox.app.setupsheets.basic.quarterly',
     googleSku: 'basic_quarterly'
   },
   {
@@ -101,7 +101,7 @@ export const SUBSCRIPTION_PLANS: SubscriptionPlan[] = [
       'Save $20 vs monthly'
     ],
     stripeProductId: 'price_1RRU4fANikXpQi11GZmyUEwK',
-    appleSku: 'com.pitbox.basic.yearly',
+    appleSku: 'com.pitbox.app.setupsheets.basic.yearly',
     googleSku: 'basic_yearly'
   },
   {
@@ -119,7 +119,7 @@ export const SUBSCRIPTION_PLANS: SubscriptionPlan[] = [
       'Plus: FREE Community, Swap Meet & All Tools'
     ],
     stripeProductId: 'price_1RRU7iANikXpQi11N4km6XFf',
-    appleSku: 'com.pitbox.premium.monthly',
+    appleSku: 'com.pitbox.app.setupsheets.premium.monthly',
     googleSku: 'premium_monthly'
   },
   {
@@ -138,7 +138,7 @@ export const SUBSCRIPTION_PLANS: SubscriptionPlan[] = [
       'Save $4 vs monthly'
     ],
     stripeProductId: 'price_1RRUhCANikXpQi11RVy5KKbK',
-    appleSku: 'com.pitbox.premium.quarterly',
+    appleSku: 'com.pitbox.app.setupsheets.premium.quarterly',
     googleSku: 'premium_quarterly'
   },
   {
@@ -157,7 +157,7 @@ export const SUBSCRIPTION_PLANS: SubscriptionPlan[] = [
       'Save $21 vs monthly'
     ],
     stripeProductId: 'price_1RRUhCANikXpQi11Ya6mzjHl',
-    appleSku: 'com.pitbox.premium.yearly',
+    appleSku: 'com.pitbox.app.setupsheets.premium.yearly',
     googleSku: 'premium_yearly'
   }
 ];

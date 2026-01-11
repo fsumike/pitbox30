@@ -40,27 +40,27 @@ export class AppleIAPService {
 
       store.register([
         {
-          id: 'com.pitbox.basic.monthly',
+          id: 'com.pitbox.app.setupsheets.basic.monthly',
           type: store.PAID_SUBSCRIPTION
         },
         {
-          id: 'com.pitbox.basic.quarterly',
+          id: 'com.pitbox.app.setupsheets.basic.quarterly',
           type: store.PAID_SUBSCRIPTION
         },
         {
-          id: 'com.pitbox.basic.yearly',
+          id: 'com.pitbox.app.setupsheets.basic.yearly',
           type: store.PAID_SUBSCRIPTION
         },
         {
-          id: 'com.pitbox.premium.monthly',
+          id: 'com.pitbox.app.setupsheets.premium.monthly',
           type: store.PAID_SUBSCRIPTION
         },
         {
-          id: 'com.pitbox.premium.quarterly',
+          id: 'com.pitbox.app.setupsheets.premium.quarterly',
           type: store.PAID_SUBSCRIPTION
         },
         {
-          id: 'com.pitbox.premium.yearly',
+          id: 'com.pitbox.app.setupsheets.premium.yearly',
           type: store.PAID_SUBSCRIPTION
         }
       ]);

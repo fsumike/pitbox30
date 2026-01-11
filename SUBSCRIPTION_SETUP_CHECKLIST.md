@@ -12,7 +12,7 @@ Print this and check off each item as you complete it!
 - [ ] Create subscription group: "PitBox Setup Access"
 
 ### Basic Monthly ($9.99)
-- [ ] Product ID: `com.pitbox.basic.monthly`
+- [ ] Product ID: `com.pitbox.app.setupsheets.basic.monthly`
 - [ ] Display Name: "Basic Setup Access"
 - [ ] Description mentions "Community & Tools are FREE"
 - [ ] Price: $9.99 USD
@@ -21,7 +21,7 @@ Print this and check off each item as you complete it!
 - [ ] Status: Ready to Submit
 
 ### Premium Monthly ($12.99)
-- [ ] Product ID: `com.pitbox.premium.monthly`
+- [ ] Product ID: `com.pitbox.app.setupsheets.premium.monthly`
 - [ ] Display Name: "Encrypted Setup Access"
 - [ ] Description mentions "Community & Tools are FREE"
 - [ ] Price: $12.99 USD
@@ -30,12 +30,12 @@ Print this and check off each item as you complete it!
 - [ ] Status: Ready to Submit
 
 ### Quarterly Plans (Optional)
-- [ ] Basic Quarterly: `com.pitbox.basic.quarterly` - $24.99
-- [ ] Premium Quarterly: `com.pitbox.premium.quarterly` - $34.99
+- [ ] Basic Quarterly: `com.pitbox.app.setupsheets.basic.quarterly` - $24.99
+- [ ] Premium Quarterly: `com.pitbox.app.setupsheets.premium.quarterly` - $34.99
 
 ### Yearly Plans (Recommended)
-- [ ] Basic Yearly: `com.pitbox.basic.yearly` - $99.99
-- [ ] Premium Yearly: `com.pitbox.premium.yearly` - $134.99
+- [ ] Basic Yearly: `com.pitbox.app.setupsheets.basic.yearly` - $99.99
+- [ ] Premium Yearly: `com.pitbox.app.setupsheets.premium.yearly` - $134.99
 
 ### Final Steps
 - [ ] All subscriptions submitted for review
@@ -187,7 +187,7 @@ $ Setup Sheets only (save & sync)
 - Free Trial: 7 days on all plans
 
 **Product IDs:**
-- iOS: com.pitbox.[tier].[interval]
+- iOS: com.pitbox.app.setupsheets.[tier].[interval]
 - Android: [tier]_[interval]
 
 ---

@@ -18,8 +18,8 @@
 2. Select PitBox → Features → Subscriptions
 3. Create subscription group: "PitBox Setup Access"
 4. Add 2 subscriptions:
-   - Basic Monthly (`com.pitbox.basic.monthly`) - $9.99
-   - Premium Monthly (`com.pitbox.premium.monthly`) - $12.99
+   - Basic Monthly (`com.pitbox.app.setupsheets.basic.monthly`) - $9.99
+   - Premium Monthly (`com.pitbox.app.setupsheets.premium.monthly`) - $12.99
 5. For each: Add 7-day free trial
 6. For each: Description must say "Community & Tools are FREE"
 7. Submit for review
