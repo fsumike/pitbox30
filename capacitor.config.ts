@@ -1,7 +1,7 @@
 import { CapacitorConfig } from '@capacitor/cli';
 
 const config: CapacitorConfig = {
-  appId: 'com.pitbox.app',
+  appId: 'com.pitbox.racing',
   appName: 'PitBox',
   webDir: 'dist',
   server: {
