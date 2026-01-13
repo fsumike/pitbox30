@@ -1,0 +1,438 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>How to Upload Your App to App Store Connect</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #f5f5f7;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+        }
+
+        h1 {
+            color: #1d1d1f;
+            font-size: 36px;
+            margin-bottom: 10px;
+        }
+
+        .subtitle {
+            color: #86868b;
+            font-size: 20px;
+            margin-bottom: 40px;
+        }
+
+        .step {
+            background: #f5f5f7;
+            border-radius: 12px;
+            padding: 30px;
+            margin: 30px 0;
+            border: 2px solid #e5e5e7;
+        }
+
+        .step-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .step-number {
+            background: #007aff;
+            color: white;
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            font-weight: bold;
+            margin-right: 15px;
+            flex-shrink: 0;
+        }
+
+        .step-title {
+            font-size: 24px;
+            font-weight: 600;
+            color: #1d1d1f;
+        }
+
+        .step-content {
+            margin-left: 63px;
+            line-height: 1.8;
+            color: #424245;
+            font-size: 16px;
+        }
+
+        .screenshot {
+            background: white;
+            border: 2px solid #d1d1d6;
+            border-radius: 12px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+
+        .screenshot-title {
+            font-weight: 600;
+            color: #1d1d1f;
+            margin-bottom: 10px;
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .screenshot-content {
+            font-family: monospace;
+            font-size: 14px;
+            color: #007aff;
+            background: #f5f5f7;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 10px 0;
+        }
+
+        .button-visual {
+            background: #007aff;
+            color: white;
+            padding: 12px 24px;
+            border-radius: 8px;
+            display: inline-block;
+            font-weight: 600;
+            margin: 10px 0;
+        }
+
+        .warning {
+            background: #fff3cd;
+            border-left: 4px solid #ffc107;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+            color: #856404;
+        }
+
+        .success {
+            background: #d4edda;
+            border-left: 4px solid #28a745;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+            color: #155724;
+        }
+
+        .info {
+            background: #d1ecf1;
+            border-left: 4px solid #17a2b8;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+            color: #0c5460;
+        }
+
+        ol {
+            margin: 15px 0;
+            padding-left: 20px;
+        }
+
+        ol li {
+            margin: 10px 0;
+            line-height: 1.8;
+        }
+
+        .highlight {
+            background: #ffeb3b;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-weight: 600;
+        }
+
+        .code {
+            background: #2d2d2d;
+            color: #f8f8f2;
+            padding: 15px;
+            border-radius: 8px;
+            font-family: 'Courier New', monospace;
+            margin: 15px 0;
+            overflow-x: auto;
+        }
+
+        .big-button {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            text-align: center;
+            padding: 20px;
+            border-radius: 12px;
+            font-size: 18px;
+            font-weight: bold;
+            margin: 30px 0;
+            cursor: pointer;
+            text-decoration: none;
+            display: block;
+            transition: transform 0.2s;
+        }
+
+        .big-button:hover {
+            transform: translateY(-2px);
+        }
+
+        .section {
+            margin: 40px 0;
+        }
+
+        h2 {
+            color: #1d1d1f;
+            font-size: 28px;
+            margin: 30px 0 20px 0;
+            border-bottom: 2px solid #e5e5e7;
+            padding-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>📱 How to Upload to App Store Connect</h1>
+        <p class="subtitle">Exact step-by-step instructions - no confusion</p>
+
+        <div class="info">
+            <strong>⏱️ Time Required:</strong> 15-20 minutes (mostly waiting for Capawesome to build)
+        </div>
+
+        <h2>Part 1: Build Your App with Capawesome</h2>
+
+        <div class="step">
+            <div class="step-header">
+                <div class="step-number">1</div>
+                <div class="step-title">Open Terminal/Command Prompt</div>
+            </div>
+            <div class="step-content">
+                <p><strong>On Mac:</strong></p>
+                <ol>
+                    <li>Press <span class="highlight">Command + Space</span></li>
+                    <li>Type "Terminal"</li>
+                    <li>Press Enter</li>
+                </ol>
+                <p style="margin-top: 15px;"><strong>On Windows:</strong></p>
+                <ol>
+                    <li>Press <span class="highlight">Windows Key</span></li>
+                    <li>Type "Command Prompt"</li>
+                    <li>Press Enter</li>
+                </ol>
+            </div>
+        </div>
+
+        <div class="step">
+            <div class="step-header">
+                <div class="step-number">2</div>
+                <div class="step-title">Navigate to Your Project Folder</div>
+            </div>
+            <div class="step-content">
+                <p>Type this command (replace with your actual folder location):</p>
+                <div class="code">cd /path/to/your/project</div>
+                <p style="margin-top: 15px;"><strong>Example:</strong></p>
+                <div class="code">cd /Users/yourname/Desktop/pitbox-project</div>
+            </div>
+        </div>
+
+        <div class="step">
+            <div class="step-header">
+                <div class="step-number">3</div>
+                <div class="step-title">Build with Capawesome</div>
+            </div>
+            <div class="step-content">
+                <p>Copy and paste this exact command:</p>
+                <div class="code">npm run capawesome:build:ios</div>
+                <p style="margin-top: 15px;">Press Enter and wait. This takes <strong>5-10 minutes</strong>.</p>
+                <div class="warning">
+                    ⚠️ Don't close the Terminal window while it's building!
+                </div>
+            </div>
+        </div>
+
+        <div class="step">
+            <div class="step-header">
+                <div class="step-number">4</div>
+                <div class="step-title">Download Your .ipa File from Capawesome</div>
+            </div>
+            <div class="step-content">
+                <p>When the build finishes, you'll see a link in the Terminal output.</p>
+                <ol>
+                    <li>Look for text that says "Build completed" or "Download your app"</li>
+                    <li>You'll see a link like: <span class="highlight">https://cloud.capawesome.io/...</span></li>
+                    <li>Copy that link and open it in your browser</li>
+                    <li>Click "Download .ipa"</li>
+                    <li>Save the file (remember where you save it!)</li>
+                </ol>
+                <div class="info">
+                    <strong>💡 Alternative:</strong> Go to <a href="https://cloud.capawesome.io" target="_blank">cloud.capawesome.io</a>, log in, and find your latest build under "Builds" → "iOS"
+                </div>
+            </div>
+        </div>
+
+        <h2>Part 2: Upload to App Store Connect</h2>
+
+        <div class="step">
+            <div class="step-header">
+                <div class="step-number">5</div>
+                <div class="step-title">Go to App Store Connect</div>
+            </div>
+            <div class="step-content">
+                <ol>
+                    <li>Open your browser</li>
+                    <li>Go to: <a href="https://appstoreconnect.apple.com" target="_blank" class="highlight">https://appstoreconnect.apple.com</a></li>
+                    <li>Sign in with your Apple Developer account</li>
+                </ol>
+            </div>
+        </div>
+
+        <div class="step">
+            <div class="step-header">
+                <div class="step-number">6</div>
+                <div class="step-title">Find Your App</div>
+            </div>
+            <div class="step-content">
+                <ol>
+                    <li>Click on <span class="highlight">"My Apps"</span></li>
+                    <li>Find and click on <span class="highlight">"PitBox"</span> (your app name)</li>
+                </ol>
+            </div>
+        </div>
+
+        <div class="step">
+            <div class="step-header">
+                <div class="step-number">7</div>
+                <div class="step-title">Use Transporter App to Upload</div>
+            </div>
+            <div class="step-content">
+                <div class="warning">
+                    <strong>⚠️ IMPORTANT:</strong> You CANNOT upload the .ipa directly through the website. You MUST use the Transporter app.
+                </div>
+
+                <p style="margin-top: 20px;"><strong>Download Transporter:</strong></p>
+                <ol>
+                    <li>Open the <span class="highlight">Mac App Store</span></li>
+                    <li>Search for <span class="highlight">"Transporter"</span></li>
+                    <li>Download and install it (it's free from Apple)</li>
+                </ol>
+
+                <div class="info" style="margin-top: 20px;">
+                    <strong>Windows Users:</strong> You need access to a Mac to upload. Ask a friend with a Mac, use a Mac at a library, or use a Mac rental service online.
+                </div>
+            </div>
+        </div>
+
+        <div class="step">
+            <div class="step-header">
+                <div class="step-number">8</div>
+                <div class="step-title">Upload with Transporter</div>
+            </div>
+            <div class="step-content">
+                <ol>
+                    <li>Open the <span class="highlight">Transporter app</span></li>
+                    <li>Sign in with your Apple Developer account</li>
+                    <li>Click the <span class="button-visual">+ Add App</span> button</li>
+                    <li>Find and select your <span class="highlight">.ipa file</span> (the one you downloaded from Capawesome)</li>
+                    <li>Click <span class="button-visual">Deliver</span></li>
+                    <li>Wait for upload to complete (5-15 minutes depending on your internet speed)</li>
+                </ol>
+            </div>
+        </div>
+
+        <div class="step">
+            <div class="step-header">
+                <div class="step-number">9</div>
+                <div class="step-title">Wait for Processing</div>
+            </div>
+            <div class="step-content">
+                <p>After upload completes:</p>
+                <ol>
+                    <li>Go back to <span class="highlight">App Store Connect</span> in your browser</li>
+                    <li>Click on your app (PitBox)</li>
+                    <li>Go to <span class="highlight">TestFlight</span> or <span class="highlight">App Store</span> tab</li>
+                    <li>You'll see "Processing" next to your build</li>
+                    <li>Wait 15-60 minutes for Apple to process it</li>
+                </ol>
+                <div class="info">
+                    <strong>📧 You'll get an email</strong> when processing is done
+                </div>
+            </div>
+        </div>
+
+        <div class="step">
+            <div class="step-header">
+                <div class="step-number">10</div>
+                <div class="step-title">Submit for Review</div>
+            </div>
+            <div class="step-content">
+                <p>Once processing is complete:</p>
+                <ol>
+                    <li>Go to <span class="highlight">App Store Connect</span></li>
+                    <li>Click your app</li>
+                    <li>Click <span class="highlight">"+ Version"</span> or select your existing version</li>
+                    <li>Scroll down to <span class="highlight">"Build"</span></li>
+                    <li>Click the <span class="button-visual">+ </span> button next to Build</li>
+                    <li>Select your NEW build (it will have today's date)</li>
+                    <li>Scroll to the bottom</li>
+                    <li>Click <span class="button-visual">Submit for Review</span></li>
+                </ol>
+            </div>
+        </div>
+
+        <div class="success">
+            <h3 style="margin-bottom: 10px;">✅ Done!</h3>
+            <p>Apple will review your app in 1-3 days. You'll get an email when it's approved.</p>
+        </div>
+
+        <h2>Troubleshooting</h2>
+
+        <div class="step">
+            <div class="step-header">
+                <div class="step-title">Common Issues</div>
+            </div>
+            <div class="step-content">
+                <p><strong>Q: I don't have a Mac. How do I upload?</strong></p>
+                <p>A: You MUST use a Mac for Transporter. Options:</p>
+                <ul style="margin: 10px 0 10px 20px;">
+                    <li>Ask a friend with a Mac</li>
+                    <li>Use a Mac at an Apple Store or library</li>
+                    <li>Rent a Mac online (services like MacInCloud)</li>
+                    <li>Hire someone on Fiverr to do it for you ($5-$20)</li>
+                </ul>
+
+                <p style="margin-top: 20px;"><strong>Q: Capawesome build failed</strong></p>
+                <p>A: Run this command first:</p>
+                <div class="code">npm run build</div>
+                <p>Then try the Capawesome build again.</p>
+
+                <p style="margin-top: 20px;"><strong>Q: I can't find my .ipa file</strong></p>
+                <p>A: Go to <a href="https://cloud.capawesome.io" target="_blank">cloud.capawesome.io</a>, sign in, click "Builds" → "iOS" → find your latest build → "Download"</p>
+
+                <p style="margin-top: 20px;"><strong>Q: Upload is taking forever</strong></p>
+                <p>A: .ipa files are 50-200MB. On slow internet, this can take 30+ minutes. Be patient.</p>
+            </div>
+        </div>
+
+        <div class="big-button" onclick="window.location.href='https://appstoreconnect.apple.com'">
+            Open App Store Connect →
+        </div>
+
+        <div class="info">
+            <strong>📞 Need Help?</strong> The exact buttons and layout in App Store Connect can change, but the general flow is always: Sign In → My Apps → Your App → Upload via Transporter → Wait for Processing → Submit for Review
+        </div>
+    </div>
+</body>
+</html>
