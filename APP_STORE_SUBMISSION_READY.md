@@ -141,7 +141,7 @@ FROM THE RACING COMMUNITY
 "Finally, a professional tool that works at the track!" - Sprint Car Team Owner
 "The offline support is a game-changer for rural tracks" - Late Model Racer
 "Best racing community platform I've used" - IMCA Modified Driver
-"I can track everything in one place now" - Racing Crew Chief
+"I can track everything in one place now"  Racing Crew Chief
 
 TRUSTED BY CHAMPIONS
 
