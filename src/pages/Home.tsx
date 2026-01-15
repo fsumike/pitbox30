@@ -343,7 +343,7 @@ function Home() {
             <SubscriptionGate>
               <div className="space-y-3 transition-all duration-500 opacity-100 max-h-[2000px] mb-48">
                 {vehicleCategories.Vehicles.map((category) => (
-                  <div key={category.name} className="pl-1 sm:pl-2">
+                  <div key={category.name} className="pl-1 sm:pl-2" data-category={category.name}>
                     <button
                       className="w-full glass-panel cursor-pointer transition-all duration-300 overflow-hidden relative group"
                       onClick={() => setActiveCategory(activeCategory === category.name ? null : category.name)}
@@ -431,6 +431,79 @@ function Home() {
             )}
           </div>
         </div>
+        </div>
+      </div>
+
+      {/* Midget Cars Section */}
+      <div className="p-4 sm:p-6 md:p-8 transform hover:scale-[1.02] transition-all duration-500 relative overflow-hidden rounded-2xl group cursor-pointer"
+        onClick={() => {
+          const midgetCategory = vehicleCategories.Vehicles.find(cat => cat.name === 'Midget Cars');
+          if (midgetCategory) {
+            setActiveCategory('Midget Cars');
+            setShowVehicles(true);
+            setTimeout(() => {
+              const element = document.querySelector('[data-category="Midget Cars"]');
+              element?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            }, 100);
+          }
+        }}
+      >
+        {/* Background Image */}
+        <div className="absolute inset-0 rounded-2xl">
+          <img
+            src="/midget_cars.jpg"
+            alt="Midget Cars Racing"
+            className="w-full h-full object-cover"
+          />
+          <div className="absolute inset-0 bg-gradient-to-r from-black/90 via-black/70 to-black/50 group-hover:from-black/80 group-hover:via-black/60 group-hover:to-black/40 transition-all" />
+        </div>
+
+        {/* Enhanced Visible Carbon Fiber Texture Overlay */}
+        <div className="absolute inset-0 rounded-2xl" style={{
+          background: `
+            repeating-linear-gradient(0deg, rgba(58, 45, 26, 0.3) 0px, rgba(38, 29, 16, 0.3) 1px, rgba(58, 45, 26, 0.3) 2px, rgba(46, 36, 20, 0.3) 3px),
+            repeating-linear-gradient(90deg, rgba(58, 45, 26, 0.3) 0px, rgba(42, 31, 18, 0.3) 1px, rgba(58, 45, 26, 0.3) 2px, rgba(50, 38, 24, 0.3) 3px)
+          `,
+          backgroundSize: '6px 6px',
+          opacity: 0.5,
+        }}></div>
+
+        {/* Golden Racing Stripe - Top */}
+        <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-transparent via-amber-500 to-transparent"
+          style={{
+            boxShadow: '0 0 20px rgba(251, 191, 36, 0.8), 0 0 40px rgba(245, 158, 11, 0.5)',
+          }}
+        ></div>
+
+        {/* Glowing Gold Border on Hover */}
+        <div className="absolute inset-0 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500"
+          style={{
+            background: 'linear-gradient(145deg, #fbbf24, #f59e0b, #d97706, #fbbf24)',
+            backgroundSize: '200% 200%',
+            padding: '2px',
+            WebkitMask: 'linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)',
+            WebkitMaskComposite: 'xor',
+            maskComposite: 'exclude',
+            animation: 'shimmer 3s infinite linear',
+          }}
+        ></div>
+
+        <div className="relative z-10 text-center px-4 py-6 sm:py-8">
+          <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-3 sm:mb-4">
+            <span className="bg-gradient-to-r from-amber-400 via-yellow-500 to-amber-300 bg-clip-text text-transparent" style={{
+              textShadow: '0 0 30px rgba(251, 191, 36, 0.6), 0 0 60px rgba(245, 158, 11, 0.4)',
+              filter: 'drop-shadow(0 0 12px rgba(251, 191, 36, 0.8))'
+            }}>
+              Midget Cars
+            </span>
+          </h2>
+          <p className="text-base sm:text-lg md:text-xl text-gray-200 leading-relaxed drop-shadow-lg mb-4">
+            Access specialized setup tools for Quarter Midgets, Focus Midgets, and Micro 600 racing classes
+          </p>
+          <div className="flex items-center justify-center gap-2 text-amber-400 font-medium group-hover:translate-x-2 transition-transform">
+            <span className="text-sm sm:text-base">View Setup Tools</span>
+            <ChevronRight className="w-4 h-4 sm:w-5 sm:h-5" />
+          </div>
         </div>
       </div>
 
