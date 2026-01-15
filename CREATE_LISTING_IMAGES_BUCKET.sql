@@ -30,8 +30,13 @@ ON CONFLICT (id) DO UPDATE SET
   file_size_limit = EXCLUDED.file_size_limit,
   allowed_mime_types = EXCLUDED.allowed_mime_types;
 
--- Storage policies for listing-images bucket
-CREATE POLICY IF NOT EXISTS "Authenticated users can upload listing images"
+-- Drop existing policies if they exist (to avoid conflicts)
+DROP POLICY IF EXISTS "Authenticated users can upload listing images" ON storage.objects;
+DROP POLICY IF EXISTS "Anyone can view listing images" ON storage.objects;
+DROP POLICY IF EXISTS "Users can delete their own listing images" ON storage.objects;
+
+-- Create storage policies for listing-images bucket
+CREATE POLICY "Authenticated users can upload listing images"
 ON storage.objects
 FOR INSERT
 TO authenticated
@@ -40,13 +45,13 @@ WITH CHECK (
   auth.role() = 'authenticated'
 );
 
-CREATE POLICY IF NOT EXISTS "Anyone can view listing images"
+CREATE POLICY "Anyone can view listing images"
 ON storage.objects
 FOR SELECT
 TO public
 USING (bucket_id = 'listing-images');
 
-CREATE POLICY IF NOT EXISTS "Users can delete their own listing images"
+CREATE POLICY "Users can delete their own listing images"
 ON storage.objects
 FOR DELETE
 TO authenticated
