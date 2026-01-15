@@ -1,10 +1,10 @@
-import React, { useState, useEffect } from 'react';
-import { X, Camera, Upload, Trash2, DollarSign, MapPin, AlertCircle, Loader2, Phone, Mail, ChevronLeft, ChevronRight, ZoomIn } from 'lucide-react';
+import React, { useState, useEffect, useCallback } from 'react';
+import { X, Camera, Upload, Trash2, DollarSign, MapPin, AlertCircle, Loader2, Phone, Mail, ChevronLeft, ChevronRight, ZoomIn, CheckCircle } from 'lucide-react';
 import { useListings } from '../hooks/useListings';
 import { useLocation } from '../hooks/useLocation';
 import { supabase } from '../lib/supabase';
-import LocationDisplay from './LocationDisplay';
 import { vehicleCategories } from '../App';
+import { compressImage, formatFileSize, getFileSizeFromDataUrl } from '../utils/imageCompression';
 
 interface CreateListingModalProps {
   isOpen: boolean;
@@ -29,8 +29,10 @@ function CreateListingModal({ isOpen, onClose, onSuccess }: CreateListingModalPr
   const [isNegotiable, setIsNegotiable] = useState(true);
   const [lightboxOpen, setLightboxOpen] = useState(false);
   const [lightboxIndex, setLightboxIndex] = useState(0);
+  const [submitStep, setSubmitStep] = useState<'idle' | 'creating' | 'uploading' | 'done'>('idle');
 
   const { createListing, loading } = useListings();
+  const isSubmitting = submitStep !== 'idle';
   const { latitude, longitude, address, city, state: locationState, loading: locationLoading, error: locationError, getLocation } = useLocation({
     enableHighAccuracy: true,
     enableGeocoding: true
@@ -84,37 +86,33 @@ function CreateListingModal({ isOpen, onClose, onSuccess }: CreateListingModalPr
     }))
   );
 
-  const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleImageUpload = useCallback(async (e: React.ChangeEvent<HTMLInputElement>) => {
     const files = e.target.files;
-    if (!files) return;
+    if (!files || files.length === 0) return;
 
-    // Only allow up to 4 images
-    if (images.length + files.length > 4) {
+    const remainingSlots = 4 - images.length;
+    if (remainingSlots <= 0) {
       setError('Maximum 4 images allowed');
       return;
     }
 
+    const filesToProcess = Array.from(files).slice(0, remainingSlots);
     setUploading(true);
     setError(null);
 
-    Array.from(files).forEach(file => {
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        if (typeof reader.result === 'string') {
-          setImages(prev => [...prev, reader.result]);
-        }
-        setUploading(false);
-      };
-      reader.onerror = () => {
-        setError('Failed to upload image');
-        setUploading(false);
-      };
-      reader.readAsDataURL(file);
-    });
-
-    // Reset input
-    e.target.value = '';
-  };
+    try {
+      const compressedImages = await Promise.all(
+        filesToProcess.map(file => compressImage(file, { maxWidth: 1200, maxHeight: 1200, quality: 0.75 }))
+      );
+      setImages(prev => [...prev, ...compressedImages]);
+    } catch (err) {
+      console.error('Image compression error:', err);
+      setError('Failed to process images');
+    } finally {
+      setUploading(false);
+      e.target.value = '';
+    }
+  }, [images.length]);
 
   const removeImage = (index: number) => {
     setImages(prev => prev.filter((_, i) => i !== index));
@@ -131,6 +129,7 @@ function CreateListingModal({ isOpen, onClose, onSuccess }: CreateListingModalPr
     setIncludeLocation(true);
     setCondition('good');
     setIsNegotiable(true);
+    setSubmitStep('idle');
   };
 
   const handleLocationToggle = () => {
@@ -159,8 +158,9 @@ function CreateListingModal({ isOpen, onClose, onSuccess }: CreateListingModalPr
       return;
     }
 
+    setSubmitStep('creating');
+
     try {
-      // Create city/state location string
       let locationDisplay = 'Location not provided';
       if (includeLocation) {
         if (city && locationState) {
@@ -173,6 +173,8 @@ function CreateListingModal({ isOpen, onClose, onSuccess }: CreateListingModalPr
           locationDisplay = 'Current Location';
         }
       }
+
+      setSubmitStep('uploading');
 
       const result = await createListing({
         title,
@@ -191,11 +193,18 @@ function CreateListingModal({ isOpen, onClose, onSuccess }: CreateListingModalPr
       }, images);
 
       if (result) {
-        resetForm();
-        onSuccess?.();
-        onClose();
+        setSubmitStep('done');
+        setTimeout(() => {
+          resetForm();
+          onSuccess?.();
+          onClose();
+        }, 500);
+      } else {
+        setSubmitStep('idle');
+        setError('Failed to create listing');
       }
     } catch (err) {
+      setSubmitStep('idle');
       setError('Failed to create listing');
       console.error('Error creating listing:', err);
     }
@@ -234,9 +243,12 @@ function CreateListingModal({ isOpen, onClose, onSuccess }: CreateListingModalPr
           <form onSubmit={handleSubmit} className="space-y-6">
             {/* Image Upload Section */}
             <div className="space-y-2">
-              <label className="block text-sm font-medium mb-1 text-white">
-                Photos (max 4) - Click to view full size
-              </label>
+              <div className="flex items-center justify-between">
+                <label className="block text-sm font-medium text-white">
+                  Photos (max 4)
+                </label>
+                <span className="text-xs text-gray-400">Auto-compressed for fast upload</span>
+              </div>
               <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
                 {images.map((image, index) => (
                   <div key={index} className="relative aspect-square group">
@@ -274,13 +286,16 @@ function CreateListingModal({ isOpen, onClose, onSuccess }: CreateListingModalPr
                   </div>
                 ))}
                 {images.length < 4 && (
-                  <label className="aspect-square border-2 border-dashed border-gray-600 rounded-lg flex flex-col items-center justify-center cursor-pointer hover:border-brand-gold transition-colors">
+                  <label className="aspect-square border-2 border-dashed border-gray-600 rounded-lg flex flex-col items-center justify-center cursor-pointer hover:border-brand-gold hover:bg-brand-gold/5 transition-all">
                     {uploading ? (
-                      <Loader2 className="w-8 h-8 animate-spin text-brand-gold" />
+                      <div className="text-center">
+                        <Loader2 className="w-8 h-8 animate-spin text-brand-gold mx-auto mb-2" />
+                        <span className="text-xs text-brand-gold">Compressing...</span>
+                      </div>
                     ) : (
                       <>
                         <Upload className="w-8 h-8 mb-2 text-gray-400" />
-                        <span className="text-sm text-gray-400">Upload Photo</span>
+                        <span className="text-sm text-gray-400">Add Photo</span>
                       </>
                     )}
                     <input
@@ -289,6 +304,7 @@ function CreateListingModal({ isOpen, onClose, onSuccess }: CreateListingModalPr
                       className="hidden"
                       onChange={handleImageUpload}
                       multiple
+                      disabled={uploading}
                     />
                   </label>
                 )}
@@ -564,31 +580,63 @@ function CreateListingModal({ isOpen, onClose, onSuccess }: CreateListingModalPr
             </div>
 
             {/* Submit Button */}
-            <div className="flex justify-end gap-4">
-              <button
-                type="button"
-                onClick={onClose}
-                className="px-6 py-2 rounded-lg bg-gray-700 hover:bg-gray-600 transition-colors text-white font-medium"
-              >
-                Cancel
-              </button>
-              <button
-                type="submit"
-                disabled={loading || uploading}
-                className="btn-primary flex items-center gap-2"
-              >
-                {loading ? (
-                  <>
-                    <Loader2 className="w-5 h-5 animate-spin" />
-                    Creating...
-                  </>
-                ) : (
-                  <>
-                    <Camera className="w-5 h-5" />
-                    Post Listing
-                  </>
-                )}
-              </button>
+            <div className="flex flex-col gap-4">
+              {isSubmitting && (
+                <div className="p-4 rounded-xl bg-brand-gold/10 border border-brand-gold/30">
+                  <div className="flex items-center gap-3">
+                    {submitStep === 'done' ? (
+                      <CheckCircle className="w-6 h-6 text-green-500" />
+                    ) : (
+                      <Loader2 className="w-6 h-6 animate-spin text-brand-gold" />
+                    )}
+                    <div className="flex-1">
+                      <p className="font-medium text-white">
+                        {submitStep === 'creating' && 'Creating your listing...'}
+                        {submitStep === 'uploading' && 'Uploading images...'}
+                        {submitStep === 'done' && 'Listing posted successfully!'}
+                      </p>
+                      <div className="mt-2 h-2 bg-gray-700 rounded-full overflow-hidden">
+                        <div
+                          className={`h-full transition-all duration-500 ${submitStep === 'done' ? 'bg-green-500' : 'bg-brand-gold'}`}
+                          style={{
+                            width: submitStep === 'creating' ? '33%' : submitStep === 'uploading' ? '66%' : '100%'
+                          }}
+                        />
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              )}
+
+              <div className="flex justify-end gap-4">
+                <button
+                  type="button"
+                  onClick={onClose}
+                  disabled={isSubmitting}
+                  className="px-6 py-2 rounded-lg bg-gray-700 hover:bg-gray-600 transition-colors text-white font-medium disabled:opacity-50"
+                >
+                  Cancel
+                </button>
+                <button
+                  type="submit"
+                  disabled={isSubmitting || uploading}
+                  className="btn-primary flex items-center gap-2 disabled:opacity-50"
+                >
+                  {isSubmitting ? (
+                    <>
+                      <Loader2 className="w-5 h-5 animate-spin" />
+                      {submitStep === 'creating' && 'Creating...'}
+                      {submitStep === 'uploading' && 'Uploading...'}
+                      {submitStep === 'done' && 'Done!'}
+                    </>
+                  ) : (
+                    <>
+                      <Camera className="w-5 h-5" />
+                      Post Listing
+                    </>
+                  )}
+                </button>
+              </div>
             </div>
           </form>
         </div>

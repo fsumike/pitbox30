@@ -112,24 +112,20 @@ export function useListings() {
 
       if (listingError) throw listingError;
 
-      // Add images (maximum 4)
       if (images.length > 0) {
         const imagesToAdd = images.slice(0, 4);
-        const imagePromises = imagesToAdd.map((url, index) => 
-          supabase
-            .from('listing_images')
-            .insert({
-              listing_id: listing.id,
-              url,
-              order: index + 1
-            })
-        );
+        const imageRecords = imagesToAdd.map((url, index) => ({
+          listing_id: listing.id,
+          url,
+          order: index + 1
+        }));
 
-        const imageResults = await Promise.all(imagePromises);
-        const imageErrors = imageResults.filter(result => result.error);
-        
-        if (imageErrors.length > 0) {
-          console.error('Some images failed to upload:', imageErrors);
+        const { error: imageError } = await supabase
+          .from('listing_images')
+          .insert(imageRecords);
+
+        if (imageError) {
+          console.error('Failed to save images:', imageError);
         }
       }
 
