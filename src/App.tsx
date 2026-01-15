@@ -58,6 +58,7 @@ const PostView = lazy(() => import('./pages/PostView'));
 const TireTool = lazy(() => import('./pages/TireTool'));
 const Friends = lazy(() => import('./pages/Friends'));
 const Messages = lazy(() => import('./pages/Messages'));
+const Notifications = lazy(() => import('./pages/Notifications'));
 const SavedSetups = lazy(() => import('./pages/SavedSetups'));
 const Subscription = lazy(() => import('./pages/Subscription'));
 const SubscriptionSuccess = lazy(() => import('./pages/SubscriptionSuccess'));
@@ -529,6 +530,7 @@ function App() {
           <Route path="/user/:userId" element={<UserProfile />} />
           <Route path="/friends" element={<Friends />} />
           <Route path="/messages" element={<Messages />} />
+          <Route path="/notifications" element={<Notifications />} />
           <Route path="/my-advertisements" element={<MyAdvertisements />} />
           <Route path="/terms" element={<TermsOfService />} />
           <Route path="/privacy" element={<Privacy />} />
