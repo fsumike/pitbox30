@@ -60,8 +60,8 @@ export default function MessagesButton() {
           >
             <div className="flex items-center justify-between p-4 border-b border-gray-200 dark:border-gray-700">
               <div className="flex items-center gap-2">
-                <MessageSquare className="w-5 h-5 text-brand-gold" />
-                <h2 className="text-lg font-bold">Messages</h2>
+                <MessageSquare className="w-5 h-5 text-amber-600 dark:text-amber-500" />
+                <h2 className="text-lg font-bold text-gray-900 dark:text-white">Messages</h2>
                 {unreadTotal > 0 && (
                   <span className="bg-red-500 text-white text-xs rounded-full px-2 py-0.5">
                     {unreadTotal}
@@ -75,20 +75,20 @@ export default function MessagesButton() {
                 }}
                 className="p-2 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg transition-colors"
               >
-                <X className="w-5 h-5" />
+                <X className="w-5 h-5 text-gray-600 dark:text-gray-400" />
               </button>
             </div>
 
             <div className="flex-1 overflow-y-auto">
               {loading ? (
                 <div className="flex items-center justify-center py-12">
-                  <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-brand-gold"></div>
+                  <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-amber-600 dark:border-amber-500"></div>
                 </div>
               ) : conversations.length === 0 ? (
                 <div className="flex flex-col items-center justify-center py-12 px-4 text-center">
                   <MessageSquare className="w-16 h-16 text-gray-300 dark:text-gray-600 mb-4" />
-                  <h3 className="text-lg font-semibold mb-2">No messages yet</h3>
-                  <p className="text-sm text-gray-500 dark:text-gray-400">
+                  <h3 className="text-lg font-semibold mb-2 text-gray-900 dark:text-white">No messages yet</h3>
+                  <p className="text-sm text-gray-600 dark:text-gray-400">
                     Start a conversation by messaging someone from their profile
                   </p>
                 </div>
@@ -109,7 +109,7 @@ export default function MessagesButton() {
                               className="w-12 h-12 rounded-full object-cover"
                             />
                           ) : (
-                            <div className="w-12 h-12 rounded-full bg-gradient-to-br from-brand-gold to-amber-600 flex items-center justify-center">
+                            <div className="w-12 h-12 rounded-full bg-gradient-to-br from-amber-500 to-orange-500 dark:from-amber-600 dark:to-orange-600 flex items-center justify-center">
                               <User className="w-6 h-6 text-white" />
                             </div>
                           )}
@@ -122,15 +122,15 @@ export default function MessagesButton() {
 
                         <div className="flex-1 min-w-0">
                           <div className="flex items-center justify-between mb-1">
-                            <h3 className={`font-semibold truncate ${conv.unreadCount > 0 ? 'text-gray-900 dark:text-white' : 'text-gray-700 dark:text-gray-300'}`}>
+                            <h3 className={`font-semibold truncate ${conv.unreadCount > 0 ? 'text-gray-900 dark:text-white' : 'text-gray-800 dark:text-gray-200'}`}>
                               {conv.otherUser.username}
                             </h3>
-                            <div className="flex items-center gap-1 text-xs text-gray-500 dark:text-gray-400">
+                            <div className="flex items-center gap-1 text-xs text-gray-600 dark:text-gray-400">
                               <Clock className="w-3 h-3" />
                               <span>{formatDistanceToNow(new Date(conv.lastMessageAt), { addSuffix: true })}</span>
                             </div>
                           </div>
-                          <p className={`text-sm truncate ${conv.unreadCount > 0 ? 'font-medium text-gray-900 dark:text-white' : 'text-gray-500 dark:text-gray-400'}`}>
+                          <p className={`text-sm truncate ${conv.unreadCount > 0 ? 'font-medium text-gray-800 dark:text-gray-200' : 'text-gray-600 dark:text-gray-400'}`}>
                             {conv.lastMessage}
                           </p>
                         </div>
