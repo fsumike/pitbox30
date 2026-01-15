@@ -670,14 +670,6 @@ function CreatePostModal({ isOpen, onClose, post, onSuccess }: CreatePostModalPr
             {images.length === 0 && !video && (
               <div className="grid grid-cols-2 gap-4">
                 <div>
-                  <input
-                    ref={fileInputRef}
-                    type="file"
-                    accept="image/*"
-                    multiple
-                    onChange={handleImageUpload}
-                    className="hidden"
-                  />
                   <button
                     type="button"
                     onClick={() => {
@@ -700,13 +692,6 @@ function CreatePostModal({ isOpen, onClose, post, onSuccess }: CreatePostModalPr
                 </div>
 
                 <div>
-                  <input
-                    ref={videoInputRef}
-                    type="file"
-                    accept="video/*"
-                    onChange={handleVideoUpload}
-                    className="hidden"
-                  />
                   <button
                     type="button"
                     onClick={() => {
@@ -730,13 +715,20 @@ function CreatePostModal({ isOpen, onClose, post, onSuccess }: CreatePostModalPr
               </div>
             )}
 
-            {/* Hidden file inputs for adding more images */}
+            {/* Hidden file inputs */}
             <input
               ref={fileInputRef}
               type="file"
               accept="image/*"
               multiple
               onChange={handleImageUpload}
+              className="hidden"
+            />
+            <input
+              ref={videoInputRef}
+              type="file"
+              accept="video/*"
+              onChange={handleVideoUpload}
               className="hidden"
             />
 
