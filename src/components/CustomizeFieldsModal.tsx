@@ -116,14 +116,14 @@ function CustomizeFieldsModal({
         <div className="relative p-6">
           <button
             onClick={onClose}
-            className="absolute top-4 right-4 p-2 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-full"
+            className="absolute top-4 right-4 p-2 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-full text-gray-700 dark:text-gray-300"
           >
             <X className="w-6 h-6" />
           </button>
 
           <div className="flex items-center gap-3 mb-6">
             <Sliders className="w-6 h-6 text-red-500" />
-            <h2 className="text-2xl font-bold">Customize Fields</h2>
+            <h2 className="text-2xl font-bold text-gray-900 dark:text-white">Customize Fields</h2>
           </div>
 
           {error && (
@@ -137,18 +137,18 @@ function CustomizeFieldsModal({
             {groups.map((group, groupIndex) => (
               <div key={group.title} className="space-y-3">
                 <div className="flex items-center justify-between">
-                  <h3 className="text-lg font-semibold">{group.title}</h3>
+                  <h3 className="text-lg font-semibold text-gray-900 dark:text-white">{group.title}</h3>
                   <div className="flex items-center gap-2">
                     <button
                       onClick={() => handleToggleAllFields(groupIndex, true)}
-                      className="p-1.5 text-sm hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg transition-colors flex items-center gap-1"
+                      className="p-1.5 text-sm hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg transition-colors flex items-center gap-1 text-gray-700 dark:text-gray-300"
                     >
                       <Eye className="w-4 h-4" />
                       <span>Show All</span>
                     </button>
                     <button
                       onClick={() => handleToggleAllFields(groupIndex, false)}
-                      className="p-1.5 text-sm hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg transition-colors flex items-center gap-1"
+                      className="p-1.5 text-sm hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg transition-colors flex items-center gap-1 text-gray-700 dark:text-gray-300"
                     >
                       <EyeOff className="w-4 h-4" />
                       <span>Hide All</span>
@@ -163,13 +163,13 @@ function CustomizeFieldsModal({
                       onClick={() => handleToggleField(groupIndex, field)}
                       className={`p-2 rounded-lg text-left transition-colors flex items-center justify-between ${
                         group.visibleFields[field]
-                          ? 'bg-brand-gold/10 hover:bg-brand-gold/20'
-                          : 'bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700'
+                          ? 'bg-amber-100 dark:bg-brand-gold/10 hover:bg-amber-200 dark:hover:bg-brand-gold/20 text-gray-900 dark:text-white'
+                          : 'bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 text-gray-600 dark:text-gray-400'
                       }`}
                     >
                       <span>{field}</span>
                       {group.visibleFields[field] ? (
-                        <Eye className="w-4 h-4" />
+                        <Eye className="w-4 h-4 text-amber-600 dark:text-brand-gold" />
                       ) : (
                         <EyeOff className="w-4 h-4" />
                       )}
@@ -183,7 +183,7 @@ function CustomizeFieldsModal({
           <div className="flex justify-end gap-4 mt-6">
             <button
               onClick={handleReset}
-              className="px-4 py-2 rounded-lg bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors flex items-center gap-2"
+              className="px-4 py-2 rounded-lg bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors flex items-center gap-2 text-gray-700 dark:text-gray-300"
             >
               <RefreshCw className="w-5 h-5" />
               Reset to Default
