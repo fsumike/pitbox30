@@ -612,8 +612,35 @@ function RacingCommunity() {
                     )}
                   </div>
 
-                  {/* Post Media */}
-                  {post.image_url && (
+                  {/* Post Media - Multiple Images */}
+                  {post.image_urls && post.image_urls.length > 0 ? (
+                    <div className={`grid gap-1 ${
+                      post.image_urls.length === 1 ? 'grid-cols-1' :
+                      post.image_urls.length === 2 ? 'grid-cols-2' :
+                      post.image_urls.length === 3 ? 'grid-cols-3' :
+                      'grid-cols-2'
+                    }`}>
+                      {post.image_urls.slice(0, 4).map((imageUrl, index) => (
+                        <div
+                          key={index}
+                          className={`relative group cursor-pointer overflow-hidden ${
+                            post.image_urls.length === 3 && index === 0 ? 'col-span-3' :
+                            post.image_urls.length === 4 && index >= 2 ? 'col-span-1' : ''
+                          }`}
+                          onClick={() => setLightboxImage(imageUrl)}
+                        >
+                          <img
+                            src={imageUrl}
+                            alt={`Post image ${index + 1}`}
+                            className="w-full h-full object-cover max-h-[600px]"
+                          />
+                          <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+                            <Maximize2 className="w-12 h-12 text-white opacity-0 group-hover:opacity-100 transition-opacity" />
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  ) : post.image_url && (
                     <div className="relative group cursor-pointer overflow-hidden" onClick={() => setLightboxImage(post.image_url!)}>
                       <img
                         src={post.image_url}
