@@ -14,7 +14,7 @@ import SubscriptionGate from '../components/SubscriptionGate';
 
 const categoryImages: Record<string, string> = {
   'Sprint Cars': '/495479702_1321020539654208_5408440298677452810_n.jpg',
-  'Midget Cars': '/69298c4cd988988b07f26b2b_jja_6613-min copy.jpg',
+  'Midget Cars': '/midget_cars copy.jpg',
   'Modifieds': '/imca_southern_sportmod copy.jpg',
   'Late Models': '/erb copy copy.jpeg',
   'Stock Cars': '/392307_articlesection_xl_d10ca69f-828b-441c-9ca4-ab7730ded7ee.png',
