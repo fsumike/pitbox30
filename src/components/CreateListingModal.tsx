@@ -427,8 +427,20 @@ function CreateListingModal({ isOpen, onClose, onSuccess }: CreateListingModalPr
             </div>
 
             {/* Contact Information */}
-            <div className="space-y-4">
-              <h3 className="text-lg font-semibold text-white">Contact Information</h3>
+            <div className="space-y-4 p-4 rounded-xl bg-gray-700/50 border border-gray-600">
+              <div className="flex items-center justify-between">
+                <h3 className="text-lg font-semibold text-white">Contact Information</h3>
+                <span className="text-xs px-2 py-1 bg-brand-gold/20 text-brand-gold rounded-full font-medium">
+                  At least one required
+                </span>
+              </div>
+
+              {!contactPhone && !contactEmail && (
+                <div className="p-3 rounded-lg bg-amber-900/30 border border-amber-600/30 text-amber-300 text-sm flex items-center gap-2">
+                  <AlertCircle className="w-4 h-4 flex-shrink-0" />
+                  Please enter a phone number or email so buyers can contact you
+                </div>
+              )}
 
               <div>
                 <label htmlFor="contactPhone" className="block text-sm font-medium mb-1 text-white">
@@ -441,7 +453,9 @@ function CreateListingModal({ isOpen, onClose, onSuccess }: CreateListingModalPr
                     id="contactPhone"
                     value={contactPhone}
                     onChange={(e) => setContactPhone(e.target.value)}
-                    className="w-full pl-10 p-3 rounded-lg bg-gray-700 border border-gray-600 text-white placeholder-gray-400"
+                    className={`w-full pl-10 p-3 rounded-lg bg-gray-700 border text-white placeholder-gray-400 ${
+                      contactPhone ? 'border-green-500' : 'border-gray-600'
+                    }`}
                     placeholder="Your phone number"
                   />
                 </div>
@@ -458,7 +472,9 @@ function CreateListingModal({ isOpen, onClose, onSuccess }: CreateListingModalPr
                     id="contactEmail"
                     value={contactEmail}
                     onChange={(e) => setContactEmail(e.target.value)}
-                    className="w-full pl-10 p-3 rounded-lg bg-gray-700 border border-gray-600 text-white placeholder-gray-400"
+                    className={`w-full pl-10 p-3 rounded-lg bg-gray-700 border text-white placeholder-gray-400 ${
+                      contactEmail ? 'border-green-500' : 'border-gray-600'
+                    }`}
                     placeholder="Your email address"
                   />
                 </div>
