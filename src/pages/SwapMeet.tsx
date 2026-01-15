@@ -103,7 +103,7 @@ function SwapMeet() {
   const [showSignInPrompt, setShowSignInPrompt] = useState(false);
   const [showCreateModal, setShowCreateModal] = useState(false);
   const [listings, setListings] = useState<Listing[]>([]);
-  const [loading, setLoading] = useState(true);
+  const [localLoading, setLocalLoading] = useState(false);
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedListing, setSelectedListing] = useState<Listing | null>(null);
   const [likeAnimation, setLikeAnimation] = useState<string | null>(null);
@@ -123,12 +123,13 @@ function SwapMeet() {
   const [manualZipCode, setManualZipCode] = useState('');
   const [showLocationPrompt, setShowLocationPrompt] = useState(false);
   const [imageLightbox, setImageLightbox] = useState<{ listing: Listing; index: number } | null>(null);
+  const [hasMore, setHasMore] = useState(true);
+  const [currentPage, setCurrentPage] = useState(0);
+  const itemsPerPage = 24;
   const { user } = useAuth();
   const location = useLocation({ enableGeocoding: false, autoFetch: false });
   const navigate = useNavigate();
-  const { getListings, toggleLike, toggleSave, deleteListing, hasMore } = useListings();
-  const [currentPage, setCurrentPage] = useState(0);
-  const itemsPerPage = 24;
+  const { getListings, toggleLike, toggleSave, deleteListing } = useListings();
 
   const categories = [
     'All Categories',
@@ -175,10 +176,10 @@ function SwapMeet() {
   }, [currentPage]);
 
   const loadListings = async (page: number = 0) => {
-    setLoading(true);
+    setLocalLoading(true);
     try {
       const filters: any = {
-        category: selectedCategory !== 'all' ? selectedCategory : undefined,
+        category: selectedCategory !== 'all' && selectedCategory !== 'all-categories' ? selectedCategory : undefined,
         search: searchTerm,
         tab: activeTab,
         vehicleType: selectedVehicleType !== 'all' ? selectedVehicleType : undefined,
@@ -194,20 +195,24 @@ function SwapMeet() {
 
       let data = await getListings(filters);
 
-      // Apply client-side filters
       if (condition !== 'all') {
         data = data.filter(listing => listing.condition === condition);
       }
 
       if (priceRange.min) {
-        data = data.filter(listing => listing.price >= parseFloat(priceRange.min));
+        const minPrice = parseFloat(priceRange.min);
+        if (!isNaN(minPrice)) {
+          data = data.filter(listing => listing.price >= minPrice);
+        }
       }
 
       if (priceRange.max) {
-        data = data.filter(listing => listing.price <= parseFloat(priceRange.max));
+        const maxPrice = parseFloat(priceRange.max);
+        if (!isNaN(maxPrice)) {
+          data = data.filter(listing => listing.price <= maxPrice);
+        }
       }
 
-      // Apply sorting
       switch (sortBy) {
         case 'price-low':
           data.sort((a, b) => a.price - b.price);
@@ -220,9 +225,10 @@ function SwapMeet() {
           break;
         case 'recent':
         default:
-          // Already sorted by created_at DESC from backend
           break;
       }
+
+      setHasMore(data.length === itemsPerPage);
 
       if (page === 0) {
         setListings(data);
@@ -231,8 +237,10 @@ function SwapMeet() {
       }
     } catch (err) {
       console.error('Error loading listings:', err);
+      setListings([]);
+      setHasMore(false);
     } finally {
-      setLoading(false);
+      setLocalLoading(false);
     }
   };
 
@@ -924,10 +932,10 @@ function SwapMeet() {
       {/* Listings Section */}
       <div className="space-y-4">
         <h2 className="text-2xl font-bold">
-          {loading ? 'Loading Listings...' : `${listings.length} Listings Available`}
+          {localLoading && currentPage === 0 ? 'Loading Listings...' : `${listings.length} Listings Available`}
         </h2>
-        
-        {loading ? (
+
+        {localLoading && currentPage === 0 ? (
           <div className="flex justify-center items-center py-12">
             <Loader2 className="w-8 h-8 animate-spin text-brand-gold" />
           </div>
@@ -1198,10 +1206,10 @@ function SwapMeet() {
             <div className="mt-8 flex justify-center">
               <button
                 onClick={() => setCurrentPage(prev => prev + 1)}
-                disabled={loading}
+                disabled={localLoading}
                 className="btn-primary flex items-center gap-2 px-8 py-4 text-lg disabled:opacity-50 disabled:cursor-not-allowed"
               >
-                {loading ? (
+                {localLoading ? (
                   <>
                     <Loader2 className="w-5 h-5 animate-spin" />
                     Loading More...
