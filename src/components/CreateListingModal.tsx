@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { X, Camera, Upload, Trash2, DollarSign, MapPin, AlertCircle, Loader2, Phone, Mail } from 'lucide-react';
+import { X, Camera, Upload, Trash2, DollarSign, MapPin, AlertCircle, Loader2, Phone, Mail, ChevronLeft, ChevronRight, ZoomIn } from 'lucide-react';
 import { useListings } from '../hooks/useListings';
 import { useLocation } from '../hooks/useLocation';
 import { supabase } from '../lib/supabase';
@@ -27,6 +27,8 @@ function CreateListingModal({ isOpen, onClose, onSuccess }: CreateListingModalPr
   const [includeLocation, setIncludeLocation] = useState(true);
   const [condition, setCondition] = useState<'new' | 'like-new' | 'good' | 'fair' | 'parts'>('good');
   const [isNegotiable, setIsNegotiable] = useState(true);
+  const [lightboxOpen, setLightboxOpen] = useState(false);
+  const [lightboxIndex, setLightboxIndex] = useState(0);
 
   const { createListing, loading } = useListings();
   const { latitude, longitude, address, city, state: locationState, loading: locationLoading, error: locationError, getLocation } = useLocation({
@@ -233,23 +235,42 @@ function CreateListingModal({ isOpen, onClose, onSuccess }: CreateListingModalPr
             {/* Image Upload Section */}
             <div className="space-y-2">
               <label className="block text-sm font-medium mb-1 text-white">
-                Photos (max 4)
+                Photos (max 4) - Click to view full size
               </label>
               <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
                 {images.map((image, index) => (
-                  <div key={index} className="relative aspect-square">
+                  <div key={index} className="relative aspect-square group">
                     <img
                       src={image}
                       alt={`Upload ${index + 1}`}
-                      className="w-full h-full object-cover rounded-lg"
+                      className="w-full h-full object-cover rounded-lg cursor-pointer transition-transform hover:scale-105"
+                      onClick={() => {
+                        setLightboxIndex(index);
+                        setLightboxOpen(true);
+                      }}
                     />
+                    <div
+                      className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity rounded-lg flex items-center justify-center cursor-pointer"
+                      onClick={() => {
+                        setLightboxIndex(index);
+                        setLightboxOpen(true);
+                      }}
+                    >
+                      <ZoomIn className="w-8 h-8 text-white" />
+                    </div>
                     <button
                       type="button"
-                      onClick={() => removeImage(index)}
-                      className="absolute top-1 right-1 p-1 bg-red-500 text-white rounded-full hover:bg-red-600 transition-colors"
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        removeImage(index);
+                      }}
+                      className="absolute top-1 right-1 p-1 bg-red-500 text-white rounded-full hover:bg-red-600 transition-colors z-10"
                     >
                       <Trash2 className="w-4 h-4" />
                     </button>
+                    <div className="absolute bottom-1 left-1 px-2 py-0.5 bg-black/60 rounded text-xs text-white">
+                      {index + 1}/{images.length}
+                    </div>
                   </div>
                 ))}
                 {images.length < 4 && (
@@ -556,6 +577,82 @@ function CreateListingModal({ isOpen, onClose, onSuccess }: CreateListingModalPr
           </form>
         </div>
       </div>
+
+      {/* Image Lightbox */}
+      {lightboxOpen && images.length > 0 && (
+        <div
+          className="fixed inset-0 z-[100] bg-black/95 flex items-center justify-center"
+          onClick={() => setLightboxOpen(false)}
+        >
+          <button
+            onClick={() => setLightboxOpen(false)}
+            className="absolute top-4 right-4 p-3 bg-white/10 hover:bg-white/20 rounded-full transition-colors text-white z-10"
+          >
+            <X className="w-8 h-8" />
+          </button>
+
+          {images.length > 1 && (
+            <>
+              <button
+                onClick={(e) => {
+                  e.stopPropagation();
+                  setLightboxIndex((prev) => (prev === 0 ? images.length - 1 : prev - 1));
+                }}
+                className="absolute left-4 p-3 bg-white/10 hover:bg-white/20 rounded-full transition-colors text-white z-10"
+              >
+                <ChevronLeft className="w-8 h-8" />
+              </button>
+              <button
+                onClick={(e) => {
+                  e.stopPropagation();
+                  setLightboxIndex((prev) => (prev === images.length - 1 ? 0 : prev + 1));
+                }}
+                className="absolute right-4 p-3 bg-white/10 hover:bg-white/20 rounded-full transition-colors text-white z-10"
+              >
+                <ChevronRight className="w-8 h-8" />
+              </button>
+            </>
+          )}
+
+          <div
+            className="max-w-4xl max-h-[80vh] p-4"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <img
+              src={images[lightboxIndex]}
+              alt={`Image ${lightboxIndex + 1}`}
+              className="max-w-full max-h-[75vh] object-contain rounded-lg shadow-2xl"
+            />
+            <div className="text-center mt-4 text-white">
+              <span className="px-4 py-2 bg-white/10 rounded-full">
+                {lightboxIndex + 1} of {images.length}
+              </span>
+            </div>
+          </div>
+
+          {/* Thumbnail strip */}
+          {images.length > 1 && (
+            <div className="absolute bottom-8 left-1/2 -translate-x-1/2 flex gap-2">
+              {images.map((img, idx) => (
+                <button
+                  key={idx}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    setLightboxIndex(idx);
+                  }}
+                  className={`w-16 h-16 rounded-lg overflow-hidden border-2 transition-all ${
+                    idx === lightboxIndex
+                      ? 'border-brand-gold scale-110'
+                      : 'border-transparent opacity-60 hover:opacity-100'
+                  }`}
+                >
+                  <img src={img} alt={`Thumbnail ${idx + 1}`} className="w-full h-full object-cover" />
+                </button>
+              ))}
+            </div>
+          )}
+        </div>
+      )}
     </div>
   );
 }

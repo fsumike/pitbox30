@@ -20,6 +20,9 @@ interface ContactModalProps {
 function ContactModal({ listing, onClose }: ContactModalProps) {
   const { startChat } = useChat();
 
+  const showPhone = listing.preferred_contact === 'phone' && listing.contact_phone;
+  const showEmail = listing.preferred_contact === 'email' && listing.contact_email;
+
   return (
     <div className="fixed inset-0 z-[1200] flex items-center justify-center p-4 bg-black/50 backdrop-blur-md">
       <motion.div
@@ -45,26 +48,36 @@ function ContactModal({ listing, onClose }: ContactModalProps) {
           </div>
 
           <div className="space-y-4">
-            {listing.contact_phone && (
+            {showPhone && (
               <div className="flex items-center gap-4 p-4 rounded-xl bg-green-100/60 border border-green-400/50">
                 <div className="w-10 h-10 rounded-full bg-green-600/20 border border-green-400/30 flex items-center justify-center">
                   <Phone className="w-5 h-5 text-green-600" />
                 </div>
-                <div>
+                <div className="flex-1">
                   <p className="text-sm text-gray-700">Phone</p>
-                  <p className="text-lg font-semibold text-gray-900">{listing.contact_phone}</p>
+                  <a
+                    href={`tel:${listing.contact_phone}`}
+                    className="text-lg font-semibold text-gray-900 hover:text-green-700 transition-colors"
+                  >
+                    {listing.contact_phone}
+                  </a>
                 </div>
               </div>
             )}
 
-            {listing.contact_email && (
+            {showEmail && (
               <div className="flex items-center gap-4 p-4 rounded-xl bg-blue-100/60 border border-blue-400/50">
                 <div className="w-10 h-10 rounded-full bg-blue-600/20 border border-blue-400/30 flex items-center justify-center">
                   <Mail className="w-5 h-5 text-blue-600" />
                 </div>
-                <div>
+                <div className="flex-1">
                   <p className="text-sm text-gray-700">Email</p>
-                  <p className="text-lg font-semibold text-gray-900">{listing.contact_email}</p>
+                  <a
+                    href={`mailto:${listing.contact_email}`}
+                    className="text-lg font-semibold text-gray-900 hover:text-blue-700 transition-colors break-all"
+                  >
+                    {listing.contact_email}
+                  </a>
                 </div>
               </div>
             )}
@@ -79,12 +92,6 @@ function ContactModal({ listing, onClose }: ContactModalProps) {
                 className="w-full justify-center py-3"
               />
             </div>
-
-            {listing.preferred_contact && (
-              <div className="text-sm text-gray-700 text-center">
-                <p>Preferred contact method: <span className="text-brand-gold font-semibold">{listing.preferred_contact}</span></p>
-              </div>
-            )}
           </div>
         </div>
       </motion.div>
