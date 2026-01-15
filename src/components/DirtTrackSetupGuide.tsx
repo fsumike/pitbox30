@@ -514,9 +514,9 @@ export default function DirtTrackSetupGuide() {
                 ))}
               </div>
 
-              {/* 3D Track Zones */}
+              {/* 3D Track Zones - CORRECTED LAYOUT */}
               <div className="absolute inset-0 p-8">
-                {/* Front Stretch */}
+                {/* Front Stretch (bottom) */}
                 <motion.div
                   className="absolute bottom-[10%] left-[15%] right-[15%] h-[25%] cursor-pointer rounded-2xl"
                   style={{
@@ -544,9 +544,9 @@ export default function DirtTrackSetupGuide() {
                   </div>
                 </motion.div>
 
-                {/* Turn 1-2 (LEFT turn) */}
+                {/* Turn 1-2 (RIGHT side - first turn after front stretch) */}
                 <motion.div
-                  className="absolute top-[10%] left-[10%] w-[35%] h-[35%] cursor-pointer rounded-full"
+                  className="absolute top-[10%] right-[10%] w-[35%] h-[35%] cursor-pointer rounded-full"
                   style={{
                     background: selectedZone === 'turn-1-2' || hoveredZone === 'turn-1-2'
                       ? 'radial-gradient(circle, rgba(59, 130, 246, 0.5), rgba(37, 99, 235, 0.5))'
@@ -572,7 +572,7 @@ export default function DirtTrackSetupGuide() {
                   </div>
                 </motion.div>
 
-                {/* Back Stretch */}
+                {/* Back Stretch (top) */}
                 <motion.div
                   className="absolute top-[10%] left-[15%] right-[15%] h-[25%] cursor-pointer rounded-2xl"
                   style={{
@@ -600,9 +600,9 @@ export default function DirtTrackSetupGuide() {
                   </div>
                 </motion.div>
 
-                {/* Turn 3-4 (LEFT turn) */}
+                {/* Turn 3-4 (LEFT side - second turn after back stretch) */}
                 <motion.div
-                  className="absolute bottom-[10%] right-[10%] w-[35%] h-[35%] cursor-pointer rounded-full"
+                  className="absolute bottom-[10%] left-[10%] w-[35%] h-[35%] cursor-pointer rounded-full"
                   style={{
                     background: selectedZone === 'turn-3-4' || hoveredZone === 'turn-3-4'
                       ? 'radial-gradient(circle, rgba(249, 115, 22, 0.5), rgba(234, 88, 12, 0.5))'
@@ -628,12 +628,33 @@ export default function DirtTrackSetupGuide() {
                   </div>
                 </motion.div>
 
-                {/* Direction Arrow - Counter-Clockwise (LEFT TURNS) */}
+                {/* Direction Arrow - Counter-Clockwise (showing proper direction) */}
                 <motion.div
-                  className="absolute top-[40%] left-[5%]"
+                  className="absolute top-[45%] right-[48%]"
                   animate={{
-                    x: [0, -10, 0],
-                    opacity: [1, 0.6, 1]
+                    rotate: [0, -360],
+                  }}
+                  transition={{
+                    duration: 4,
+                    repeat: Infinity,
+                    ease: 'linear'
+                  }}
+                >
+                  <div className="relative">
+                    <div className="absolute inset-0 bg-amber-400 blur-2xl opacity-60" />
+                    <div className="relative bg-black/80 backdrop-blur-sm px-8 py-6 rounded-full border-4 border-amber-400 shadow-2xl">
+                      <div className="flex items-center justify-center">
+                        <div className="text-6xl font-black text-amber-400">↺</div>
+                      </div>
+                    </div>
+                  </div>
+                </motion.div>
+
+                {/* Direction Label */}
+                <motion.div
+                  className="absolute bottom-[40%] right-[5%]"
+                  animate={{
+                    opacity: [1, 0.7, 1]
                   }}
                   transition={{
                     duration: 2,
@@ -644,17 +665,9 @@ export default function DirtTrackSetupGuide() {
                   <div className="relative">
                     <div className="absolute inset-0 bg-amber-400 blur-xl opacity-50" />
                     <div className="relative bg-black/70 backdrop-blur-sm px-6 py-4 rounded-2xl border-2 border-amber-400 shadow-xl">
-                      <div className="flex items-center gap-3">
-                        <motion.div
-                          animate={{ rotate: 360 }}
-                          transition={{ duration: 3, repeat: Infinity, ease: 'linear' }}
-                        >
-                          <Zap className="w-8 h-8 text-amber-400" />
-                        </motion.div>
-                        <div className="text-left">
-                          <div className="text-2xl font-black text-amber-400">← DIRECTION</div>
-                          <div className="text-sm text-amber-300">TURNS LEFT</div>
-                        </div>
+                      <div className="text-center">
+                        <div className="text-2xl font-black text-amber-400">TURNING LEFT</div>
+                        <div className="text-sm text-amber-300">Counter-Clockwise</div>
                       </div>
                     </div>
                   </div>
