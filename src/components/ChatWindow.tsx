@@ -4,6 +4,7 @@ import { useAuth } from '../contexts/AuthContext';
 import { supabase } from '../lib/supabase';
 import type { Profile } from '../types';
 import EmojiPicker from './EmojiPicker';
+import GifPicker from './GifPicker';
 import { useMessages } from '../hooks/useMessages';
 
 interface ChatWindowProps {
@@ -106,6 +107,21 @@ function ChatWindow({ recipientId, onClose, isMinimized = false, onMinimize }: C
     } catch (err) {
       console.error('Error sending message:', err);
     }
+  };
+
+  const handleGifSelect = async (gifUrl: string) => {
+    if (!user || sending) return;
+
+    try {
+      await sendMessage(gifUrl);
+      setTimeout(() => scrollToBottom(), 100);
+    } catch (err) {
+      console.error('Error sending GIF:', err);
+    }
+  };
+
+  const isGifUrl = (text: string) => {
+    return text.match(/\.(gif|giphy\.com)/i) || text.includes('media.giphy.com');
   };
 
   const scrollToBottom = (smooth = true) => {
@@ -225,10 +241,18 @@ function ChatWindow({ recipientId, onClose, isMinimized = false, onMinimize }: C
                     message.sender_id === user?.id
                       ? 'bg-amber-600 dark:bg-amber-700 text-white'
                       : 'bg-gray-100 dark:bg-gray-700 text-gray-900 dark:text-gray-100'
-                  } rounded-lg px-4 py-2 ${isOptimistic ? 'opacity-60' : ''}`}
+                  } rounded-lg ${isGifUrl(message.content) ? 'p-1' : 'px-4 py-2'} ${isOptimistic ? 'opacity-60' : ''}`}
                 >
-                  <p className="break-words">{message.content}</p>
-                  <p className="text-xs opacity-75 mt-1 flex items-center gap-1">
+                  {isGifUrl(message.content) ? (
+                    <img
+                      src={message.content}
+                      alt="GIF"
+                      className="rounded-lg max-w-full max-h-64 object-contain"
+                    />
+                  ) : (
+                    <p className="break-words">{message.content}</p>
+                  )}
+                  <p className={`text-xs opacity-75 mt-1 flex items-center gap-1 ${isGifUrl(message.content) ? 'px-2 pb-1' : ''}`}>
                     {formatTime(message.created_at)}
                     {isOptimistic && (
                       <Loader2 className="w-3 h-3 animate-spin inline-block" />
@@ -261,17 +285,21 @@ function ChatWindow({ recipientId, onClose, isMinimized = false, onMinimize }: C
             value={newMessage}
             onChange={(e) => setNewMessage(e.target.value)}
             placeholder="Type a message..."
-            className="flex-1 p-2 rounded-lg bg-gray-100 dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-amber-500 dark:focus:ring-amber-600"
+            className="flex-1 p-2 rounded-lg border-2 border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-amber-500 dark:focus:ring-amber-600 focus:border-transparent"
           />
           <EmojiPicker
             onEmojiSelect={(emoji) => setNewMessage(prev => prev + emoji)}
-            buttonClassName="bg-gray-100 dark:bg-gray-700"
-            theme="dark"
+            buttonClassName="bg-white dark:bg-gray-700 border-2 border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-600"
+            theme="auto"
+          />
+          <GifPicker
+            onGifSelect={handleGifSelect}
+            buttonClassName="bg-white dark:bg-gray-700 border-2 border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-600"
           />
           <button
             type="submit"
             disabled={!newMessage.trim() || sending}
-            className="p-2 bg-amber-600 dark:bg-amber-700 text-white rounded-lg hover:bg-amber-700 dark:hover:bg-amber-600 transition-colors disabled:opacity-50"
+            className="p-2 bg-amber-600 dark:bg-amber-700 text-white rounded-lg hover:bg-amber-700 dark:hover:bg-amber-600 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
           >
             {sending ? (
               <Loader2 className="w-5 h-5 animate-spin" />
