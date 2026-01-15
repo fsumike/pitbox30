@@ -1,115 +1,17 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { MessageSquare, X, User, Clock } from 'lucide-react';
 import { useAuth } from '../contexts/AuthContext';
 import { useChat } from '../contexts/ChatContext';
-import { supabase } from '../lib/supabase';
+import { useConversations } from '../hooks/useConversations';
 import { formatDistanceToNow } from 'date-fns';
-
-interface Conversation {
-  id: string;
-  other_user_id: string;
-  username: string;
-  avatar_url: string | null;
-  last_message: string;
-  last_message_time: string;
-  unread_count: number;
-}
 
 export default function MessagesButton() {
   const [showConversations, setShowConversations] = useState(false);
-  const [conversations, setConversations] = useState<Conversation[]>([]);
-  const [loading, setLoading] = useState(false);
-  const [unreadTotal, setUnreadTotal] = useState(0);
   const { user } = useAuth();
   const { startChat } = useChat();
+  const { conversations, loading } = useConversations(user?.id || '');
 
-  useEffect(() => {
-    if (user && showConversations) {
-      loadConversations();
-    }
-  }, [user, showConversations]);
-
-  useEffect(() => {
-    if (user) {
-      loadUnreadCount();
-      const interval = setInterval(loadUnreadCount, 30000);
-      return () => clearInterval(interval);
-    }
-  }, [user]);
-
-  const loadUnreadCount = async () => {
-    if (!user) return;
-
-    try {
-      const { count } = await supabase
-        .from('messages')
-        .select('*', { count: 'exact', head: true })
-        .eq('receiver_id', user.id)
-        .eq('read', false);
-
-      setUnreadTotal(count || 0);
-    } catch (err) {
-      console.error('Error loading unread count:', err);
-    }
-  };
-
-  const loadConversations = async () => {
-    if (!user) return;
-    setLoading(true);
-
-    try {
-      const { data: messages } = await supabase
-        .from('messages')
-        .select(`
-          id,
-          sender_id,
-          receiver_id,
-          content,
-          created_at,
-          read,
-          sender:profiles!messages_sender_id_fkey(id, username, avatar_url),
-          receiver:profiles!messages_receiver_id_fkey(id, username, avatar_url)
-        `)
-        .or(`sender_id.eq.${user.id},receiver_id.eq.${user.id}`)
-        .order('created_at', { ascending: false });
-
-      if (!messages) {
-        setConversations([]);
-        setLoading(false);
-        return;
-      }
-
-      const conversationMap = new Map<string, Conversation>();
-
-      messages.forEach((msg: any) => {
-        const otherUserId = msg.sender_id === user.id ? msg.receiver_id : msg.sender_id;
-        const otherUser = msg.sender_id === user.id ? msg.receiver : msg.sender;
-
-        if (!conversationMap.has(otherUserId)) {
-          conversationMap.set(otherUserId, {
-            id: otherUserId,
-            other_user_id: otherUserId,
-            username: otherUser?.username || 'Unknown User',
-            avatar_url: otherUser?.avatar_url || null,
-            last_message: msg.content,
-            last_message_time: msg.created_at,
-            unread_count: 0
-          });
-        }
-
-        if (msg.receiver_id === user.id && !msg.read) {
-          const conv = conversationMap.get(otherUserId)!;
-          conv.unread_count++;
-        }
-      });
-
-      setConversations(Array.from(conversationMap.values()));
-    } catch (err) {
-      console.error('Error loading conversations:', err);
-    } finally {
-      setLoading(false);
-    }
-  };
+  const unreadTotal = conversations.reduce((sum, conv) => sum + conv.unreadCount, 0);
 
   const handleStartChat = (recipientId: string) => {
     startChat(recipientId);
@@ -173,15 +75,15 @@ export default function MessagesButton() {
                   {conversations.map((conv) => (
                     <button
                       key={conv.id}
-                      onClick={() => handleStartChat(conv.other_user_id)}
+                      onClick={() => handleStartChat(conv.id)}
                       className="w-full p-4 hover:bg-gray-50 dark:hover:bg-gray-700/50 transition-colors text-left"
                     >
                       <div className="flex items-start gap-3">
                         <div className="relative flex-shrink-0">
-                          {conv.avatar_url ? (
+                          {conv.otherUser.avatar_url ? (
                             <img
-                              src={conv.avatar_url}
-                              alt={conv.username}
+                              src={conv.otherUser.avatar_url}
+                              alt={conv.otherUser.username}
                               className="w-12 h-12 rounded-full object-cover"
                             />
                           ) : (
@@ -189,25 +91,25 @@ export default function MessagesButton() {
                               <User className="w-6 h-6 text-white" />
                             </div>
                           )}
-                          {conv.unread_count > 0 && (
+                          {conv.unreadCount > 0 && (
                             <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center font-bold">
-                              {conv.unread_count}
+                              {conv.unreadCount}
                             </span>
                           )}
                         </div>
 
                         <div className="flex-1 min-w-0">
                           <div className="flex items-center justify-between mb-1">
-                            <h3 className={`font-semibold truncate ${conv.unread_count > 0 ? 'text-gray-900 dark:text-white' : 'text-gray-700 dark:text-gray-300'}`}>
-                              {conv.username}
+                            <h3 className={`font-semibold truncate ${conv.unreadCount > 0 ? 'text-gray-900 dark:text-white' : 'text-gray-700 dark:text-gray-300'}`}>
+                              {conv.otherUser.username}
                             </h3>
                             <div className="flex items-center gap-1 text-xs text-gray-500 dark:text-gray-400">
                               <Clock className="w-3 h-3" />
-                              <span>{formatDistanceToNow(new Date(conv.last_message_time), { addSuffix: true })}</span>
+                              <span>{formatDistanceToNow(new Date(conv.lastMessageAt), { addSuffix: true })}</span>
                             </div>
                           </div>
-                          <p className={`text-sm truncate ${conv.unread_count > 0 ? 'font-medium text-gray-900 dark:text-white' : 'text-gray-500 dark:text-gray-400'}`}>
-                            {conv.last_message}
+                          <p className={`text-sm truncate ${conv.unreadCount > 0 ? 'font-medium text-gray-900 dark:text-white' : 'text-gray-500 dark:text-gray-400'}`}>
+                            {conv.lastMessage}
                           </p>
                         </div>
                       </div>
