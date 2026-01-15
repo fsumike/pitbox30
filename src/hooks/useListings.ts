@@ -74,56 +74,6 @@ export function useListings() {
     }
   };
 
-  const uploadImageToStorage = async (base64Image: string, listingId: string, index: number): Promise<string | null> => {
-    try {
-      const base64Data = base64Image.split(',')[1];
-      if (!base64Data) {
-        console.error('Invalid base64 image format');
-        return null;
-      }
-
-      const byteCharacters = atob(base64Data);
-      const byteNumbers = new Array(byteCharacters.length);
-      for (let i = 0; i < byteCharacters.length; i++) {
-        byteNumbers[i] = byteCharacters.charCodeAt(i);
-      }
-      const byteArray = new Uint8Array(byteNumbers);
-
-      let mimeType = 'image/jpeg';
-      if (base64Image.includes('data:image/png')) {
-        mimeType = 'image/png';
-      } else if (base64Image.includes('data:image/webp')) {
-        mimeType = 'image/webp';
-      } else if (base64Image.includes('data:image/gif')) {
-        mimeType = 'image/gif';
-      }
-
-      const ext = mimeType.split('/')[1];
-      const fileName = `listings/${user!.id}/${listingId}/${Date.now()}_${index}.${ext}`;
-
-      const { data: uploadData, error: uploadError } = await supabase.storage
-        .from('posts')
-        .upload(fileName, byteArray, {
-          contentType: mimeType,
-          upsert: false
-        });
-
-      if (uploadError) {
-        console.error('Storage upload error:', uploadError);
-        return null;
-      }
-
-      const { data: urlData } = supabase.storage
-        .from('posts')
-        .getPublicUrl(uploadData.path);
-
-      return urlData.publicUrl;
-    } catch (err) {
-      console.error('Error uploading image:', err);
-      return null;
-    }
-  };
-
   const createListing = async (
     data: {
       title: string;
@@ -137,8 +87,6 @@ export function useListings() {
       contact_email?: string;
       preferred_contact?: 'phone' | 'email';
       vehicle_type?: string;
-      condition?: string;
-      is_negotiable?: boolean;
     },
     images: string[]
   ) => {
@@ -151,6 +99,7 @@ export function useListings() {
     setError(null);
 
     try {
+      // Create the listing
       const { data: listing, error: listingError } = await supabase
         .from('listings')
         .insert([{
@@ -165,35 +114,18 @@ export function useListings() {
 
       if (images.length > 0) {
         const imagesToAdd = images.slice(0, 4);
-        const uploadedUrls: string[] = [];
+        const imageRecords = imagesToAdd.map((url, index) => ({
+          listing_id: listing.id,
+          url,
+          order: index + 1
+        }));
 
-        for (let i = 0; i < imagesToAdd.length; i++) {
-          try {
-            const uploadedUrl = await uploadImageToStorage(imagesToAdd[i], listing.id, i);
-            if (uploadedUrl) {
-              uploadedUrls.push(uploadedUrl);
-            }
-          } catch (uploadErr) {
-            console.error(`Failed to upload image ${i + 1}:`, uploadErr);
-          }
-        }
+        const { error: imageError } = await supabase
+          .from('listing_images')
+          .insert(imageRecords);
 
-        if (uploadedUrls.length > 0) {
-          const imageRecords = uploadedUrls.map((url, index) => ({
-            listing_id: listing.id,
-            url,
-            order: index + 1
-          }));
-
-          const { error: imageError } = await supabase
-            .from('listing_images')
-            .insert(imageRecords);
-
-          if (imageError) {
-            console.error('Failed to save image records:', imageError);
-          }
-        } else if (imagesToAdd.length > 0) {
-          console.warn('No images were successfully uploaded');
+        if (imageError) {
+          console.error('Failed to save images:', imageError);
         }
       }
 

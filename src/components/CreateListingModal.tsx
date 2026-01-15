@@ -198,15 +198,14 @@ function CreateListingModal({ isOpen, onClose, onSuccess }: CreateListingModalPr
           resetForm();
           onSuccess?.();
           onClose();
-        }, 800);
+        }, 500);
       } else {
         setSubmitStep('idle');
-        setError('Failed to create listing. Please try again.');
+        setError('Failed to create listing');
       }
-    } catch (err: any) {
+    } catch (err) {
       setSubmitStep('idle');
-      const errorMessage = err?.message || 'Failed to create listing';
-      setError(errorMessage);
+      setError('Failed to create listing');
       console.error('Error creating listing:', err);
     }
   };
