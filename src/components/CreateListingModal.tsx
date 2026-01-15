@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { X, Camera, Upload, Trash2, DollarSign, MapPin, AlertCircle, Loader2, Phone, Mail, CheckCircle, Image as ImageIcon, ZoomIn, ChevronLeft, ChevronRight } from 'lucide-react';
+import { X, Camera, Upload, Trash2, DollarSign, MapPin, AlertCircle, Loader2, Phone, Mail, CheckCircle, ZoomIn, ChevronLeft, ChevronRight } from 'lucide-react';
 import { useListings } from '../hooks/useListings';
 import { useLocation } from '../hooks/useLocation';
 import { supabase } from '../lib/supabase';
@@ -31,7 +31,7 @@ function CreateListingModal({ isOpen, onClose, onSuccess }: CreateListingModalPr
   const [lightboxIndex, setLightboxIndex] = useState(0);
   const [submitStep, setSubmitStep] = useState<'idle' | 'creating' | 'uploading' | 'done'>('idle');
 
-  const { createListing, loading, error, setError } = useListings();
+  const { createListing, error, setError } = useListings();
   const isSubmitting = submitStep !== 'idle';
   const location = useLocation({
     enableHighAccuracy: true,
@@ -120,13 +120,6 @@ function CreateListingModal({ isOpen, onClose, onSuccess }: CreateListingModalPr
 
   const removeImage = (index: number) => {
     setImages(prev => prev.filter((_, i) => i !== index));
-  };
-
-  const reorderImages = (fromIndex: number, toIndex: number) => {
-    const newImages = [...images];
-    const [movedImage] = newImages.splice(fromIndex, 1);
-    newImages.splice(toIndex, 0, movedImage);
-    setImages(newImages);
   };
 
   const resetForm = () => {
@@ -407,7 +400,7 @@ function CreateListingModal({ isOpen, onClose, onSuccess }: CreateListingModalPr
                   <select
                     id="condition"
                     value={condition}
-                    onChange={(e) => setCondition(e.target.value as any)}
+                    onChange={(e) => setCondition(e.target.value as 'new' | 'like-new' | 'good' | 'fair' | 'parts')}
                     className="w-full p-3 rounded-xl bg-gray-800/50 border-2 border-gray-700 text-white focus:border-brand-gold focus:ring-2 focus:ring-brand-gold/50 transition-all"
                     required
                   >
