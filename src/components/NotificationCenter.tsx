@@ -94,10 +94,10 @@ function NotificationCenter({ className = '' }: NotificationCenterProps) {
       <AnimatePresence>
         {isOpen && (
           <motion.div
-            className="absolute right-0 mt-2 w-80 bg-white dark:bg-gray-800 rounded-lg shadow-lg border border-gray-200 dark:border-gray-700 z-50 overflow-hidden"
-            initial={{ opacity: 0, y: -10 }}
+            className="fixed right-4 bottom-20 w-80 bg-white dark:bg-gray-800 rounded-lg shadow-lg border border-gray-200 dark:border-gray-700 z-[9999] overflow-hidden"
+            initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -10 }}
+            exit={{ opacity: 0, y: 10 }}
             transition={{ duration: 0.2 }}
           >
             <div className="p-3 border-b border-gray-200 dark:border-gray-700 flex justify-between items-center">
