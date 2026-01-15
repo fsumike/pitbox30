@@ -26,6 +26,7 @@ export default function MessagesButton() {
 
   const handleOpenMessages = () => {
     console.log('Messages button clicked, opening conversations...');
+    console.log('Current state - user:', user?.id, 'conversations:', conversations.length, 'loading:', loading);
     setShowConversations(true);
   };
 
@@ -47,7 +48,7 @@ export default function MessagesButton() {
 
       {showConversations && (
         <div
-          className="fixed inset-0 z-[9999] flex items-start justify-center p-4 bg-black/50"
+          className="fixed inset-0 z-[9999] flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm"
           onClick={(e) => {
             if (e.target === e.currentTarget) {
               setShowConversations(false);
@@ -55,7 +56,7 @@ export default function MessagesButton() {
           }}
         >
           <div
-            className="bg-white dark:bg-gray-800 rounded-xl shadow-2xl w-full max-w-md mt-20 max-h-[80vh] flex flex-col"
+            className="bg-white dark:bg-gray-800 rounded-xl shadow-2xl w-full max-w-md max-h-[80vh] flex flex-col"
             onClick={(e) => e.stopPropagation()}
           >
             <div className="flex items-center justify-between p-4 border-b border-gray-200 dark:border-gray-700">
