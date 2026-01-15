@@ -12,7 +12,9 @@ import {
   Wind,
   Gauge,
   Wrench,
-  Info
+  Info,
+  Award,
+  Sparkles
 } from 'lucide-react';
 
 interface TrackZone {
@@ -21,7 +23,6 @@ interface TrackZone {
   description: string;
   icon: React.ElementType;
   color: string;
-  position: string;
 }
 
 interface VehicleType {
@@ -59,32 +60,28 @@ const trackZones: TrackZone[] = [
     name: 'Front Stretch',
     description: 'Acceleration and straightaway speed',
     icon: Zap,
-    color: 'from-green-500 to-emerald-600',
-    position: 'top-[42%] left-[20%] right-[20%]'
+    color: 'from-green-500 to-emerald-600'
   },
   {
     id: 'turn-1-2',
     name: 'Turns 1 & 2',
     description: 'Entry and mid-corner handling',
     icon: TrendingUp,
-    color: 'from-blue-500 to-cyan-600',
-    position: 'top-[15%] right-[10%]'
+    color: 'from-blue-500 to-cyan-600'
   },
   {
     id: 'back-stretch',
     name: 'Back Stretch',
     description: 'Top speed and stability',
     icon: Wind,
-    color: 'from-purple-500 to-violet-600',
-    position: 'top-[42%] left-[20%] right-[20%]'
+    color: 'from-purple-500 to-violet-600'
   },
   {
     id: 'turn-3-4',
     name: 'Turns 3 & 4',
     description: 'Exit and drive off',
     icon: Target,
-    color: 'from-orange-500 to-red-600',
-    position: 'bottom-[15%] left-[10%]'
+    color: 'from-orange-500 to-red-600'
   }
 ];
 
@@ -141,23 +138,6 @@ const setupData: Record<string, Record<string, SetupTip[]>> = {
         icon: Gauge
       }
     ],
-    'sportmod': [
-      {
-        title: 'Final Drive Ratio',
-        description: 'Optimize for track speed - typically 5.13-5.57 gear ratio.',
-        icon: Settings
-      },
-      {
-        title: 'Weight Balance',
-        description: '52-53% rear weight for traction off corners.',
-        icon: Gauge
-      },
-      {
-        title: 'Anti-Roll Bar',
-        description: 'Softer rear bar for better straight-line traction.',
-        icon: Wrench
-      }
-    ],
     'default': [
       {
         title: 'Gear Selection',
@@ -194,23 +174,6 @@ const setupData: Record<string, Record<string, SetupTip[]>> = {
         icon: Target
       }
     ],
-    'modified': [
-      {
-        title: 'Caster Split',
-        description: '2-4 degrees more positive caster on right side for better turn-in.',
-        icon: Settings
-      },
-      {
-        title: 'Panhard Bar',
-        description: 'Lower left side for more left rear bite in corners. 10-12" left side height on slick tracks.',
-        icon: Gauge
-      },
-      {
-        title: 'Front Shock Compression',
-        description: 'Stiffer compression to control dive on entry. 6-8 valving on slick tracks.',
-        icon: Wrench
-      }
-    ],
     'sprint-car': [
       {
         title: 'Left Rear Torsion Bar',
@@ -226,23 +189,6 @@ const setupData: Record<string, Record<string, SetupTip[]>> = {
         title: 'Birdcage Position',
         description: 'Forward position for more bite entering corners.',
         icon: Target
-      }
-    ],
-    'sportmod': [
-      {
-        title: 'Camber Settings',
-        description: '1-2 degrees negative left front camber for better grip.',
-        icon: Settings
-      },
-      {
-        title: 'Spring Rates',
-        description: 'Softer right front (250 lb/in) on slick tracks.',
-        icon: Gauge
-      },
-      {
-        title: 'Shock Valving',
-        description: 'Medium compression on front shocks for controlled entry.',
-        icon: Wrench
       }
     ],
     'default': [
@@ -281,23 +227,6 @@ const setupData: Record<string, Record<string, SetupTip[]>> = {
         icon: Gauge
       }
     ],
-    'modified': [
-      {
-        title: 'Chassis Height',
-        description: 'Lower center of gravity for high-speed stability. 2-3" ground clearance.',
-        icon: Settings
-      },
-      {
-        title: 'Anti-Roll Bar',
-        description: 'Stiffer front bar for reduced body roll at speed.',
-        icon: Wrench
-      },
-      {
-        title: 'Camber',
-        description: 'Zero to slight positive camber on right side for stability.',
-        icon: Gauge
-      }
-    ],
     'sprint-car': [
       {
         title: 'Top Wing',
@@ -313,23 +242,6 @@ const setupData: Record<string, Record<string, SetupTip[]>> = {
         title: 'Weight Distribution',
         description: 'Balance front-to-rear for stable high-speed handling.',
         icon: Gauge
-      }
-    ],
-    'sportmod': [
-      {
-        title: 'Ride Height',
-        description: 'Lower for better aerodynamics and stability.',
-        icon: Settings
-      },
-      {
-        title: 'Shock Compression',
-        description: 'Firm all around for high-speed control.',
-        icon: Wrench
-      },
-      {
-        title: 'Rear Spoiler',
-        description: 'Adjust angle for downforce vs. drag trade-off.',
-        icon: Wind
       }
     ],
     'default': [
@@ -368,23 +280,6 @@ const setupData: Record<string, Record<string, SetupTip[]>> = {
         icon: Wrench
       }
     ],
-    'modified': [
-      {
-        title: 'Rear Stagger',
-        description: '1.5-2.5" stagger for exit drive. More stagger on slick tracks.',
-        icon: Settings
-      },
-      {
-        title: 'Pull Bar',
-        description: 'Higher pull bar (split 17-19") for better exit bite.',
-        icon: Gauge
-      },
-      {
-        title: 'LR Spring',
-        description: 'Softer LR spring (175-200 lb/in) for better exit rotation.',
-        icon: Wrench
-      }
-    ],
     'sprint-car': [
       {
         title: 'RR Torsion Bar',
@@ -400,23 +295,6 @@ const setupData: Record<string, Record<string, SetupTip[]>> = {
         title: 'Wing Angle',
         description: 'Increase angle exiting corner for more forward bite.',
         icon: Wind
-      }
-    ],
-    'sportmod': [
-      {
-        title: 'Differential',
-        description: 'Limited-slip setting for equal drive from both rear tires.',
-        icon: Settings
-      },
-      {
-        title: 'Rear Weight',
-        description: 'Move weight back for better exit traction.',
-        icon: Gauge
-      },
-      {
-        title: 'Shock Rebound',
-        description: 'Softer rebound for planting rear tires.',
-        icon: Wrench
       }
     ],
     'default': [
@@ -471,12 +349,6 @@ const references: Reference[] = [
     description: 'Panhard bar positioning, pull bar adjustments, weight distribution'
   },
   {
-    vehicle: 'Dirt Modified',
-    source: 'Harris Auto Racing',
-    url: 'https://www.harrisautoracing.com',
-    description: 'Technical articles on modified setup for dirt track racing'
-  },
-  {
     vehicle: 'Sprint Car',
     source: 'Maxim Racing',
     url: 'https://www.maximracing.com',
@@ -490,57 +362,15 @@ const references: Reference[] = [
   },
   {
     vehicle: 'Sprint Car',
-    source: 'King Racing Shocks',
-    url: 'https://www.kingshocks.com',
-    description: 'Shock valving recommendations for sprint cars on various track conditions'
-  },
-  {
-    vehicle: 'Sprint Car',
     source: 'World of Outlaws Setup Guides',
     url: 'https://www.worldofoutlaws.com',
     description: 'Professional-level setup information from top World of Outlaws teams'
-  },
-  {
-    vehicle: 'Sport Mod',
-    source: 'LG2 Chassis',
-    url: 'https://www.lg2chassis.com',
-    description: 'Sport mod setup recommendations for IMCA dirt tracks'
-  },
-  {
-    vehicle: 'Sport Mod',
-    source: 'Shaw Race Cars',
-    url: 'https://www.shawracecars.com',
-    description: 'Technical bulletins covering suspension geometry and weight distribution'
-  },
-  {
-    vehicle: 'Modified',
-    source: 'Medieval Chassis',
-    url: 'https://www.medievalchassis.com',
-    description: 'UMP Modified setup guides for dirt track racing'
-  },
-  {
-    vehicle: 'Street Stock',
-    source: 'Factory Stock Racing',
-    url: 'https://www.factorystockracing.com',
-    description: 'Street stock setup basics for dirt oval racing'
-  },
-  {
-    vehicle: 'Midget',
-    source: 'Spike Chassis',
-    url: 'https://www.spikechassis.com',
-    description: 'Midget car setup information and technical specifications'
   },
   {
     vehicle: 'General Dirt Racing',
     source: 'Circle Track Magazine',
     url: 'https://www.circletrack.com',
     description: 'Technical articles covering dirt racing setup across all classes'
-  },
-  {
-    vehicle: 'General Dirt Racing',
-    source: 'Dirt Track Digest',
-    url: 'https://www.dirttrackdigest.com',
-    description: 'Setup tips and technical information for dirt track racers'
   }
 ];
 
@@ -548,6 +378,7 @@ export default function DirtTrackSetupGuide() {
   const [selectedZone, setSelectedZone] = useState<string | null>(null);
   const [selectedVehicle, setSelectedVehicle] = useState<string>('late-model');
   const [showReferences, setShowReferences] = useState(false);
+  const [hoveredZone, setHoveredZone] = useState<string | null>(null);
 
   const currentZone = trackZones.find(z => z.id === selectedZone);
   const currentSetupTips = selectedZone
@@ -559,249 +390,380 @@ export default function DirtTrackSetupGuide() {
       <div className="liquid-glass-hero overflow-hidden">
         {/* Header */}
         <div className="text-center mb-8 relative z-10">
-          <div className="inline-block p-3 rounded-full bg-gradient-to-r from-amber-500/20 to-orange-500/20 mb-4">
-            <MapPin className="w-12 h-12 text-brand-gold" />
-          </div>
-          <h2 className="text-3xl md:text-5xl font-bold mb-4 bg-gradient-to-r from-brand-gold via-amber-400 to-orange-500 bg-clip-text text-transparent">
-            Interactive Dirt Track Setup Guide
-          </h2>
-          <p className="text-lg md:text-xl text-gray-700 dark:text-gray-300 max-w-3xl mx-auto mb-6">
-            Professional setup recommendations for every section of the track.
-            Click on any zone to see specific adjustments for your vehicle type.
-          </p>
+          <motion.div
+            initial={{ scale: 0.8, opacity: 0 }}
+            animate={{ scale: 1, opacity: 1 }}
+            className="inline-block p-4 rounded-full bg-gradient-to-r from-amber-500/20 to-orange-500/20 mb-6 relative"
+          >
+            <div className="absolute inset-0 bg-gradient-to-r from-amber-500 to-orange-500 rounded-full blur-xl opacity-50 animate-pulse" />
+            <Award className="w-16 h-16 text-brand-gold relative z-10" />
+          </motion.div>
+
+          <motion.h2
+            initial={{ y: 20, opacity: 0 }}
+            animate={{ y: 0, opacity: 1 }}
+            transition={{ delay: 0.2 }}
+            className="text-4xl md:text-6xl font-bold mb-6 relative"
+          >
+            <span className="bg-gradient-to-r from-amber-400 via-yellow-500 to-orange-500 bg-clip-text text-transparent">
+              Interactive 3D Track Guide
+            </span>
+            <div className="absolute -inset-4 bg-gradient-to-r from-amber-500/20 to-orange-500/20 blur-3xl -z-10" />
+          </motion.h2>
+
+          <motion.p
+            initial={{ y: 20, opacity: 0 }}
+            animate={{ y: 0, opacity: 1 }}
+            transition={{ delay: 0.3 }}
+            className="text-lg md:text-xl text-gray-700 dark:text-gray-300 max-w-3xl mx-auto mb-8 flex items-center justify-center gap-2"
+          >
+            <Sparkles className="w-5 h-5 text-amber-500" />
+            Professional setup recommendations for every section of the track
+            <Sparkles className="w-5 h-5 text-amber-500" />
+          </motion.p>
 
           {/* Vehicle Type Selector */}
-          <div className="flex flex-wrap justify-center gap-2 mb-6">
+          <motion.div
+            initial={{ y: 20, opacity: 0 }}
+            animate={{ y: 0, opacity: 1 }}
+            transition={{ delay: 0.4 }}
+            className="flex flex-wrap justify-center gap-3 mb-8"
+          >
             {vehicleTypes.map((vehicle) => (
-              <button
+              <motion.button
                 key={vehicle.id}
                 onClick={() => setSelectedVehicle(vehicle.id)}
-                className={`px-4 py-2 rounded-full font-semibold transition-all ${
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+                className={`px-6 py-3 rounded-2xl font-bold transition-all shadow-lg ${
                   selectedVehicle === vehicle.id
-                    ? 'bg-gradient-to-r from-brand-gold to-amber-500 text-black shadow-lg scale-105'
+                    ? 'bg-gradient-to-r from-amber-400 via-yellow-500 to-orange-500 text-black shadow-amber-500/50'
                     : 'bg-white/50 dark:bg-gray-800/50 hover:bg-white/70 dark:hover:bg-gray-800/70'
                 }`}
               >
-                <span className="mr-2">{vehicle.icon}</span>
+                <span className="mr-2 text-2xl">{vehicle.icon}</span>
                 {vehicle.name}
-              </button>
+              </motion.button>
             ))}
-          </div>
+          </motion.div>
 
           {/* References Button */}
-          <button
+          <motion.button
+            initial={{ y: 20, opacity: 0 }}
+            animate={{ y: 0, opacity: 1 }}
+            transition={{ delay: 0.5 }}
             onClick={() => setShowReferences(true)}
-            className="liquid-glass-btn flex items-center gap-2 mx-auto"
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+            className="liquid-glass-btn flex items-center gap-2 mx-auto shadow-xl"
           >
             <BookOpen className="w-5 h-5" />
             View All References & Sources
-          </button>
+          </motion.button>
         </div>
 
-        {/* Interactive Track Visualization */}
-        <div className="relative w-full max-w-5xl mx-auto mb-8" style={{ aspectRatio: '16/9' }}>
-          {/* Track Background */}
-          <div className="absolute inset-0 rounded-3xl overflow-hidden">
-            {/* Dirt texture background */}
-            <div className="absolute inset-0 bg-gradient-to-br from-amber-900 via-orange-900 to-amber-800 opacity-90" />
-            <div
-              className="absolute inset-0 opacity-30"
-              style={{
-                backgroundImage: `url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23000000' fill-opacity='0.4'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")`
-              }}
-            />
+        {/* 3D Track Visualization */}
+        <motion.div
+          initial={{ opacity: 0, scale: 0.9 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ delay: 0.6 }}
+          className="relative w-full max-w-6xl mx-auto mb-12"
+          style={{ perspective: '1500px' }}
+        >
+          <div
+            className="relative w-full rounded-3xl overflow-hidden shadow-2xl"
+            style={{
+              aspectRatio: '16/10',
+              transformStyle: 'preserve-3d',
+              transform: 'rotateX(20deg)'
+            }}
+          >
+            {/* Track Container with 3D effect */}
+            <div className="absolute inset-0 bg-gradient-to-br from-orange-950 via-amber-900 to-yellow-900">
+              {/* Dirt texture overlay */}
+              <div className="absolute inset-0 opacity-40" style={{
+                backgroundImage: `
+                  radial-gradient(circle at 20% 30%, rgba(139, 69, 19, 0.3) 0%, transparent 50%),
+                  radial-gradient(circle at 80% 70%, rgba(160, 82, 45, 0.3) 0%, transparent 50%),
+                  repeating-linear-gradient(45deg, transparent, transparent 10px, rgba(101, 67, 33, 0.1) 10px, rgba(101, 67, 33, 0.1) 11px)
+                `
+              }} />
 
-            {/* Racing oval track */}
-            <svg
-              viewBox="0 0 800 600"
-              className="w-full h-full"
-              preserveAspectRatio="xMidYMid meet"
-            >
-              {/* Outer track boundary */}
-              <ellipse
-                cx="400"
-                cy="300"
-                rx="350"
-                ry="240"
-                fill="none"
-                stroke="rgba(255,255,255,0.3)"
-                strokeWidth="3"
-                strokeDasharray="10,5"
-              />
+              {/* Animated dust particles */}
+              <div className="absolute inset-0 overflow-hidden">
+                {[...Array(20)].map((_, i) => (
+                  <motion.div
+                    key={i}
+                    className="absolute w-1 h-1 bg-amber-300/30 rounded-full"
+                    initial={{
+                      x: `${Math.random() * 100}%`,
+                      y: `${Math.random() * 100}%`,
+                      opacity: 0.3
+                    }}
+                    animate={{
+                      x: `${Math.random() * 100}%`,
+                      y: `${Math.random() * 100}%`,
+                      opacity: [0.3, 0.6, 0.3]
+                    }}
+                    transition={{
+                      duration: 10 + Math.random() * 10,
+                      repeat: Infinity,
+                      ease: 'linear'
+                    }}
+                  />
+                ))}
+              </div>
 
-              {/* Inner track boundary */}
-              <ellipse
-                cx="400"
-                cy="300"
-                rx="250"
-                ry="140"
-                fill="none"
-                stroke="rgba(255,255,255,0.3)"
-                strokeWidth="3"
-                strokeDasharray="10,5"
-              />
+              {/* 3D Track Zones */}
+              <div className="absolute inset-0 p-8">
+                {/* Front Stretch */}
+                <motion.div
+                  className="absolute bottom-[10%] left-[15%] right-[15%] h-[25%] cursor-pointer rounded-2xl"
+                  style={{
+                    background: selectedZone === 'front-stretch' || hoveredZone === 'front-stretch'
+                      ? 'linear-gradient(135deg, rgba(34, 197, 94, 0.5), rgba(16, 185, 129, 0.5))'
+                      : 'linear-gradient(135deg, rgba(255, 255, 255, 0.15), rgba(255, 255, 255, 0.08))',
+                    boxShadow: selectedZone === 'front-stretch' || hoveredZone === 'front-stretch'
+                      ? '0 20px 60px rgba(34, 197, 94, 0.4), inset 0 0 40px rgba(34, 197, 94, 0.2)'
+                      : '0 10px 30px rgba(0, 0, 0, 0.3)',
+                    border: '2px solid rgba(34, 197, 94, 0.5)',
+                    transform: selectedZone === 'front-stretch' || hoveredZone === 'front-stretch'
+                      ? 'translateZ(20px) scale(1.02)'
+                      : 'translateZ(0px)',
+                    transition: 'all 0.3s ease'
+                  }}
+                  onClick={() => setSelectedZone('front-stretch')}
+                  onMouseEnter={() => setHoveredZone('front-stretch')}
+                  onMouseLeave={() => setHoveredZone(null)}
+                  whileHover={{ scale: 1.02 }}
+                >
+                  <div className="absolute inset-0 flex items-center justify-center">
+                    <span className="text-2xl md:text-4xl font-black text-white drop-shadow-lg">
+                      FRONT STRETCH
+                    </span>
+                  </div>
+                </motion.div>
 
-              {/* Clickable zones with hover effects */}
-              {/* Front Stretch */}
-              <motion.path
-                d="M 150 240 L 650 240 L 650 360 L 150 360 Z"
-                fill={selectedZone === 'front-stretch' ? 'rgba(34, 197, 94, 0.4)' : 'rgba(255,255,255,0.1)'}
-                stroke="rgba(34, 197, 94, 0.8)"
-                strokeWidth="2"
-                className="cursor-pointer transition-all"
-                onClick={() => setSelectedZone('front-stretch')}
-                whileHover={{ fill: 'rgba(34, 197, 94, 0.3)' }}
-              />
+                {/* Turn 1-2 (LEFT turn) */}
+                <motion.div
+                  className="absolute top-[10%] left-[10%] w-[35%] h-[35%] cursor-pointer rounded-full"
+                  style={{
+                    background: selectedZone === 'turn-1-2' || hoveredZone === 'turn-1-2'
+                      ? 'radial-gradient(circle, rgba(59, 130, 246, 0.5), rgba(37, 99, 235, 0.5))'
+                      : 'radial-gradient(circle, rgba(255, 255, 255, 0.15), rgba(255, 255, 255, 0.08))',
+                    boxShadow: selectedZone === 'turn-1-2' || hoveredZone === 'turn-1-2'
+                      ? '0 20px 60px rgba(59, 130, 246, 0.4), inset 0 0 40px rgba(59, 130, 246, 0.2)'
+                      : '0 10px 30px rgba(0, 0, 0, 0.3)',
+                    border: '2px solid rgba(59, 130, 246, 0.5)',
+                    transform: selectedZone === 'turn-1-2' || hoveredZone === 'turn-1-2'
+                      ? 'translateZ(20px) scale(1.02)'
+                      : 'translateZ(0px)',
+                    transition: 'all 0.3s ease'
+                  }}
+                  onClick={() => setSelectedZone('turn-1-2')}
+                  onMouseEnter={() => setHoveredZone('turn-1-2')}
+                  onMouseLeave={() => setHoveredZone(null)}
+                  whileHover={{ scale: 1.02 }}
+                >
+                  <div className="absolute inset-0 flex items-center justify-center">
+                    <span className="text-xl md:text-3xl font-black text-white drop-shadow-lg">
+                      TURN 1-2
+                    </span>
+                  </div>
+                </motion.div>
 
-              {/* Turn 1-2 */}
-              <motion.ellipse
-                cx="650"
-                cy="300"
-                rx="150"
-                ry="150"
-                fill={selectedZone === 'turn-1-2' ? 'rgba(59, 130, 246, 0.4)' : 'rgba(255,255,255,0.1)'}
-                stroke="rgba(59, 130, 246, 0.8)"
-                strokeWidth="2"
-                className="cursor-pointer transition-all"
-                onClick={() => setSelectedZone('turn-1-2')}
-                whileHover={{ fill: 'rgba(59, 130, 246, 0.3)' }}
-              />
+                {/* Back Stretch */}
+                <motion.div
+                  className="absolute top-[10%] left-[15%] right-[15%] h-[25%] cursor-pointer rounded-2xl"
+                  style={{
+                    background: selectedZone === 'back-stretch' || hoveredZone === 'back-stretch'
+                      ? 'linear-gradient(135deg, rgba(168, 85, 247, 0.5), rgba(147, 51, 234, 0.5))'
+                      : 'linear-gradient(135deg, rgba(255, 255, 255, 0.15), rgba(255, 255, 255, 0.08))',
+                    boxShadow: selectedZone === 'back-stretch' || hoveredZone === 'back-stretch'
+                      ? '0 20px 60px rgba(168, 85, 247, 0.4), inset 0 0 40px rgba(168, 85, 247, 0.2)'
+                      : '0 10px 30px rgba(0, 0, 0, 0.3)',
+                    border: '2px solid rgba(168, 85, 247, 0.5)',
+                    transform: selectedZone === 'back-stretch' || hoveredZone === 'back-stretch'
+                      ? 'translateZ(20px) scale(1.02)'
+                      : 'translateZ(0px)',
+                    transition: 'all 0.3s ease'
+                  }}
+                  onClick={() => setSelectedZone('back-stretch')}
+                  onMouseEnter={() => setHoveredZone('back-stretch')}
+                  onMouseLeave={() => setHoveredZone(null)}
+                  whileHover={{ scale: 1.02 }}
+                >
+                  <div className="absolute inset-0 flex items-center justify-center">
+                    <span className="text-2xl md:text-4xl font-black text-white drop-shadow-lg">
+                      BACK STRETCH
+                    </span>
+                  </div>
+                </motion.div>
 
-              {/* Back Stretch */}
-              <motion.path
-                d="M 150 240 L 150 360 L 650 360 L 650 240"
-                fill={selectedZone === 'back-stretch' ? 'rgba(168, 85, 247, 0.4)' : 'rgba(255,255,255,0.1)'}
-                stroke="rgba(168, 85, 247, 0.8)"
-                strokeWidth="2"
-                className="cursor-pointer transition-all"
-                onClick={() => setSelectedZone('back-stretch')}
-                whileHover={{ fill: 'rgba(168, 85, 247, 0.3)' }}
-                style={{ strokeDasharray: '5,5' }}
-              />
+                {/* Turn 3-4 (LEFT turn) */}
+                <motion.div
+                  className="absolute bottom-[10%] right-[10%] w-[35%] h-[35%] cursor-pointer rounded-full"
+                  style={{
+                    background: selectedZone === 'turn-3-4' || hoveredZone === 'turn-3-4'
+                      ? 'radial-gradient(circle, rgba(249, 115, 22, 0.5), rgba(234, 88, 12, 0.5))'
+                      : 'radial-gradient(circle, rgba(255, 255, 255, 0.15), rgba(255, 255, 255, 0.08))',
+                    boxShadow: selectedZone === 'turn-3-4' || hoveredZone === 'turn-3-4'
+                      ? '0 20px 60px rgba(249, 115, 22, 0.4), inset 0 0 40px rgba(249, 115, 22, 0.2)'
+                      : '0 10px 30px rgba(0, 0, 0, 0.3)',
+                    border: '2px solid rgba(249, 115, 22, 0.5)',
+                    transform: selectedZone === 'turn-3-4' || hoveredZone === 'turn-3-4'
+                      ? 'translateZ(20px) scale(1.02)'
+                      : 'translateZ(0px)',
+                    transition: 'all 0.3s ease'
+                  }}
+                  onClick={() => setSelectedZone('turn-3-4')}
+                  onMouseEnter={() => setHoveredZone('turn-3-4')}
+                  onMouseLeave={() => setHoveredZone(null)}
+                  whileHover={{ scale: 1.02 }}
+                >
+                  <div className="absolute inset-0 flex items-center justify-center">
+                    <span className="text-xl md:text-3xl font-black text-white drop-shadow-lg">
+                      TURN 3-4
+                    </span>
+                  </div>
+                </motion.div>
 
-              {/* Turn 3-4 */}
-              <motion.ellipse
-                cx="150"
-                cy="300"
-                rx="150"
-                ry="150"
-                fill={selectedZone === 'turn-3-4' ? 'rgba(249, 115, 22, 0.4)' : 'rgba(255,255,255,0.1)'}
-                stroke="rgba(249, 115, 22, 0.8)"
-                strokeWidth="2"
-                className="cursor-pointer transition-all"
-                onClick={() => setSelectedZone('turn-3-4')}
-                whileHover={{ fill: 'rgba(249, 115, 22, 0.3)' }}
-              />
+                {/* Direction Arrow - Counter-Clockwise (LEFT TURNS) */}
+                <motion.div
+                  className="absolute top-[40%] left-[5%]"
+                  animate={{
+                    x: [0, -10, 0],
+                    opacity: [1, 0.6, 1]
+                  }}
+                  transition={{
+                    duration: 2,
+                    repeat: Infinity,
+                    ease: 'easeInOut'
+                  }}
+                >
+                  <div className="relative">
+                    <div className="absolute inset-0 bg-amber-400 blur-xl opacity-50" />
+                    <div className="relative bg-black/70 backdrop-blur-sm px-6 py-4 rounded-2xl border-2 border-amber-400 shadow-xl">
+                      <div className="flex items-center gap-3">
+                        <motion.div
+                          animate={{ rotate: 360 }}
+                          transition={{ duration: 3, repeat: Infinity, ease: 'linear' }}
+                        >
+                          <Zap className="w-8 h-8 text-amber-400" />
+                        </motion.div>
+                        <div className="text-left">
+                          <div className="text-2xl font-black text-amber-400">← DIRECTION</div>
+                          <div className="text-sm text-amber-300">TURNS LEFT</div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </motion.div>
+              </div>
 
-              {/* Zone Labels */}
-              <text x="400" y="290" textAnchor="middle" fill="white" fontSize="24" fontWeight="bold" className="pointer-events-none">
-                FRONT STRETCH
-              </text>
-              <text x="650" y="200" textAnchor="middle" fill="white" fontSize="20" fontWeight="bold" className="pointer-events-none">
-                TURN 1-2
-              </text>
-              <text x="400" y="480" textAnchor="middle" fill="white" fontSize="20" fontWeight="bold" className="pointer-events-none">
-                BACK STRETCH
-              </text>
-              <text x="150" y="390" textAnchor="middle" fill="white" fontSize="20" fontWeight="bold" className="pointer-events-none">
-                TURN 3-4
-              </text>
-
-              {/* Direction arrow */}
-              <defs>
-                <marker id="arrowhead" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto">
-                  <polygon points="0 0, 10 3, 0 6" fill="rgba(251, 191, 36, 1)" />
-                </marker>
-              </defs>
-              <path
-                d="M 400 130 Q 600 130, 680 300"
-                stroke="rgba(251, 191, 36, 0.8)"
-                strokeWidth="4"
-                fill="none"
-                markerEnd="url(#arrowhead)"
-              />
-              <text x="500" y="120" textAnchor="middle" fill="rgba(251, 191, 36, 1)" fontSize="18" fontWeight="bold">
-                DIRECTION →
-              </text>
-            </svg>
+              {/* Track center infield */}
+              <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[40%] h-[50%] rounded-full bg-gradient-to-br from-green-900/40 to-green-800/40 shadow-inner" />
+            </div>
           </div>
 
           {/* Floating instruction */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            className="absolute bottom-4 left-1/2 transform -translate-x-1/2 bg-black/70 backdrop-blur-sm px-6 py-3 rounded-full text-white font-semibold flex items-center gap-2 shadow-xl"
+            transition={{ delay: 1 }}
+            className="absolute -bottom-6 left-1/2 transform -translate-x-1/2 bg-black/80 backdrop-blur-md px-8 py-4 rounded-full text-white font-bold flex items-center gap-3 shadow-2xl border border-amber-500/30"
           >
-            <Info className="w-5 h-5 text-brand-gold" />
-            Click any track zone to see setup tips
+            <motion.div
+              animate={{ scale: [1, 1.2, 1] }}
+              transition={{ duration: 2, repeat: Infinity }}
+            >
+              <Info className="w-6 h-6 text-amber-400" />
+            </motion.div>
+            <span className="text-lg">Click any track zone to see setup tips</span>
           </motion.div>
-        </div>
+        </motion.div>
 
         {/* Setup Tips Panel */}
         <AnimatePresence mode="wait">
           {selectedZone && currentZone && (
             <motion.div
               key={selectedZone}
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -20 }}
-              className="mt-8"
+              initial={{ opacity: 0, y: 40, scale: 0.95 }}
+              animate={{ opacity: 1, y: 0, scale: 1 }}
+              exit={{ opacity: 0, y: -40, scale: 0.95 }}
+              className="mt-12"
             >
-              <div className={`p-6 rounded-2xl bg-gradient-to-r ${currentZone.color} mb-6`}>
-                <div className="flex items-center justify-between mb-4">
-                  <div className="flex items-center gap-3">
-                    {React.createElement(currentZone.icon, {
-                      className: "w-8 h-8 text-white"
-                    })}
+              <div className={`p-8 rounded-3xl bg-gradient-to-r ${currentZone.color} mb-8 shadow-2xl relative overflow-hidden`}>
+                <div className="absolute inset-0 bg-black/20" />
+                <div className="relative z-10 flex items-center justify-between">
+                  <div className="flex items-center gap-4">
+                    <div className="p-4 bg-white/20 rounded-2xl backdrop-blur-sm">
+                      {React.createElement(currentZone.icon, {
+                        className: "w-10 h-10 text-white"
+                      })}
+                    </div>
                     <div>
-                      <h3 className="text-2xl font-bold text-white">{currentZone.name}</h3>
-                      <p className="text-white/90">{currentZone.description}</p>
+                      <h3 className="text-3xl md:text-4xl font-black text-white drop-shadow-lg">{currentZone.name}</h3>
+                      <p className="text-lg text-white/90">{currentZone.description}</p>
                     </div>
                   </div>
-                  <button
+                  <motion.button
                     onClick={() => setSelectedZone(null)}
-                    className="p-2 hover:bg-white/20 rounded-full transition-colors"
+                    whileHover={{ scale: 1.1, rotate: 90 }}
+                    whileTap={{ scale: 0.9 }}
+                    className="p-3 bg-white/20 hover:bg-white/30 rounded-full transition-colors backdrop-blur-sm"
                   >
-                    <X className="w-6 h-6 text-white" />
-                  </button>
+                    <X className="w-8 h-8 text-white" />
+                  </motion.button>
                 </div>
               </div>
 
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                 {currentSetupTips.map((tip, index) => (
                   <motion.div
                     key={index}
-                    initial={{ opacity: 0, x: -20 }}
-                    animate={{ opacity: 1, x: 0 }}
+                    initial={{ opacity: 0, y: 20, scale: 0.9 }}
+                    animate={{ opacity: 1, y: 0, scale: 1 }}
                     transition={{ delay: index * 0.1 }}
-                    className="liquid-glass-card hover:scale-105 transition-transform"
+                    whileHover={{ scale: 1.05, y: -5 }}
+                    className="liquid-glass-card relative overflow-hidden group"
                   >
-                    <div className={`w-12 h-12 rounded-full bg-gradient-to-r ${currentZone.color} flex items-center justify-center mb-4`}>
-                      {React.createElement(tip.icon, {
-                        className: "w-6 h-6 text-white"
-                      })}
+                    <div className="absolute inset-0 bg-gradient-to-br from-amber-500/10 to-orange-500/10 opacity-0 group-hover:opacity-100 transition-opacity" />
+                    <div className="relative z-10">
+                      <div className={`w-14 h-14 rounded-2xl bg-gradient-to-r ${currentZone.color} flex items-center justify-center mb-4 shadow-lg`}>
+                        {React.createElement(tip.icon, {
+                          className: "w-7 h-7 text-white"
+                        })}
+                      </div>
+                      <h4 className="text-xl font-bold mb-3">{tip.title}</h4>
+                      <p className="text-sm text-gray-600 dark:text-gray-400 leading-relaxed">{tip.description}</p>
                     </div>
-                    <h4 className="text-lg font-bold mb-2">{tip.title}</h4>
-                    <p className="text-sm text-gray-600 dark:text-gray-400">{tip.description}</p>
                   </motion.div>
                 ))}
               </div>
 
-              <div className="mt-6 p-4 rounded-xl bg-amber-500/10 border border-amber-500/30">
-                <div className="flex items-start gap-3">
-                  <Info className="w-5 h-5 text-amber-500 flex-shrink-0 mt-0.5" />
+              <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ delay: 0.5 }}
+                className="mt-8 p-6 rounded-2xl bg-gradient-to-r from-amber-500/10 to-orange-500/10 border-2 border-amber-500/30"
+              >
+                <div className="flex items-start gap-4">
+                  <div className="p-3 bg-amber-500/20 rounded-xl">
+                    <Info className="w-6 h-6 text-amber-500" />
+                  </div>
                   <div>
-                    <p className="text-sm font-semibold text-amber-900 dark:text-amber-400 mb-1">
+                    <p className="text-base font-bold text-amber-900 dark:text-amber-400 mb-2">
                       Track Condition Tip
                     </p>
-                    <p className="text-sm text-gray-700 dark:text-gray-300">
+                    <p className="text-sm text-gray-700 dark:text-gray-300 leading-relaxed">
                       These recommendations are starting points. Always adjust based on your specific track conditions,
                       tire compound, and how the track changes throughout the race day. Heavy/tacky tracks typically need
                       softer springs and less wedge, while dry-slick tracks need stiffer springs and more wedge.
                     </p>
                   </div>
                 </div>
-              </div>
+              </motion.div>
             </motion.div>
           )}
         </AnimatePresence>
@@ -815,67 +777,71 @@ export default function DirtTrackSetupGuide() {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
-              className="fixed inset-0 bg-black/60 backdrop-blur-sm z-50"
+              className="fixed inset-0 bg-black/70 backdrop-blur-sm z-50"
               onClick={() => setShowReferences(false)}
             />
             <motion.div
-              initial={{ opacity: 0, scale: 0.9, y: 20 }}
+              initial={{ opacity: 0, scale: 0.9, y: 50 }}
               animate={{ opacity: 1, scale: 1, y: 0 }}
-              exit={{ opacity: 0, scale: 0.9, y: 20 }}
-              className="fixed inset-4 md:inset-auto md:left-1/2 md:top-1/2 md:-translate-x-1/2 md:-translate-y-1/2 md:w-full md:max-w-4xl md:max-h-[80vh] z-50 liquid-glass rounded-3xl overflow-hidden flex flex-col"
+              exit={{ opacity: 0, scale: 0.9, y: 50 }}
+              className="fixed inset-4 md:inset-auto md:left-1/2 md:top-1/2 md:-translate-x-1/2 md:-translate-y-1/2 md:w-full md:max-w-4xl md:max-h-[85vh] z-50 liquid-glass rounded-3xl overflow-hidden flex flex-col shadow-2xl"
             >
-              {/* Modal Header */}
-              <div className="p-6 border-b border-gray-200 dark:border-gray-700 flex items-center justify-between flex-shrink-0">
-                <div className="flex items-center gap-3">
-                  <BookOpen className="w-8 h-8 text-brand-gold" />
+              <div className="p-8 border-b border-gray-200 dark:border-gray-700 flex items-center justify-between flex-shrink-0 bg-gradient-to-r from-amber-500/10 to-orange-500/10">
+                <div className="flex items-center gap-4">
+                  <div className="p-3 bg-amber-500/20 rounded-2xl">
+                    <BookOpen className="w-8 h-8 text-amber-500" />
+                  </div>
                   <div>
-                    <h3 className="text-2xl font-bold">Setup References & Sources</h3>
+                    <h3 className="text-3xl font-bold">Setup References & Sources</h3>
                     <p className="text-sm text-gray-600 dark:text-gray-400">
                       Legitimate dirt racing chassis manufacturers and technical sources
                     </p>
                   </div>
                 </div>
-                <button
+                <motion.button
                   onClick={() => setShowReferences(false)}
-                  className="p-2 hover:bg-gray-200 dark:hover:bg-gray-700 rounded-full transition-colors"
+                  whileHover={{ scale: 1.1, rotate: 90 }}
+                  whileTap={{ scale: 0.9 }}
+                  className="p-3 hover:bg-gray-200 dark:hover:bg-gray-700 rounded-full transition-colors"
                 >
                   <X className="w-6 h-6" />
-                </button>
+                </motion.button>
               </div>
 
-              {/* Modal Content */}
-              <div className="flex-1 overflow-y-auto p-6">
+              <div className="flex-1 overflow-y-auto p-8">
                 <div className="space-y-4">
                   {references.map((ref, index) => (
                     <motion.div
                       key={index}
-                      initial={{ opacity: 0, y: 10 }}
-                      animate={{ opacity: 1, y: 0 }}
+                      initial={{ opacity: 0, x: -20 }}
+                      animate={{ opacity: 1, x: 0 }}
                       transition={{ delay: index * 0.05 }}
-                      className="liquid-glass-card hover:scale-102 transition-transform"
+                      whileHover={{ scale: 1.02, x: 5 }}
+                      className="liquid-glass-card relative overflow-hidden group"
                     >
-                      <div className="flex items-start gap-4">
-                        <div className="w-12 h-12 rounded-full bg-gradient-to-r from-brand-gold to-amber-500 flex items-center justify-center flex-shrink-0">
-                          <ChevronRight className="w-6 h-6 text-white" />
+                      <div className="absolute inset-0 bg-gradient-to-r from-amber-500/5 to-orange-500/5 opacity-0 group-hover:opacity-100 transition-opacity" />
+                      <div className="relative z-10 flex items-start gap-4">
+                        <div className="w-14 h-14 rounded-2xl bg-gradient-to-r from-amber-500 to-orange-500 flex items-center justify-center flex-shrink-0 shadow-lg">
+                          <ChevronRight className="w-7 h-7 text-white" />
                         </div>
                         <div className="flex-1 min-w-0">
-                          <div className="flex items-center gap-2 mb-1">
-                            <span className="px-2 py-1 rounded-full text-xs font-semibold bg-brand-gold/20 text-brand-gold">
+                          <div className="flex items-center gap-2 mb-2">
+                            <span className="px-3 py-1 rounded-full text-xs font-bold bg-amber-500/20 text-amber-600 dark:text-amber-400">
                               {ref.vehicle}
                             </span>
                           </div>
-                          <h4 className="text-lg font-bold mb-1">{ref.source}</h4>
-                          <p className="text-sm text-gray-600 dark:text-gray-400 mb-2">
+                          <h4 className="text-xl font-bold mb-2">{ref.source}</h4>
+                          <p className="text-sm text-gray-600 dark:text-gray-400 mb-3 leading-relaxed">
                             {ref.description}
                           </p>
                           <a
                             href={ref.url}
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="text-sm text-blue-600 dark:text-blue-400 hover:underline inline-flex items-center gap-1"
+                            className="text-sm font-semibold text-blue-600 dark:text-blue-400 hover:underline inline-flex items-center gap-2 group"
                           >
                             Visit Website
-                            <ChevronRight className="w-4 h-4" />
+                            <ChevronRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
                           </a>
                         </div>
                       </div>
@@ -883,10 +849,9 @@ export default function DirtTrackSetupGuide() {
                   ))}
                 </div>
 
-                {/* Disclaimer */}
-                <div className="mt-8 p-4 rounded-xl bg-gray-100 dark:bg-gray-800">
-                  <p className="text-sm text-gray-600 dark:text-gray-400">
-                    <strong>Disclaimer:</strong> All setup information is compiled from publicly available
+                <div className="mt-8 p-6 rounded-2xl bg-gray-100 dark:bg-gray-800">
+                  <p className="text-sm text-gray-600 dark:text-gray-400 leading-relaxed">
+                    <strong className="text-gray-900 dark:text-gray-100">Disclaimer:</strong> All setup information is compiled from publicly available
                     manufacturer guidelines, technical bulletins, and industry-standard practices for dirt
                     track racing. Always consult your chassis manufacturer's specific recommendations and
                     adjust based on your track conditions, tire compound, and racing class rules.
