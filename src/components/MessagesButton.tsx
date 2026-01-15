@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { MessageSquare, X, User, Clock } from 'lucide-react';
 import { useAuth } from '../contexts/AuthContext';
 import { useChat } from '../contexts/ChatContext';
@@ -13,6 +13,10 @@ export default function MessagesButton() {
 
   const unreadTotal = conversations.reduce((sum, conv) => sum + conv.unreadCount, 0);
 
+  useEffect(() => {
+    console.log('MessagesButton state:', { showConversations, conversationsCount: conversations.length, loading, unreadTotal });
+  }, [showConversations, conversations.length, loading, unreadTotal]);
+
   const handleStartChat = (recipientId: string) => {
     startChat(recipientId);
     setShowConversations(false);
@@ -20,10 +24,15 @@ export default function MessagesButton() {
 
   if (!user) return null;
 
+  const handleOpenMessages = () => {
+    console.log('Messages button clicked, opening conversations...');
+    setShowConversations(true);
+  };
+
   return (
     <>
       <button
-        onClick={() => setShowConversations(true)}
+        onClick={handleOpenMessages}
         className="relative flex items-center gap-2 px-3 py-2 bg-gradient-to-r from-green-500 to-green-600 hover:from-green-600 hover:to-green-700 text-white rounded-lg shadow-sm transition-all duration-200 hover:shadow-md"
         title="Messages"
       >
@@ -37,8 +46,18 @@ export default function MessagesButton() {
       </button>
 
       {showConversations && (
-        <div className="fixed inset-0 z-50 flex items-start justify-center p-4 bg-black/50">
-          <div className="bg-white dark:bg-gray-800 rounded-xl shadow-2xl w-full max-w-md mt-20 max-h-[80vh] flex flex-col">
+        <div
+          className="fixed inset-0 z-[9999] flex items-start justify-center p-4 bg-black/50"
+          onClick={(e) => {
+            if (e.target === e.currentTarget) {
+              setShowConversations(false);
+            }
+          }}
+        >
+          <div
+            className="bg-white dark:bg-gray-800 rounded-xl shadow-2xl w-full max-w-md mt-20 max-h-[80vh] flex flex-col"
+            onClick={(e) => e.stopPropagation()}
+          >
             <div className="flex items-center justify-between p-4 border-b border-gray-200 dark:border-gray-700">
               <div className="flex items-center gap-2">
                 <MessageSquare className="w-5 h-5 text-brand-gold" />
@@ -50,7 +69,10 @@ export default function MessagesButton() {
                 )}
               </div>
               <button
-                onClick={() => setShowConversations(false)}
+                onClick={() => {
+                  console.log('Closing conversations modal');
+                  setShowConversations(false);
+                }}
                 className="p-2 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg transition-colors"
               >
                 <X className="w-5 h-5" />

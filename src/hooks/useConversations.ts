@@ -15,7 +15,10 @@ export function useConversations(userId: string) {
   const [loading, setLoading] = useState(true);
 
   const loadConversations = useCallback(async () => {
-    if (!userId) return;
+    if (!userId) {
+      setLoading(false);
+      return;
+    }
 
     try {
       const { data: messages, error } = await supabase
@@ -38,7 +41,11 @@ export function useConversations(userId: string) {
         .or(`sender_id.eq.${userId},receiver_id.eq.${userId}`)
         .order('created_at', { ascending: false });
 
-      if (error) throw error;
+      if (error) {
+        console.error('Error loading conversations:', error);
+        setLoading(false);
+        return;
+      }
 
       const conversationMap = new Map<string, Conversation>();
 
@@ -56,7 +63,7 @@ export function useConversations(userId: string) {
           });
         }
 
-        if (msg.receiver_id === userId && !msg.is_read) {
+        if (msg.receiver_id === userId) {
           const conv = conversationMap.get(otherUserId)!;
           conv.unreadCount++;
         }
