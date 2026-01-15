@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Search, MapPin, Filter, ChevronDown, Camera, DollarSign, Clock, Share2, Heart, Lock, Users, Loader2, Phone, Mail, X, Settings, Shield, Check, ExternalLink, Bookmark, BookmarkCheck, Plus, AlertCircle, Trash2, ShoppingBag, Clock as Click, Flag, Target, Navigation, ChevronLeft, ChevronRight, Sparkles, Tag, TrendingUp, Package } from 'lucide-react';
+import { Search, MapPin, Filter, ChevronDown, Camera, DollarSign, Clock, Share2, Heart, Lock, Users, Loader2, Phone, Mail, X, Settings, Shield, Check, ExternalLink, Bookmark, BookmarkCheck, Plus, AlertCircle, Trash2, ShoppingBag, Clock as Click, Flag, Target, Navigation, ChevronLeft, ChevronRight, Sparkles, Tag, TrendingUp, Package, Image, ZoomIn } from 'lucide-react';
 import { useAuth } from '../contexts/AuthContext';
 import SignInPrompt from '../components/SignInPrompt';
 import CreateListingModal from '../components/CreateListingModal';
@@ -122,6 +122,7 @@ function SwapMeet() {
   const [customDistance, setCustomDistance] = useState('');
   const [manualZipCode, setManualZipCode] = useState('');
   const [showLocationPrompt, setShowLocationPrompt] = useState(false);
+  const [imageLightbox, setImageLightbox] = useState<{ listing: Listing; index: number } | null>(null);
   const { user } = useAuth();
   const location = useLocation({ enableGeocoding: false, autoFetch: false });
   const navigate = useNavigate();
@@ -1004,11 +1005,25 @@ function SwapMeet() {
                 >
                   <div className="relative">
                     {listing.images?.[0] ? (
-                      <img
-                        src={listing.images[0].url}
-                        alt={listing.title}
-                        className="w-full aspect-square object-cover group-hover:scale-105 transition-transform duration-300"
-                      />
+                      <div
+                        className="relative cursor-pointer"
+                        onClick={() => setImageLightbox({ listing, index: 0 })}
+                      >
+                        <img
+                          src={listing.images[0].url}
+                          alt={listing.title}
+                          className="w-full aspect-square object-cover group-hover:scale-105 transition-transform duration-300"
+                        />
+                        <div className="absolute inset-0 bg-black/0 hover:bg-black/20 transition-colors flex items-center justify-center opacity-0 hover:opacity-100">
+                          <ZoomIn className="w-10 h-10 text-white drop-shadow-lg" />
+                        </div>
+                        {listing.images.length > 1 && (
+                          <div className="absolute bottom-2 right-2 px-2 py-1 bg-black/70 rounded-full text-white text-xs font-medium flex items-center gap-1">
+                            <Image className="w-3 h-3" />
+                            {listing.images.length} photos
+                          </div>
+                        )}
+                      </div>
                     ) : (
                       <div className="w-full aspect-square bg-gradient-to-br from-gray-100 to-gray-200 dark:from-black/80 dark:to-gray-900/80 flex items-center justify-center">
                         <Package className="w-16 h-16 text-brand-gold/30" />
@@ -1426,6 +1441,91 @@ function SwapMeet() {
           listing={selectedListing}
           onClose={() => setSelectedListing(null)}
         />
+      )}
+
+      {/* Image Lightbox Modal */}
+      {imageLightbox && imageLightbox.listing.images && imageLightbox.listing.images.length > 0 && (
+        <div
+          className="fixed inset-0 z-[1300] bg-black/95 flex items-center justify-center"
+          onClick={() => setImageLightbox(null)}
+        >
+          <button
+            onClick={() => setImageLightbox(null)}
+            className="absolute top-4 right-4 p-3 bg-white/10 hover:bg-white/20 rounded-full transition-colors text-white z-10"
+          >
+            <X className="w-8 h-8" />
+          </button>
+
+          {imageLightbox.listing.images.length > 1 && (
+            <>
+              <button
+                onClick={(e) => {
+                  e.stopPropagation();
+                  const images = imageLightbox.listing.images!;
+                  setImageLightbox({
+                    ...imageLightbox,
+                    index: imageLightbox.index === 0 ? images.length - 1 : imageLightbox.index - 1
+                  });
+                }}
+                className="absolute left-4 p-3 bg-white/10 hover:bg-white/20 rounded-full transition-colors text-white z-10"
+              >
+                <ChevronLeft className="w-8 h-8" />
+              </button>
+              <button
+                onClick={(e) => {
+                  e.stopPropagation();
+                  const images = imageLightbox.listing.images!;
+                  setImageLightbox({
+                    ...imageLightbox,
+                    index: imageLightbox.index === images.length - 1 ? 0 : imageLightbox.index + 1
+                  });
+                }}
+                className="absolute right-4 p-3 bg-white/10 hover:bg-white/20 rounded-full transition-colors text-white z-10"
+              >
+                <ChevronRight className="w-8 h-8" />
+              </button>
+            </>
+          )}
+
+          <div
+            className="max-w-5xl max-h-[85vh] p-4 flex flex-col items-center"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <img
+              src={imageLightbox.listing.images[imageLightbox.index].url}
+              alt={`${imageLightbox.listing.title} - Image ${imageLightbox.index + 1}`}
+              className="max-w-full max-h-[70vh] object-contain rounded-lg shadow-2xl"
+            />
+            <div className="mt-4 text-center">
+              <h3 className="text-white text-xl font-bold mb-2">{imageLightbox.listing.title}</h3>
+              <span className="px-4 py-2 bg-white/10 rounded-full text-white">
+                {imageLightbox.index + 1} of {imageLightbox.listing.images.length}
+              </span>
+            </div>
+          </div>
+
+          {/* Thumbnail strip */}
+          {imageLightbox.listing.images.length > 1 && (
+            <div className="absolute bottom-8 left-1/2 -translate-x-1/2 flex gap-2 max-w-[90vw] overflow-x-auto p-2">
+              {imageLightbox.listing.images.map((img, idx) => (
+                <button
+                  key={idx}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    setImageLightbox({ ...imageLightbox, index: idx });
+                  }}
+                  className={`w-16 h-16 flex-shrink-0 rounded-lg overflow-hidden border-2 transition-all ${
+                    idx === imageLightbox.index
+                      ? 'border-brand-gold scale-110'
+                      : 'border-transparent opacity-60 hover:opacity-100'
+                  }`}
+                >
+                  <img src={img.url} alt={`Thumbnail ${idx + 1}`} className="w-full h-full object-cover" />
+                </button>
+              ))}
+            </div>
+          )}
+        </div>
       )}
     </div>
   );
