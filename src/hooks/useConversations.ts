@@ -63,7 +63,7 @@ export function useConversations(userId: string) {
           });
         }
 
-        if (msg.receiver_id === userId) {
+        if (msg.receiver_id === userId && !msg.is_read) {
           const conv = conversationMap.get(otherUserId)!;
           conv.unreadCount++;
         }
