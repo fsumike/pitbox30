@@ -34,14 +34,18 @@ interface Reference {
   description: string;
 }
 
-const vehicleTypes: VehicleType[] = [
-  { id: 'late-model', name: 'Dirt Late Model', icon: '🏎️' },
-  { id: 'modified', name: 'Dirt Modified', icon: '🏁' },
-  { id: 'sprint-car', name: 'Sprint Car', icon: '⚡' },
-  { id: 'sportmod', name: 'Sport Mod', icon: '🚗' },
-  { id: 'street-stock', name: 'Street Stock', icon: '🚙' },
-  { id: 'midget', name: 'Midget', icon: '🏎️' },
-  { id: 'mini-sprint', name: 'Mini Sprint', icon: '⚡' }
+interface VehicleTypeExtended extends VehicleType {
+  image: string;
+}
+
+const vehicleTypes: VehicleTypeExtended[] = [
+  { id: 'late-model', name: 'Dirt Late Model', icon: '🏎️', image: '/late_model.jpeg' },
+  { id: 'modified', name: 'Dirt Modified', icon: '🏁', image: '/392307_articlesection_xl_d10ca69f-828b-441c-9ca4-ab7730ded7ee.png' },
+  { id: 'sprint-car', name: 'Sprint Car', icon: '⚡', image: '/073020_scs_worldofoutlaws4wide_bytrentgower.jpg' },
+  { id: 'sportmod', name: 'Sport Mod', icon: '🚗', image: '/imca_southern_sportmod.jpg' },
+  { id: 'street-stock', name: 'Street Stock', icon: '🚙', image: '/495479702_1321020539654208_5408440298677452810_n.jpg' },
+  { id: 'midget', name: 'Midget', icon: '🏎️', image: '/midget_cars.jpg' },
+  { id: 'mini-sprint', name: 'Mini Sprint', icon: '⚡', image: '/073020_scs_worldofoutlaws4wide_bytrentgower.jpg' }
 ];
 
 const handlingAdjustments: Record<string, Record<string, Record<string, Adjustment[]>>> = {
@@ -219,22 +223,23 @@ const references: Reference[] = [
 ];
 
 export default function DirtTrackSetupGuide() {
-  const [selectedVehicle, setSelectedVehicle] = useState<string>('late-model');
+  const [selectedVehicle, setSelectedVehicle] = useState<string | null>(null);
   const [showReferences, setShowReferences] = useState(false);
   const [selectedPhase, setSelectedPhase] = useState<'entry' | 'exit' | null>(null);
   const [selectedProblem, setSelectedProblem] = useState<'tight' | 'loose' | null>(null);
 
-  const currentAdjustments = selectedPhase && selectedProblem
+  const currentAdjustments = selectedPhase && selectedProblem && selectedVehicle
     ? (handlingAdjustments[selectedPhase]?.[selectedProblem]?.[selectedVehicle] ||
        handlingAdjustments[selectedPhase]?.[selectedProblem]?.['default'] || [])
     : [];
 
-  const handleSelection = (phase: 'entry' | 'exit', problem: 'tight' | 'loose') => {
-    setSelectedPhase(phase);
-    setSelectedProblem(problem);
+  const resetToVehicle = () => {
+    setSelectedPhase(null);
+    setSelectedProblem(null);
   };
 
-  const resetSelection = () => {
+  const resetAll = () => {
+    setSelectedVehicle(null);
     setSelectedPhase(null);
     setSelectedProblem(null);
   };
@@ -263,39 +268,11 @@ export default function DirtTrackSetupGuide() {
             See what to raise or lower to fix your handling
           </motion.p>
 
-          {/* Vehicle Type Selector */}
-          <motion.div
-            initial={{ y: 10, opacity: 0 }}
-            animate={{ y: 0, opacity: 1 }}
-            transition={{ delay: 0.2 }}
-            className="flex flex-wrap justify-center gap-2 mb-4"
-          >
-            {vehicleTypes.map((vehicle) => (
-              <motion.button
-                key={vehicle.id}
-                onClick={() => {
-                  setSelectedVehicle(vehicle.id);
-                  resetSelection();
-                }}
-                whileHover={{ scale: 1.03 }}
-                whileTap={{ scale: 0.97 }}
-                className={`px-3 py-1.5 rounded-lg text-xs font-semibold transition-all ${
-                  selectedVehicle === vehicle.id
-                    ? 'bg-amber-500 text-white shadow-md'
-                    : 'bg-white/50 dark:bg-gray-800/50 hover:bg-white/70 dark:hover:bg-gray-800/70'
-                }`}
-              >
-                <span className="mr-1 text-sm">{vehicle.icon}</span>
-                {vehicle.name}
-              </motion.button>
-            ))}
-          </motion.div>
-
           {/* References Button */}
           <motion.button
             initial={{ y: 10, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
-            transition={{ delay: 0.3 }}
+            transition={{ delay: 0.2 }}
             onClick={() => setShowReferences(true)}
             whileHover={{ scale: 1.02 }}
             className="text-xs text-blue-600 dark:text-blue-400 hover:underline flex items-center gap-1 mx-auto"
@@ -305,71 +282,118 @@ export default function DirtTrackSetupGuide() {
           </motion.button>
         </div>
 
-        {/* Step 1: Phase Selection (Entry/Exit) */}
-        <motion.div
-          initial={{ y: 10, opacity: 0 }}
-          animate={{ y: 0, opacity: 1 }}
-          transition={{ delay: 0.4 }}
-          className="mb-4"
-        >
-          <div className="text-center mb-3">
-            <h3 className="text-sm font-bold mb-1">
-              When does the problem happen?
-            </h3>
-          </div>
+        {/* Step 1: Vehicle Selection */}
+        {!selectedVehicle && (
+          <motion.div
+            initial={{ y: 10, opacity: 0 }}
+            animate={{ y: 0, opacity: 1 }}
+            transition={{ delay: 0.3 }}
+            className="mb-4"
+          >
+            <div className="text-center mb-4">
+              <h3 className="text-base font-bold mb-1">
+                Choose Your Vehicle Type
+              </h3>
+              <p className="text-xs text-gray-600 dark:text-gray-400">
+                Click to get started
+              </p>
+            </div>
 
-          <div className="grid grid-cols-2 gap-3">
-            {/* CORNER ENTRY */}
-            <motion.button
-              onClick={() => {
-                if (selectedPhase === 'entry') {
-                  resetSelection();
-                } else {
-                  setSelectedPhase('entry');
-                  setSelectedProblem(null);
-                }
-              }}
-              whileHover={{ scale: 1.02 }}
-              whileTap={{ scale: 0.98 }}
-              className={`p-4 rounded-lg font-semibold text-sm transition-all ${
-                selectedPhase === 'entry'
-                  ? 'bg-blue-500 text-white shadow-lg'
-                  : 'bg-blue-500/10 hover:bg-blue-500/20 text-blue-600 dark:text-blue-400'
-              }`}
-            >
-              <LogIn className="w-5 h-5 mx-auto mb-2" />
-              ENTRY
-              <div className="text-xs mt-1 opacity-75">Entering corner</div>
-            </motion.button>
+            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3">
+              {vehicleTypes.map((vehicle, index) => (
+                <motion.button
+                  key={vehicle.id}
+                  onClick={() => setSelectedVehicle(vehicle.id)}
+                  initial={{ opacity: 0, scale: 0.9 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  transition={{ delay: index * 0.05 }}
+                  whileHover={{ scale: 1.05, y: -5 }}
+                  whileTap={{ scale: 0.98 }}
+                  className="relative overflow-hidden rounded-xl shadow-lg h-32 group"
+                >
+                  {/* Background Image */}
+                  <div
+                    className="absolute inset-0 bg-cover bg-center transition-transform duration-300 group-hover:scale-110"
+                    style={{
+                      backgroundImage: `url(${vehicle.image})`,
+                    }}
+                  />
+                  {/* Overlay */}
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/50 to-transparent" />
+                  {/* Content */}
+                  <div className="relative h-full flex flex-col items-center justify-end p-3">
+                    <div className="text-2xl mb-1">{vehicle.icon}</div>
+                    <h4 className="text-sm font-bold text-white text-center leading-tight">
+                      {vehicle.name}
+                    </h4>
+                  </div>
+                </motion.button>
+              ))}
+            </div>
+          </motion.div>
+        )}
 
-            {/* CORNER EXIT */}
-            <motion.button
-              onClick={() => {
-                if (selectedPhase === 'exit') {
-                  resetSelection();
-                } else {
-                  setSelectedPhase('exit');
-                  setSelectedProblem(null);
-                }
-              }}
-              whileHover={{ scale: 1.02 }}
-              whileTap={{ scale: 0.98 }}
-              className={`p-4 rounded-lg font-semibold text-sm transition-all ${
-                selectedPhase === 'exit'
-                  ? 'bg-orange-500 text-white shadow-lg'
-                  : 'bg-orange-500/10 hover:bg-orange-500/20 text-orange-600 dark:text-orange-400'
-              }`}
-            >
-              <LogOut className="w-5 h-5 mx-auto mb-2" />
-              EXIT
-              <div className="text-xs mt-1 opacity-75">Exiting corner</div>
-            </motion.button>
-          </div>
-        </motion.div>
-
-        {/* Step 2: Problem Selection (Tight/Loose) */}
+        {/* Step 2: Phase Selection (Entry/Exit) - Only show after vehicle selected */}
         <AnimatePresence mode="wait">
-          {selectedPhase && !selectedProblem && (
+          {selectedVehicle && !selectedPhase && (
+            <motion.div
+              key="phase-selection"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -20 }}
+              className="mb-4"
+            >
+              <div className="text-center mb-3">
+                <div className="inline-block px-3 py-1 rounded-lg bg-amber-500/20 text-amber-600 dark:text-amber-400 text-xs font-semibold mb-2">
+                  {vehicleTypes.find(v => v.id === selectedVehicle)?.name}
+                </div>
+                <h3 className="text-base font-bold mb-1">
+                  When does the problem happen?
+                </h3>
+                <button
+                  onClick={resetAll}
+                  className="text-xs text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200"
+                >
+                  Change vehicle
+                </button>
+              </div>
+
+              <div className="grid grid-cols-2 gap-3">
+                {/* CORNER ENTRY */}
+                <motion.button
+                  onClick={() => setSelectedPhase('entry')}
+                  initial={{ opacity: 0, x: -20 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  whileHover={{ scale: 1.03 }}
+                  whileTap={{ scale: 0.98 }}
+                  className="bg-blue-500/10 hover:bg-blue-500/20 text-blue-600 dark:text-blue-400 p-5 rounded-xl font-semibold text-sm transition-all"
+                >
+                  <LogIn className="w-6 h-6 mx-auto mb-2" />
+                  ENTRY
+                  <div className="text-xs mt-1 opacity-75">Entering corner</div>
+                </motion.button>
+
+                {/* CORNER EXIT */}
+                <motion.button
+                  onClick={() => setSelectedPhase('exit')}
+                  initial={{ opacity: 0, x: 20 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  whileHover={{ scale: 1.03 }}
+                  whileTap={{ scale: 0.98 }}
+                  className="bg-orange-500/10 hover:bg-orange-500/20 text-orange-600 dark:text-orange-400 p-5 rounded-xl font-semibold text-sm transition-all"
+                >
+                  <LogOut className="w-6 h-6 mx-auto mb-2" />
+                  EXIT
+                  <div className="text-xs mt-1 opacity-75">Exiting corner</div>
+                </motion.button>
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
+
+        {/* Step 3: Problem Selection (Tight/Loose) - Only show after phase selected */}
+        <AnimatePresence mode="wait">
+          {selectedVehicle && selectedPhase && !selectedProblem && (
             <motion.div
               key="problem-selection"
               initial={{ opacity: 0, y: 20 }}
@@ -378,19 +402,30 @@ export default function DirtTrackSetupGuide() {
               className="mb-4"
             >
               <div className="text-center mb-3">
-                <h3 className="text-sm font-bold mb-1">
+                <div className="inline-block px-3 py-1 rounded-lg bg-amber-500/20 text-amber-600 dark:text-amber-400 text-xs font-semibold mb-2">
+                  {vehicleTypes.find(v => v.id === selectedVehicle)?.name} • {selectedPhase === 'entry' ? 'Entry' : 'Exit'}
+                </div>
+                <h3 className="text-base font-bold mb-1">
                   What's the problem?
                 </h3>
+                <button
+                  onClick={resetToVehicle}
+                  className="text-xs text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200"
+                >
+                  Back
+                </button>
               </div>
 
               <div className="grid grid-cols-2 gap-3">
                 <motion.button
                   onClick={() => setSelectedProblem('tight')}
-                  whileHover={{ scale: 1.02 }}
+                  initial={{ opacity: 0, scale: 0.9 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  whileHover={{ scale: 1.03 }}
                   whileTap={{ scale: 0.98 }}
-                  className="bg-red-500/10 hover:bg-red-500/20 text-red-600 dark:text-red-400 p-4 rounded-lg font-semibold text-sm transition-all"
+                  className="bg-red-500/10 hover:bg-red-500/20 text-red-600 dark:text-red-400 p-5 rounded-xl font-semibold text-sm transition-all"
                 >
-                  <div className="text-2xl mb-1">🔴</div>
+                  <div className="text-3xl mb-2">🔴</div>
                   TIGHT
                   <div className="text-xs mt-1 opacity-75">
                     {selectedPhase === 'entry' ? "Won't turn / Push" : "No drive / Push"}
@@ -399,11 +434,14 @@ export default function DirtTrackSetupGuide() {
 
                 <motion.button
                   onClick={() => setSelectedProblem('loose')}
-                  whileHover={{ scale: 1.02 }}
+                  initial={{ opacity: 0, scale: 0.9 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  transition={{ delay: 0.05 }}
+                  whileHover={{ scale: 1.03 }}
                   whileTap={{ scale: 0.98 }}
-                  className="bg-blue-500/10 hover:bg-blue-500/20 text-blue-600 dark:text-blue-400 p-4 rounded-lg font-semibold text-sm transition-all"
+                  className="bg-blue-500/10 hover:bg-blue-500/20 text-blue-600 dark:text-blue-400 p-5 rounded-xl font-semibold text-sm transition-all"
                 >
-                  <div className="text-2xl mb-1">🔵</div>
+                  <div className="text-3xl mb-2">🔵</div>
                   LOOSE
                   <div className="text-xs mt-1 opacity-75">
                     {selectedPhase === 'entry' ? "Slides out" : "Spins / Wheel spin"}
@@ -414,9 +452,9 @@ export default function DirtTrackSetupGuide() {
           )}
         </AnimatePresence>
 
-        {/* Step 3: Adjustments Panel */}
+        {/* Step 4: Adjustments Panel */}
         <AnimatePresence mode="wait">
-          {selectedPhase && selectedProblem && (
+          {selectedVehicle && selectedPhase && selectedProblem && (
             <motion.div
               key={`${selectedPhase}-${selectedProblem}`}
               initial={{ opacity: 0, y: 20 }}
@@ -424,21 +462,29 @@ export default function DirtTrackSetupGuide() {
               exit={{ opacity: 0, y: -20 }}
               className="mt-4"
             >
-              <div className={`p-3 rounded-lg ${
+              <div className={`p-4 rounded-lg ${
                 selectedProblem === 'tight'
                   ? 'bg-red-500'
                   : 'bg-blue-500'
               } mb-3`}>
-                <div className="flex items-center gap-2">
-                  <AlertCircle className="w-4 h-4 text-white" />
-                  <div>
-                    <h3 className="text-sm font-bold text-white uppercase">
-                      {selectedPhase === 'entry' ? 'ENTRY' : 'EXIT'} - {selectedProblem === 'tight' ? 'TIGHT' : 'LOOSE'}
-                    </h3>
-                    <p className="text-xs text-white/80">
-                      {vehicleTypes.find(v => v.id === selectedVehicle)?.name}
-                    </p>
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center gap-2">
+                    <AlertCircle className="w-5 h-5 text-white" />
+                    <div>
+                      <h3 className="text-sm font-bold text-white uppercase">
+                        {selectedPhase === 'entry' ? 'ENTRY' : 'EXIT'} - {selectedProblem === 'tight' ? 'TIGHT' : 'LOOSE'}
+                      </h3>
+                      <p className="text-xs text-white/80">
+                        {vehicleTypes.find(v => v.id === selectedVehicle)?.name}
+                      </p>
+                    </div>
                   </div>
+                  <button
+                    onClick={() => setSelectedProblem(null)}
+                    className="text-white/80 hover:text-white text-xs"
+                  >
+                    Back
+                  </button>
                 </div>
               </div>
 
@@ -507,36 +553,57 @@ export default function DirtTrackSetupGuide() {
           )}
         </AnimatePresence>
 
-        {/* Getting Started Info */}
-        {!selectedPhase && (
+        {/* Getting Started Info - Only show when no vehicle selected */}
+        {!selectedVehicle && (
           <motion.div
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.5 }}
-            className="mt-4 p-4 rounded-lg bg-gray-100 dark:bg-gray-800 border border-gray-300 dark:border-gray-700"
+            className="mt-4 p-4 rounded-lg bg-gradient-to-r from-amber-500/10 to-orange-500/10 border border-amber-500/30 dark:border-amber-500/20"
           >
             <div className="flex items-start gap-3">
-              <div className="p-2 bg-amber-500 rounded-lg">
-                <Settings className="w-4 h-4 text-white" />
+              <div className="p-2 bg-amber-500 rounded-lg flex-shrink-0">
+                <Sparkles className="w-4 h-4 text-white" />
               </div>
               <div className="flex-1">
                 <h4 className="text-sm font-bold mb-2">How It Works</h4>
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-2 text-xs text-gray-700 dark:text-gray-300">
+                <div className="grid grid-cols-1 md:grid-cols-4 gap-2 text-xs text-gray-700 dark:text-gray-300">
                   <div>
-                    <p className="font-semibold mb-0.5">1. Pick Entry or Exit</p>
-                    <p className="opacity-75">When does problem happen?</p>
+                    <p className="font-semibold mb-0.5">1. Pick Your Car</p>
+                    <p className="opacity-75">Choose vehicle type</p>
                   </div>
                   <div>
-                    <p className="font-semibold mb-0.5">2. Choose Tight or Loose</p>
-                    <p className="opacity-75">What's the issue?</p>
+                    <p className="font-semibold mb-0.5">2. Entry or Exit</p>
+                    <p className="opacity-75">When it happens</p>
                   </div>
                   <div>
-                    <p className="font-semibold mb-0.5">3. Make Adjustments</p>
-                    <p className="opacity-75">One at a time, test each</p>
+                    <p className="font-semibold mb-0.5">3. Tight or Loose</p>
+                    <p className="opacity-75">What's wrong</p>
+                  </div>
+                  <div>
+                    <p className="font-semibold mb-0.5">4. Get Solutions</p>
+                    <p className="opacity-75">Fix it one step at a time</p>
                   </div>
                 </div>
               </div>
             </div>
+          </motion.div>
+        )}
+
+        {/* Start Over Button - Show when deep in the flow */}
+        {selectedVehicle && selectedPhase && selectedProblem && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 0.3 }}
+            className="mt-3 text-center"
+          >
+            <button
+              onClick={resetAll}
+              className="text-xs text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200 underline"
+            >
+              Start over with different vehicle
+            </button>
           </motion.div>
         )}
       </div>
