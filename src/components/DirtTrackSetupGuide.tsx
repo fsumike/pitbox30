@@ -313,7 +313,7 @@ export default function DirtTrackSetupGuide() {
                 >
                   {/* Background Image */}
                   <div
-                    className="absolute inset-0 bg-cover bg-center transition-transform duration-300 group-hover:scale-110 brightness-110 dark:brightness-100"
+                    className="absolute inset-0 bg-cover bg-center transition-transform duration-300 group-hover:scale-110 brightness-125 dark:brightness-100"
                     style={{
                       backgroundImage: `url(${vehicle.image})`,
                     }}
@@ -322,8 +322,9 @@ export default function DirtTrackSetupGuide() {
                   <div className="absolute inset-0 bg-gradient-to-t from-black/95 via-black/70 to-black/40" />
                   {/* Content */}
                   <div className="relative h-full flex flex-col items-center justify-center p-3">
-                    <h4 className="text-lg font-extrabold text-white text-center leading-tight" style={{
-                      textShadow: '0 0 8px rgba(0,0,0,0.9), 0 0 16px rgba(0,0,0,0.8), 0 2px 4px rgba(0,0,0,1), 2px 2px 4px rgba(0,0,0,0.9), -2px -2px 4px rgba(0,0,0,0.9)'
+                    <h4 className="text-lg font-black text-white text-center leading-tight" style={{
+                      textShadow: '0 0 10px rgba(0,0,0,1), 0 0 20px rgba(0,0,0,0.9), 0 3px 6px rgba(0,0,0,1), 3px 3px 6px rgba(0,0,0,1), -3px -3px 6px rgba(0,0,0,1)',
+                      fontWeight: '900'
                     }}>
                       {vehicle.name}
                     </h4>
