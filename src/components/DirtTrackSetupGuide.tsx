@@ -246,7 +246,7 @@ export default function DirtTrackSetupGuide() {
 
   return (
     <div className="relative mb-6">
-      <div className="liquid-glass overflow-hidden p-6">
+      <div className="liquid-glass overflow-hidden p-6 bg-gradient-to-br from-gray-100 to-gray-50 dark:from-transparent dark:to-transparent">
         {/* Header */}
         <div className="text-center mb-6">
           <motion.h2
@@ -319,10 +319,12 @@ export default function DirtTrackSetupGuide() {
                     }}
                   />
                   {/* Overlay */}
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/60 to-black/30" />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/95 via-black/70 to-black/40" />
                   {/* Content */}
                   <div className="relative h-full flex flex-col items-center justify-center p-3">
-                    <h4 className="text-base font-bold text-white text-center leading-tight drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)]">
+                    <h4 className="text-lg font-extrabold text-white text-center leading-tight" style={{
+                      textShadow: '0 0 8px rgba(0,0,0,0.9), 0 0 16px rgba(0,0,0,0.8), 0 2px 4px rgba(0,0,0,1), 2px 2px 4px rgba(0,0,0,0.9), -2px -2px 4px rgba(0,0,0,0.9)'
+                    }}>
                       {vehicle.name}
                     </h4>
                   </div>
