@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
   BookOpen,
@@ -227,6 +227,13 @@ export default function DirtTrackSetupGuide() {
   const [showReferences, setShowReferences] = useState(false);
   const [selectedPhase, setSelectedPhase] = useState<'entry' | 'exit' | null>(null);
   const [selectedProblem, setSelectedProblem] = useState<'tight' | 'loose' | null>(null);
+  const referencesContentRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (showReferences && referencesContentRef.current) {
+      referencesContentRef.current.scrollTop = 0;
+    }
+  }, [showReferences]);
 
   const currentAdjustments = selectedPhase && selectedProblem && selectedVehicle
     ? (handlingAdjustments[selectedPhase]?.[selectedProblem]?.[selectedVehicle] ||
@@ -648,7 +655,7 @@ export default function DirtTrackSetupGuide() {
                 </motion.button>
               </div>
 
-              <div className="flex-1 overflow-y-auto p-4">
+              <div ref={referencesContentRef} className="flex-1 overflow-y-auto p-4">
                 <div className="space-y-3">
                   {references.map((ref, index) => (
                     <motion.div
