@@ -152,57 +152,69 @@ const handlingAdjustments: Record<string, Record<string, Record<string, Adjustme
 const references: Reference[] = [
   {
     vehicle: 'Dirt Late Model',
-    source: 'Rocket Chassis Setup Guide',
+    source: 'Rocket Chassis',
     url: 'https://www.rocketchassis.com',
-    description: 'Comprehensive setup sheets for various track conditions - spring rates, weight distribution, shock valving'
+    description: 'Industry-leading late model chassis - setup sheets, spring rates, weight distribution, shock valving for all track conditions'
   },
   {
     vehicle: 'Dirt Late Model',
-    source: 'Barry Wright Race Cars',
-    url: 'https://www.barrywright.com',
-    description: 'Technical bulletins covering J-bar height, rear steer, crossweight adjustments'
+    source: 'Longhorn Chassis',
+    url: 'https://www.longhornchassismfg.com',
+    description: 'Professional late model chassis with detailed technical support - J-bar, lift bar, and suspension geometry'
   },
   {
     vehicle: 'Dirt Late Model',
-    source: 'Sweet-Bloomquist Race Cars',
-    url: 'https://www.bloomquistracecars.com',
-    description: 'Setup recommendations for changing track conditions throughout the night'
+    source: 'MasterSbilt Race Cars',
+    url: 'https://www.mastersbilt.com',
+    description: 'Proven late model designs - comprehensive setup guides for slick to heavy tracks'
   },
   {
     vehicle: 'Dirt Modified',
     source: 'Bicknell Racing Products',
     url: 'https://www.bicknellracingproducts.com',
-    description: 'Modified chassis setup guides - caster, camber, spring rates, shock valving'
+    description: 'Modified chassis experts - panhard bar, pull bar, caster/camber, spring rates'
   },
   {
     vehicle: 'Dirt Modified',
     source: 'TEO Pro Car',
     url: 'https://www.teoprocar.com',
-    description: 'Panhard bar positioning, pull bar adjustments, weight distribution'
+    description: 'Modified chassis manufacturer - technical bulletins on weight distribution and suspension adjustments'
   },
   {
     vehicle: 'Sprint Car',
-    source: 'Maxim Racing',
+    source: 'Maxim Chassis',
     url: 'https://www.maximracing.com',
-    description: 'Sprint car setup sheets - torsion bar rates, birdcage positions, stagger'
+    description: 'Leading sprint car chassis - torsion bars, birdcage positions, stagger, wing angles'
   },
   {
     vehicle: 'Sprint Car',
     source: 'J&J Auto Racing',
     url: 'https://www.jjauto.com',
-    description: 'Wing angle recommendations, shock valving, chassis adjustments'
+    description: 'Sprint car chassis and components - setup sheets, shock valving, chassis tuning'
   },
   {
     vehicle: 'Sprint Car',
-    source: 'World of Outlaws Setup Guides',
-    url: 'https://www.worldofoutlaws.com',
-    description: 'Professional-level setup information from top World of Outlaws teams'
+    source: 'Triple X Race Co.',
+    url: 'https://www.triplexraceco.com',
+    description: 'Sprint car chassis manufacturer - technical support and setup recommendations'
   },
   {
-    vehicle: 'General Dirt Racing',
-    source: 'Circle Track Magazine',
-    url: 'https://www.circletrack.com',
-    description: 'Technical articles covering dirt racing setup across all classes'
+    vehicle: 'Sport Mod',
+    source: 'Shaw Race Cars',
+    url: 'https://www.shawracecars.com',
+    description: 'Sport mod and modified specialists - setup guides for IMCA and regional classes'
+  },
+  {
+    vehicle: 'General Racing',
+    source: 'Dirt Track Digest',
+    url: 'https://dirttrackdigest.com',
+    description: 'Dirt racing news and technical articles covering all classes and setup strategies'
+  },
+  {
+    vehicle: 'General Racing',
+    source: 'RacingJunk Tech Articles',
+    url: 'https://www.racingjunk.com',
+    description: 'Technical articles and setup guides from professional chassis builders and crew chiefs'
   }
 ];
 
@@ -293,106 +305,116 @@ export default function DirtTrackSetupGuide() {
           </motion.button>
         </div>
 
-        {/* Main Selection Grid */}
+        {/* Step 1: Phase Selection (Entry/Exit) */}
         <motion.div
           initial={{ y: 10, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
           transition={{ delay: 0.4 }}
-          className="mb-6"
+          className="mb-4"
         >
-          <div className="text-center mb-4">
-            <h3 className="text-lg font-bold mb-1">
-              What's Your Handling Problem?
+          <div className="text-center mb-3">
+            <h3 className="text-sm font-bold mb-1">
+              When does the problem happen?
             </h3>
-            <p className="text-xs text-gray-600 dark:text-gray-400">
-              Select phase and issue
-            </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div className="grid grid-cols-2 gap-3">
             {/* CORNER ENTRY */}
-            <div className="bg-white/50 dark:bg-gray-800/50 rounded-xl p-4">
-              <div className="flex items-center justify-center gap-2 mb-3">
-                <LogIn className="w-4 h-4 text-blue-500" />
-                <h4 className="text-sm font-bold text-blue-600 dark:text-blue-400">
-                  ENTRY
-                </h4>
-              </div>
-              <div className="space-y-2">
-                <motion.button
-                  onClick={() => handleSelection('entry', 'tight')}
-                  whileHover={{ scale: 1.02 }}
-                  whileTap={{ scale: 0.98 }}
-                  className={`w-full p-3 rounded-lg font-semibold text-sm transition-all ${
-                    selectedPhase === 'entry' && selectedProblem === 'tight'
-                      ? 'bg-red-500 text-white shadow-lg'
-                      : 'bg-red-500/10 hover:bg-red-500/20 text-red-600 dark:text-red-400'
-                  }`}
-                >
-                  <div className="text-xl mb-1">🔴</div>
-                  TIGHT
-                  <div className="text-xs mt-1 opacity-75">Won't turn / Push</div>
-                </motion.button>
-                <motion.button
-                  onClick={() => handleSelection('entry', 'loose')}
-                  whileHover={{ scale: 1.02 }}
-                  whileTap={{ scale: 0.98 }}
-                  className={`w-full p-3 rounded-lg font-semibold text-sm transition-all ${
-                    selectedPhase === 'entry' && selectedProblem === 'loose'
-                      ? 'bg-blue-500 text-white shadow-lg'
-                      : 'bg-blue-500/10 hover:bg-blue-500/20 text-blue-600 dark:text-blue-400'
-                  }`}
-                >
-                  <div className="text-xl mb-1">🔵</div>
-                  LOOSE
-                  <div className="text-xs mt-1 opacity-75">Slides out</div>
-                </motion.button>
-              </div>
-            </div>
+            <motion.button
+              onClick={() => {
+                if (selectedPhase === 'entry') {
+                  resetSelection();
+                } else {
+                  setSelectedPhase('entry');
+                  setSelectedProblem(null);
+                }
+              }}
+              whileHover={{ scale: 1.02 }}
+              whileTap={{ scale: 0.98 }}
+              className={`p-4 rounded-lg font-semibold text-sm transition-all ${
+                selectedPhase === 'entry'
+                  ? 'bg-blue-500 text-white shadow-lg'
+                  : 'bg-blue-500/10 hover:bg-blue-500/20 text-blue-600 dark:text-blue-400'
+              }`}
+            >
+              <LogIn className="w-5 h-5 mx-auto mb-2" />
+              ENTRY
+              <div className="text-xs mt-1 opacity-75">Entering corner</div>
+            </motion.button>
 
             {/* CORNER EXIT */}
-            <div className="bg-white/50 dark:bg-gray-800/50 rounded-xl p-4">
-              <div className="flex items-center justify-center gap-2 mb-3">
-                <LogOut className="w-4 h-4 text-orange-500" />
-                <h4 className="text-sm font-bold text-orange-600 dark:text-orange-400">
-                  EXIT
-                </h4>
-              </div>
-              <div className="space-y-2">
-                <motion.button
-                  onClick={() => handleSelection('exit', 'tight')}
-                  whileHover={{ scale: 1.02 }}
-                  whileTap={{ scale: 0.98 }}
-                  className={`w-full p-3 rounded-lg font-semibold text-sm transition-all ${
-                    selectedPhase === 'exit' && selectedProblem === 'tight'
-                      ? 'bg-red-500 text-white shadow-lg'
-                      : 'bg-red-500/10 hover:bg-red-500/20 text-red-600 dark:text-red-400'
-                  }`}
-                >
-                  <div className="text-xl mb-1">🔴</div>
-                  TIGHT
-                  <div className="text-xs mt-1 opacity-75">No drive / Push</div>
-                </motion.button>
-                <motion.button
-                  onClick={() => handleSelection('exit', 'loose')}
-                  whileHover={{ scale: 1.02 }}
-                  whileTap={{ scale: 0.98 }}
-                  className={`w-full p-3 rounded-lg font-semibold text-sm transition-all ${
-                    selectedPhase === 'exit' && selectedProblem === 'loose'
-                      ? 'bg-blue-500 text-white shadow-lg'
-                      : 'bg-blue-500/10 hover:bg-blue-500/20 text-blue-600 dark:text-blue-400'
-                  }`}
-                >
-                  <div className="text-xl mb-1">🔵</div>
-                  LOOSE
-                  <div className="text-xs mt-1 opacity-75">Spins / Wheel spin</div>
-                </motion.button>
-              </div>
-            </div>
+            <motion.button
+              onClick={() => {
+                if (selectedPhase === 'exit') {
+                  resetSelection();
+                } else {
+                  setSelectedPhase('exit');
+                  setSelectedProblem(null);
+                }
+              }}
+              whileHover={{ scale: 1.02 }}
+              whileTap={{ scale: 0.98 }}
+              className={`p-4 rounded-lg font-semibold text-sm transition-all ${
+                selectedPhase === 'exit'
+                  ? 'bg-orange-500 text-white shadow-lg'
+                  : 'bg-orange-500/10 hover:bg-orange-500/20 text-orange-600 dark:text-orange-400'
+              }`}
+            >
+              <LogOut className="w-5 h-5 mx-auto mb-2" />
+              EXIT
+              <div className="text-xs mt-1 opacity-75">Exiting corner</div>
+            </motion.button>
           </div>
         </motion.div>
 
-        {/* Adjustments Panel */}
+        {/* Step 2: Problem Selection (Tight/Loose) */}
+        <AnimatePresence mode="wait">
+          {selectedPhase && !selectedProblem && (
+            <motion.div
+              key="problem-selection"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -20 }}
+              className="mb-4"
+            >
+              <div className="text-center mb-3">
+                <h3 className="text-sm font-bold mb-1">
+                  What's the problem?
+                </h3>
+              </div>
+
+              <div className="grid grid-cols-2 gap-3">
+                <motion.button
+                  onClick={() => setSelectedProblem('tight')}
+                  whileHover={{ scale: 1.02 }}
+                  whileTap={{ scale: 0.98 }}
+                  className="bg-red-500/10 hover:bg-red-500/20 text-red-600 dark:text-red-400 p-4 rounded-lg font-semibold text-sm transition-all"
+                >
+                  <div className="text-2xl mb-1">🔴</div>
+                  TIGHT
+                  <div className="text-xs mt-1 opacity-75">
+                    {selectedPhase === 'entry' ? "Won't turn / Push" : "No drive / Push"}
+                  </div>
+                </motion.button>
+
+                <motion.button
+                  onClick={() => setSelectedProblem('loose')}
+                  whileHover={{ scale: 1.02 }}
+                  whileTap={{ scale: 0.98 }}
+                  className="bg-blue-500/10 hover:bg-blue-500/20 text-blue-600 dark:text-blue-400 p-4 rounded-lg font-semibold text-sm transition-all"
+                >
+                  <div className="text-2xl mb-1">🔵</div>
+                  LOOSE
+                  <div className="text-xs mt-1 opacity-75">
+                    {selectedPhase === 'entry' ? "Slides out" : "Spins / Wheel spin"}
+                  </div>
+                </motion.button>
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
+
+        {/* Step 3: Adjustments Panel */}
         <AnimatePresence mode="wait">
           {selectedPhase && selectedProblem && (
             <motion.div
@@ -400,13 +422,13 @@ export default function DirtTrackSetupGuide() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -20 }}
-              className="mt-6"
+              className="mt-4"
             >
               <div className={`p-3 rounded-lg ${
                 selectedProblem === 'tight'
                   ? 'bg-red-500'
                   : 'bg-blue-500'
-              } mb-4 flex items-center justify-between`}>
+              } mb-3`}>
                 <div className="flex items-center gap-2">
                   <AlertCircle className="w-4 h-4 text-white" />
                   <div>
@@ -418,14 +440,6 @@ export default function DirtTrackSetupGuide() {
                     </p>
                   </div>
                 </div>
-                <motion.button
-                  onClick={resetSelection}
-                  whileHover={{ scale: 1.1 }}
-                  whileTap={{ scale: 0.9 }}
-                  className="p-1.5 bg-white/20 hover:bg-white/30 rounded-lg transition-colors"
-                >
-                  <X className="w-4 h-4 text-white" />
-                </motion.button>
               </div>
 
               {/* Adjustments List */}
@@ -494,7 +508,7 @@ export default function DirtTrackSetupGuide() {
         </AnimatePresence>
 
         {/* Getting Started Info */}
-        {!selectedPhase && !selectedProblem && (
+        {!selectedPhase && (
           <motion.div
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
@@ -506,23 +520,19 @@ export default function DirtTrackSetupGuide() {
                 <Settings className="w-4 h-4 text-white" />
               </div>
               <div className="flex-1">
-                <h4 className="text-sm font-bold mb-2">How to Use</h4>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-2 text-xs text-gray-700 dark:text-gray-300">
+                <h4 className="text-sm font-bold mb-2">How It Works</h4>
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-2 text-xs text-gray-700 dark:text-gray-300">
                   <div>
-                    <p className="font-semibold mb-0.5">1. Select Vehicle</p>
-                    <p className="opacity-75">Choose your car class</p>
+                    <p className="font-semibold mb-0.5">1. Pick Entry or Exit</p>
+                    <p className="opacity-75">When does problem happen?</p>
                   </div>
                   <div>
-                    <p className="font-semibold mb-0.5">2. Identify Problem</p>
-                    <p className="opacity-75">Click tight or loose</p>
+                    <p className="font-semibold mb-0.5">2. Choose Tight or Loose</p>
+                    <p className="opacity-75">What's the issue?</p>
                   </div>
                   <div>
-                    <p className="font-semibold mb-0.5">3. See Adjustments</p>
-                    <p className="opacity-75">Green = raise, Orange = lower</p>
-                  </div>
-                  <div>
-                    <p className="font-semibold mb-0.5">4. Make ONE Change</p>
-                    <p className="opacity-75">Start at top, test each</p>
+                    <p className="font-semibold mb-0.5">3. Make Adjustments</p>
+                    <p className="opacity-75">One at a time, test each</p>
                   </div>
                 </div>
               </div>
