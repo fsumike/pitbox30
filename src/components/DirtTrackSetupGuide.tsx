@@ -40,7 +40,7 @@ interface VehicleTypeExtended extends VehicleType {
 
 const vehicleTypes: VehicleTypeExtended[] = [
   { id: 'late-model', name: 'Dirt Late Model', icon: '🏎️', image: '/late_model.jpeg' },
-  { id: 'modified', name: 'Dirt Modified', icon: '🏁', image: '/392307_articlesection_xl_d10ca69f-828b-441c-9ca4-ab7730ded7ee.png' },
+  { id: 'modified', name: 'Dirt Modified', icon: '🏁', image: '/imca_southern_sportmod.jpg' },
   { id: 'sprint-car', name: 'Sprint Car', icon: '⚡', image: '/073020_scs_worldofoutlaws4wide_bytrentgower.jpg' },
   { id: 'sportmod', name: 'Sport Mod', icon: '🚗', image: '/imca_southern_sportmod.jpg' },
   { id: 'street-stock', name: 'Street Stock', icon: '🚙', image: '/495479702_1321020539654208_5408440298677452810_n.jpg' },
