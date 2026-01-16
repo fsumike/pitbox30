@@ -246,7 +246,7 @@ export default function DirtTrackSetupGuide() {
 
   return (
     <div className="relative mb-6">
-      <div className="liquid-glass overflow-hidden p-6 bg-gradient-to-br from-gray-100 to-gray-50 dark:from-transparent dark:to-transparent">
+      <div className="liquid-glass overflow-hidden p-6">
         {/* Header */}
         <div className="text-center mb-6">
           <motion.h2
@@ -313,7 +313,7 @@ export default function DirtTrackSetupGuide() {
                 >
                   {/* Background Image */}
                   <div
-                    className="absolute inset-0 bg-cover bg-center transition-transform duration-300 group-hover:scale-110"
+                    className="absolute inset-0 bg-cover bg-center transition-transform duration-300 group-hover:scale-110 brightness-110 dark:brightness-100"
                     style={{
                       backgroundImage: `url(${vehicle.image})`,
                     }}

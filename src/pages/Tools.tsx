@@ -152,7 +152,7 @@ export default function Tools() {
   };
 
   return (
-    <div className="min-h-screen pb-20 safe-area-bottom relative bg-gray-50 dark:bg-transparent">
+    <div className="min-h-screen pb-20 safe-area-bottom relative">
       <div className="liquid-orb liquid-orb-gold w-64 h-64 -top-20 -left-20 fixed z-0" />
       <div className="liquid-orb liquid-orb-amber w-48 h-48 bottom-20 -right-10 fixed z-0" style={{ animationDelay: '-8s' }} />
 
