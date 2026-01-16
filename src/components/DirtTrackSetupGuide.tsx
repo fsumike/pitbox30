@@ -313,13 +313,13 @@ export default function DirtTrackSetupGuide() {
                 >
                   {/* Background Image */}
                   <div
-                    className="absolute inset-0 bg-cover bg-center transition-transform duration-300 group-hover:scale-110 brightness-[1.6] dark:brightness-100"
+                    className="absolute inset-0 bg-cover bg-center transition-transform duration-300 group-hover:scale-110 brightness-[1.6] dark:brightness-[1.3]"
                     style={{
                       backgroundImage: `url(${vehicle.image})`,
                     }}
                   />
-                  {/* Overlay - Much lighter in light mode */}
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/40 to-black/20 dark:from-black/95 dark:via-black/70 dark:to-black/40" />
+                  {/* Overlay - Lighter in both modes */}
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/40 to-black/20 dark:from-black/75 dark:via-black/45 dark:to-black/25" />
                   {/* Content */}
                   <div className="relative h-full flex flex-col items-center justify-center p-3">
                     <h4 className="text-lg font-black text-white text-center leading-tight drop-shadow-[0_0_10px_rgba(0,0,0,1)] drop-shadow-[0_0_20px_rgba(0,0,0,1)] drop-shadow-[0_3px_8px_rgba(0,0,0,1)]" style={{
