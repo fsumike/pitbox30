@@ -319,11 +319,10 @@ export default function DirtTrackSetupGuide() {
                     }}
                   />
                   {/* Overlay */}
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/50 to-transparent" />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/60 to-black/30" />
                   {/* Content */}
-                  <div className="relative h-full flex flex-col items-center justify-end p-3">
-                    <div className="text-2xl mb-1">{vehicle.icon}</div>
-                    <h4 className="text-sm font-bold text-white text-center leading-tight">
+                  <div className="relative h-full flex flex-col items-center justify-center p-3">
+                    <h4 className="text-base font-bold text-white text-center leading-tight drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)]">
                       {vehicle.name}
                     </h4>
                   </div>
