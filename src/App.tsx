@@ -12,6 +12,8 @@ import { TrackDetectionBanner } from './components/TrackDetectionBanner';
 import { usePushNotifications } from './hooks/usePushNotifications';
 import VideoSplash from './components/VideoSplash';
 import { liveUpdateService } from './lib/capawesome-live-update';
+import { useShareTarget } from './hooks/useShareTarget';
+import ShareTargetHandler from './components/ShareTargetHandler';
 
 // Critical pages loaded immediately
 import Landing from './pages/Landing';
@@ -181,6 +183,7 @@ function App() {
   const { user, userProfile } = useAuth();
   const { showNav } = useNavVisibility();
   const isLandingPage = location.pathname === '/';
+  const { sharedContent, clearSharedContent, hasSharedContent } = useShareTarget();
 
   usePushNotifications();
 
@@ -592,6 +595,19 @@ function App() {
           </Routes>
         </Suspense>
       </main>
+
+      {/* Share Target Handler */}
+      {hasSharedContent && sharedContent && (
+        <ShareTargetHandler
+          sharedContent={sharedContent}
+          onClose={clearSharedContent}
+          onSuccess={() => {
+            clearSharedContent();
+            // Optionally navigate to community page
+            window.location.href = '/community';
+          }}
+        />
+      )}
 
       <PWAUpdate />
     </div>
