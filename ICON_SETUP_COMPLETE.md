@@ -56,18 +56,18 @@ npm run build
 
 And your PitBox icons will be automatically configured for both platforms.
 
-### To Deploy to Stores:
+### To Deploy to Stores (via Capawesome Cloud):
 
-**iOS (TestFlight):**
+**iOS (TestFlight & App Store):**
 ```bash
-npm run cap:open:ios
-# Then in Xcode: Product → Archive → Upload
+npm run capawesome:build:ios
+# Capawesome Cloud builds and signs automatically
 ```
 
 **Android (Google Play):**
 ```bash
-npm run cap:open:android
-# Then in Android Studio: Build → Generate Signed Bundle
+npm run capawesome:build:android
+# Capawesome Cloud builds and signs automatically
 ```
 
 ## ✅ Verification
@@ -116,9 +116,10 @@ npm run fix:all-icons        # Both platforms
 npm run fix:ios-icons        # iOS only
 npm run fix:android-icons    # Android only
 
-# Open projects
-npm run cap:open:ios         # Open in Xcode
-npm run cap:open:android     # Open in Android Studio
+# Deploy with Capawesome Cloud (no Mac/Xcode needed!)
+npm run capawesome:build:ios       # iOS → TestFlight/App Store
+npm run capawesome:build:android   # Android → Google Play
+npm run capawesome:whoami          # Check login status
 ```
 
 ## 💡 Important Notes
@@ -170,7 +171,23 @@ Just run `npm run build` and you're done!
 
 ---
 
-**Last Updated:** Icons configured successfully
+## 🌟 Capawesome Cloud Workflow
+
+You're using **Capawesome Cloud** - the easiest way to deploy!
+
+**Your workflow:**
+1. `npm run build` - Icons automatically configured ✅
+2. `npm run capawesome:build:ios` - Deploy to TestFlight ✅
+3. `npm run capawesome:build:android` - Deploy to Google Play ✅
+
+**No Mac. No Xcode. No Android Studio needed!**
+
+See `DEPLOYMENT_WORKFLOW.md` and `CAPAWESOME_ICON_WORKFLOW.md` for details.
+
+---
+
+**Last Updated:** Icons configured for Capawesome Cloud workflow
 **Status:** ✅ Production Ready
-**Platforms:** iOS + Android
+**Platforms:** iOS + Android (via Capawesome Cloud)
 **Icon Count:** 21 icons (6 iOS + 15 Android)
+**Deployment:** Capawesome Cloud (automatic)

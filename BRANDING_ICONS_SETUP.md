@@ -126,22 +126,23 @@ android/app/src/main/res/
 
 4. Preview: Right-click any icon → Show in Explorer/Finder
 
-## 📦 Build for Release
+## 📦 Build for Release (Capawesome Cloud)
 
 ### iOS (TestFlight & App Store)
 
 ```bash
 # 1. Build with icons
-npm run build:ios
+npm run build
 
-# 2. Open in Xcode
-npm run cap:open:ios
-
-# 3. In Xcode
-# - Product → Archive
-# - Distribute App → App Store Connect
-# - Upload
+# 2. Deploy to Capawesome Cloud
+npm run capawesome:build:ios
 ```
+
+Capawesome Cloud automatically:
+- ✅ Builds your app with PitBox icons
+- ✅ Signs with your certificates
+- ✅ Uploads to TestFlight & App Store Connect
+- ✅ No Mac or Xcode needed!
 
 Your PitBox icon will appear in TestFlight and the App Store!
 
@@ -149,16 +150,17 @@ Your PitBox icon will appear in TestFlight and the App Store!
 
 ```bash
 # 1. Build with icons
-npm run build:android
+npm run build
 
-# 2. Open in Android Studio
-npm run cap:open:android
-
-# 3. In Android Studio
-# - Build → Generate Signed Bundle/APK
-# - Select Android App Bundle (.aab)
-# - Upload to Google Play Console
+# 2. Deploy to Capawesome Cloud
+npm run capawesome:build:android
 ```
+
+Capawesome Cloud automatically:
+- ✅ Builds your app with PitBox icons
+- ✅ Signs with your keystore
+- ✅ Generates signed AAB
+- ✅ No Android Studio needed!
 
 Your PitBox icon will appear in Google Play and on all Android devices!
 
