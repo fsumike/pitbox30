@@ -1,0 +1,541 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PitBox - App Store Connect API Setup</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      min-height: 100vh;
+      padding: 40px 20px;
+      color: #333;
+    }
+    .container {
+      max-width: 1000px;
+      margin: 0 auto;
+      background: white;
+      border-radius: 20px;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+      overflow: hidden;
+    }
+    .header {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      padding: 40px;
+      text-align: center;
+    }
+    .header h1 {
+      font-size: 2.5em;
+      margin-bottom: 10px;
+      font-weight: 700;
+    }
+    .header p {
+      font-size: 1.2em;
+      opacity: 0.95;
+    }
+    .content {
+      padding: 40px;
+    }
+    .step {
+      background: #f8f9ff;
+      border-left: 5px solid #667eea;
+      padding: 30px;
+      margin-bottom: 30px;
+      border-radius: 10px;
+    }
+    .step-number {
+      background: #667eea;
+      color: white;
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      font-size: 1.3em;
+      margin-right: 15px;
+      margin-bottom: 15px;
+    }
+    .step h2 {
+      color: #667eea;
+      font-size: 1.8em;
+      margin-bottom: 20px;
+      display: inline-block;
+    }
+    .substep {
+      background: white;
+      padding: 20px;
+      margin: 15px 0;
+      border-radius: 8px;
+      border-left: 3px solid #667eea;
+    }
+    .substep h3 {
+      color: #667eea;
+      margin-bottom: 12px;
+      font-size: 1.2em;
+    }
+    .code-block {
+      background: #1e1e1e;
+      color: #d4d4d4;
+      padding: 20px;
+      border-radius: 10px;
+      font-family: 'Monaco', 'Courier New', monospace;
+      font-size: 14px;
+      overflow-x: auto;
+      margin: 15px 0;
+      line-height: 1.6;
+    }
+    .command {
+      color: #4ec9b0;
+    }
+    .comment {
+      color: #6a9955;
+    }
+    .string {
+      color: #ce9178;
+    }
+    .warning {
+      background: #fff3cd;
+      border-left: 4px solid #ffc107;
+      padding: 15px 20px;
+      border-radius: 8px;
+      margin: 20px 0;
+    }
+    .warning strong {
+      color: #856404;
+      display: block;
+      margin-bottom: 8px;
+      font-size: 1.1em;
+    }
+    .info {
+      background: #e7f3ff;
+      border-left: 4px solid #2196F3;
+      padding: 15px 20px;
+      border-radius: 8px;
+      margin: 20px 0;
+    }
+    .success {
+      background: #d4edda;
+      border-left: 4px solid #28a745;
+      padding: 15px 20px;
+      border-radius: 8px;
+      margin: 20px 0;
+    }
+    .checklist {
+      list-style: none;
+      padding: 0;
+    }
+    .checklist li {
+      padding: 12px;
+      margin: 8px 0;
+      background: white;
+      border-radius: 6px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .checklist li:before {
+      content: "☐";
+      font-size: 1.5em;
+      color: #667eea;
+      font-weight: 700;
+    }
+    .visual-flow {
+      background: white;
+      padding: 20px;
+      border-radius: 10px;
+      margin: 20px 0;
+      font-family: monospace;
+      font-size: 14px;
+      line-height: 2;
+      border: 2px dashed #667eea;
+    }
+    .arrow {
+      color: #667eea;
+      font-weight: 700;
+      margin: 0 5px;
+    }
+    .highlight {
+      background: #fff3cd;
+      padding: 2px 6px;
+      border-radius: 3px;
+      font-weight: 600;
+    }
+    .btn {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      padding: 12px 30px;
+      border-radius: 25px;
+      text-decoration: none;
+      display: inline-block;
+      font-weight: 600;
+      margin: 10px 5px;
+      transition: transform 0.2s;
+    }
+    .btn:hover {
+      transform: translateY(-2px);
+    }
+    .key-info {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      padding: 20px;
+      border-radius: 10px;
+      margin: 20px 0;
+    }
+    .key-info h3 {
+      margin-bottom: 15px;
+      font-size: 1.3em;
+    }
+    .key-info ul {
+      list-style: none;
+      padding: 0;
+    }
+    .key-info li {
+      padding: 8px 0;
+      border-bottom: 1px solid rgba(255,255,255,0.2);
+    }
+    .key-info li:last-child {
+      border-bottom: none;
+    }
+    .key-info strong {
+      display: inline-block;
+      width: 140px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <h1>🔐 App Store Connect API Setup</h1>
+      <p>Connect Capawesome to App Store Connect</p>
+    </div>
+
+    <div class="content">
+      <div class="info">
+        <strong>Why do this?</strong><br>
+        The old Apple ID + Password method is being phased out. Using API keys is more secure, reliable, and required for modern CI/CD workflows.
+      </div>
+
+      <div class="key-info">
+        <h3>What You'll Get:</h3>
+        <ul>
+          <li><strong>Issuer ID:</strong> xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx</li>
+          <li><strong>Key ID:</strong> ABCD1234</li>
+          <li><strong>Private Key:</strong> AuthKey_ABCD1234.p8 file</li>
+          <li><strong>Destination ID:</strong> New ID from Capawesome</li>
+        </ul>
+      </div>
+
+      <!-- STEP 1 -->
+      <div class="step">
+        <span class="step-number">1</span>
+        <h2>Create App Store Connect API Key</h2>
+
+        <div class="substep">
+          <h3>A. Log into App Store Connect</h3>
+          <p>Go to <strong>https://appstoreconnect.apple.com</strong></p>
+          <p>Sign in with: <strong>mg91648@yahoo.com</strong></p>
+        </div>
+
+        <div class="substep">
+          <h3>B. Navigate to Keys</h3>
+          <div class="visual-flow">
+appstoreconnect.apple.com<br>
+<span class="arrow">→</span> Click <span class="highlight">Users and Access</span> (top menu)<br>
+<span class="arrow">→</span> Click <span class="highlight">Keys</span> tab<br>
+<span class="arrow">→</span> Click <span class="highlight">App Store Connect API</span>
+          </div>
+        </div>
+
+        <div class="substep">
+          <h3>C. Generate New Key</h3>
+          <ol style="padding-left: 20px; line-height: 2;">
+            <li>Click the <strong>+</strong> button (or "Generate API Key")</li>
+            <li>Name: <code>PitBox Capawesome</code></li>
+            <li>Access: <strong>App Manager</strong> (recommended)</li>
+            <li>Click <strong>Generate</strong></li>
+          </ol>
+        </div>
+
+        <div class="warning">
+          <strong>⚠️ CRITICAL: Download Your Key NOW!</strong>
+          You can only download the .p8 file ONCE. If you lose it, you'll have to create a new key.
+        </div>
+
+        <div class="substep">
+          <h3>D. Download & Save Info</h3>
+          <ol style="padding-left: 20px; line-height: 2;">
+            <li>Click <strong>Download API Key</strong></li>
+            <li>Save the file: <code>AuthKey_XXXXX.p8</code></li>
+            <li>Copy the <strong>Issuer ID</strong> (top of page)</li>
+            <li>Copy the <strong>Key ID</strong> (next to key name)</li>
+          </ol>
+        </div>
+
+        <div class="success">
+          ✅ You should now have:<br>
+          • Issuer ID (36 characters with dashes)<br>
+          • Key ID (10 characters)<br>
+          • .p8 file downloaded
+        </div>
+      </div>
+
+      <!-- STEP 2 -->
+      <div class="step">
+        <span class="step-number">2</span>
+        <h2>Set Up Capawesome Destination</h2>
+
+        <div class="substep">
+          <h3>A. Log into Capawesome</h3>
+          <div class="code-block">
+<span class="command">npm run capawesome:login</span>
+          </div>
+          <p>Or go to: <strong>https://cloud.capawesome.io</strong></p>
+        </div>
+
+        <div class="substep">
+          <h3>B. Navigate to Store Destinations</h3>
+          <div class="visual-flow">
+cloud.capawesome.io<br>
+<span class="arrow">→</span> Your App: <span class="highlight">8251f381-4aed-4b20-ac20-a3aad250cbb8</span><br>
+<span class="arrow">→</span> Click <span class="highlight">Settings</span> (left sidebar)<br>
+<span class="arrow">→</span> Click <span class="highlight">Store Destinations</span>
+          </div>
+        </div>
+
+        <div class="substep">
+          <h3>C. Delete Old Destination (Recommended)</h3>
+          <p>Find: <code>5cea5914-4a94-4f14-82f8-15b65c9275b7</code></p>
+          <p>Click the trash icon and confirm deletion</p>
+          <div class="info">
+            <strong>Note:</strong> This removes the old Apple ID + Password method
+          </div>
+        </div>
+
+        <div class="substep">
+          <h3>D. Create New Destination</h3>
+          <ol style="padding-left: 20px; line-height: 2;">
+            <li>Click <strong>Add Destination</strong></li>
+            <li>Platform: <strong>iOS</strong></li>
+            <li>Method: <strong>App Store Connect API</strong> (NOT Apple ID!)</li>
+          </ol>
+        </div>
+
+        <div class="substep">
+          <h3>E. Fill in the Form</h3>
+          <div class="code-block">
+<span class="comment">Destination Name:</span> PitBox App Store
+<span class="comment">Platform:</span> iOS
+<span class="comment">Method:</span> App Store Connect API
+
+<span class="comment">Bundle ID:</span> com.pitbox.app
+<span class="comment">Issuer ID:</span> [paste from Step 1]
+<span class="comment">Key ID:</span> [paste from Step 1]
+<span class="comment">Private Key:</span> [paste .p8 file contents]
+
+<span class="comment">Enable:</span>
+☑ TestFlight
+☑ App Store
+          </div>
+        </div>
+
+        <div class="warning">
+          <strong>How to Get Private Key Contents:</strong>
+          Open your <code>.p8</code> file in a text editor (Notepad, TextEdit, VS Code).
+          Copy EVERYTHING including the BEGIN and END lines:
+          <div class="code-block" style="margin-top: 10px;">
+-----BEGIN PRIVATE KEY-----
+MIGTAgEAMBMGByqGSM49AgEGCCqGSM49AwEHBHkw...
+[multiple lines]
+...abc123xyz==
+-----END PRIVATE KEY-----
+          </div>
+        </div>
+
+        <div class="substep">
+          <h3>F. Save & Get Destination ID</h3>
+          <ol style="padding-left: 20px; line-height: 2;">
+            <li>Click <strong>Save</strong> or <strong>Create</strong></li>
+            <li><strong>COPY THE NEW DESTINATION ID</strong></li>
+            <li>Format: <code>xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx</code></li>
+          </ol>
+        </div>
+
+        <div class="success">
+          ✅ Destination created!<br>
+          Keep the Destination ID for Step 3
+        </div>
+      </div>
+
+      <!-- STEP 3 -->
+      <div class="step">
+        <span class="step-number">3</span>
+        <h2>Update Your Configuration</h2>
+
+        <div class="substep">
+          <h3>Edit capawesome.config.json</h3>
+          <p>Open: <code>capawesome.config.json</code></p>
+          <p>Find the <code>publish.ios.destinationId</code> section</p>
+        </div>
+
+        <div class="substep">
+          <h3>Replace the Destination ID</h3>
+          <div class="code-block">
+{
+  <span class="string">"publish"</span>: {
+    <span class="string">"ios"</span>: {
+      <span class="string">"bundleId"</span>: <span class="string">"com.pitbox.app"</span>,
+      <span class="string">"destinationId"</span>: <span class="string">"YOUR-NEW-DESTINATION-ID-HERE"</span>,
+      <span class="string">"destinations"</span>: [
+        {
+          <span class="string">"type"</span>: <span class="string">"testflight"</span>,
+          <span class="string">"enabled"</span>: true
+        },
+        {
+          <span class="string">"type"</span>: <span class="string">"app-store"</span>,
+          <span class="string">"enabled"</span>: true
+        }
+      ]
+    }
+  }
+}
+          </div>
+        </div>
+
+        <div class="warning">
+          <strong>Replace:</strong> <code>YOUR-NEW-DESTINATION-ID-HERE</code><br>
+          <strong>With:</strong> The Destination ID from Step 2F
+        </div>
+
+        <div class="success">
+          ✅ Configuration updated!<br>
+          Save the file
+        </div>
+      </div>
+
+      <!-- STEP 4 -->
+      <div class="step">
+        <span class="step-number">4</span>
+        <h2>Test Your Setup</h2>
+
+        <div class="substep">
+          <h3>A. Increment Build Number</h3>
+          <p>Edit <code>capawesome.config.json</code> line 13:</p>
+          <div class="code-block">
+<span class="string">"buildNumber"</span>: <span class="string">"99"</span>  <span class="comment">// Increment this</span>
+          </div>
+        </div>
+
+        <div class="substep">
+          <h3>B. Build and Upload</h3>
+          <div class="code-block">
+<span class="comment"># Build iOS project</span>
+<span class="command">npm run build:ci:ios</span>
+
+<span class="comment"># Upload to App Store</span>
+<span class="command">npm run capawesome:build:ios</span>
+          </div>
+        </div>
+
+        <div class="substep">
+          <h3>C. Monitor Build</h3>
+          <p>Go to: <a href="https://cloud.capawesome.io/apps/8251f381-4aed-4b20-ac20-a3aad250cbb8/builds" target="_blank">Capawesome Builds</a></p>
+          <p>You should see:</p>
+          <ul style="padding-left: 20px; margin-top: 10px; line-height: 2;">
+            <li>Build starts</li>
+            <li>Build completes</li>
+            <li>Upload to TestFlight</li>
+            <li>Success!</li>
+          </ul>
+        </div>
+
+        <div class="substep">
+          <h3>D. Check App Store Connect</h3>
+          <p>Wait 10-15 minutes, then check:</p>
+          <p><strong>App Store Connect → TestFlight → Builds</strong></p>
+          <p>Your build should appear!</p>
+        </div>
+
+        <div class="success">
+          ✅ If the build appears in App Store Connect, you're all set!<br>
+          Future uploads will be automatic and reliable.
+        </div>
+      </div>
+
+      <!-- TROUBLESHOOTING -->
+      <div class="step">
+        <span class="step-number">🔧</span>
+        <h2>Troubleshooting</h2>
+
+        <div class="substep">
+          <h3>"Invalid Issuer ID"</h3>
+          <ul style="padding-left: 20px; line-height: 2;">
+            <li>Check you copied from the TOP of the Keys page</li>
+            <li>Format: <code>xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx</code> (36 chars)</li>
+          </ul>
+        </div>
+
+        <div class="substep">
+          <h3>"Invalid Key ID"</h3>
+          <ul style="padding-left: 20px; line-height: 2;">
+            <li>Should be next to your key name in App Store Connect</li>
+            <li>Format: <code>ABCD1234</code> (10 characters)</li>
+          </ul>
+        </div>
+
+        <div class="substep">
+          <h3>"Invalid Private Key"</h3>
+          <ul style="padding-left: 20px; line-height: 2;">
+            <li>Make sure you copied the ENTIRE .p8 file</li>
+            <li>Include the BEGIN and END lines</li>
+            <li>Don't add extra spaces</li>
+          </ul>
+        </div>
+
+        <div class="substep">
+          <h3>Build Doesn't Appear in App Store Connect</h3>
+          <ul style="padding-left: 20px; line-height: 2;">
+            <li>Wait 20-30 minutes (can take time)</li>
+            <li>Check email for errors from Apple</li>
+            <li>Verify Bundle ID: <code>com.pitbox.app</code></li>
+            <li>Check Capawesome build logs</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- CHECKLIST -->
+      <div class="step">
+        <span class="step-number">✓</span>
+        <h2>Complete Checklist</h2>
+
+        <ul class="checklist">
+          <li>Logged into App Store Connect</li>
+          <li>Created App Store Connect API key</li>
+          <li>Downloaded .p8 file</li>
+          <li>Copied Issuer ID</li>
+          <li>Copied Key ID</li>
+          <li>Logged into Capawesome Cloud</li>
+          <li>Created new Store Destination</li>
+          <li>Pasted Issuer ID, Key ID, and Private Key</li>
+          <li>Copied new Destination ID</li>
+          <li>Updated capawesome.config.json</li>
+          <li>Incremented build number</li>
+          <li>Ran build commands</li>
+          <li>Verified build appeared in App Store Connect</li>
+        </ul>
+      </div>
+
+      <div style="text-align: center; padding: 30px 0;">
+        <h3 style="color: #667eea; margin-bottom: 20px;">Quick Links</h3>
+        <a href="https://appstoreconnect.apple.com" target="_blank" class="btn">App Store Connect</a>
+        <a href="https://cloud.capawesome.io" target="_blank" class="btn">Capawesome Cloud</a>
+        <a href="#" onclick="window.print(); return false;" class="btn">Print Guide</a>
+      </div>
+    </div>
+  </div>
+</body>
+</html>
