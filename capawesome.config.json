@@ -44,7 +44,7 @@
           "android/app/build/outputs/bundle/release/app-release.aab"
         ],
         "version": "3.0.0",
-        "versionCode": 1
+        "versionCode": 2
       }
     }
   },
