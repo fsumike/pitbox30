@@ -8,7 +8,7 @@ Your `capawesome.config.json` references destination ID: `5cea5914-4a94-4f14-82f
 
 This destination needs these credentials configured in Capawesome Console:
 - Apple ID
-- App-Specific Password (MOST LIKELY MISSING)
+- App-Specific Password nbgm-kyzf-dnqn-pxhx
 - Team ID
 - Apple App ID
 
