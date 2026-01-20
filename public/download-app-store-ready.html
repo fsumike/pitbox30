@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PitBox - App Store Upload Ready</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      min-height: 100vh;
+      padding: 40px 20px;
+      color: #333;
+    }
+    .container {
+      max-width: 900px;
+      margin: 0 auto;
+      background: white;
+      border-radius: 20px;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+      overflow: hidden;
+    }
+    .header {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      padding: 40px;
+      text-align: center;
+    }
+    .header h1 {
+      font-size: 2.5em;
+      margin-bottom: 10px;
+      font-weight: 700;
+    }
+    .header p {
+      font-size: 1.2em;
+      opacity: 0.95;
+    }
+    .content {
+      padding: 40px;
+    }
+    .success-badge {
+      background: #10b981;
+      color: white;
+      padding: 12px 24px;
+      border-radius: 50px;
+      display: inline-block;
+      font-weight: 600;
+      margin-bottom: 30px;
+      font-size: 1.1em;
+    }
+    .section {
+      margin-bottom: 40px;
+      padding-bottom: 30px;
+      border-bottom: 2px solid #f0f0f0;
+    }
+    .section:last-child {
+      border-bottom: none;
+    }
+    .section h2 {
+      color: #667eea;
+      font-size: 1.8em;
+      margin-bottom: 20px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .emoji {
+      font-size: 1.2em;
+    }
+    .fix-list {
+      list-style: none;
+      padding: 0;
+    }
+    .fix-list li {
+      background: #f8f9ff;
+      padding: 15px 20px;
+      margin-bottom: 12px;
+      border-radius: 10px;
+      border-left: 4px solid #667eea;
+      display: flex;
+      align-items: start;
+      gap: 12px;
+    }
+    .fix-list li:before {
+      content: "✅";
+      font-size: 1.3em;
+      flex-shrink: 0;
+    }
+    .code-block {
+      background: #1e1e1e;
+      color: #d4d4d4;
+      padding: 20px;
+      border-radius: 10px;
+      font-family: 'Monaco', 'Courier New', monospace;
+      font-size: 14px;
+      overflow-x: auto;
+      margin: 15px 0;
+    }
+    .command {
+      color: #4ec9b0;
+    }
+    .comment {
+      color: #6a9955;
+    }
+    .steps {
+      counter-reset: step-counter;
+      list-style: none;
+      padding: 0;
+    }
+    .steps li {
+      counter-increment: step-counter;
+      position: relative;
+      padding-left: 50px;
+      margin-bottom: 25px;
+    }
+    .steps li:before {
+      content: counter(step-counter);
+      position: absolute;
+      left: 0;
+      top: 0;
+      background: #667eea;
+      color: white;
+      width: 35px;
+      height: 35px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      font-size: 1.1em;
+    }
+    .warning {
+      background: #fff3cd;
+      border-left: 4px solid #ffc107;
+      padding: 15px 20px;
+      border-radius: 8px;
+      margin: 20px 0;
+    }
+    .warning strong {
+      color: #856404;
+    }
+    .info-box {
+      background: #e7f3ff;
+      border-left: 4px solid #2196F3;
+      padding: 15px 20px;
+      border-radius: 8px;
+      margin: 20px 0;
+    }
+    .download-btn {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      padding: 15px 40px;
+      border-radius: 50px;
+      text-decoration: none;
+      display: inline-block;
+      font-weight: 600;
+      font-size: 1.1em;
+      transition: transform 0.2s, box-shadow 0.2s;
+      margin-top: 20px;
+    }
+    .download-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 30px rgba(102, 126, 234, 0.4);
+    }
+    .config-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 20px 0;
+    }
+    .config-table th,
+    .config-table td {
+      padding: 12px;
+      text-align: left;
+      border-bottom: 1px solid #e0e0e0;
+    }
+    .config-table th {
+      background: #f8f9ff;
+      color: #667eea;
+      font-weight: 600;
+    }
+    .config-table tr:hover {
+      background: #f8f9ff;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <h1>🚀 PitBox App Store Ready!</h1>
+      <p>All configurations fixed and validated</p>
+    </div>
+
+    <div class="content">
+      <div class="success-badge">✅ Build #98 - Ready to Upload</div>
+
+      <div class="section">
+        <h2><span class="emoji">🔧</span>What Was Fixed</h2>
+        <ul class="fix-list">
+          <li>
+            <strong>Build Number Incremented:</strong> Changed from 97 to 98 in capawesome.config.json
+          </li>
+          <li>
+            <strong>Privacy Descriptions Added:</strong> All 22 required iOS privacy descriptions are now properly configured
+          </li>
+          <li>
+            <strong>Encryption Declaration:</strong> ITSAppUsesNonExemptEncryption set to false (standard encryption only)
+          </li>
+          <li>
+            <strong>Icons Configured:</strong> iOS and Android app icons properly set up in all required sizes
+          </li>
+          <li>
+            <strong>Configuration Validated:</strong> All settings verified and consistent across files
+          </li>
+        </ul>
+      </div>
+
+      <div class="section">
+        <h2><span class="emoji">📱</span>Current Configuration</h2>
+        <table class="config-table">
+          <tr>
+            <th>Setting</th>
+            <th>Value</th>
+          </tr>
+          <tr>
+            <td>App Name</td>
+            <td>PitBox</td>
+          </tr>
+          <tr>
+            <td>Bundle ID</td>
+            <td>com.pitbox.app</td>
+          </tr>
+          <tr>
+            <td>Version</td>
+            <td>3.0.0</td>
+          </tr>
+          <tr>
+            <td>Build Number</td>
+            <td>98</td>
+          </tr>
+          <tr>
+            <td>Capawesome App ID</td>
+            <td>8251f381-4aed-4b20-ac20-a3aad250cbb8</td>
+          </tr>
+          <tr>
+            <td>Store Destination</td>
+            <td>5cea5914-4a94-4f14-82f8-15b65c9275b7</td>
+          </tr>
+          <tr>
+            <td>TestFlight</td>
+            <td>Enabled ✅</td>
+          </tr>
+          <tr>
+            <td>App Store</td>
+            <td>Enabled ✅</td>
+          </tr>
+        </table>
+      </div>
+
+      <div class="section">
+        <h2><span class="emoji">🚀</span>How to Upload to App Store</h2>
+
+        <ol class="steps">
+          <li>
+            <strong>Run Pre-Build Check (Optional)</strong>
+            <div class="code-block">
+              <span class="command">npm run pre-build-check</span>
+            </div>
+          </li>
+
+          <li>
+            <strong>Build iOS Project</strong>
+            <div class="code-block">
+              <span class="command">npm run build:ci:ios</span>
+              <br><span class="comment"># This creates the iOS folder with all configurations</span>
+            </div>
+          </li>
+
+          <li>
+            <strong>Trigger Capawesome Cloud Build</strong>
+            <div class="code-block">
+              <span class="command">npm run capawesome:build:ios</span>
+            </div>
+          </li>
+
+          <li>
+            <strong>Monitor Build Progress</strong>
+            <div>Go to Capawesome Dashboard:</div>
+            <div class="code-block">
+              https://cloud.capawesome.io/apps/8251f381-4aed-4b20-ac20-a3aad250cbb8/builds
+            </div>
+          </li>
+
+          <li>
+            <strong>Wait for App Store Connect</strong>
+            <div>Build will appear in App Store Connect in 10-15 minutes</div>
+          </li>
+        </ol>
+      </div>
+
+      <div class="section">
+        <h2><span class="emoji">⚠️</span>About Your Store Destination</h2>
+
+        <div class="warning">
+          <strong>Important:</strong> The current destination uses the old "Apple ID + Password" method which Apple is deprecating.
+        </div>
+
+        <div class="info-box">
+          <strong>Recommended:</strong> Switch to App Store Connect API for better reliability:
+          <ul style="margin-top: 10px; padding-left: 20px;">
+            <li>Delete current destination: 5cea5914-4a94-4f14-82f8-15b65c9275b7</li>
+            <li>Create new destination with type: <strong>App Store Connect API</strong></li>
+            <li>Use your .p8 key file instead of password</li>
+            <li>Update destinationId in capawesome.config.json</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="section">
+        <h2><span class="emoji">🔄</span>For Next Upload</h2>
+
+        <div class="warning">
+          <strong>Remember:</strong> Before each new upload, you MUST increment the build number!
+        </div>
+
+        <div>Edit <code>capawesome.config.json</code> line 13:</div>
+        <div class="code-block">
+{
+  "build": {
+    "platforms": {
+      "ios": {
+        "version": "3.0.0",
+        <span style="color: #ce9178;">"buildNumber": "99"</span>,  <span class="comment">// Change this!</span>
+        ...
+      }
+    }
+  }
+}
+        </div>
+      </div>
+
+      <div class="section">
+        <h2><span class="emoji">📄</span>Privacy Descriptions Added</h2>
+        <ul class="fix-list">
+          <li>Photo Library (view & save)</li>
+          <li>Camera & Microphone</li>
+          <li>Location (Always, When In Use)</li>
+          <li>Motion & Bluetooth</li>
+          <li>Contacts, Calendar, Reminders</li>
+          <li>Face ID & Siri</li>
+          <li>Health Data</li>
+          <li>NFC & HomeKit</li>
+          <li>Encryption Declaration</li>
+        </ul>
+      </div>
+
+      <div class="section">
+        <h2><span class="emoji">🎯</span>Quick Commands Reference</h2>
+        <div class="code-block">
+<span class="comment"># Validate configuration</span>
+<span class="command">npm run pre-build-check</span>
+
+<span class="comment"># Build iOS</span>
+<span class="command">npm run build:ci:ios</span>
+
+<span class="comment"># Upload to App Store</span>
+<span class="command">npm run capawesome:build:ios</span>
+
+<span class="comment"># Check Capawesome login</span>
+<span class="command">npm run capawesome:whoami</span>
+
+<span class="comment"># Open iOS in Xcode (if needed)</span>
+<span class="command">npm run cap:open:ios</span>
+        </div>
+      </div>
+
+      <div style="text-align: center; padding: 30px 0;">
+        <p style="font-size: 1.2em; color: #667eea; font-weight: 600; margin-bottom: 20px;">
+          Everything is configured correctly!
+        </p>
+        <p style="color: #666; margin-bottom: 20px;">
+          Your app is ready to be uploaded to the App Store.
+        </p>
+        <a href="#" onclick="window.print(); return false;" class="download-btn">
+          📄 Print This Guide
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    console.log('PitBox App Store Configuration');
+    console.log('Build Number: 98');
+    console.log('All privacy descriptions: ✅');
+    console.log('Ready to upload!');
+  </script>
+</body>
+</html>

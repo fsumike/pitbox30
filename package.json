@@ -41,7 +41,8 @@
     "capawesome:login": "npx @capawesome/cli login",
     "capawesome:whoami": "npx @capawesome/cli whoami",
     "capawesome:build:ios": "npx @capawesome/cli apps:builds:create --app-id 8251f381-4aed-4b20-ac20-a3aad250cbb8 --platform ios",
-    "capawesome:build:android": "npx @capawesome/cli apps:builds:create --app-id 8251f381-4aed-4b20-ac20-a3aad250cbb8 --platform android"
+    "capawesome:build:android": "npx @capawesome/cli apps:builds:create --app-id 8251f381-4aed-4b20-ac20-a3aad250cbb8 --platform android",
+    "pre-build-check": "node scripts/pre-build-check.mjs"
   },
   "dependencies": {
     "@capacitor/android": "^5.7.0",
