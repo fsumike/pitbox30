@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Fix Messages Unread Count - PitBox</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+      background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      color: #fff;
+    }
+    .container {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 16px;
+      padding: 40px;
+      max-width: 800px;
+      width: 100%;
+      backdrop-filter: blur(10px);
+    }
+    h1 {
+      font-size: 32px;
+      margin-bottom: 10px;
+      background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .subtitle {
+      color: #94a3b8;
+      margin-bottom: 30px;
+      font-size: 16px;
+    }
+    .problem {
+      background: rgba(239, 68, 68, 0.1);
+      border: 1px solid rgba(239, 68, 68, 0.3);
+      border-radius: 8px;
+      padding: 20px;
+      margin-bottom: 30px;
+    }
+    .problem h2 {
+      color: #ef4444;
+      font-size: 20px;
+      margin-bottom: 10px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .solution {
+      background: rgba(34, 197, 94, 0.1);
+      border: 1px solid rgba(34, 197, 94, 0.3);
+      border-radius: 8px;
+      padding: 20px;
+      margin-bottom: 30px;
+    }
+    .solution h2 {
+      color: #22c55e;
+      font-size: 20px;
+      margin-bottom: 15px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .steps {
+      list-style: none;
+    }
+    .steps li {
+      padding: 15px;
+      background: rgba(255, 255, 255, 0.05);
+      border-radius: 8px;
+      margin-bottom: 10px;
+      border-left: 3px solid #fbbf24;
+    }
+    .steps strong {
+      color: #fbbf24;
+      display: block;
+      margin-bottom: 5px;
+    }
+    .code-block {
+      background: #0f172a;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 8px;
+      padding: 20px;
+      margin: 20px 0;
+      position: relative;
+      overflow-x: auto;
+    }
+    .code-block pre {
+      color: #e2e8f0;
+      font-family: 'Courier New', monospace;
+      font-size: 14px;
+      line-height: 1.6;
+      white-space: pre-wrap;
+      word-wrap: break-word;
+    }
+    .btn {
+      display: inline-block;
+      background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%);
+      color: #000;
+      padding: 12px 24px;
+      border-radius: 8px;
+      text-decoration: none;
+      font-weight: 600;
+      transition: transform 0.2s;
+      border: none;
+      cursor: pointer;
+      font-size: 16px;
+    }
+    .btn:hover {
+      transform: translateY(-2px);
+    }
+    .btn-copy {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      background: rgba(251, 191, 36, 0.2);
+      color: #fbbf24;
+      padding: 6px 12px;
+      border-radius: 6px;
+      font-size: 12px;
+      border: 1px solid #fbbf24;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .btn-copy:hover {
+      background: rgba(251, 191, 36, 0.3);
+    }
+    .note {
+      background: rgba(59, 130, 246, 0.1);
+      border: 1px solid rgba(59, 130, 246, 0.3);
+      border-radius: 8px;
+      padding: 15px;
+      margin-top: 20px;
+      color: #93c5fd;
+      font-size: 14px;
+    }
+    .quick-access {
+      background: rgba(251, 191, 36, 0.1);
+      border: 1px solid rgba(251, 191, 36, 0.3);
+      border-radius: 8px;
+      padding: 20px;
+      margin-top: 30px;
+      text-align: center;
+    }
+    .quick-access h3 {
+      color: #fbbf24;
+      margin-bottom: 15px;
+    }
+    @media (max-width: 768px) {
+      .container {
+        padding: 20px;
+      }
+      h1 {
+        font-size: 24px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>🔧 Fix Messages Unread Count</h1>
+    <p class="subtitle">Clear the red notification badge permanently</p>
+
+    <div class="problem">
+      <h2>❌ The Problem</h2>
+      <p>The messages table is missing the <code>is_read</code> and <code>read_at</code> columns, so messages can't be marked as read. This causes the unread count to never clear.</p>
+    </div>
+
+    <div class="solution">
+      <h2>✅ The Solution</h2>
+      <p>Run this SQL query in your Supabase dashboard to add the missing columns and clear all existing unread messages:</p>
+
+      <ol class="steps">
+        <li>
+          <strong>Step 1:</strong> Go to your Supabase Dashboard
+        </li>
+        <li>
+          <strong>Step 2:</strong> Click on "SQL Editor" in the left sidebar
+        </li>
+        <li>
+          <strong>Step 3:</strong> Click "New Query"
+        </li>
+        <li>
+          <strong>Step 4:</strong> Copy the SQL below and paste it into the editor
+        </li>
+        <li>
+          <strong>Step 5:</strong> Click "Run" to execute the query
+        </li>
+      </ol>
+
+      <div class="code-block">
+        <button class="btn-copy" onclick="copySQL()">Copy SQL</button>
+        <pre id="sqlCode">-- Add read status tracking to messages table
+-- This fixes the unread message count issue
+
+-- Add is_read column with default false
+ALTER TABLE messages ADD COLUMN IF NOT EXISTS is_read boolean DEFAULT false NOT NULL;
+
+-- Add read_at column for tracking when message was read
+ALTER TABLE messages ADD COLUMN IF NOT EXISTS read_at timestamptz;
+
+-- Create index for efficient unread message queries
+CREATE INDEX IF NOT EXISTS idx_messages_is_read ON messages(receiver_id, is_read) WHERE is_read = false;
+
+-- Create index for receiver_id and created_at for conversation queries
+CREATE INDEX IF NOT EXISTS idx_messages_receiver_created ON messages(receiver_id, created_at DESC);
+
+-- Create index for sender_id and created_at for conversation queries
+CREATE INDEX IF NOT EXISTS idx_messages_sender_created ON messages(sender_id, created_at DESC);
+
+-- Mark all existing messages as read (cleanup for existing data)
+-- This will clear your current unread count
+UPDATE messages SET is_read = true, read_at = now() WHERE is_read = false;</pre>
+      </div>
+
+      <div class="note">
+        <strong>📝 Note:</strong> This will mark ALL existing messages as read, which will clear your unread count to zero. Going forward, messages will be properly tracked when you read them.
+      </div>
+    </div>
+
+    <div class="quick-access">
+      <h3>Quick Access to Supabase</h3>
+      <p style="color: #94a3b8; margin-bottom: 15px;">Open your Supabase SQL Editor directly</p>
+      <a href="https://supabase.com/dashboard/project/_/sql/new" target="_blank" class="btn">
+        Open Supabase SQL Editor →
+      </a>
+    </div>
+  </div>
+
+  <script>
+    function copySQL() {
+      const code = document.getElementById('sqlCode').textContent;
+      navigator.clipboard.writeText(code).then(() => {
+        const btn = document.querySelector('.btn-copy');
+        const originalText = btn.textContent;
+        btn.textContent = '✓ Copied!';
+        btn.style.background = 'rgba(34, 197, 94, 0.2)';
+        btn.style.borderColor = '#22c55e';
+        btn.style.color = '#22c55e';
+
+        setTimeout(() => {
+          btn.textContent = originalText;
+          btn.style.background = 'rgba(251, 191, 36, 0.2)';
+          btn.style.borderColor = '#fbbf24';
+          btn.style.color = '#fbbf24';
+        }, 2000);
+      });
+    }
+  </script>
+</body>
+</html>

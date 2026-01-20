@@ -29,59 +29,76 @@ export default function Subscription() {
           </div>
           <h1 className="text-3xl font-bold mb-2 bg-gradient-to-r from-brand-gold to-brand-gold-light bg-clip-text text-transparent">PitBox Premium Access</h1>
           <p className="text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">
-            Unlock all features and get the most out of PIT-BOX.COM with our premium subscription plans.
+            Subscribe to save and access unlimited racing setup sheets. Everything else is free!
           </p>
+        </div>
+
+        {/* What's Free Banner */}
+        <div className="mb-8 p-6 rounded-xl bg-gradient-to-r from-green-500/10 to-emerald-500/10 border border-green-500/20">
+          <div className="text-center">
+            <h3 className="text-xl font-bold text-green-600 dark:text-green-400 mb-3">Always Free Features</h3>
+            <div className="flex flex-wrap justify-center gap-4 text-sm text-gray-700 dark:text-gray-300">
+              <span className="px-3 py-1 bg-white/50 dark:bg-black/30 rounded-full">✓ Racing Community</span>
+              <span className="px-3 py-1 bg-white/50 dark:bg-black/30 rounded-full">✓ Swap Meet Marketplace</span>
+              <span className="px-3 py-1 bg-white/50 dark:bg-black/30 rounded-full">✓ All Racing Tools</span>
+              <span className="px-3 py-1 bg-white/50 dark:bg-black/30 rounded-full">✓ Track Locations</span>
+              <span className="px-3 py-1 bg-white/50 dark:bg-black/30 rounded-full">✓ Events & Challenges</span>
+            </div>
+            <p className="text-sm text-gray-600 dark:text-gray-400 mt-3">
+              Subscriptions only required for saving and accessing your racing setup sheets
+            </p>
+          </div>
         </div>
 
         <SubscriptionPlans />
 
-        {/* Premium Features */}
+        {/* Setup Sheet Benefits */}
         <div className="mt-12 grid md:grid-cols-3 gap-6 relative z-10">
           <div className="liquid-glass-card text-center transform hover:scale-105 transition-all duration-300">
             <Star className="w-8 h-8 text-brand-gold mx-auto mb-4" />
-            <h3 className="text-xl font-bold mb-2">Unlimited Setups</h3>
+            <h3 className="text-xl font-bold mb-2">Unlimited Setup Sheets</h3>
             <p className="text-gray-600 dark:text-gray-400">
-              Save and manage unlimited setup configurations for all your racing vehicles.
+              Save unlimited racing setup sheets for all your vehicles and tracks.
             </p>
           </div>
 
           <div className="liquid-glass-card text-center transform hover:scale-105 transition-all duration-300">
             <Database className="w-8 h-8 text-brand-gold mx-auto mb-4" />
-            <h3 className="text-xl font-bold mb-2">Advanced Analytics</h3>
+            <h3 className="text-xl font-bold mb-2">Multi-Device Sync</h3>
             <p className="text-gray-600 dark:text-gray-400">
-              Get detailed performance analytics and insights to optimize your racing strategy.
+              Access your setup sheets on phone, tablet, and computer with automatic sync.
             </p>
           </div>
 
           <div className="liquid-glass-card text-center transform hover:scale-105 transition-all duration-300">
             <Settings className="w-8 h-8 text-brand-gold mx-auto mb-4" />
-            <h3 className="text-xl font-bold mb-2">Custom Tools</h3>
+            <h3 className="text-xl font-bold mb-2">Setup Comparison</h3>
             <p className="text-gray-600 dark:text-gray-400">
-              Access specialized setup tools and calculators for professional-level tuning.
+              Compare multiple setups side-by-side to find your winning configuration.
             </p>
           </div>
 
           <div className="liquid-glass-card text-center transform hover:scale-105 transition-all duration-300">
             <Shield className="w-8 h-8 text-brand-gold mx-auto mb-4" />
-            <h3 className="text-xl font-bold mb-2">Priority Support</h3>
+            <h3 className="text-xl font-bold mb-2">Setup Encryption</h3>
             <p className="text-gray-600 dark:text-gray-400">
-              Get priority customer support and assistance from our racing experts.
+              Premium tier includes end-to-end encryption for your setup data.
             </p>
           </div>
 
           <div className="liquid-glass-card text-center transform hover:scale-105 transition-all duration-300">
             <Zap className="w-8 h-8 text-brand-gold mx-auto mb-4" />
-            <h3 className="text-xl font-bold mb-2">Early Access</h3>
+            <h3 className="text-xl font-bold mb-2">Advanced Templates</h3>
             <p className="text-gray-600 dark:text-gray-400">
-              Be the first to try new features and updates before they're released.
+              Premium includes professional setup templates for faster data entry.
             </p>
           </div>
 
           <div className="liquid-glass-card text-center transform hover:scale-105 transition-all duration-300">
             <Clock className="w-8 h-8 text-brand-gold mx-auto mb-4" />
-            <h3 className="text-xl font-bold mb-2">Historical Data</h3>
+            <h3 className="text-xl font-bold mb-2">Setup History</h3>
             <p className="text-gray-600 dark:text-gray-400">
-              Access and analyze your historical racing data for long-term improvement.
+              Track your setup changes over time and see what worked at each track.
             </p>
           </div>
         </div>

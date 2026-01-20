@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Download PitBox Screenshots</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 40px 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        h1 {
+            color: white;
+            text-align: center;
+            font-size: 48px;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .subtitle {
+            color: rgba(255,255,255,0.9);
+            text-align: center;
+            font-size: 20px;
+            margin-bottom: 40px;
+        }
+
+        .download-all {
+            background: #10b981;
+            color: white;
+            border: none;
+            padding: 20px 40px;
+            font-size: 24px;
+            font-weight: bold;
+            border-radius: 12px;
+            cursor: pointer;
+            display: block;
+            margin: 0 auto 50px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+            transition: all 0.3s ease;
+        }
+
+        .download-all:hover {
+            background: #059669;
+            transform: translateY(-2px);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.4);
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-bottom: 50px;
+        }
+
+        .screenshot-card {
+            background: white;
+            border-radius: 16px;
+            padding: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            transition: transform 0.3s ease;
+        }
+
+        .screenshot-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .screenshot-preview {
+            width: 100%;
+            height: 400px;
+            object-fit: contain;
+            background: #f3f4f6;
+            border-radius: 12px;
+            margin-bottom: 15px;
+        }
+
+        .screenshot-info {
+            margin-bottom: 15px;
+        }
+
+        .screenshot-title {
+            font-size: 18px;
+            font-weight: bold;
+            color: #1f2937;
+            margin-bottom: 5px;
+        }
+
+        .screenshot-desc {
+            font-size: 14px;
+            color: #6b7280;
+        }
+
+        .download-btn {
+            background: #3b82f6;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            font-size: 16px;
+            font-weight: 600;
+            border-radius: 8px;
+            cursor: pointer;
+            width: 100%;
+            transition: background 0.3s ease;
+        }
+
+        .download-btn:hover {
+            background: #2563eb;
+        }
+
+        .instructions {
+            background: white;
+            border-radius: 16px;
+            padding: 30px;
+            margin-top: 50px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+
+        .instructions h2 {
+            color: #1f2937;
+            font-size: 28px;
+            margin-bottom: 20px;
+        }
+
+        .instructions ol {
+            margin-left: 20px;
+            color: #4b5563;
+            line-height: 1.8;
+            font-size: 16px;
+        }
+
+        .instructions li {
+            margin-bottom: 10px;
+        }
+
+        .status {
+            text-align: center;
+            color: white;
+            font-size: 18px;
+            margin-top: 20px;
+            min-height: 30px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>📱 PitBox App Screenshots</h1>
+        <p class="subtitle">Download all screenshots for your App Store submission</p>
+
+        <button class="download-all" onclick="downloadAll()">
+            ⬇️ Download All Screenshots (ZIP)
+        </button>
+
+        <div class="status" id="status"></div>
+
+        <div class="grid" id="screenshotsGrid"></div>
+
+        <div class="instructions">
+            <h2>📋 How to Use These Screenshots</h2>
+            <ol>
+                <li><strong>Click "Download All"</strong> to get a ZIP file with all 10 screenshots</li>
+                <li><strong>Or download individually</strong> by clicking the blue button on each card</li>
+                <li>Go to <strong>App Store Connect</strong> (for iOS) or <strong>Google Play Console</strong> (for Android)</li>
+                <li>Navigate to your app's <strong>Store Listing</strong> section</li>
+                <li>Upload the screenshots in order (screenshot-1.png through screenshot-10.png)</li>
+                <li>Add the descriptions shown below each screenshot</li>
+                <li><strong>Save and submit!</strong></li>
+            </ol>
+        </div>
+    </div>
+
+    <script>
+        const screenshots = [
+            {
+                title: "Welcome Screen",
+                desc: "Professional racing tools and community in one powerful app",
+                img: "main_screen.png"
+            },
+            {
+                title: "Track Your Setups",
+                desc: "Save and organize race car setups with detailed configurations",
+                img: "i_save_this.png"
+            },
+            {
+                title: "Racing Community",
+                desc: "Connect with racers, share photos, and discuss strategies",
+                img: "pit_community.png"
+            },
+            {
+                title: "Racing Tools",
+                desc: "Professional calculators and trackers for serious racers",
+                img: "racing_tools.png"
+            },
+            {
+                title: "Swap Meet Marketplace",
+                desc: "Buy and sell racing parts with fellow competitors",
+                img: "swap_meet.png"
+            },
+            {
+                title: "More Features",
+                desc: "Track locations, lap times, motor health, and tire management",
+                img: "more.png"
+            },
+            {
+                title: "Setup Comparison",
+                desc: "Compare setups side-by-side to find what works best",
+                img: "screenshot_2026-01-06_200006.png"
+            },
+            {
+                title: "Detailed Setup Views",
+                desc: "Every detail at your fingertips - springs, shocks, and more",
+                img: "screenshot_2026-01-06_200116.png"
+            },
+            {
+                title: "Community Posts",
+                desc: "Share victories, get advice, and build your racing network",
+                img: "screenshot_2026-01-06_200231.png"
+            },
+            {
+                title: "Track Your Progress",
+                desc: "Monitor performance metrics and improve your racing game",
+                img: "screenshot_2026-01-06_201120.png"
+            }
+        ];
+
+        function createScreenshotCard(screenshot, index) {
+            return `
+                <div class="screenshot-card">
+                    <img src="${screenshot.img}" alt="${screenshot.title}" class="screenshot-preview">
+                    <div class="screenshot-info">
+                        <div class="screenshot-title">${index + 1}. ${screenshot.title}</div>
+                        <div class="screenshot-desc">${screenshot.desc}</div>
+                    </div>
+                    <button class="download-btn" onclick="downloadImage('${screenshot.img}', 'screenshot-${index + 1}.png')">
+                        Download Screenshot ${index + 1}
+                    </button>
+                </div>
+            `;
+        }
+
+        function init() {
+            const grid = document.getElementById('screenshotsGrid');
+            grid.innerHTML = screenshots.map((s, i) => createScreenshotCard(s, i)).join('');
+        }
+
+        function downloadImage(imgSrc, filename) {
+            const status = document.getElementById('status');
+            status.textContent = `Downloading ${filename}...`;
+
+            fetch(imgSrc)
+                .then(response => response.blob())
+                .then(blob => {
+                    const url = window.URL.createObjectURL(blob);
+                    const a = document.createElement('a');
+                    a.href = url;
+                    a.download = filename;
+                    document.body.appendChild(a);
+                    a.click();
+                    window.URL.revokeObjectURL(url);
+                    document.body.removeChild(a);
+                    status.textContent = `✅ ${filename} downloaded!`;
+                    setTimeout(() => status.textContent = '', 3000);
+                })
+                .catch(err => {
+                    status.textContent = `❌ Error downloading ${filename}`;
+                    console.error(err);
+                });
+        }
+
+        async function downloadAll() {
+            const status = document.getElementById('status');
+            status.textContent = '📦 Preparing ZIP file...';
+
+            const JSZip = await loadJSZip();
+            const zip = new JSZip();
+
+            for (let i = 0; i < screenshots.length; i++) {
+                try {
+                    status.textContent = `📦 Adding screenshot ${i + 1} of ${screenshots.length}...`;
+                    const response = await fetch(screenshots[i].img);
+                    const blob = await response.blob();
+                    zip.file(`screenshot-${i + 1}.png`, blob);
+                } catch (err) {
+                    console.error(`Failed to add ${screenshots[i].img}`, err);
+                }
+            }
+
+            status.textContent = '🔄 Creating ZIP file...';
+            const content = await zip.generateAsync({type: 'blob'});
+
+            const url = window.URL.createObjectURL(content);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'pitbox-screenshots.zip';
+            document.body.appendChild(a);
+            a.click();
+            window.URL.revokeObjectURL(url);
+            document.body.removeChild(a);
+
+            status.textContent = '✅ ZIP file downloaded! Check your Downloads folder.';
+            setTimeout(() => status.textContent = '', 5000);
+        }
+
+        function loadJSZip() {
+            return new Promise((resolve, reject) => {
+                const script = document.createElement('script');
+                script.src = 'https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js';
+                script.onload = () => resolve(window.JSZip);
+                script.onerror = reject;
+                document.head.appendChild(script);
+            });
+        }
+
+        init();
+    </script>
+</body>
+</html>

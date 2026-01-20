@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Search, MapPin, Filter, ChevronDown, Camera, DollarSign, Clock, Share2, Heart, Lock, Users, Loader2, Phone, Mail, X, Settings, Shield, Check, ExternalLink, Bookmark, BookmarkCheck, Plus, AlertCircle, Trash2, ShoppingBag, Clock as Click, Flag, Target, Navigation, ChevronLeft, ChevronRight, Sparkles, Tag, TrendingUp, Package } from 'lucide-react';
+import { Search, MapPin, Filter, ChevronDown, Camera, DollarSign, Clock, Share2, Heart, Lock, Users, Loader2, Phone, Mail, X, Settings, Shield, Check, ExternalLink, Bookmark, BookmarkCheck, Plus, AlertCircle, Trash2, ShoppingBag, Clock as Click, Flag, Target, Navigation, ChevronLeft, ChevronRight, Sparkles, Tag, TrendingUp, Package, Image, ZoomIn } from 'lucide-react';
 import { useAuth } from '../contexts/AuthContext';
 import SignInPrompt from '../components/SignInPrompt';
 import CreateListingModal from '../components/CreateListingModal';
@@ -19,6 +19,9 @@ interface ContactModalProps {
 
 function ContactModal({ listing, onClose }: ContactModalProps) {
   const { startChat } = useChat();
+
+  const showPhone = listing.preferred_contact === 'phone' && listing.contact_phone;
+  const showEmail = listing.preferred_contact === 'email' && listing.contact_email;
 
   return (
     <div className="fixed inset-0 z-[1200] flex items-center justify-center p-4 bg-black/50 backdrop-blur-md">
@@ -45,26 +48,36 @@ function ContactModal({ listing, onClose }: ContactModalProps) {
           </div>
 
           <div className="space-y-4">
-            {listing.contact_phone && (
+            {showPhone && (
               <div className="flex items-center gap-4 p-4 rounded-xl bg-green-100/60 border border-green-400/50">
                 <div className="w-10 h-10 rounded-full bg-green-600/20 border border-green-400/30 flex items-center justify-center">
                   <Phone className="w-5 h-5 text-green-600" />
                 </div>
-                <div>
+                <div className="flex-1">
                   <p className="text-sm text-gray-700">Phone</p>
-                  <p className="text-lg font-semibold text-gray-900">{listing.contact_phone}</p>
+                  <a
+                    href={`tel:${listing.contact_phone}`}
+                    className="text-lg font-semibold text-gray-900 hover:text-green-700 transition-colors"
+                  >
+                    {listing.contact_phone}
+                  </a>
                 </div>
               </div>
             )}
 
-            {listing.contact_email && (
+            {showEmail && (
               <div className="flex items-center gap-4 p-4 rounded-xl bg-blue-100/60 border border-blue-400/50">
                 <div className="w-10 h-10 rounded-full bg-blue-600/20 border border-blue-400/30 flex items-center justify-center">
                   <Mail className="w-5 h-5 text-blue-600" />
                 </div>
-                <div>
+                <div className="flex-1">
                   <p className="text-sm text-gray-700">Email</p>
-                  <p className="text-lg font-semibold text-gray-900">{listing.contact_email}</p>
+                  <a
+                    href={`mailto:${listing.contact_email}`}
+                    className="text-lg font-semibold text-gray-900 hover:text-blue-700 transition-colors break-all"
+                  >
+                    {listing.contact_email}
+                  </a>
                 </div>
               </div>
             )}
@@ -79,12 +92,6 @@ function ContactModal({ listing, onClose }: ContactModalProps) {
                 className="w-full justify-center py-3"
               />
             </div>
-
-            {listing.preferred_contact && (
-              <div className="text-sm text-gray-700 text-center">
-                <p>Preferred contact method: <span className="text-brand-gold font-semibold">{listing.preferred_contact}</span></p>
-              </div>
-            )}
           </div>
         </div>
       </motion.div>
@@ -96,7 +103,7 @@ function SwapMeet() {
   const [showSignInPrompt, setShowSignInPrompt] = useState(false);
   const [showCreateModal, setShowCreateModal] = useState(false);
   const [listings, setListings] = useState<Listing[]>([]);
-  const [loading, setLoading] = useState(true);
+  const [localLoading, setLocalLoading] = useState(false);
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedListing, setSelectedListing] = useState<Listing | null>(null);
   const [likeAnimation, setLikeAnimation] = useState<string | null>(null);
@@ -115,12 +122,14 @@ function SwapMeet() {
   const [customDistance, setCustomDistance] = useState('');
   const [manualZipCode, setManualZipCode] = useState('');
   const [showLocationPrompt, setShowLocationPrompt] = useState(false);
+  const [imageLightbox, setImageLightbox] = useState<{ listing: Listing; index: number } | null>(null);
+  const [hasMore, setHasMore] = useState(true);
+  const [currentPage, setCurrentPage] = useState(0);
+  const itemsPerPage = 24;
   const { user } = useAuth();
   const location = useLocation({ enableGeocoding: false, autoFetch: false });
   const navigate = useNavigate();
-  const { getListings, toggleLike, toggleSave, deleteListing, hasMore } = useListings();
-  const [currentPage, setCurrentPage] = useState(0);
-  const itemsPerPage = 24;
+  const { getListings, toggleLike, toggleSave, deleteListing } = useListings();
 
   const categories = [
     'All Categories',
@@ -167,10 +176,10 @@ function SwapMeet() {
   }, [currentPage]);
 
   const loadListings = async (page: number = 0) => {
-    setLoading(true);
+    setLocalLoading(true);
     try {
       const filters: any = {
-        category: selectedCategory !== 'all' ? selectedCategory : undefined,
+        category: selectedCategory !== 'all' && selectedCategory !== 'all-categories' ? selectedCategory : undefined,
         search: searchTerm,
         tab: activeTab,
         vehicleType: selectedVehicleType !== 'all' ? selectedVehicleType : undefined,
@@ -186,20 +195,24 @@ function SwapMeet() {
 
       let data = await getListings(filters);
 
-      // Apply client-side filters
       if (condition !== 'all') {
         data = data.filter(listing => listing.condition === condition);
       }
 
       if (priceRange.min) {
-        data = data.filter(listing => listing.price >= parseFloat(priceRange.min));
+        const minPrice = parseFloat(priceRange.min);
+        if (!isNaN(minPrice)) {
+          data = data.filter(listing => listing.price >= minPrice);
+        }
       }
 
       if (priceRange.max) {
-        data = data.filter(listing => listing.price <= parseFloat(priceRange.max));
+        const maxPrice = parseFloat(priceRange.max);
+        if (!isNaN(maxPrice)) {
+          data = data.filter(listing => listing.price <= maxPrice);
+        }
       }
 
-      // Apply sorting
       switch (sortBy) {
         case 'price-low':
           data.sort((a, b) => a.price - b.price);
@@ -212,9 +225,10 @@ function SwapMeet() {
           break;
         case 'recent':
         default:
-          // Already sorted by created_at DESC from backend
           break;
       }
+
+      setHasMore(data.length === itemsPerPage);
 
       if (page === 0) {
         setListings(data);
@@ -223,8 +237,10 @@ function SwapMeet() {
       }
     } catch (err) {
       console.error('Error loading listings:', err);
+      setListings([]);
+      setHasMore(false);
     } finally {
-      setLoading(false);
+      setLocalLoading(false);
     }
   };
 
@@ -916,10 +932,10 @@ function SwapMeet() {
       {/* Listings Section */}
       <div className="space-y-4">
         <h2 className="text-2xl font-bold">
-          {loading ? 'Loading Listings...' : `${listings.length} Listings Available`}
+          {localLoading && currentPage === 0 ? 'Loading Listings...' : `${listings.length} Listings Available`}
         </h2>
-        
-        {loading ? (
+
+        {localLoading && currentPage === 0 ? (
           <div className="flex justify-center items-center py-12">
             <Loader2 className="w-8 h-8 animate-spin text-brand-gold" />
           </div>
@@ -997,11 +1013,25 @@ function SwapMeet() {
                 >
                   <div className="relative">
                     {listing.images?.[0] ? (
-                      <img
-                        src={listing.images[0].url}
-                        alt={listing.title}
-                        className="w-full aspect-square object-cover group-hover:scale-105 transition-transform duration-300"
-                      />
+                      <div
+                        className="relative cursor-pointer"
+                        onClick={() => setImageLightbox({ listing, index: 0 })}
+                      >
+                        <img
+                          src={listing.images[0].url}
+                          alt={listing.title}
+                          className="w-full aspect-square object-cover group-hover:scale-105 transition-transform duration-300"
+                        />
+                        <div className="absolute inset-0 bg-black/0 hover:bg-black/20 transition-colors flex items-center justify-center opacity-0 hover:opacity-100">
+                          <ZoomIn className="w-10 h-10 text-white drop-shadow-lg" />
+                        </div>
+                        {listing.images.length > 1 && (
+                          <div className="absolute bottom-2 right-2 px-2 py-1 bg-black/70 rounded-full text-white text-xs font-medium flex items-center gap-1">
+                            <Image className="w-3 h-3" />
+                            {listing.images.length} photos
+                          </div>
+                        )}
+                      </div>
                     ) : (
                       <div className="w-full aspect-square bg-gradient-to-br from-gray-100 to-gray-200 dark:from-black/80 dark:to-gray-900/80 flex items-center justify-center">
                         <Package className="w-16 h-16 text-brand-gold/30" />
@@ -1176,10 +1206,10 @@ function SwapMeet() {
             <div className="mt-8 flex justify-center">
               <button
                 onClick={() => setCurrentPage(prev => prev + 1)}
-                disabled={loading}
+                disabled={localLoading}
                 className="btn-primary flex items-center gap-2 px-8 py-4 text-lg disabled:opacity-50 disabled:cursor-not-allowed"
               >
-                {loading ? (
+                {localLoading ? (
                   <>
                     <Loader2 className="w-5 h-5 animate-spin" />
                     Loading More...
@@ -1419,6 +1449,91 @@ function SwapMeet() {
           listing={selectedListing}
           onClose={() => setSelectedListing(null)}
         />
+      )}
+
+      {/* Image Lightbox Modal */}
+      {imageLightbox && imageLightbox.listing.images && imageLightbox.listing.images.length > 0 && (
+        <div
+          className="fixed inset-0 z-[1300] bg-black/95 flex items-center justify-center"
+          onClick={() => setImageLightbox(null)}
+        >
+          <button
+            onClick={() => setImageLightbox(null)}
+            className="absolute top-4 right-4 p-3 bg-white/10 hover:bg-white/20 rounded-full transition-colors text-white z-10"
+          >
+            <X className="w-8 h-8" />
+          </button>
+
+          {imageLightbox.listing.images.length > 1 && (
+            <>
+              <button
+                onClick={(e) => {
+                  e.stopPropagation();
+                  const images = imageLightbox.listing.images!;
+                  setImageLightbox({
+                    ...imageLightbox,
+                    index: imageLightbox.index === 0 ? images.length - 1 : imageLightbox.index - 1
+                  });
+                }}
+                className="absolute left-4 p-3 bg-white/10 hover:bg-white/20 rounded-full transition-colors text-white z-10"
+              >
+                <ChevronLeft className="w-8 h-8" />
+              </button>
+              <button
+                onClick={(e) => {
+                  e.stopPropagation();
+                  const images = imageLightbox.listing.images!;
+                  setImageLightbox({
+                    ...imageLightbox,
+                    index: imageLightbox.index === images.length - 1 ? 0 : imageLightbox.index + 1
+                  });
+                }}
+                className="absolute right-4 p-3 bg-white/10 hover:bg-white/20 rounded-full transition-colors text-white z-10"
+              >
+                <ChevronRight className="w-8 h-8" />
+              </button>
+            </>
+          )}
+
+          <div
+            className="max-w-5xl max-h-[85vh] p-4 flex flex-col items-center"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <img
+              src={imageLightbox.listing.images[imageLightbox.index].url}
+              alt={`${imageLightbox.listing.title} - Image ${imageLightbox.index + 1}`}
+              className="max-w-full max-h-[70vh] object-contain rounded-lg shadow-2xl"
+            />
+            <div className="mt-4 text-center">
+              <h3 className="text-white text-xl font-bold mb-2">{imageLightbox.listing.title}</h3>
+              <span className="px-4 py-2 bg-white/10 rounded-full text-white">
+                {imageLightbox.index + 1} of {imageLightbox.listing.images.length}
+              </span>
+            </div>
+          </div>
+
+          {/* Thumbnail strip */}
+          {imageLightbox.listing.images.length > 1 && (
+            <div className="absolute bottom-8 left-1/2 -translate-x-1/2 flex gap-2 max-w-[90vw] overflow-x-auto p-2">
+              {imageLightbox.listing.images.map((img, idx) => (
+                <button
+                  key={idx}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    setImageLightbox({ ...imageLightbox, index: idx });
+                  }}
+                  className={`w-16 h-16 flex-shrink-0 rounded-lg overflow-hidden border-2 transition-all ${
+                    idx === imageLightbox.index
+                      ? 'border-brand-gold scale-110'
+                      : 'border-transparent opacity-60 hover:opacity-100'
+                  }`}
+                >
+                  <img src={img.url} alt={`Thumbnail ${idx + 1}`} className="w-full h-full object-cover" />
+                </button>
+              ))}
+            </div>
+          )}
+        </div>
       )}
     </div>
   );

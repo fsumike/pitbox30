@@ -15,3 +15,10 @@ export const getPlatform = (): 'ios' | 'android' | 'web' => {
   }
   return 'web';
 };
+
+export const isPlatform = (platformName: 'capacitor' | 'ios' | 'android' | 'web'): boolean => {
+  if (platformName === 'capacitor') {
+    return Capacitor.isNativePlatform();
+  }
+  return Capacitor.getPlatform() === platformName;
+};

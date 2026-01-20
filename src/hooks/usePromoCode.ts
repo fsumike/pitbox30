@@ -15,23 +15,25 @@ const validPromoCodes = [
   'PROPERFORMANCE', 'PITBOXVIP', 'Chaz44', 'Chaz33', 'Chaz22', 'Chaz55', 'Chaz11'
 ];
 
+const unlimitedUseCodes = ['REVIEWER2025', 'APPREVIEW', 'PITBOXTEST'];
+
 export function usePromoCode() {
   const { user } = useAuth();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  /**
-   * Validates a promo code
-   * @param code The promo code to validate
-   * @returns Whether the code is valid
-   */
+  const isUnlimitedCode = (code: string): boolean => {
+    return unlimitedUseCodes.some(c => c.toUpperCase() === code.toUpperCase());
+  };
+
   const validatePromoCode = (code: string): boolean => {
     if (!code) return false;
-    
-    // Normalize the code: lowercase everything, then capitalize first letter
+
+    if (isUnlimitedCode(code)) return true;
+
     const normalizedCode = code.toLowerCase();
     const capitalizedCode = normalizedCode.charAt(0).toUpperCase() + normalizedCode.slice(1);
-    
+
     return validPromoCodes.includes(capitalizedCode);
   };
 
@@ -84,22 +86,22 @@ export function usePromoCode() {
         return false;
       }
 
-      // Normalize the code: lowercase everything, then capitalize first letter
       const normalizedCode = code.toLowerCase();
       const capitalizedCode = normalizedCode.charAt(0).toUpperCase() + normalizedCode.slice(1);
+      const finalCode = isUnlimitedCode(code) ? code.toUpperCase() : capitalizedCode;
 
-      // Check if the promo code has already been used
-      const isUsed = await checkPromoCodeUsed(capitalizedCode);
-      if (isUsed) {
-        setError('This promo code has already been used');
-        return false;
+      if (!isUnlimitedCode(code)) {
+        const isUsed = await checkPromoCodeUsed(capitalizedCode);
+        if (isUsed) {
+          setError('This promo code has already been used');
+          return false;
+        }
       }
 
-      // Update the user's profile with the promo code and premium status
       const { error: updateError } = await supabase
         .from('profiles')
         .update({
-          promo_code: capitalizedCode,
+          promo_code: finalCode,
           has_premium: true,
           updated_at: new Date().toISOString()
         })

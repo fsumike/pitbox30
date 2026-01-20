@@ -14,9 +14,9 @@ import SubscriptionGate from '../components/SubscriptionGate';
 
 const categoryImages: Record<string, string> = {
   'Sprint Cars': '/495479702_1321020539654208_5408440298677452810_n.jpg',
-  'Midget Cars': '/69298c4cd988988b07f26b2b_jja_6613-min copy.jpg',
-  'Modifieds': '/imca_southern_sportmod copy.jpg',
-  'Late Models': '/erb copy copy.jpeg',
+  'Midget Cars': '/midget_cars copy.jpg',
+  'Modifieds': '/imca_southern_sportmod copy copy copy.jpg',
+  'Late Models': '/late_model copy.jpeg',
   'Stock Cars': '/392307_articlesection_xl_d10ca69f-828b-441c-9ca4-ab7730ded7ee.png',
   'Youth Racing / Kart': '/photo-3.jpg',
 };
@@ -39,10 +39,10 @@ function Home() {
   };
 
   return (
-    <div className="space-y-12 relative">
+    <div className="space-y-12 relative overflow-x-hidden max-w-full" style={{ touchAction: 'pan-y' }}>
       {/* Liquid glass orbs for ambient effect - responsive for tablets */}
-      <div className="liquid-orb liquid-orb-gold w-48 sm:w-64 md:w-80 h-48 sm:h-64 md:h-80 -top-24 sm:-top-32 md:-top-32 -left-24 sm:-left-32 md:-left-32 fixed z-0 opacity-30" />
-      <div className="liquid-orb liquid-orb-amber w-40 sm:w-56 md:w-64 h-40 sm:h-56 md:h-64 bottom-16 sm:bottom-20 md:bottom-20 -right-16 sm:-right-20 md:-right-20 fixed z-0 opacity-30" style={{ animationDelay: '-8s' }} />
+      <div className="liquid-orb liquid-orb-gold w-48 sm:w-64 md:w-80 h-48 sm:h-64 md:h-80 -top-24 sm:-top-32 md:-top-32 -left-24 sm:-left-32 md:-left-32 fixed z-0 opacity-30 pointer-events-none" />
+      <div className="liquid-orb liquid-orb-amber w-40 sm:w-56 md:w-64 h-40 sm:h-56 md:h-64 bottom-16 sm:bottom-20 md:bottom-20 -right-16 sm:-right-20 md:-right-20 fixed z-0 opacity-30 pointer-events-none" style={{ animationDelay: '-8s' }} />
 
       {/* Dark Carbon Fiber Background - Light Mode uses dark theme, Dark Mode goes even darker */}
       <div className="fixed inset-0 -z-10 dark:hidden" style={{
@@ -384,8 +384,8 @@ function Home() {
                         >
                           <div className="flex items-center justify-between gap-2 sm:gap-3 relative z-10">
                             <div className="flex-1 min-w-0">
-                              <span className="text-sm sm:text-base font-medium block">{subItem.name}</span>
-                              <p className="text-xs text-gray-600 dark:text-gray-400 mt-0.5 sm:mt-1">
+                              <span className="text-sm sm:text-base font-medium block !text-white">{subItem.name}</span>
+                              <p className="text-xs !text-gray-300 mt-0.5 sm:mt-1">
                                 Access setup sheets and tools
                               </p>
                             </div>
@@ -416,7 +416,7 @@ function Home() {
             {user && !showVehicles && (
               <button
                 onClick={() => setShowVehicles(true)}
-                className="liquid-glass-card px-8 py-3 mx-auto w-full sm:w-auto font-medium hover:scale-105 transition-transform"
+                className="liquid-glass-card px-8 py-3 mx-auto w-full sm:w-auto font-medium hover:scale-105 transition-transform !text-white"
               >
                 View Setup Tools
               </button>
@@ -424,7 +424,7 @@ function Home() {
             {user && showVehicles && (
               <button
                 onClick={() => navigate('/subscription')}
-                className="liquid-glass-card px-8 py-3 mx-auto mb-8 font-medium w-full sm:w-auto hover:scale-105 transition-transform"
+                className="liquid-glass-card px-8 py-3 mx-auto mb-8 font-medium w-full sm:w-auto hover:scale-105 transition-transform !text-white"
               >
                 View Subscription Plans
               </button>

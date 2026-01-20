@@ -1,0 +1,65 @@
+╔═══════════════════════════════════════════════════════════════════╗
+║                ENCRYPTION COMPLIANCE - QUICK ANSWER               ║
+╚═══════════════════════════════════════════════════════════════════╝
+
+📱 QUESTION 1: "Does your app use encryption?"
+
+✅ ANSWER: NO
+
+WHY? Your app only uses:
+  • HTTPS/TLS (standard encryption)
+  • Apple's iOS encryption (standard)
+  • No custom encryption algorithms
+
+YOU ARE EXEMPT! ✅
+
+───────────────────────────────────────────────────────────────────
+
+📱 QUESTION 2: "Which encryption algorithms does your app implement?"
+
+☐ Proprietary encryption algorithms
+☐ Standard encryption algorithms
+
+✅ ANSWER: CHECK NEITHER BOX (leave both unchecked)
+
+WHY? Your app doesn't IMPLEMENT any encryption. It only USES
+Apple's built-in encryption. You didn't write any crypto code.
+
+───────────────────────────────────────────────────────────────────
+
+📝 IF YOU MUST ADD TO INFO.PLIST:
+
+Add this to ios/App/App/Info.plist:
+
+<key>ITSAppUsesNonExemptEncryption</key>
+<false/>
+
+───────────────────────────────────────────────────────────────────
+
+💬 IF APPLE ASKS FOR DETAILS:
+
+Copy/paste this response:
+
+"PitBox uses only standard HTTPS/TLS encryption for secure
+communication with our backend API (Supabase). We do not implement
+any proprietary encryption algorithms or custom cryptography. All
+encryption used is provided by Apple's iOS operating system and
+industry-standard protocols. We qualify for encryption export
+exemption under Category 5, Part 2 of the U.S. Export
+Administration Regulations."
+
+───────────────────────────────────────────────────────────────────
+
+✅ YOU DO NOT NEED:
+  ❌ ERN (Encryption Registration Number)
+  ❌ Annual self-classification reports
+  ❌ Export documentation
+  ❌ Special licenses
+
+───────────────────────────────────────────────────────────────────
+
+📚 FULL GUIDE: See ENCRYPTION_COMPLIANCE_GUIDE.md
+
+───────────────────────────────────────────────────────────────────
+
+DONE! That's all you need to know. ✅

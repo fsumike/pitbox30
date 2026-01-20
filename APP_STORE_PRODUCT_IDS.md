@@ -1,211 +1,130 @@
-# Product IDs for App Store Setup
+# App Store Connect - Exact Product IDs
 
-## Complete Payment Schedule - All Platforms
-
----
-
-## 📱 Apple App Store Connect
-
-Create these **6 subscription products** in a subscription group called "PitBox Premium":
-
-### Basic Tier
-
-1. **Basic Monthly**
-   - Product ID: `com.pitbox.basic.monthly`
-   - Price: **$9.99**
-   - Duration: 1 Month
-   - Type: Auto-renewable subscription
-
-2. **Basic Quarterly**
-   - Product ID: `com.pitbox.basic.quarterly`
-   - Price: **$24.99**
-   - Duration: 3 Months
-   - Type: Auto-renewable subscription
-
-3. **Basic Yearly**
-   - Product ID: `com.pitbox.basic.yearly`
-   - Price: **$99.99**
-   - Duration: 1 Year
-   - Type: Auto-renewable subscription
-
-### Premium Tier
-
-4. **Premium Monthly**
-   - Product ID: `com.pitbox.premium.monthly`
-   - Price: **$12.99**
-   - Duration: 1 Month
-   - Type: Auto-renewable subscription
-
-5. **Premium Quarterly**
-   - Product ID: `com.pitbox.premium.quarterly`
-   - Price: **$34.99**
-   - Duration: 3 Months
-   - Type: Auto-renewable subscription
-
-6. **Premium Yearly**
-   - Product ID: `com.pitbox.premium.yearly`
-   - Price: **$134.99**
-   - Duration: 1 Year
-   - Type: Auto-renewable subscription
+Copy and paste these EXACTLY into App Store Connect. Typos will break the app!
 
 ---
 
-## 🤖 Google Play Console
+## Subscription Group
 
-Create these **6 subscription products** under: Monetize → Products → Subscriptions
-
-### Basic Tier
-
-1. **Basic Monthly**
-   - Product ID: `basic_monthly`
-   - Name: "Basic Setup Access - Monthly"
-   - Price: **$9.99**
-   - Billing period: Monthly (every 1 month)
-
-2. **Basic Quarterly**
-   - Product ID: `basic_quarterly`
-   - Name: "Basic Setup Access - Quarterly"
-   - Price: **$24.99**
-   - Billing period: Every 3 months
-
-3. **Basic Yearly**
-   - Product ID: `basic_yearly`
-   - Name: "Basic Setup Access - Yearly"
-   - Price: **$99.99**
-   - Billing period: Yearly (every 1 year)
-
-### Premium Tier
-
-4. **Premium Monthly**
-   - Product ID: `premium_monthly`
-   - Name: "Encrypted Setup Access - Monthly"
-   - Price: **$12.99**
-   - Billing period: Monthly (every 1 month)
-
-5. **Premium Quarterly**
-   - Product ID: `premium_quarterly`
-   - Name: "Encrypted Setup Access - Quarterly"
-   - Price: **$34.99**
-   - Billing period: Every 3 months
-
-6. **Premium Yearly**
-   - Product ID: `premium_yearly`
-   - Name: "Encrypted Setup Access - Yearly"
-   - Price: **$134.99**
-   - Billing period: Yearly (every 1 year)
+**Name**: `PitBox Premium`
+**Reference Name**: `pitbox_premium_group`
 
 ---
 
-## 🌐 Stripe (Web) - Already Configured
+## Required Subscriptions (Create These First)
 
-Your Stripe products are already set up with these price IDs:
+### 1. Basic Monthly
 
-### Basic Tier
+```
+Reference Name: Basic Setup Access - Monthly
+Product ID: com.pitbox.basic.monthly
+Duration: 1 Month
+Price: $9.99 USD (Tier 10)
 
-- Monthly: `price_1RRU4fANikXpQi11v5yoYilZ` ($9.99)
-- Quarterly: `price_1RRU4fANikXpQi11xJ5EG1vx` ($24.99)
-- Yearly: `price_1RRU4fANikXpQi11GZmyUEwK` ($99.99)
+Display Name: Basic Setup Access
+Description: Unlimited setup saves, access on all devices, full community access, and all professional racing tools.
 
-### Premium Tier
-
-- Monthly: `price_1RRU7iANikXpQi11N4km6XFf` ($12.99)
-- Quarterly: `price_1RRUhCANikXpQi11RVy5KKbK` ($34.99)
-- Yearly: `price_1RRUhCANikXpQi11Ya6mzjHl` ($134.99)
-
----
-
-## 💰 Pricing Summary
-
-| Tier | Monthly | Quarterly | Yearly | Savings |
-|------|---------|-----------|--------|---------|
-| **Basic** | $9.99 | $24.99 | $99.99 | $20/year |
-| **Premium** | $12.99 | $34.99 | $134.99 | $21/year |
+Free Trial: 7 Days
+```
 
 ---
 
-## 📦 Feature Comparison
+### 2. Premium Monthly
 
-### Basic Setup Access ($9.99/month)
-- Unlimited setup saves
-- Access on all your devices
-- Basic setup templates
-- Community access
+```
+Reference Name: Encrypted Setup Access - Monthly
+Product ID: com.pitbox.premium.monthly
+Duration: 1 Month
+Price: $12.99 USD (Tier 12)
 
-### Encrypted Setup Access ($12.99/month)
-- All Basic features
-- End-to-end encryption
-- Advanced setup templates
-- Priority support
-- Early access to new features
+Display Name: Encrypted Setup Access
+Description: All Basic features plus end-to-end encryption, advanced templates, priority support, and early access to new features.
 
----
-
-## ✅ Setup Checklist
-
-### Apple App Store
-- [ ] Log into App Store Connect
-- [ ] Navigate to your app
-- [ ] Go to "Subscriptions" tab
-- [ ] Create subscription group "PitBox Premium"
-- [ ] Create all 6 products with exact IDs above
-- [ ] Submit for review (takes 24-48 hours)
-- [ ] Add in-app purchase capability in Xcode
-- [ ] Test with sandbox account
-
-### Google Play Store
-- [ ] Log into Play Console
-- [ ] Navigate to your app
-- [ ] Go to Monetize → Products → Subscriptions
-- [ ] Create all 6 products with exact IDs above
-- [ ] Activate all products
-- [ ] Test with license testing account
-
-### Web (Stripe)
-- [x] Already configured and ready to use
+Free Trial: 7 Days
+```
 
 ---
 
-## 🧪 Testing
+## Optional Subscriptions (Add Later)
 
-### Apple
-Create sandbox tester accounts in App Store Connect:
-1. Go to Users and Access → Sandbox Testers
-2. Create test account
-3. Sign out of real Apple ID on device
-4. Sign in with sandbox account when testing
+### 3. Basic Quarterly
 
-### Google
-Add license testers in Play Console:
-1. Go to Setup → License testing
-2. Add email addresses
-3. Select "License Test Response" as your test type
-4. Test with those accounts
+```
+Reference Name: Basic Setup Access - Quarterly
+Product ID: com.pitbox.basic.quarterly
+Duration: 3 Months
+Price: $24.99 USD
 
-### Stripe
-Use Stripe test mode with test card numbers:
-- Success: `4242 4242 4242 4242`
-- Decline: `4000 0000 0000 0002`
+Display Name: Basic Setup Access - 3 Months
+Description: 3 months of unlimited setup saves and full access. Save 17% compared to monthly!
+```
 
 ---
 
-## 📝 Important Notes
+### 4. Premium Quarterly
 
-1. **Product IDs must match exactly** - Copy/paste from this document
-2. **Prices must match exactly** - Use the amounts listed above
-3. **Apple review takes time** - Submit subscriptions before app review
-4. **Test thoroughly** - Use sandbox/test accounts before going live
-5. **All platforms sync** - User gets premium on all platforms regardless of where they paid
+```
+Reference Name: Encrypted Setup Access - Quarterly
+Product ID: com.pitbox.premium.quarterly
+Duration: 3 Months
+Price: $34.99 USD
+
+Display Name: Encrypted Setup Access - 3 Months
+Description: 3 months of premium features including encryption. Save 10% compared to monthly!
+```
 
 ---
 
-## 🚀 After Setup
+### 5. Basic Yearly
 
-Once all products are created:
+```
+Reference Name: Basic Setup Access - Yearly
+Product ID: com.pitbox.basic.yearly
+Duration: 1 Year
+Price: $89.99 USD
 
-1. **Test on iOS simulator** with sandbox account
-2. **Test on Android emulator** with test account
-3. **Test on web** with Stripe test mode
-4. **Verify database** - Check subscription saves correctly
-5. **Submit apps** - Both stores require approval
+Display Name: Basic Setup Access - Annual
+Description: Full year of unlimited access. Save 25% compared to monthly - best value!
+```
 
-Your code is already configured for all these products and will automatically detect the platform and show the correct payment options!
+---
+
+### 6. Premium Yearly
+
+```
+Reference Name: Encrypted Setup Access - Yearly
+Product ID: com.pitbox.premium.yearly
+Duration: 1 Year
+Price: $119.99 USD
+
+Display Name: Encrypted Setup Access - Annual
+Description: Full year of premium features with encryption. Save 23% compared to monthly!
+```
+
+---
+
+## Important Notes
+
+1. **Product IDs must match EXACTLY** - No typos!
+2. **Start with Monthly only** - Add quarterly/yearly later if needed
+3. **Free trials** - Both tiers offer 7-day free trial
+4. **Link to app version** - Must add subscriptions to version 3.0.0 before submitting
+
+---
+
+## Copy-Paste Quick Reference
+
+When creating in App Store Connect, copy these exact Product IDs:
+
+```
+com.pitbox.basic.monthly
+com.pitbox.premium.monthly
+com.pitbox.basic.quarterly
+com.pitbox.premium.quarterly
+com.pitbox.basic.yearly
+com.pitbox.premium.yearly
+```
+
+**These are already configured in your app code!** ✅
+
+File: `/src/lib/payments/payment-router.ts`

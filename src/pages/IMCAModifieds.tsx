@@ -18,15 +18,12 @@ function IMCAModifieds() {
   const handleLoadSetup = (setup: Setup) => {
     setCurrentSetup(setup);
 
-    // Extract car number from database column or setup_data
     const carNum = setup?.car_number || setup?.setup_data?.general?.car_number?.feature || '';
     setCarNumber(carNum);
 
-    // Extract track name from database column or setup_data
-    const trackNm = setup?.track_name || setup?.setup_data?.general?.track_track?.feature || '';
+    const trackNm = setup?.track_name || setup?.setup_data?.general?.track_name?.feature || '';
     setTrackName(trackNm);
 
-    // Extract date from setup_data or use created_at
     const setupDate = setup?.setup_data?.general?.date?.feature ||
                      (setup?.created_at ? new Date(setup.created_at).toISOString().split('T')[0] : new Date().toISOString().split('T')[0]);
     setDate(setupDate);
@@ -38,145 +35,147 @@ function IMCAModifieds() {
     }
   }, [location.state]);
 
-
-  // Define the setup data structure with IMCA Modified specific sections
   const initialSetupData = {
     general: {
+      driver: { feature: '', comment: '' },
       car_number: { feature: '', comment: '' },
-      track_track: { feature: '', comment: '' },
-      track_conditions: { feature: '', comment: '' },
+      track_name: { feature: '', comment: '' },
+      track_condition: { feature: '', comment: 'Dry Slick, Tacky, Heavy, Wet' },
+      class: { feature: 'IMCA Modified', comment: 'IMCA Modified - Midwest/National' },
       date: { feature: new Date().toISOString().split('T')[0], comment: '' }
     },
+    weight_balance: {
+      total_weight: { feature: '', comment: '2500 lbs minimum with driver' },
+      lf_weight: { feature: '', comment: 'Left front corner weight' },
+      rf_weight: { feature: '', comment: 'Right front corner weight' },
+      lr_weight: { feature: '', comment: 'Left rear corner weight' },
+      rr_weight: { feature: '', comment: 'Right rear corner weight' },
+      cross_weight_percent: { feature: '', comment: 'Target cross weight %' },
+      left_side_percent: { feature: '', comment: 'Maximum 58% left side' },
+      rear_percent: { feature: '', comment: 'Rear weight percentage' }
+    },
     chassis: {
-      chassis_manufacturer: { feature: '', comment: 'Chassis make and model' },
+      chassis_manufacturer: { feature: '', comment: 'Chassis brand (Hughes, Shaw, etc.)' },
       chassis_year: { feature: '', comment: 'Year of chassis' },
-      chassis_type: { feature: '', comment: 'Chassis configuration' }
+      wheelbase: { feature: '', comment: 'Wheelbase measurement' },
+      frame_type: { feature: '', comment: 'Stock frame section or custom' }
     },
-    weight: {
-      total_weight: { feature: '', comment: 'Minimum weight 2500 lbs with driver' },
-      left_side_weight: { feature: '', comment: 'Maximum 58% left side weight' },
-      rear_weight: { feature: '', comment: 'Percentage of total weight' },
-      cross_weight: { feature: '', comment: 'Percentage of cross weight' }
+    front_suspension: {
+      front_suspension_type: { feature: '', comment: 'Three-link, swing arm, or stock' },
+      lf_spring_rate: { feature: '', comment: '200-400 lbs/in typical IMCA' },
+      rf_spring_rate: { feature: '', comment: '200-400 lbs/in typical IMCA' },
+      lf_shock_compression: { feature: '', comment: 'Compression setting' },
+      lf_shock_rebound: { feature: '', comment: 'Rebound setting' },
+      rf_shock_compression: { feature: '', comment: 'Compression setting' },
+      rf_shock_rebound: { feature: '', comment: 'Rebound setting' },
+      camber_lf: { feature: '', comment: 'Left front camber' },
+      camber_rf: { feature: '', comment: 'Right front camber' },
+      caster_lf: { feature: '', comment: 'Left front caster' },
+      caster_rf: { feature: '', comment: 'Right front caster' },
+      ride_height_lf: { feature: '', comment: 'Left front ride height' },
+      ride_height_rf: { feature: '', comment: 'Right front ride height' }
     },
-    front_end: {
-      front_clip: { feature: '', comment: 'Tubular or OEM style' },
-      steering_box: { feature: '', comment: 'Type and ratio' },
-      spindle_type: { feature: '', comment: 'IMCA legal spindle type' },
-      bumpsteer: { feature: '', comment: 'Bumpsteer settings' },
-      ackermann: { feature: '', comment: 'Ackermann adjustment' }
+    rear_suspension: {
+      rear_suspension_type: { feature: 'Pull Bar / 2-Link', comment: 'IMCA typically uses simpler pull bar or 2-link' },
+      pull_bar_spring_type: { feature: '', comment: 'Progressive or linear spring' },
+      pull_bar_spring_rate: { feature: '', comment: '600-1200 lbs typical progressive' },
+      pull_bar_preload: { feature: '', comment: 'Pull bar spring preload' },
+      pull_bar_angle: { feature: '', comment: 'Pull bar angle - less aggressive than 4-link cars' },
+      pull_bar_length: { feature: '', comment: 'Pull bar length adjustment' },
+      lr_shock_compression: { feature: '', comment: 'Compression setting' },
+      lr_shock_rebound: { feature: '', comment: 'Rebound setting' },
+      rr_shock_compression: { feature: '', comment: 'Compression setting' },
+      rr_shock_rebound: { feature: '', comment: 'Rebound setting' },
+      ride_height_lr: { feature: '', comment: 'Left rear ride height' },
+      ride_height_rr: { feature: '', comment: 'Right rear ride height' },
+      pinion_angle: { feature: '', comment: 'Pinion angle' }
     },
-    suspension: {
-      front_suspension: { feature: '', comment: 'Type (three-link, swing arm, etc.)' },
-      rear_suspension: { feature: '', comment: 'Type (three-link, leaf spring, etc.)' },
-      j_bar: { feature: '', comment: 'J-bar or panhard settings' },
-      lift_bar: { feature: '', comment: 'Lift bar settings and angle' },
-      pull_bar: { feature: '', comment: 'Pull bar settings if equipped' }
+    rear_geometry: {
+      j_bar_position: { feature: '', comment: 'J-bar or panhard bar position' },
+      j_bar_angle: { feature: '', comment: 'J-bar angle' },
+      rear_trailing_arms: { feature: '', comment: 'Trailing arm lengths if applicable' },
+      rear_torque_link: { feature: '', comment: 'Torque link or lift bar settings' },
+      axle_offset: { feature: '', comment: 'Rear axle offset measurement' }
     },
-    left_front: {
-      lf_spring: { feature: '', comment: 'Spring rate (lbs)' },
-      lf_shock: { feature: '', comment: 'Shock type and valving' },
-      lf_ride_height: { feature: '', comment: 'Ride height measurement' },
-      lf_camber: { feature: '', comment: 'Camber setting' },
-      lf_caster: { feature: '', comment: 'Caster setting' },
-      lf_toe: { feature: '', comment: 'Toe setting' }
-    },
-    right_front: {
-      rf_spring: { feature: '', comment: 'Spring rate (lbs)' },
-      rf_shock: { feature: '', comment: 'Shock type and valving' },
-      rf_ride_height: { feature: '', comment: 'Ride height measurement' },
-      rf_camber: { feature: '', comment: 'Camber setting' },
-      rf_caster: { feature: '', comment: 'Caster setting' },
-      rf_toe: { feature: '', comment: 'Toe setting' }
-    },
-    left_rear: {
-      lr_spring: { feature: '', comment: 'Spring rate (lbs)' },
-      lr_shock: { feature: '', comment: 'Shock type and valving' },
-      lr_ride_height: { feature: '', comment: 'Ride height measurement' },
-      lr_tube: { feature: '', comment: 'Lower control arm tube length' },
-      lr_link_height: { feature: '', comment: 'Link mounting height' }
-    },
-    right_rear: {
-      rr_spring: { feature: '', comment: 'Spring rate (lbs)' },
-      rr_shock: { feature: '', comment: 'Shock type and valving' },
-      rr_ride_height: { feature: '', comment: 'Ride height measurement' },
-      rr_tube: { feature: '', comment: 'Lower control arm tube length' },
-      rr_link_height: { feature: '', comment: 'Link mounting height' }
+    steering_alignment: {
+      toe_total_front: { feature: '', comment: '1/16" to 1/8" out typical' },
+      ackermann_percent: { feature: '', comment: 'Ackermann steering geometry' },
+      bump_steer_lf: { feature: '', comment: 'Minimize bump steer' },
+      bump_steer_rf: { feature: '', comment: 'Minimize bump steer' },
+      steering_quickener: { feature: '', comment: 'Steering quickener ratio if used' }
     },
     tires: {
-      lf_tire: { feature: '', comment: 'Left front tire compound and size' },
-      rf_tire: { feature: '', comment: 'Right front tire compound and size' },
-      lr_tire: { feature: '', comment: 'Left rear tire compound and size' },
-      rr_tire: { feature: '', comment: 'Right rear tire compound and size' },
-      stagger: { feature: '', comment: 'Rear tire stagger measurement' },
-      tire_pressures: { feature: '', comment: 'Starting tire pressures' },
-      tire_temps: { feature: '', comment: 'Tire temperature readings' }
+      lf_compound: { feature: '', comment: 'Hoosier IMCA tire compound' },
+      lf_size: { feature: '', comment: 'Tire size' },
+      lf_cold_pressure: { feature: '', comment: 'Cold pressure' },
+      lf_hot_pressure: { feature: '', comment: 'Hot pressure' },
+      rf_compound: { feature: '', comment: 'Hoosier IMCA tire compound' },
+      rf_size: { feature: '', comment: 'Tire size' },
+      rf_cold_pressure: { feature: '', comment: 'Cold pressure' },
+      rf_hot_pressure: { feature: '', comment: 'Hot pressure' },
+      front_stagger: { feature: '', comment: 'Front tire stagger' },
+      lr_compound: { feature: '', comment: 'Hoosier IMCA tire compound' },
+      lr_size: { feature: '', comment: 'Tire size' },
+      lr_cold_pressure: { feature: '', comment: 'Cold pressure' },
+      lr_hot_pressure: { feature: '', comment: 'Hot pressure' },
+      rr_compound: { feature: '', comment: 'Hoosier IMCA tire compound' },
+      rr_size: { feature: '', comment: 'Tire size' },
+      rr_cold_pressure: { feature: '', comment: 'Cold pressure' },
+      rr_hot_pressure: { feature: '', comment: 'Hot pressure' },
+      rear_stagger: { feature: '', comment: 'Rear tire stagger' }
     },
-    engine: {
-      engine_type: { feature: '', comment: 'Engine specifications' },
-      displacement: { feature: '', comment: 'Engine displacement (ci)' },
-      compression: { feature: '', comment: 'Compression ratio' },
-      carburetor: { feature: '', comment: 'Carburetor type and size' },
-      timing: { feature: '', comment: 'Ignition timing' },
-      headers: { feature: '', comment: 'Header type and size' },
-      oil_type: { feature: '', comment: 'Oil type and weight' }
+    engine_drivetrain: {
+      engine_type: { feature: '', comment: 'IMCA sealed 365 ci engine or open' },
+      engine_builder: { feature: '', comment: 'Engine builder' },
+      carburetor: { feature: '', comment: 'IMCA legal carburetor' },
+      gear_ratio: { feature: '', comment: 'Gear ratio' },
+      final_drive: { feature: '', comment: 'Final drive ratio' },
+      transmission_type: { feature: '', comment: 'Transmission type' }
     },
-    drivetrain: {
-      transmission: { feature: '', comment: 'Transmission type' },
-      gear_ratio: { feature: '', comment: 'Final drive ratio' },
-      differential: { feature: '', comment: 'Differential type and settings' },
-      driveshaft: { feature: '', comment: 'Driveshaft specifications' }
+    body_aero: {
+      body_style: { feature: '', comment: 'Body style and manufacturer' },
+      spoiler_height: { feature: '', comment: 'Rear spoiler height' },
+      nose_height: { feature: '', comment: 'Nose height' },
+      body_rules: { feature: '', comment: 'IMCA body template compliance' }
     },
-    brake_bias: {
-      front_bias: { feature: '', comment: 'Front brake bias percentage' },
-      rear_bias: { feature: '', comment: 'Rear brake bias percentage' },
-      bias_adjustment: { feature: '', comment: 'Brake bias adjuster setting' }
-    },
-    notes: {
-      track_notes: { feature: '', comment: 'Track condition notes' },
-      setup_notes: { feature: '', comment: 'General setup notes' },
-      performance_notes: { feature: '', comment: 'Performance and handling notes' },
-      maintenance_notes: { feature: '', comment: 'Maintenance items to address' }
+    session_notes: {
+      track_prep: { feature: '', comment: 'Track preparation notes' },
+      changes_made: { feature: '', comment: 'Changes during practice/qualifying/feature' },
+      driver_notes: { feature: '', comment: 'Handling characteristics and feedback' },
+      lap_times: { feature: '', comment: 'Best lap times' },
+      tire_wear: { feature: '', comment: 'Tire wear observations' }
     }
   };
 
-
-  // Track input for track name
   const handleTrackChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setTrackName(e.target.value);
   };
 
-  // Track input for date
   const handleDateChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setDate(e.target.value);
   };
 
   return (
     <div className="space-y-6">
-      <div className="relative rounded-2xl overflow-hidden bg-gradient-to-br from-blue-600 via-blue-700 to-sky-800 p-8">
-        <h1 className="text-3xl md:text-4xl font-bold text-white mb-2">IMCA Modifieds</h1>
-        <p className="text-gray-100 text-sm md:text-base max-w-2xl">
-          One of the most widespread and competitive dirt track racing classes in North America.
-        </p>
-      </div>
-
-      <div className="glass-panel p-6 bg-gradient-to-br from-blue-500/10 to-sky-500/10 dark:from-blue-500/20 dark:to-sky-500/20">
+      <div className="glass-panel p-6 bg-gradient-to-br from-red-500/10 to-orange-500/10 dark:from-red-500/20 dark:to-orange-500/20">
         <div className="mb-6">
+          <h1 className="text-3xl font-bold mb-4 text-red-600 dark:text-red-400">IMCA Modified (Midwest/National)</h1>
           <p className="text-gray-700 dark:text-gray-300">
-            IMCA (International Motor Contest Association) Modifieds are one of the most widespread and competitive dirt track racing classes in North America.
-            These cars feature specific rule requirements including weight limits, tire regulations, and suspension configurations designed to keep competition close and costs reasonable.
-            Use our comprehensive setup tools to optimize your IMCA Modified's performance while staying within class regulations.
+            IMCA Modifieds are the most popular dirt modified class in America, featuring sealed 365 ci engines or open motors with
+            restrictive rules. These cars typically use simpler pull bar or 2-link rear suspension instead of 4-link, with progressive
+            springs (600-1200 lbs) and less aggressive geometry than high-powered modifieds. Bodies are flatter and less
+            aero-dependent, using stock frame sections in many cases. Setup focus is on mechanical grip and preventing wheel spin
+            with softer suspension settings.
           </p>
         </div>
 
         <div className="flex flex-col sm:flex-row gap-4 items-stretch">
           <LoadSetupsButton carType="imca-modified" onLoadSetup={handleLoadSetup} />
-          
-          
         </div>
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-        <CarNumberBox 
+        <CarNumberBox
           value={carNumber}
           onChange={setCarNumber}
         />
@@ -205,13 +204,12 @@ function IMCAModifieds() {
         </div>
       </div>
 
-
       <DynoImageCapture title="Motor" type="motor" />
 
-      <SetupSheet 
+      <SetupSheet
         title="IMCA Modified"
         carType="imca-modified"
-        description="Track and optimize your IMCA Modified setup with our detailed setup sheet. Monitor chassis adjustments, suspension settings, and tire data while ensuring compliance with IMCA rules and regulations."
+        description="Midwest/National IMCA Modified setup with pull bar or 2-link suspension optimized for sealed engines."
         initialSetup={currentSetup}
         initialSetupData={initialSetupData}
         carNumber={carNumber}
@@ -219,60 +217,52 @@ function IMCAModifieds() {
         date={date}
         sections={[
           {
-            title: "General",
-            fields: ["car_number", "track_track", "track_conditions", "date"]
+            title: "General Information",
+            fields: ["driver", "car_number", "track_name", "track_condition", "class", "date"]
+          },
+          {
+            title: "Weight & Balance",
+            fields: ["total_weight", "lf_weight", "rf_weight", "lr_weight", "rr_weight", "cross_weight_percent", "left_side_percent", "rear_percent"]
           },
           {
             title: "Chassis",
-            fields: ["chassis_manufacturer", "chassis_year", "chassis_type"]
+            fields: ["chassis_manufacturer", "chassis_year", "wheelbase", "frame_type"]
           },
           {
-            title: "Weight",
-            fields: ["total_weight", "left_side_weight", "rear_weight", "cross_weight"]
+            title: "Front Suspension",
+            fields: ["front_suspension_type", "lf_spring_rate", "rf_spring_rate", "lf_shock_compression", "lf_shock_rebound", "rf_shock_compression", "rf_shock_rebound", "camber_lf", "camber_rf", "caster_lf", "caster_rf", "ride_height_lf", "ride_height_rf"]
           },
           {
-            title: "Front End",
-            fields: ["front_clip", "steering_box", "spindle_type", "bumpsteer", "ackermann"]
+            title: "Rear Suspension (Pull Bar / 2-Link)",
+            fields: ["rear_suspension_type", "pull_bar_spring_type", "pull_bar_spring_rate", "pull_bar_preload", "pull_bar_angle", "pull_bar_length", "lr_shock_compression", "lr_shock_rebound", "rr_shock_compression", "rr_shock_rebound", "ride_height_lr", "ride_height_rr", "pinion_angle"]
           },
           {
-            title: "Suspension",
-            fields: ["front_suspension", "rear_suspension", "j_bar", "lift_bar", "pull_bar"]
+            title: "Rear Geometry",
+            fields: ["j_bar_position", "j_bar_angle", "rear_trailing_arms", "rear_torque_link", "axle_offset"]
           },
           {
-            title: "Left Front",
-            fields: ["lf_spring", "lf_shock", "lf_ride_height", "lf_camber", "lf_caster", "lf_toe"]
+            title: "Steering & Alignment",
+            fields: ["toe_total_front", "ackermann_percent", "bump_steer_lf", "bump_steer_rf", "steering_quickener"]
           },
           {
-            title: "Right Front",
-            fields: ["rf_spring", "rf_shock", "rf_ride_height", "rf_camber", "rf_caster", "rf_toe"]
+            title: "Tires - Front",
+            fields: ["lf_compound", "lf_size", "lf_cold_pressure", "lf_hot_pressure", "rf_compound", "rf_size", "rf_cold_pressure", "rf_hot_pressure", "front_stagger"]
           },
           {
-            title: "Left Rear",
-            fields: ["lr_spring", "lr_shock", "lr_ride_height", "lr_tube", "lr_link_height"]
+            title: "Tires - Rear",
+            fields: ["lr_compound", "lr_size", "lr_cold_pressure", "lr_hot_pressure", "rr_compound", "rr_size", "rr_cold_pressure", "rr_hot_pressure", "rear_stagger"]
           },
           {
-            title: "Right Rear",
-            fields: ["rr_spring", "rr_shock", "rr_ride_height", "rr_tube", "rr_link_height"]
+            title: "Engine & Drivetrain",
+            fields: ["engine_type", "engine_builder", "carburetor", "gear_ratio", "final_drive", "transmission_type"]
           },
           {
-            title: "Tires",
-            fields: ["lf_tire", "rf_tire", "lr_tire", "rr_tire", "stagger", "tire_pressures", "tire_temps"]
+            title: "Body & Aero",
+            fields: ["body_style", "spoiler_height", "nose_height", "body_rules"]
           },
           {
-            title: "Engine",
-            fields: ["engine_type", "displacement", "compression", "carburetor", "timing", "headers", "oil_type"]
-          },
-          {
-            title: "Drivetrain",
-            fields: ["transmission", "gear_ratio", "differential", "driveshaft"]
-          },
-          {
-            title: "Brake Bias",
-            fields: ["front_bias", "rear_bias", "bias_adjustment"]
-          },
-          {
-            title: "Notes",
-            fields: ["track_notes", "setup_notes", "performance_notes", "maintenance_notes"]
+            title: "Session Notes",
+            fields: ["track_prep", "changes_made", "driver_notes", "lap_times", "tire_wear"]
           }
         ]}
       />

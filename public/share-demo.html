@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PitBox Share Feature Demo</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
+            color: #fff;
+            padding: 20px;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        h1 {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, #FFD700 0%, #FFA500 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .subtitle {
+            text-align: center;
+            color: #aaa;
+            margin-bottom: 3rem;
+            font-size: 1.2rem;
+        }
+
+        .demo-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+
+        .demo-card {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 20px;
+            padding: 2rem;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .demo-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(255, 215, 0, 0.3);
+        }
+
+        .step-number {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, #FFD700 0%, #FFA500 100%);
+            border-radius: 50%;
+            color: #000;
+            font-weight: bold;
+            font-size: 1.2rem;
+            margin-bottom: 1rem;
+        }
+
+        .demo-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            color: #FFD700;
+        }
+
+        .demo-card p {
+            color: #ccc;
+            line-height: 1.6;
+            margin-bottom: 1rem;
+        }
+
+        .platform-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+
+        .platform-card {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 15px;
+            padding: 1.5rem;
+            text-align: center;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .platform-card:hover {
+            transform: scale(1.05);
+            border-color: rgba(255, 215, 0, 0.5);
+        }
+
+        .platform-icon {
+            font-size: 3rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .platform-name {
+            font-weight: 600;
+            color: #fff;
+        }
+
+        .code-section {
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 15px;
+            padding: 2rem;
+            margin: 2rem 0;
+            border: 1px solid rgba(255, 215, 0, 0.2);
+        }
+
+        .code-section h2 {
+            color: #FFD700;
+            margin-bottom: 1rem;
+            font-size: 1.8rem;
+        }
+
+        .code-block {
+            background: #1a1a1a;
+            border-radius: 10px;
+            padding: 1.5rem;
+            overflow-x: auto;
+            margin: 1rem 0;
+        }
+
+        .code-block code {
+            color: #00ff00;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9rem;
+            line-height: 1.6;
+        }
+
+        .feature-list {
+            list-style: none;
+            padding: 0;
+        }
+
+        .feature-list li {
+            padding: 0.8rem 0;
+            padding-left: 2rem;
+            position: relative;
+            color: #ccc;
+        }
+
+        .feature-list li:before {
+            content: "✓";
+            position: absolute;
+            left: 0;
+            color: #FFD700;
+            font-weight: bold;
+            font-size: 1.2rem;
+        }
+
+        .cta-section {
+            text-align: center;
+            margin: 3rem 0;
+            padding: 3rem;
+            background: linear-gradient(135deg, rgba(255, 215, 0, 0.1) 0%, rgba(255, 165, 0, 0.1) 100%);
+            border-radius: 20px;
+            border: 2px solid rgba(255, 215, 0, 0.3);
+        }
+
+        .cta-section h2 {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+            color: #FFD700;
+        }
+
+        .cta-button {
+            display: inline-block;
+            background: linear-gradient(135deg, #FFD700 0%, #FFA500 100%);
+            color: #000;
+            padding: 1rem 2rem;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 1.1rem;
+            margin: 0.5rem;
+            transition: transform 0.3s ease;
+        }
+
+        .cta-button:hover {
+            transform: scale(1.05);
+        }
+
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2rem;
+            }
+
+            .demo-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .platform-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🎉 Share to PitBox</h1>
+        <p class="subtitle">Share racing content from any social media app directly to Pit Community</p>
+
+        <div class="demo-grid">
+            <div class="demo-card">
+                <div class="step-number">1</div>
+                <h3>Find Content</h3>
+                <p>Browse Instagram, Facebook, TikTok, or any social media app and find a cool race car video or post you want to share with Pit Community.</p>
+            </div>
+
+            <div class="demo-card">
+                <div class="step-number">2</div>
+                <h3>Tap Share</h3>
+                <p>Tap the Share button on the post (usually a paper airplane or share icon). You'll see PitBox appear in your share menu alongside other apps.</p>
+            </div>
+
+            <div class="demo-card">
+                <div class="step-number">3</div>
+                <h3>Select PitBox</h3>
+                <p>Tap the PitBox icon from the share menu. The PitBox app will open automatically with a beautiful preview of what you're sharing.</p>
+            </div>
+
+            <div class="demo-card">
+                <div class="step-number">4</div>
+                <h3>Add Your Thoughts</h3>
+                <p>Add your own comment to the post, use emojis, and see a preview of the original content with platform-specific branding.</p>
+            </div>
+
+            <div class="demo-card">
+                <div class="step-number">5</div>
+                <h3>Share to Community</h3>
+                <p>Tap "Share to Community" and your post instantly appears in the Pit Community feed with "Shared from [Platform]" attribution.</p>
+            </div>
+
+            <div class="demo-card">
+                <div class="step-number">6</div>
+                <h3>Engage</h3>
+                <p>Your shared post appears in the community feed with the original link, your comment, and a badge showing where it came from. Others can view the original post too!</p>
+            </div>
+        </div>
+
+        <div class="code-section">
+            <h2>🎨 Supported Platforms</h2>
+            <p style="color: #ccc; margin-bottom: 2rem;">Automatically detects and displays beautiful branded UI for these platforms:</p>
+
+            <div class="platform-grid">
+                <div class="platform-card">
+                    <div class="platform-icon">📸</div>
+                    <div class="platform-name">Instagram</div>
+                </div>
+                <div class="platform-card">
+                    <div class="platform-icon">👍</div>
+                    <div class="platform-name">Facebook</div>
+                </div>
+                <div class="platform-card">
+                    <div class="platform-icon">🎵</div>
+                    <div class="platform-name">TikTok</div>
+                </div>
+                <div class="platform-card">
+                    <div class="platform-icon">🐦</div>
+                    <div class="platform-name">Twitter/X</div>
+                </div>
+                <div class="platform-card">
+                    <div class="platform-icon">📺</div>
+                    <div class="platform-name">YouTube</div>
+                </div>
+                <div class="platform-card">
+                    <div class="platform-icon">🔗</div>
+                    <div class="platform-name">Any Link</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="code-section">
+            <h2>✨ Key Features</h2>
+            <ul class="feature-list">
+                <li>Automatic platform detection with branded UI</li>
+                <li>Link preview with title and description</li>
+                <li>Pre-filled comments from original post</li>
+                <li>Emoji picker for adding reactions</li>
+                <li>Beautiful animations and haptic feedback</li>
+                <li>Source attribution badges on posts</li>
+                <li>One-tap sharing workflow</li>
+                <li>Secure - must be signed in to share</li>
+                <li>Mobile-optimized with touch gestures</li>
+                <li>No automatic posting - user confirms first</li>
+            </ul>
+        </div>
+
+        <div class="code-section">
+            <h2>🚀 Setup Instructions</h2>
+            <p style="color: #ccc; margin-bottom: 1rem;">Get started in 3 simple steps:</p>
+
+            <div class="code-block">
+                <code># Step 1: Build the native projects<br>npm run build</code>
+            </div>
+
+            <div class="code-block">
+                <code># Step 2: Configure share target for iOS and Android<br>npm run setup:share-target</code>
+            </div>
+
+            <div class="code-block">
+                <code># Step 3: Open in Android Studio or Xcode<br>npm run cap:open:android<br># or<br>npm run cap:open:ios</code>
+            </div>
+
+            <p style="color: #ccc; margin-top: 1rem;">Then build and install on a device to test!</p>
+        </div>
+
+        <div class="cta-section">
+            <h2>Ready to Enable?</h2>
+            <p style="color: #ccc; margin-bottom: 2rem;">Follow the setup guide to enable this feature in your app</p>
+            <a href="../SOCIAL_SHARE_SETUP_GUIDE.md" class="cta-button">📖 View Setup Guide</a>
+            <a href="../SHARE_TO_PITBOX_FEATURE.md" class="cta-button">📋 Feature Overview</a>
+        </div>
+    </div>
+</body>
+</html>

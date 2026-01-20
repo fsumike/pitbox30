@@ -1,5 +1,6 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { X } from 'lucide-react';
+import { Haptics, ImpactStyle } from '@capacitor/haptics';
 
 interface NumberInputProps {
   value: string;
@@ -17,16 +18,55 @@ const NumberInput: React.FC<NumberInputProps> = ({
   showFractions = true
 }) => {
   const [displayValue, setDisplayValue] = useState(value || '0');
+  const [dragOffset, setDragOffset] = useState(0);
+  const [isDragging, setIsDragging] = useState(false);
+  const dragStartY = useRef(0);
+  const modalRef = useRef<HTMLDivElement>(null);
+
+  const triggerHaptic = async (style: ImpactStyle = ImpactStyle.Light) => {
+    try {
+      await Haptics.impact({ style });
+    } catch (err) {
+      // Haptics not available, silently ignore
+    }
+  };
 
   useEffect(() => {
     setDisplayValue(value || '0');
   }, [value]);
+
+  const handleTouchStart = (e: React.TouchEvent) => {
+    const touch = e.touches[0];
+    dragStartY.current = touch.clientY;
+    setIsDragging(true);
+    triggerHaptic(ImpactStyle.Light);
+  };
+
+  const handleTouchMove = (e: React.TouchEvent) => {
+    if (!isDragging) return;
+    const touch = e.touches[0];
+    const diff = touch.clientY - dragStartY.current;
+    if (diff > 0) {
+      setDragOffset(diff);
+    }
+  };
+
+  const handleTouchEnd = () => {
+    if (dragOffset > 100) {
+      triggerHaptic(ImpactStyle.Medium);
+      onClose?.();
+    } else {
+      setDragOffset(0);
+    }
+    setIsDragging(false);
+  };
 
   const fractions = [
     '1/8', '1/4', '3/8', '1/2', '5/8', '3/4', '7/8', '1'
   ];
 
   const handleNumberClick = (num: string) => {
+    triggerHaptic(ImpactStyle.Light);
     if (displayValue === '0') {
       setDisplayValue(num);
     } else {
@@ -114,6 +154,7 @@ const NumberInput: React.FC<NumberInputProps> = ({
   };
 
   const handleOK = () => {
+    triggerHaptic(ImpactStyle.Medium);
     onChange(displayValue);
     setTimeout(() => {
       onClose?.();
@@ -121,6 +162,7 @@ const NumberInput: React.FC<NumberInputProps> = ({
   };
 
   const handleCancel = () => {
+    triggerHaptic(ImpactStyle.Light);
     setDisplayValue(value);
     onClose?.();
   };
@@ -173,19 +215,43 @@ const NumberInput: React.FC<NumberInputProps> = ({
   const displayTitle = title.replace(/^Enter\s+/i, '');
 
   return (
-    <div className="fixed inset-0 bg-black/50 flex items-center justify-center p-4 z-50">
-      <div className={`bg-white dark:bg-gray-800 rounded-xl shadow-xl w-full max-w-md overflow-hidden`}>
+    <div
+      className="fixed inset-0 bg-black/50 flex items-end sm:items-center justify-center p-0 sm:p-4 z-50"
+      onClick={(e) => {
+        if (e.target === e.currentTarget) {
+          onClose?.();
+        }
+      }}
+      style={{ WebkitTapHighlightColor: 'transparent' }}
+    >
+      <div
+        ref={modalRef}
+        className={`bg-white dark:bg-gray-800 rounded-t-2xl sm:rounded-xl shadow-xl w-full max-w-md overflow-hidden transition-transform duration-200`}
+        style={{
+          transform: `translateY(${dragOffset}px)`,
+          touchAction: 'none'
+        }}
+        onTouchStart={handleTouchStart}
+        onTouchMove={handleTouchMove}
+        onTouchEnd={handleTouchEnd}
+      >
+        {/* Drag handle indicator */}
+        <div className="w-full flex justify-center pt-2 pb-1 sm:hidden">
+          <div className="w-12 h-1 bg-gray-300 dark:bg-gray-600 rounded-full" />
+        </div>
+
         {/* Header with curved border */}
-        <div className={`relative ${colors.bg} rounded-t-xl shadow-lg ${colors.shadow}`}>
-          <div className="absolute inset-0 bg-gradient-to-br from-white/10 to-transparent rounded-t-xl" />
+        <div className={`relative ${colors.bg} shadow-lg ${colors.shadow} ${dragOffset === 0 ? 'sm:rounded-t-xl' : ''}`}>
+          <div className="absolute inset-0 bg-gradient-to-br from-white/10 to-transparent" />
           <div className="px-4 py-3 flex items-center justify-between relative">
             <h2 className="text-lg font-medium text-white">{displayTitle}</h2>
             {onClose && (
-              <button 
-                onClick={onClose} 
-                className={`p-1 hover:bg-white/20 rounded transition-colors`}
+              <button
+                onClick={onClose}
+                className={`p-2 min-h-[44px] min-w-[44px] flex items-center justify-center hover:bg-white/20 active:bg-white/30 rounded transition-colors touch-manipulation`}
+                style={{ WebkitTapHighlightColor: 'transparent' }}
               >
-                <X className="w-4 h-4 text-white" />
+                <X className="w-5 h-5 text-white" />
               </button>
             )}
           </div>
@@ -207,44 +273,51 @@ const NumberInput: React.FC<NumberInputProps> = ({
                 <button
                   key={num}
                   onClick={() => handleNumberClick(num.toString())}
-                  className="p-4 text-xl font-medium bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors shadow-sm"
+                  className="min-h-[48px] p-4 text-xl font-medium bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 rounded-lg active:bg-gray-100 dark:active:bg-gray-700 transition-colors shadow-sm touch-manipulation"
+                  style={{ WebkitTapHighlightColor: 'transparent' }}
                 >
                   {num}
                 </button>
               ))}
               <button
                 onClick={handleToggleNegative}
-                className="p-4 text-base font-medium bg-orange-100 dark:bg-orange-900/30 text-orange-700 dark:text-orange-400 rounded-lg hover:bg-orange-200 dark:hover:bg-orange-900/50 shadow-sm"
+                className="min-h-[48px] p-4 text-base font-medium bg-orange-100 dark:bg-orange-900/30 text-orange-700 dark:text-orange-400 rounded-lg active:bg-orange-200 dark:active:bg-orange-900/50 shadow-sm touch-manipulation"
+                style={{ WebkitTapHighlightColor: 'transparent' }}
               >
                 +/-
               </button>
               <button
                 onClick={() => handleNumberClick('0')}
-                className="p-4 text-xl font-medium bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors shadow-sm"
+                className="min-h-[48px] p-4 text-xl font-medium bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 rounded-lg active:bg-gray-100 dark:active:bg-gray-700 transition-colors shadow-sm touch-manipulation"
+                style={{ WebkitTapHighlightColor: 'transparent' }}
               >
                 0
               </button>
               <button
                 onClick={handleDecimalPoint}
-                className="p-4 text-xl font-medium bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors shadow-sm"
+                className="min-h-[48px] p-4 text-xl font-medium bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 rounded-lg active:bg-gray-100 dark:active:bg-gray-700 transition-colors shadow-sm touch-manipulation"
+                style={{ WebkitTapHighlightColor: 'transparent' }}
               >
                 .
               </button>
               <button
                 onClick={handleSpace}
-                className="p-3 text-sm font-medium bg-gray-100 dark:bg-gray-700 text-gray-900 dark:text-gray-100 rounded-lg hover:bg-gray-200 dark:hover:bg-gray-600 shadow-sm"
+                className="min-h-[48px] p-3 text-sm font-medium bg-gray-100 dark:bg-gray-700 text-gray-900 dark:text-gray-100 rounded-lg active:bg-gray-200 dark:active:bg-gray-600 shadow-sm touch-manipulation"
+                style={{ WebkitTapHighlightColor: 'transparent' }}
               >
                 Space
               </button>
               <button
                 onClick={handleSlash}
-                className="p-3 text-xl font-medium bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors shadow-sm"
+                className="min-h-[48px] p-3 text-xl font-medium bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 rounded-lg active:bg-gray-100 dark:active:bg-gray-700 transition-colors shadow-sm touch-manipulation"
+                style={{ WebkitTapHighlightColor: 'transparent' }}
               >
                 /
               </button>
               <button
                 onClick={handleBackspace}
-                className="p-3 text-sm font-medium bg-gray-100 dark:bg-gray-700 text-gray-900 dark:text-gray-100 rounded-lg hover:bg-gray-200 dark:hover:bg-gray-600 shadow-sm"
+                className="min-h-[48px] p-3 text-sm font-medium bg-gray-100 dark:bg-gray-700 text-gray-900 dark:text-gray-100 rounded-lg active:bg-gray-200 dark:active:bg-gray-600 shadow-sm touch-manipulation"
+                style={{ WebkitTapHighlightColor: 'transparent' }}
               >
                 Back
               </button>
@@ -257,13 +330,15 @@ const NumberInput: React.FC<NumberInputProps> = ({
                   <React.Fragment key={fraction}>
                     <button
                       onClick={() => handleNegativeFractionClick(fraction)}
-                      className="p-2 text-sm font-medium bg-red-50 dark:bg-red-900/20 text-red-600 dark:text-red-400 rounded-lg hover:bg-red-100 dark:hover:bg-red-900/30 transition-colors shadow-sm whitespace-nowrap"
+                      className="min-h-[44px] p-2 text-sm font-medium bg-red-50 dark:bg-red-900/20 text-red-600 dark:text-red-400 rounded-lg active:bg-red-100 dark:active:bg-red-900/30 transition-colors shadow-sm whitespace-nowrap touch-manipulation"
+                      style={{ WebkitTapHighlightColor: 'transparent' }}
                     >
                       -{fraction}
                     </button>
                     <button
                       onClick={() => handleFractionClick(fraction)}
-                      className="p-2 text-sm font-medium bg-green-50 dark:bg-green-900/20 text-green-600 dark:text-green-400 rounded-lg hover:bg-green-100 dark:hover:bg-green-900/30 transition-colors shadow-sm whitespace-nowrap"
+                      className="min-h-[44px] p-2 text-sm font-medium bg-green-50 dark:bg-green-900/20 text-green-600 dark:text-green-400 rounded-lg active:bg-green-100 dark:active:bg-green-900/30 transition-colors shadow-sm whitespace-nowrap touch-manipulation"
+                      style={{ WebkitTapHighlightColor: 'transparent' }}
                     >
                       +{fraction}
                     </button>
@@ -277,19 +352,22 @@ const NumberInput: React.FC<NumberInputProps> = ({
           <div className="grid grid-cols-3 gap-2 mt-4">
             <button
               onClick={handleCancel}
-              className="p-4 text-base font-medium bg-gray-100 dark:bg-gray-700 text-gray-900 dark:text-gray-100 rounded-lg hover:bg-gray-200 dark:hover:bg-gray-600 shadow-sm"
+              className="min-h-[48px] p-4 text-base font-medium bg-gray-100 dark:bg-gray-700 text-gray-900 dark:text-gray-100 rounded-lg active:bg-gray-200 dark:active:bg-gray-600 shadow-sm touch-manipulation"
+              style={{ WebkitTapHighlightColor: 'transparent' }}
             >
               Cancel
             </button>
             <button
               onClick={handleClear}
-              className="p-4 text-base font-medium bg-red-100 dark:bg-red-900/30 text-red-700 dark:text-red-400 rounded-lg hover:bg-red-200 dark:hover:bg-red-900/50 shadow-sm"
+              className="min-h-[48px] p-4 text-base font-medium bg-red-100 dark:bg-red-900/30 text-red-700 dark:text-red-400 rounded-lg active:bg-red-200 dark:active:bg-red-900/50 shadow-sm touch-manipulation"
+              style={{ WebkitTapHighlightColor: 'transparent' }}
             >
               Clear
             </button>
             <button
               onClick={handleOK}
-              className={`p-4 text-base font-medium ${colors.bg} text-white rounded-lg hover:opacity-90 transition-opacity shadow-sm`}
+              className={`min-h-[48px] p-4 text-base font-medium ${colors.bg} text-white rounded-lg active:opacity-90 transition-opacity shadow-sm touch-manipulation`}
+              style={{ WebkitTapHighlightColor: 'transparent' }}
             >
               OK
             </button>

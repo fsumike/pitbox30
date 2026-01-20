@@ -39,6 +39,7 @@ export function usePosts() {
           user_id,
           content,
           image_url,
+          image_urls,
           video_url,
           location,
           latitude,

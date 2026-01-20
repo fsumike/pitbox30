@@ -2,13 +2,16 @@ import { CapacitorConfig } from '@capacitor/cli';
 
 const config: CapacitorConfig = {
   appId: 'com.pitbox.app',
-  appName: 'PIT-BOX',
+  appName: 'PitBox',
   webDir: 'dist',
   server: {
     androidScheme: 'https',
     iosScheme: 'https',
     hostname: 'pitbox.app',
     cleartext: true
+  },
+  ios: {
+    contentInset: 'always'
   },
   plugins: {
     SplashScreen: {
@@ -38,3 +41,4 @@ const config: CapacitorConfig = {
 };
 
 export default config;
+

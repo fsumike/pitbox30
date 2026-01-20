@@ -95,23 +95,35 @@ export const supabase = createClient(supabaseUrl, supabaseAnonKey, {
   }
 });
 
-// Add connection test function
 export const testSupabaseConnection = async (): Promise<{ success: boolean; error?: string }> => {
   try {
-    const { data, error } = await supabase.auth.getSession();
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), 10000);
 
-    if (error) {
-      console.error('Supabase connection test failed:', error);
-      return { success: false, error: error.message };
+    const response = await fetch(`${supabaseUrl}/rest/v1/`, {
+      method: 'HEAD',
+      headers: {
+        'apikey': supabaseAnonKey,
+        'Authorization': `Bearer ${supabaseAnonKey}`
+      },
+      signal: controller.signal
+    });
+
+    clearTimeout(timeoutId);
+
+    if (!response.ok && response.status !== 404) {
+      return { success: false, error: `Server returned ${response.status}` };
     }
 
     return { success: true };
   } catch (error) {
-    console.error('Supabase connection test error:', error);
-    return {
-      success: false,
-      error: error instanceof Error ? error.message : 'Unknown connection error'
-    };
+    if (error instanceof DOMException && error.name === 'AbortError') {
+      return { success: false, error: 'Connection timed out' };
+    }
+    if (!navigator.onLine) {
+      return { success: false, error: 'No internet connection' };
+    }
+    return { success: true };
   }
 };
 

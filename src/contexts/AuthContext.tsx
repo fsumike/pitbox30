@@ -23,7 +23,7 @@ interface AuthContextType {
     error: Error | null;
     success: boolean;
   }>;
-  signUp: (email: string, password: string) => Promise<{
+  signUp: (email: string, password: string, metadata?: { username?: string; full_name?: string }) => Promise<{
     error: Error | null;
     success: boolean;
   }>;
@@ -107,42 +107,14 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       try {
         setConnectionError(null);
 
-        const connectionTest = await executeWithRetry(async () => {
-          return await testSupabaseConnection();
-        });
-
-        if (!connectionTest.success) {
-          setConnectionError(connectionTest.error || 'Failed to connect to Supabase');
-          setLoading(false);
-          return;
-        }
-
-        const { data, error } = await executeWithRetry(async () => {
-          try {
-            const result = await supabase.auth.getSession();
-            return result;
-          } catch (err) {
-            if (err instanceof DOMException && err.name === 'AbortError') {
-              throw new Error('Request timed out. Please try again.');
-            }
-            if (err instanceof TypeError && err.message === 'Failed to fetch') {
-              throw new Error('Network connection failed. Please check your internet connection.');
-            }
-            throw err;
-          }
-        });
+        const { data, error } = await supabase.auth.getSession();
 
         if (error) {
-          if (error.message === 'Invalid Refresh Token: Refresh Token Not Found') {
+          if (error.message.includes('Refresh Token') || error.message.includes('Invalid')) {
             await supabase.auth.signOut();
-            setUser(null);
-            setUserProfile(null);
-          } else {
-            console.error('Error getting session:', error.message);
-            setConnectionError(`Authentication error: ${error.message}`);
-            setUser(null);
-            setUserProfile(null);
           }
+          setUser(null);
+          setUserProfile(null);
         } else {
           const currentUser = data?.session?.user ?? null;
           setUser(currentUser);
@@ -152,8 +124,9 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         }
       } catch (err) {
         console.error('Error initializing auth:', err);
-        const errorMessage = err instanceof Error ? err.message : 'Unknown initialization error';
-        setConnectionError(errorMessage);
+        if (err instanceof TypeError && err.message === 'Failed to fetch') {
+          setConnectionError('No internet connection');
+        }
         setUser(null);
         setUserProfile(null);
       } finally {
@@ -190,77 +163,54 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     try {
       setConnectionError(null);
 
-      const connectionTest = await executeWithRetry(async () => {
-        return await testSupabaseConnection();
+      const { data, error } = await supabase.auth.signInWithPassword({
+        email,
+        password,
       });
 
-      if (!connectionTest.success) {
-        throw new Error(connectionTest.error || 'Cannot connect to authentication service');
+      if (error) {
+        return { error, success: false };
       }
 
-      const { data, error } = await executeWithRetry(async () => {
-        try {
-          return await supabase.auth.signInWithPassword({
-            email,
-            password,
-          });
-        } catch (err) {
-          if (err instanceof DOMException && err.name === 'AbortError') {
-            throw new Error('Sign in request timed out. Please try again.');
-          }
-          if (err instanceof TypeError && err.message === 'Failed to fetch') {
-            throw new Error('Network connection failed. Please check your internet connection and try again.');
-          }
-          throw err;
-        }
-      });
-
-      if (error) throw error;
+      if (data?.user) {
+        await fetchUserProfile(data.user.id);
+      }
 
       return { error: null, success: true };
     } catch (error) {
       console.error('Sign in error:', error);
-      const errorMessage = error instanceof Error ? error.message : 'Unknown sign in error';
-      setConnectionError(errorMessage);
+      if (error instanceof TypeError && error.message === 'Failed to fetch') {
+        setConnectionError('Network connection failed. Please check your internet connection.');
+      }
       return { error: error as Error, success: false };
     }
   };
 
-  const signUp = async (email: string, password: string) => {
+  const signUp = async (email: string, password: string, metadata?: { username?: string; full_name?: string }) => {
     try {
       setConnectionError(null);
 
-      const connectionTest = await executeWithRetry(async () => {
-        return await testSupabaseConnection();
+      const { data, error } = await supabase.auth.signUp({
+        email,
+        password,
+        options: {
+          data: metadata ? {
+            username: metadata.username,
+            full_name: metadata.full_name,
+          } : undefined,
+        },
       });
 
-      if (!connectionTest.success) {
-        throw new Error(connectionTest.error || 'Cannot connect to authentication service');
+      if (error) {
+        return { error, success: false };
       }
-
-      const { data, error } = await executeWithRetry(async () => {
-        try {
-          return await supabase.auth.signUp({
-            email,
-            password,
-          });
-        } catch (err) {
-          if (err instanceof DOMException && err.name === 'AbortError') {
-            throw new Error('Sign up request timed out. Please try again.');
-          }
-          if (err instanceof TypeError && err.message === 'Failed to fetch') {
-            throw new Error('Network connection failed. Please check your internet connection and try again.');
-          }
-          throw err;
-        }
-      });
-
-      if (error) throw error;
 
       return { error: null, success: true };
     } catch (error) {
-      const errorMessage = error instanceof Error ? error.message : 'Unknown sign up error';
-      setConnectionError(errorMessage);
+      console.error('Sign up error:', error);
+      if (error instanceof TypeError && error.message === 'Failed to fetch') {
+        setConnectionError('Network connection failed. Please check your internet connection.');
+      }
       return { error: error as Error, success: false };
     }
   };

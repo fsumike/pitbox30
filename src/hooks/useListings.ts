@@ -50,8 +50,6 @@ export function useListings() {
   const [error, setError] = useState<string | null>(null);
   const { user } = useAuth();
   const [savedListings, setSavedListings] = useState<string[]>([]);
-  const [hasMore, setHasMore] = useState(true);
-  const [currentPage, setCurrentPage] = useState(0);
 
   useEffect(() => {
     if (user) {
@@ -61,9 +59,8 @@ export function useListings() {
 
   const loadSavedListings = async () => {
     if (!user) return;
-    
+
     try {
-      // Load from storage
       const savedKey = `saved_listings_${user.id}`;
       const saved = await getStorageItem(savedKey);
       if (saved) {
@@ -72,6 +69,53 @@ export function useListings() {
     } catch (err) {
       console.error('Error loading saved listings:', err);
     }
+  };
+
+  const uploadImagesToStorage = async (images: string[], listingId: string): Promise<string[]> => {
+    const uploadedUrls: string[] = [];
+
+    for (let i = 0; i < images.length; i++) {
+      const imageData = images[i];
+
+      try {
+        const base64Data = imageData.split(',')[1];
+        const byteCharacters = atob(base64Data);
+        const byteNumbers = new Array(byteCharacters.length);
+
+        for (let j = 0; j < byteCharacters.length; j++) {
+          byteNumbers[j] = byteCharacters.charCodeAt(j);
+        }
+
+        const byteArray = new Uint8Array(byteNumbers);
+        const blob = new Blob([byteArray], { type: 'image/jpeg' });
+
+        const fileName = `${listingId}_${i}_${Date.now()}.jpg`;
+        const filePath = `listings/${fileName}`;
+
+        const { error: uploadError } = await supabase.storage
+          .from('listing-images')
+          .upload(filePath, blob, {
+            contentType: 'image/jpeg',
+            upsert: false
+          });
+
+        if (uploadError) {
+          console.error('Upload error:', uploadError);
+          throw uploadError;
+        }
+
+        const { data: { publicUrl } } = supabase.storage
+          .from('listing-images')
+          .getPublicUrl(filePath);
+
+        uploadedUrls.push(publicUrl);
+      } catch (err) {
+        console.error(`Failed to upload image ${i}:`, err);
+        throw new Error(`Failed to upload image ${i + 1}`);
+      }
+    }
+
+    return uploadedUrls;
   };
 
   const createListing = async (
@@ -87,6 +131,8 @@ export function useListings() {
       contact_email?: string;
       preferred_contact?: 'phone' | 'email';
       vehicle_type?: string;
+      condition?: 'new' | 'like-new' | 'good' | 'fair' | 'parts';
+      is_negotiable?: boolean;
     },
     images: string[]
   ) => {
@@ -99,7 +145,6 @@ export function useListings() {
     setError(null);
 
     try {
-      // Create the listing
       const { data: listing, error: listingError } = await supabase
         .from('listings')
         .insert([{
@@ -112,31 +157,39 @@ export function useListings() {
 
       if (listingError) throw listingError;
 
-      // Add images (maximum 4)
       if (images.length > 0) {
-        const imagesToAdd = images.slice(0, 4);
-        const imagePromises = imagesToAdd.map((url, index) => 
-          supabase
-            .from('listing_images')
-            .insert({
-              listing_id: listing.id,
-              url,
-              order: index + 1
-            })
-        );
+        const imagesToUpload = images.slice(0, 4);
 
-        const imageResults = await Promise.all(imagePromises);
-        const imageErrors = imageResults.filter(result => result.error);
-        
-        if (imageErrors.length > 0) {
-          console.error('Some images failed to upload:', imageErrors);
+        let uploadedUrls: string[];
+        try {
+          uploadedUrls = await uploadImagesToStorage(imagesToUpload, listing.id);
+        } catch (uploadErr) {
+          console.error('Image upload failed:', uploadErr);
+          await supabase.from('listings').delete().eq('id', listing.id);
+          throw new Error('Failed to upload images. Please try again.');
+        }
+
+        const imageRecords = uploadedUrls.map((url, index) => ({
+          listing_id: listing.id,
+          url,
+          order: index + 1
+        }));
+
+        const { error: imageError } = await supabase
+          .from('listing_images')
+          .insert(imageRecords);
+
+        if (imageError) {
+          console.error('Failed to save image records:', imageError);
+          await supabase.from('listings').delete().eq('id', listing.id);
+          throw new Error('Failed to save images. Please try again.');
         }
       }
 
       return listing;
-    } catch (err) {
+    } catch (err: any) {
       console.error('Error creating listing:', err);
-      setError('Failed to create listing');
+      setError(err?.message || 'Failed to create listing');
       return null;
     } finally {
       setLoading(false);
@@ -186,26 +239,22 @@ export function useListings() {
         .order('created_at', { ascending: false })
         .range(offset, offset + limit - 1);
 
-      // Apply category filter
       if (filters?.category && filters.category !== 'all') {
         query = query.eq('category', filters.category);
       }
 
-      // Apply vehicle type filter
       if (filters?.vehicleType && filters.vehicleType !== 'all') {
         query = query.eq('vehicle_type', filters.vehicleType);
       }
-      // Apply search filter
+
       if (filters?.search) {
         query = query.or(`title.ilike.%${filters.search}%,description.ilike.%${filters.search}%`);
       }
 
-      // Apply tab filter
       if (filters?.tab && user) {
         if (filters.tab === 'mine') {
           query = query.eq('user_id', user.id);
         } else if (filters.tab === 'favorites') {
-          // Get listings that the user has liked
           const { data: likes } = await supabase
             .from('listing_likes')
             .select('listing_id')
@@ -215,83 +264,33 @@ export function useListings() {
             const likedIds = likes.map(like => like.listing_id);
             query = query.in('id', likedIds);
           } else {
-            // If no likes, return empty array
+            setLoading(false);
             return [];
           }
         } else if (filters.tab === 'saved') {
-          // Filter by saved listings from localStorage
           if (savedListings.length > 0) {
             query = query.in('id', savedListings);
           } else {
-            // If no saved listings, return empty array
+            setLoading(false);
             return [];
           }
         }
       }
 
-      let data;
-      let error;
+      const { data, error: fetchError } = await query;
 
-      if (filters?.distance && filters?.latitude && filters?.longitude) {
-        const { data: distanceData, error: distanceError } = await supabase
-          .rpc('get_listings_within_distance', {
-            user_lat: filters.latitude,
-            user_lng: filters.longitude,
-            radius_miles: filters.distance
-          });
-
-        data = distanceData;
-        error = distanceError;
-
-        if (data) {
-          const listingIds = data.map((l: any) => l.id);
-
-          const { data: enrichedData } = await supabase
-            .from('listings')
-            .select(`
-              *,
-              listing_images (
-                id,
-                url,
-                order
-              ),
-              profiles!listings_user_id_fkey (
-                id,
-                username,
-                avatar_url,
-                full_name
-              ),
-              listing_likes (
-                id,
-                user_id
-              )
-            `)
-            .in('id', listingIds);
-
-          const enrichedMap = new Map(enrichedData?.map(item => [item.id, item]));
-          data = data.map((listing: any) => ({
-            ...enrichedMap.get(listing.id),
-            distance_miles: listing.distance_miles
-          }));
-        }
-      } else {
-        const result = await query;
-        data = result.data;
-        error = result.error;
-      }
-
-      if (error) throw error;
+      if (fetchError) throw fetchError;
 
       let transformedData = (data || []).map(listing => ({
         ...listing,
-        images: listing.listing_images || [],
+        images: (listing.listing_images || []).sort((a: any, b: any) => a.order - b.order),
         likes: (listing.listing_likes || []).length,
         liked_by_user: user ? (listing.listing_likes || []).some((like: any) => like.user_id === user.id) : false,
         saved: savedListings.includes(listing.id),
         seller: listing.profiles
       }));
 
-      if (!filters?.distance && filters?.latitude && filters?.longitude) {
+      if (filters?.latitude && filters?.longitude) {
         transformedData = transformedData
           .map(listing => {
             if (listing.latitude && listing.longitude) {
@@ -312,13 +311,10 @@ export function useListings() {
           });
       }
 
-      // Check if we have more results
-      setHasMore(transformedData.length === limit);
-
       return transformedData;
-    } catch (err) {
+    } catch (err: any) {
       console.error('Error fetching listings:', err);
-      setError('Failed to fetch listings');
+      setError(err?.message || 'Failed to fetch listings');
       return [];
     } finally {
       setLoading(false);
@@ -337,10 +333,9 @@ export function useListings() {
         .select()
         .eq('listing_id', listingId)
         .eq('user_id', user.id)
-        .single();
+        .maybeSingle();
 
       if (existingLike) {
-        // Unlike
         const { error } = await supabase
           .from('listing_likes')
           .delete()
@@ -349,7 +344,6 @@ export function useListings() {
 
         if (error) throw error;
       } else {
-        // Like
         const { error } = await supabase
           .from('listing_likes')
           .insert([{
@@ -376,22 +370,18 @@ export function useListings() {
 
     try {
       let updatedSavedListings: string[];
-      
+
       if (savedListings.includes(listingId)) {
-        // Remove from saved
         updatedSavedListings = savedListings.filter(id => id !== listingId);
       } else {
-        // Add to saved
         updatedSavedListings = [...savedListings, listingId];
       }
-      
-      // Update state
+
       setSavedListings(updatedSavedListings);
-      
-      // Save to storage
+
       const savedKey = `saved_listings_${user.id}`;
       await setStorageItem(savedKey, JSON.stringify(updatedSavedListings));
-      
+
       return true;
     } catch (err) {
       console.error('Error toggling save:', err);
@@ -410,13 +400,20 @@ export function useListings() {
     setError(null);
 
     try {
-      // First check if the listing has images to delete
       const { data: images } = await supabase
         .from('listing_images')
         .select('id, url')
         .eq('listing_id', listingId);
 
-      // Delete the listing
+      if (images && images.length > 0) {
+        for (const image of images) {
+          const path = image.url.split('/listing-images/')[1];
+          if (path) {
+            await supabase.storage.from('listing-images').remove([path]);
+          }
+        }
+      }
+
       const { error: deleteError } = await supabase
         .from('listings')
         .delete()
@@ -444,8 +441,6 @@ export function useListings() {
     savedListings,
     loading,
     error,
-    hasMore,
-    currentPage,
-    setCurrentPage
+    setError
   };
 }

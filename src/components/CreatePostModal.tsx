@@ -1,11 +1,13 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { X, Trash2, AlertCircle, Loader2, Image as ImageIcon, Check, Film, MapPin, Globe, Users, Lock } from 'lucide-react';
+import { X, Trash2, AlertCircle, Loader2, Image as ImageIcon, Check, Film, MapPin, Globe, Users, Lock, ZoomIn, ChevronLeft, ChevronRight } from 'lucide-react';
+import { Haptics, ImpactStyle } from '@capacitor/haptics';
 import { useAuth } from '../contexts/AuthContext';
 import { supabase } from '../lib/supabase';
 import EmojiPicker from '../components/EmojiPicker';
 import ReactPlayer from 'react-player';
 import { useLocation } from '../hooks/useLocation';
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
+import { compressImage } from '../utils/imageCompression';
 
 interface Post {
   id: string;
@@ -26,7 +28,8 @@ interface CreatePostModalProps {
 function CreatePostModal({ isOpen, onClose, post, onSuccess }: CreatePostModalProps) {
   const { user } = useAuth();
   const [content, setContent] = useState('');
-  const [media, setMedia] = useState<{ type: 'image' | 'video', url: string, file: File } | null>(null);
+  const [images, setImages] = useState<string[]>([]);
+  const [video, setVideo] = useState<{ url: string, file: File } | null>(null);
   const [uploading, setUploading] = useState(false);
   const [posting, setPosting] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -36,8 +39,21 @@ function CreatePostModal({ isOpen, onClose, post, onSuccess }: CreatePostModalPr
   const [includeLocation, setIncludeLocation] = useState(false);
   const [uploadProgress, setUploadProgress] = useState(0);
   const [visibility, setVisibility] = useState<'public' | 'friends' | 'private'>('public');
-  
-  const [isPinned, setIsPinned] = useState(false); // State for pinned post
+  const [isPinned, setIsPinned] = useState(false);
+  const [dragOffset, setDragOffset] = useState(0);
+  const [isDragging, setIsDragging] = useState(false);
+  const dragStartY = useRef(0);
+  const modalRef = useRef<HTMLDivElement>(null);
+  const [lightboxOpen, setLightboxOpen] = useState(false);
+  const [lightboxIndex, setLightboxIndex] = useState(0);
+
+  const triggerHaptic = async (style: ImpactStyle = ImpactStyle.Light) => {
+    try {
+      await Haptics.impact({ style });
+    } catch (err) {
+      // Haptics not available, silently ignore
+    }
+  };
   // Get user's location
   const { 
     latitude, 
@@ -56,69 +72,98 @@ function CreatePostModal({ isOpen, onClose, post, onSuccess }: CreatePostModalPr
     if (isOpen && post) {
       setIsEditing(true);
       setContent(post.content || '');
-      setMedia(post.image_url ? { type: 'image', url: post.image_url, file: new File([], '') } : null); // Dummy file
+      if (post.image_url) {
+        setImages([post.image_url]);
+      }
       setVisibility(post.visibility || 'public');
       setIsPinned(post.is_pinned || false);
       setIncludeLocation(!!post.location);
     } else if (isOpen) {
-      // Reset form when opening for new post
       resetForm();
     }
   }, [isOpen, post]);
 
-  const handleMediaUpload = async (event: React.ChangeEvent<HTMLInputElement>, type: 'image' | 'video') => {
-    const file = event.target.files?.[0];
-    if (!file) return;
+  const handleImageUpload = async (event: React.ChangeEvent<HTMLInputElement>) => {
+    const files = event.target.files;
+    if (!files || files.length === 0) return;
 
-    // Validate file type
-    if (type === 'image' && !file.type.startsWith('image/')) {
-      setError('Please upload an image file');
+    const remainingSlots = 4 - images.length;
+    if (remainingSlots <= 0) {
+      setError('Maximum 4 images allowed');
       return;
     }
 
-    if (type === 'video' && !file.type.startsWith('video/')) {
+    if (video) {
+      setError('Cannot add images when video is selected. Remove video first.');
+      return;
+    }
+
+    const filesToProcess = Array.from(files).slice(0, remainingSlots);
+    setUploading(true);
+    setError(null);
+
+    try {
+      const compressedImages = await Promise.all(
+        filesToProcess.map(file =>
+          compressImage(file, {
+            maxWidth: 1200,
+            maxHeight: 1200,
+            quality: 0.8
+          })
+        )
+      );
+      setImages(prev => [...prev, ...compressedImages]);
+    } catch (err) {
+      console.error('Image compression error:', err);
+      setError('Failed to process images');
+    } finally {
+      setUploading(false);
+      event.target.value = '';
+    }
+  };
+
+  const handleVideoUpload = async (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (!file) return;
+
+    if (!file.type.startsWith('video/')) {
       setError('Please upload a video file');
       return;
     }
 
-    // Validate file size (max 5MB for images, 50MB for videos)
-    const maxSize = type === 'image' ? 5 * 1024 * 1024 : 50 * 1024 * 1024;
+    if (images.length > 0) {
+      setError('Cannot add video when images are selected. Remove images first.');
+      return;
+    }
+
+    const maxSize = 50 * 1024 * 1024; // 50MB
     if (file.size > maxSize) {
-      setError(`${type === 'image' ? 'Image' : 'Video'} size must be less than ${maxSize / (1024 * 1024)}MB`);
+      setError('Video size must be less than 50MB');
       return;
     }
 
     setUploading(true);
     setError(null);
-    setUploadProgress(0);
 
     try {
-      // Create a local preview URL
       const url = URL.createObjectURL(file);
-      setMedia({ type, url, file });
-      
-      // Simulate upload progress
-      const interval = setInterval(() => {
-        setUploadProgress(prev => {
-          if (prev >= 100) {
-            clearInterval(interval);
-            return 100;
-          }
-          return prev + 10;
-        });
-      }, 200);
-      
-      // Clear interval after 2 seconds
-      setTimeout(() => {
-        clearInterval(interval);
-        setUploadProgress(100);
-      }, 2000);
+      setVideo({ url, file });
     } catch (err) {
-      console.error(`Error uploading ${type}:`, err);
-      setError(`Failed to upload ${type}`);
+      console.error('Error uploading video:', err);
+      setError('Failed to upload video');
     } finally {
       setUploading(false);
+      event.target.value = '';
     }
+  };
+
+  const removeImage = (index: number) => {
+    setImages(prev => prev.filter((_, i) => i !== index));
+  };
+
+  const removeVideo = () => {
+    setVideo(null);
+    if (videoInputRef.current) videoInputRef.current.value = '';
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -128,7 +173,7 @@ function CreatePostModal({ isOpen, onClose, post, onSuccess }: CreatePostModalPr
       return;
     }
 
-    if (!content.trim() && !media) {
+    if (!content.trim() && images.length === 0 && !video) {
       setError('Please write something or add media to post');
       return;
     }
@@ -137,14 +182,15 @@ function CreatePostModal({ isOpen, onClose, post, onSuccess }: CreatePostModalPr
     setError(null);
 
     try {
-      const initialPostData = {
+      const initialPostData: any = {
         user_id: user.id,
-        content: content.trim() || (media ? ' ' : ''),
+        content: content.trim() || (images.length > 0 || video ? ' ' : ''),
         image_url: null,
+        image_urls: null,
         video_url: null,
         visibility: visibility,
         is_pinned: isPinned,
-        status: 'published', // Default status for text posts
+        status: 'published',
       };
 
       // Add location data if enabled
@@ -154,23 +200,28 @@ function CreatePostModal({ isOpen, onClose, post, onSuccess }: CreatePostModalPr
         initialPostData.longitude = longitude;
       }
 
-      // Handle media upload to Supabase Storage
-      if (media) {
-        const fileExt = media.file.name.split('.').pop();
-        if (!fileExt) throw new Error('File is missing an extension');
+      // Handle multiple image uploads
+      if (images.length > 0) {
+        const uploadedUrls: string[] = [];
 
-        const uniqueId = `${user.id}-${Date.now()}`;
-        const fileName = `${uniqueId}.${fileExt}`;
-        
-        if (media.type === 'image') {
+        for (let i = 0; i < images.length; i++) {
+          const imageDataUrl = images[i];
+
+          // Convert base64 to blob
+          const response = await fetch(imageDataUrl);
+          const blob = await response.blob();
+
+          const uniqueId = `${user.id}-${Date.now()}-${i}`;
+          const fileName = `${uniqueId}.jpg`;
           const filePath = `images/${fileName}`;
-          
+
           // Upload to Supabase Storage
           const { error: uploadError } = await supabase.storage
             .from('posts')
-            .upload(filePath, media.file, {
+            .upload(filePath, blob, {
               cacheControl: '3600',
-              upsert: false
+              upsert: false,
+              contentType: 'image/jpeg'
             });
 
           if (uploadError) {
@@ -183,30 +234,39 @@ function CreatePostModal({ isOpen, onClose, post, onSuccess }: CreatePostModalPr
             .from('posts')
             .getPublicUrl(filePath);
 
-          // CRITICAL: Validate publicUrl before assigning
           if (!publicUrl) {
             throw new Error('Failed to get public URL for image.');
           }
-          initialPostData.status = 'published'; // Set status to published for images
 
-
-          initialPostData.image_url = publicUrl;
-        } else {
-          const filePath = `videos/raw/${fileName}`;
-          
-          const { error: uploadError } = await supabase.storage
-            .from('videos')
-            .upload(filePath, media.file);
-
-          if (uploadError) throw uploadError;
-
-          const { data: { publicUrl } } = supabase.storage
-            .from('videos')
-            .getPublicUrl(filePath);
-          initialPostData.status = 'processing'; // Set status to processing for videos
-
-          initialPostData.video_url = publicUrl;
+          uploadedUrls.push(publicUrl);
         }
+
+        // Store array of image URLs
+        initialPostData.image_urls = uploadedUrls;
+        // Also set first image as primary for backwards compatibility
+        initialPostData.image_url = uploadedUrls[0];
+        initialPostData.status = 'published';
+      }
+
+      // Handle video upload
+      if (video) {
+        const fileExt = video.file.name.split('.').pop() || 'mp4';
+        const uniqueId = `${user.id}-${Date.now()}`;
+        const fileName = `${uniqueId}.${fileExt}`;
+        const filePath = `videos/raw/${fileName}`;
+
+        const { error: uploadError } = await supabase.storage
+          .from('videos')
+          .upload(filePath, video.file);
+
+        if (uploadError) throw uploadError;
+
+        const { data: { publicUrl } } = supabase.storage
+          .from('videos')
+          .getPublicUrl(filePath);
+
+        initialPostData.video_url = publicUrl;
+        initialPostData.status = 'processing';
       }
 
       let resultPost;
@@ -253,7 +313,8 @@ function CreatePostModal({ isOpen, onClose, post, onSuccess }: CreatePostModalPr
 
   const resetForm = () => {
     setContent('');
-    setMedia(null);
+    setImages([]);
+    setVideo(null);
     setIncludeLocation(false);
     setVisibility('public');
     setIsPinned(false);
@@ -261,6 +322,8 @@ function CreatePostModal({ isOpen, onClose, post, onSuccess }: CreatePostModalPr
     if (fileInputRef.current) fileInputRef.current.value = '';
     if (videoInputRef.current) videoInputRef.current.value = '';
     setError(null);
+    setLightboxOpen(false);
+    setLightboxIndex(0);
   };
 
   const handleEmojiSelect = (emoji: string) => {
@@ -274,22 +337,74 @@ function CreatePostModal({ isOpen, onClose, post, onSuccess }: CreatePostModalPr
     setIncludeLocation(!includeLocation);
   };
 
+  const handleTouchStart = (e: React.TouchEvent) => {
+    const touch = e.touches[0];
+    dragStartY.current = touch.clientY;
+    setIsDragging(true);
+    triggerHaptic(ImpactStyle.Light);
+  };
+
+  const handleTouchMove = (e: React.TouchEvent) => {
+    if (!isDragging) return;
+    const touch = e.touches[0];
+    const diff = touch.clientY - dragStartY.current;
+    if (diff > 0) {
+      setDragOffset(diff);
+    }
+  };
+
+  const handleTouchEnd = () => {
+    if (dragOffset > 100) {
+      triggerHaptic(ImpactStyle.Medium);
+      onClose();
+    } else {
+      setDragOffset(0);
+    }
+    setIsDragging(false);
+  };
+
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 z-[1200] flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm">
+    <div
+      className="fixed inset-0 z-[1200] flex items-end sm:items-center justify-center p-0 sm:p-4 bg-black/50 backdrop-blur-sm"
+      onClick={(e) => {
+        if (e.target === e.currentTarget) {
+          onClose();
+        }
+      }}
+      style={{ WebkitTapHighlightColor: 'transparent' }}
+    >
       <motion.div
-        className="bg-gray-800 rounded-xl shadow-xl w-full max-w-xl"
+        ref={modalRef}
+        className="bg-gray-800 rounded-t-2xl sm:rounded-xl shadow-xl w-full max-w-xl overflow-hidden"
         onClick={e => e.stopPropagation()}
-        initial={{ opacity: 0, scale: 0.9 }}
-        animate={{ opacity: 1, scale: 1 }}
-        exit={{ opacity: 0, scale: 0.9 }}
-        transition={{ type: 'spring', damping: 20, stiffness: 300 }}
+        initial={{ opacity: 0, y: 100 }}
+        animate={{ opacity: 1, y: 0 }}
+        exit={{ opacity: 0, y: 100 }}
+        transition={{ type: 'spring', damping: 25, stiffness: 300 }}
+        style={{
+          transform: `translateY(${dragOffset}px)`,
+          maxHeight: '90vh',
+          overflowY: 'auto'
+        }}
+        onTouchStart={handleTouchStart}
+        onTouchMove={handleTouchMove}
+        onTouchEnd={handleTouchEnd}
       >
+        {/* Drag handle indicator */}
+        <div className="w-full flex justify-center pt-2 pb-1 sm:hidden">
+          <div className="w-12 h-1 bg-gray-600 rounded-full" />
+        </div>
+
         <div className="relative p-6">
           <button
-            onClick={onClose}
-            className="absolute top-4 right-4 p-2 hover:bg-gray-700 rounded-full text-gray-300"
+            onClick={() => {
+              triggerHaptic(ImpactStyle.Light);
+              onClose();
+            }}
+            className="absolute top-4 right-4 p-2 min-h-[44px] min-w-[44px] flex items-center justify-center hover:bg-gray-700 active:bg-gray-600 rounded-full text-gray-300 touch-manipulation"
+            style={{ WebkitTapHighlightColor: 'transparent' }}
           >
             <X className="w-6 h-6" />
           </button>
@@ -324,12 +439,16 @@ function CreatePostModal({ isOpen, onClose, post, onSuccess }: CreatePostModalPr
             <div className="flex flex-wrap gap-3">
               <button
                 type="button"
-                onClick={() => setVisibility('public')}
-                className={`flex items-center gap-2 px-3 py-1.5 rounded-full text-sm ${
+                onClick={() => {
+                  triggerHaptic(ImpactStyle.Light);
+                  setVisibility('public');
+                }}
+                className={`flex items-center gap-2 px-3 py-1.5 min-h-[44px] rounded-full text-sm touch-manipulation ${
                   visibility === 'public'
                     ? 'bg-green-900/30 text-green-300'
                     : 'bg-gray-700 text-gray-300'
                 }`}
+                style={{ WebkitTapHighlightColor: 'transparent' }}
               >
                 <Globe className="w-4 h-4" />
                 <span>Public</span>
@@ -337,12 +456,16 @@ function CreatePostModal({ isOpen, onClose, post, onSuccess }: CreatePostModalPr
 
               <button
                 type="button"
-                onClick={() => setVisibility('friends')}
-                className={`flex items-center gap-2 px-3 py-1.5 rounded-full text-sm ${
+                onClick={() => {
+                  triggerHaptic(ImpactStyle.Light);
+                  setVisibility('friends');
+                }}
+                className={`flex items-center gap-2 px-3 py-1.5 min-h-[44px] rounded-full text-sm touch-manipulation ${
                   visibility === 'friends'
                     ? 'bg-blue-900/30 text-blue-300'
                     : 'bg-gray-700 text-gray-300'
                 }`}
+                style={{ WebkitTapHighlightColor: 'transparent' }}
               >
                 <Users className="w-4 h-4" />
                 <span>Friends Only</span>
@@ -350,12 +473,16 @@ function CreatePostModal({ isOpen, onClose, post, onSuccess }: CreatePostModalPr
 
               <button
                 type="button"
-                onClick={() => setVisibility('private')}
-                className={`flex items-center gap-2 px-3 py-1.5 rounded-full text-sm ${
+                onClick={() => {
+                  triggerHaptic(ImpactStyle.Light);
+                  setVisibility('private');
+                }}
+                className={`flex items-center gap-2 px-3 py-1.5 min-h-[44px] rounded-full text-sm touch-manipulation ${
                   visibility === 'private'
                     ? 'bg-gray-600 text-gray-300'
                     : 'bg-gray-700 text-gray-300'
                 }`}
+                style={{ WebkitTapHighlightColor: 'transparent' }}
               >
                 <Lock className="w-4 h-4" />
                 <span>Only Me</span>
@@ -366,12 +493,16 @@ function CreatePostModal({ isOpen, onClose, post, onSuccess }: CreatePostModalPr
             <div className="flex items-center gap-3">
               <button
                 type="button"
-                onClick={handleLocationToggle}
-                className={`flex items-center gap-2 px-3 py-1.5 rounded-full text-sm ${
+                onClick={() => {
+                  triggerHaptic(ImpactStyle.Light);
+                  handleLocationToggle();
+                }}
+                className={`flex items-center gap-2 px-3 py-1.5 min-h-[44px] rounded-full text-sm touch-manipulation ${
                   includeLocation
                     ? 'bg-green-900/30 text-green-300'
                     : 'bg-gray-700 text-gray-300'
                 }`}
+                style={{ WebkitTapHighlightColor: 'transparent' }}
               >
                 {includeLocation ? (
                   <>
@@ -431,97 +562,152 @@ function CreatePostModal({ isOpen, onClose, post, onSuccess }: CreatePostModalPr
               </div>
             )}
 
-            {media ? (
-              <div className="relative rounded-lg overflow-hidden bg-gray-700">
-                {media.type === 'image' ? (
-                  <img
-                    src={media.url}
-                    alt="Upload preview"
-                    className="w-full rounded-lg"
-                  />
-                ) : (
-                  <div className="relative pt-[56.25%]">
-                    <ReactPlayer
-                      url={media.url}
-                      width="100%"
-                      height="100%"
-                      controls
-                      className="absolute top-0 left-0"
-                    />
-                  </div>
+            {/* Multiple Images Display */}
+            {images.length > 0 && (
+              <div className="space-y-3">
+                <div className="flex items-center justify-between">
+                  <label className="block text-sm font-semibold text-white flex items-center gap-2">
+                    <ImageIcon className="w-4 h-4 text-brand-gold" />
+                    Photos ({images.length}/4)
+                  </label>
+                  <span className="text-xs text-gray-400">Auto-compressed</span>
+                </div>
+
+                <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
+                  <AnimatePresence>
+                    {images.map((image, index) => (
+                      <motion.div
+                        key={index}
+                        initial={{ opacity: 0, scale: 0.8 }}
+                        animate={{ opacity: 1, scale: 1 }}
+                        exit={{ opacity: 0, scale: 0.8 }}
+                        className="relative aspect-square group rounded-xl overflow-hidden border-2 border-gray-700 hover:border-brand-gold transition-all"
+                      >
+                        <img
+                          src={image}
+                          alt={`Upload ${index + 1}`}
+                          className="w-full h-full object-cover cursor-pointer transition-transform group-hover:scale-110"
+                          onClick={() => {
+                            setLightboxIndex(index);
+                            setLightboxOpen(true);
+                          }}
+                        />
+                        <div
+                          className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center cursor-pointer"
+                          onClick={() => {
+                            setLightboxIndex(index);
+                            setLightboxOpen(true);
+                          }}
+                        >
+                          <ZoomIn className="w-8 h-8 text-white drop-shadow-lg" />
+                        </div>
+                        <button
+                          type="button"
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            triggerHaptic(ImpactStyle.Medium);
+                            removeImage(index);
+                          }}
+                          className="absolute top-2 right-2 p-1.5 bg-red-500 text-white rounded-full hover:bg-red-600 transition-colors shadow-lg z-10"
+                        >
+                          <Trash2 className="w-4 h-4" />
+                        </button>
+                      </motion.div>
+                    ))}
+                  </AnimatePresence>
+                </div>
+
+                {images.length < 4 && !video && (
+                  <button
+                    type="button"
+                    onClick={() => {
+                      triggerHaptic(ImpactStyle.Light);
+                      fileInputRef.current?.click();
+                    }}
+                    disabled={uploading}
+                    className="w-full p-3 border-2 border-dashed border-gray-600 rounded-lg hover:border-brand-gold transition-colors flex items-center justify-center gap-2 text-gray-400 disabled:opacity-50"
+                  >
+                    {uploading ? (
+                      <Loader2 className="w-5 h-5 animate-spin text-brand-gold" />
+                    ) : (
+                      <>
+                        <ImageIcon className="w-5 h-5" />
+                        <span>Add More Photos ({4 - images.length} left)</span>
+                      </>
+                    )}
+                  </button>
                 )}
+              </div>
+            )}
+
+            {/* Video Display */}
+            {video && (
+              <div className="relative rounded-lg overflow-hidden bg-gray-700">
+                <div className="relative pt-[56.25%]">
+                  <ReactPlayer
+                    url={video.url}
+                    width="100%"
+                    height="100%"
+                    controls
+                    className="absolute top-0 left-0"
+                  />
+                </div>
                 <button
                   type="button"
                   onClick={() => {
-                    setMedia(null);
-                    if (fileInputRef.current) fileInputRef.current.value = '';
-                    if (videoInputRef.current) videoInputRef.current.value = '';
+                    triggerHaptic(ImpactStyle.Medium);
+                    removeVideo();
                   }}
-                  className="absolute top-2 right-2 p-2 bg-red-500 text-white rounded-full hover:bg-red-600 transition-colors"
+                  className="absolute top-2 right-2 p-2 min-h-[44px] min-w-[44px] flex items-center justify-center bg-red-500 text-white rounded-full active:bg-red-600 transition-colors touch-manipulation z-10"
+                  style={{ WebkitTapHighlightColor: 'transparent' }}
                 >
                   <Trash2 className="w-5 h-5" />
                 </button>
-
-                {/* Upload Progress Bar */}
-                {uploading && (
-                  <div className="absolute bottom-0 left-0 right-0 bg-black/50 p-2">
-                    <div className="w-full bg-gray-200 rounded-full h-2.5">
-                      <div
-                        className="bg-brand-gold h-2.5 rounded-full transition-all duration-300"
-                        style={{ width: `${uploadProgress}%` }}
-                      ></div>
-                    </div>
-                    <p className="text-white text-xs mt-1 text-center">
-                      {uploadProgress < 100 ? 'Uploading...' : 'Upload complete!'}
-                    </p>
-                  </div>
-                )}
               </div>
-            ) : (
+            )}
+
+            {/* Add Media Buttons */}
+            {images.length === 0 && !video && (
               <div className="grid grid-cols-2 gap-4">
                 <div>
-                  <input
-                    ref={fileInputRef}
-                    type="file"
-                    accept="image/*"
-                    onChange={(e) => handleMediaUpload(e, 'image')}
-                    className="hidden"
-                  />
                   <button
                     type="button"
-                    onClick={() => fileInputRef.current?.click()}
-                    className="w-full p-4 border-2 border-dashed border-gray-600 rounded-lg hover:border-brand-gold transition-colors flex flex-col items-center gap-2"
+                    onClick={() => {
+                      triggerHaptic(ImpactStyle.Light);
+                      fileInputRef.current?.click();
+                    }}
+                    disabled={uploading}
+                    className="w-full p-4 min-h-[88px] border-2 border-dashed border-gray-600 rounded-lg active:border-brand-gold transition-colors flex flex-col items-center gap-2 touch-manipulation disabled:opacity-50"
+                    style={{ WebkitTapHighlightColor: 'transparent' }}
                   >
                     {uploading ? (
                       <Loader2 className="w-8 h-8 animate-spin text-brand-gold" />
                     ) : (
                       <>
                         <ImageIcon className="w-8 h-8 text-gray-400" />
-                        <span className="text-gray-400">Add Photo</span>
+                        <span className="text-gray-400 text-sm">Add Photos (1-4)</span>
                       </>
                     )}
                   </button>
                 </div>
 
                 <div>
-                  <input
-                    ref={videoInputRef}
-                    type="file"
-                    accept="video/*"
-                    onChange={(e) => handleMediaUpload(e, 'video')}
-                    className="hidden"
-                  />
                   <button
                     type="button"
-                    onClick={() => videoInputRef.current?.click()}
-                    className="w-full p-4 border-2 border-dashed border-gray-600 rounded-lg hover:border-brand-gold transition-colors flex flex-col items-center gap-2"
+                    onClick={() => {
+                      triggerHaptic(ImpactStyle.Light);
+                      videoInputRef.current?.click();
+                    }}
+                    disabled={uploading}
+                    className="w-full p-4 min-h-[88px] border-2 border-dashed border-gray-600 rounded-lg active:border-brand-gold transition-colors flex flex-col items-center gap-2 touch-manipulation disabled:opacity-50"
+                    style={{ WebkitTapHighlightColor: 'transparent' }}
                   >
                     {uploading ? (
                       <Loader2 className="w-8 h-8 animate-spin text-brand-gold" />
                     ) : (
                       <>
                         <Film className="w-8 h-8 text-gray-400" />
-                        <span className="text-gray-400">Add Video</span>
+                        <span className="text-gray-400 text-sm">Add Video</span>
                       </>
                     )}
                   </button>
@@ -529,18 +715,45 @@ function CreatePostModal({ isOpen, onClose, post, onSuccess }: CreatePostModalPr
               </div>
             )}
 
+            {/* Hidden file inputs */}
+            <input
+              ref={fileInputRef}
+              type="file"
+              accept="image/*"
+              multiple
+              onChange={handleImageUpload}
+              className="hidden"
+            />
+            <input
+              ref={videoInputRef}
+              type="file"
+              accept="video/*"
+              onChange={handleVideoUpload}
+              className="hidden"
+            />
+
             <div className="flex justify-end gap-4">
               <button
                 type="button"
-                onClick={onClose}
-                className="px-6 py-2 rounded-lg bg-gray-700 hover:bg-gray-600 transition-colors text-white font-medium"
+                onClick={() => {
+                  triggerHaptic(ImpactStyle.Light);
+                  onClose();
+                }}
+                className="px-6 py-2 min-h-[48px] rounded-lg bg-gray-700 active:bg-gray-600 transition-colors text-white font-medium touch-manipulation"
+                style={{ WebkitTapHighlightColor: 'transparent' }}
               >
                 Cancel
               </button>
               <button
                 type="submit"
-                disabled={posting || uploading || (!content.trim() && !media)}
-                className="px-6 py-2 bg-brand-gold text-white rounded-lg hover:bg-brand-gold-dark transition-colors disabled:opacity-50 flex items-center gap-2"
+                disabled={posting || uploading || (!content.trim() && images.length === 0 && !video)}
+                onClick={() => {
+                  if (!posting && !uploading && (content.trim() || images.length > 0 || video)) {
+                    triggerHaptic(ImpactStyle.Medium);
+                  }
+                }}
+                className="px-6 py-2 min-h-[48px] bg-brand-gold text-white rounded-lg active:bg-brand-gold-dark transition-colors disabled:opacity-50 flex items-center gap-2 touch-manipulation"
+                style={{ WebkitTapHighlightColor: 'transparent' }}
               >
                 {posting ? (
                   <>
@@ -555,6 +768,78 @@ function CreatePostModal({ isOpen, onClose, post, onSuccess }: CreatePostModalPr
           </form>
         </div>
       </motion.div>
+
+      {/* Image Lightbox */}
+      <AnimatePresence>
+        {lightboxOpen && images.length > 0 && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            onClick={() => setLightboxOpen(false)}
+            className="fixed inset-0 z-[1300] bg-black/95 backdrop-blur-sm flex items-center justify-center p-4"
+          >
+            <button
+              onClick={() => setLightboxOpen(false)}
+              className="absolute top-4 right-4 p-2 bg-white/10 hover:bg-white/20 rounded-full transition-colors text-white z-10"
+            >
+              <X className="w-6 h-6" />
+            </button>
+
+            {images.length > 1 && (
+              <>
+                <button
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    setLightboxIndex((prev) => (prev === 0 ? images.length - 1 : prev - 1));
+                  }}
+                  className="absolute left-4 top-1/2 -translate-y-1/2 p-3 bg-white/10 hover:bg-white/20 rounded-full transition-colors text-white z-10"
+                >
+                  <ChevronLeft className="w-6 h-6" />
+                </button>
+
+                <button
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    setLightboxIndex((prev) => (prev === images.length - 1 ? 0 : prev + 1));
+                  }}
+                  className="absolute right-4 top-1/2 -translate-y-1/2 p-3 bg-white/10 hover:bg-white/20 rounded-full transition-colors text-white z-10"
+                >
+                  <ChevronRight className="w-6 h-6" />
+                </button>
+
+                <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex gap-2 z-10">
+                  {images.map((_, index) => (
+                    <button
+                      key={index}
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        setLightboxIndex(index);
+                      }}
+                      className={`w-2 h-2 rounded-full transition-all ${
+                        index === lightboxIndex
+                          ? 'bg-brand-gold w-8'
+                          : 'bg-white/50 hover:bg-white/75'
+                      }`}
+                    />
+                  ))}
+                </div>
+              </>
+            )}
+
+            <motion.img
+              key={lightboxIndex}
+              initial={{ scale: 0.8, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              exit={{ scale: 0.8, opacity: 0 }}
+              src={images[lightboxIndex]}
+              alt={`Image ${lightboxIndex + 1}`}
+              className="max-w-full max-h-full object-contain rounded-lg"
+              onClick={(e) => e.stopPropagation()}
+            />
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   );
 }

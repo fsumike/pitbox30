@@ -1,0 +1,103 @@
+═══════════════════════════════════════════════════════════════════
+                  ENCRYPTION COMPLIANCE CHEAT SHEET
+                    Keep this handy during submission!
+═══════════════════════════════════════════════════════════════════
+
+
+┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
+┃  QUESTION 1: Does your app use encryption?                     ┃
+┃                                                                 ┃
+┃  ✅ ANSWER: NO                                                  ┃
+┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛
+
+Stop here! You're done! ✓
+
+
+───────────────────────────────────────────────────────────────────
+                  IF APPLE ASKS MORE QUESTIONS:
+───────────────────────────────────────────────────────────────────
+
+
+┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
+┃  QUESTION 2: Which encryption algorithms does your app         ┃
+┃  implement? (Select all that apply)                            ┃
+┃                                                                 ┃
+┃  ☐ Proprietary or non-standard algorithms                      ┃
+┃  ☐ Standard encryption algorithms                              ┃
+┃                                                                 ┃
+┃  ✅ ANSWER: CHECK NEITHER BOX (leave both unchecked)           ┃
+┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛
+
+
+┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
+┃  QUESTION 3: Does your app qualify for any exemptions?         ┃
+┃                                                                 ┃
+┃  ✅ ANSWER: YES                                                 ┃
+┃                                                                 ┃
+┃  ✅ SELECT: Category 5, Part 2 (e)(2) - Authentication         ┃
+┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛
+
+
+───────────────────────────────────────────────────────────────────
+            IF FORM FORCES YOU TO SELECT AN ALGORITHM:
+───────────────────────────────────────────────────────────────────
+
+☐ Proprietary algorithms     → LEAVE UNCHECKED
+☑ Standard algorithms         → CHECK THIS (if forced)
+
+Then provide this note:
+
+"Our app uses only the standard HTTPS/TLS encryption provided by
+Apple's iOS URLSession framework. We do not implement any encryption
+algorithms in our application code. All encryption is handled by iOS."
+
+
+═══════════════════════════════════════════════════════════════════
+                         QUICK FACTS
+═══════════════════════════════════════════════════════════════════
+
+What PitBox USES:
+  ✓ HTTPS/TLS (Apple's networking)
+  ✓ Supabase API (uses HTTPS)
+  ✓ iOS built-in encryption
+
+What PitBox DOES NOT USE:
+  ✗ Custom encryption code
+  ✗ Third-party crypto libraries
+  ✗ Manual encryption implementation
+
+
+═══════════════════════════════════════════════════════════════════
+                   IF APPLE CONTACTS YOU
+═══════════════════════════════════════════════════════════════════
+
+Copy/paste this response:
+
+"PitBox uses only standard HTTPS/TLS encryption provided by Apple's
+URLSession networking framework for secure communication with our
+Supabase backend API. We do not implement any encryption algorithms
+in our application code. All cryptographic operations are performed
+by iOS system frameworks.
+
+We qualify for encryption export exemption under Category 5, Part 2
+(e)(2) because we only access encryption provided by Apple's OS for
+authentication and secure data transmission."
+
+
+═══════════════════════════════════════════════════════════════════
+                      REMEMBER THESE WORDS:
+═══════════════════════════════════════════════════════════════════
+
+❌ "IMPLEMENT" = You wrote encryption code → NO, you didn't
+✅ "USE" = You call Apple's APIs → YES, you do this
+
+
+═══════════════════════════════════════════════════════════════════
+
+✓ You are EXEMPT
+✓ No documentation needed
+✓ No ERN number needed
+✓ No annual reports needed
+✓ You will be approved!
+
+═══════════════════════════════════════════════════════════════════

@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>App Store Review Information - My Pit-Box</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+        }
+        h1 {
+            color: #1e3a8a;
+            margin-bottom: 10px;
+            font-size: 32px;
+        }
+        .subtitle {
+            color: #64748b;
+            margin-bottom: 30px;
+            font-size: 16px;
+        }
+        .section {
+            background: #f8fafc;
+            border-radius: 12px;
+            padding: 24px;
+            margin-bottom: 20px;
+            border-left: 4px solid #3b82f6;
+        }
+        .section h2 {
+            color: #1e3a8a;
+            font-size: 20px;
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .field {
+            margin-bottom: 16px;
+        }
+        .label {
+            font-weight: 600;
+            color: #475569;
+            margin-bottom: 6px;
+            font-size: 14px;
+        }
+        .value {
+            background: white;
+            padding: 12px 16px;
+            border-radius: 8px;
+            border: 2px solid #e2e8f0;
+            font-family: 'Courier New', monospace;
+            font-size: 15px;
+            color: #1e293b;
+            cursor: pointer;
+            transition: all 0.2s;
+            position: relative;
+        }
+        .value:hover {
+            border-color: #3b82f6;
+            background: #eff6ff;
+        }
+        .value:active {
+            background: #dbeafe;
+        }
+        .copy-btn {
+            background: #3b82f6;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 600;
+            transition: all 0.2s;
+            margin-top: 8px;
+        }
+        .copy-btn:hover {
+            background: #2563eb;
+            transform: translateY(-2px);
+        }
+        .copy-btn:active {
+            transform: translateY(0);
+        }
+        .notes-box {
+            background: white;
+            padding: 16px;
+            border-radius: 8px;
+            border: 2px solid #e2e8f0;
+            font-family: 'Courier New', monospace;
+            font-size: 13px;
+            line-height: 1.6;
+            color: #1e293b;
+            max-height: 400px;
+            overflow-y: auto;
+            white-space: pre-wrap;
+            cursor: pointer;
+        }
+        .notes-box:hover {
+            border-color: #3b82f6;
+            background: #eff6ff;
+        }
+        .success-msg {
+            background: #10b981;
+            color: white;
+            padding: 12px 20px;
+            border-radius: 8px;
+            margin-top: 12px;
+            display: none;
+            font-weight: 600;
+            animation: slideIn 0.3s;
+        }
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        .download-section {
+            background: linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%);
+            color: white;
+            border-radius: 12px;
+            padding: 24px;
+            margin-top: 30px;
+            text-align: center;
+        }
+        .download-btn {
+            background: white;
+            color: #3b82f6;
+            border: none;
+            padding: 14px 32px;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 700;
+            transition: all 0.2s;
+            margin: 8px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        }
+        .download-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(0,0,0,0.25);
+        }
+        .checklist {
+            background: #fefce8;
+            border-left: 4px solid #eab308;
+            padding: 20px;
+            border-radius: 8px;
+            margin-top: 24px;
+        }
+        .checklist h3 {
+            color: #854d0e;
+            margin-bottom: 12px;
+        }
+        .checklist-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 8px;
+            color: #713f12;
+        }
+        .emoji {
+            font-size: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🍎 Apple App Store Review Information</h1>
+        <p class="subtitle">Complete package for My Pit-Box app submission</p>
+
+        <div class="section">
+            <h2><span class="emoji">🔐</span> Sign-In Information</h2>
+            <div class="field">
+                <div class="label">Sign-in required:</div>
+                <div class="value" onclick="copyToClipboard(this)">YES</div>
+            </div>
+            <div class="field">
+                <div class="label">User name:</div>
+                <div class="value" onclick="copyToClipboard(this)">reviewer@pitbox-demo.com</div>
+                <button class="copy-btn" onclick="copyText('reviewer@pitbox-demo.com')">Copy Username</button>
+            </div>
+            <div class="field">
+                <div class="label">Password:</div>
+                <div class="value" onclick="copyToClipboard(this)">AppleReview2025!</div>
+                <button class="copy-btn" onclick="copyText('AppleReview2025!')">Copy Password</button>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2><span class="emoji">👤</span> Contact Information</h2>
+            <div class="field">
+                <div class="label">First name:</div>
+                <div class="value" onclick="copyToClipboard(this)">PitBox</div>
+            </div>
+            <div class="field">
+                <div class="label">Last name:</div>
+                <div class="value" onclick="copyToClipboard(this)">Support</div>
+            </div>
+            <div class="field">
+                <div class="label">Phone number:</div>
+                <div class="value" onclick="copyToClipboard(this)">+1-555-0123</div>
+            </div>
+            <div class="field">
+                <div class="label">Email:</div>
+                <div class="value" onclick="copyToClipboard(this)">support@pit-box.com</div>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2><span class="emoji">📝</span> Notes (Click to copy all)</h2>
+            <div class="notes-box" id="notesBox" onclick="copyToClipboard(this)">WELCOME TO MY PIT-BOX!
+
+SIGN-IN REQUIRED: Yes
+Username: reviewer@pitbox-demo.com
+Password: AppleReview2025!
+
+This is a premium racing setup management app for dirt track and sprint car racing. The test account has full premium access.
+
+HOW TO TEST:
+
+1. FIRST TIME SETUP:
+   - Open the app and you'll see the welcome screen
+   - Tap "Sign In" button
+   - Enter the credentials above
+   - You'll be taken to the home page
+
+2. MAIN FEATURES TO EXPLORE:
+
+   🏁 SETUP SHEETS (Main Feature):
+   - Tap "Sprint 410" or any race class from the home page
+   - View pre-loaded sample setups
+   - Fill in suspension, shock, and tire settings
+   - Save and compare setups
+
+   📊 TOOLS (Bottom Navigation):
+   - Weight Calculator: Calculate corner weights
+   - Gear Calculator: Calculate gear ratios
+   - Spring Calculator: Spring rate calculations
+   - Motor Health: Track engine maintenance
+   - Tire Management: Track tire usage
+
+   👥 RACING COMMUNITY (Bottom Navigation):
+   - View posts from other racers
+   - Create a post with photos
+   - Like and comment on posts
+   - View Stories at the top
+
+   🛒 SWAP MEET (Bottom Navigation):
+   - Browse racing parts for sale
+   - Filter by category
+   - View seller information
+
+   🔧 MY GARAGE (Bottom Navigation):
+   - View your saved setups
+   - Access maintenance checklists
+   - Track shock inventory
+
+3. LOCATION FEATURES:
+   - App will request location permission
+   - Used to show nearby tracks and races
+   - All location data is optional
+
+4. PREMIUM FEATURES (Already Enabled):
+   - Unlimited setup sheets
+   - Advanced comparison tools
+   - No advertisements
+   - All tools unlocked
+
+5. SUBSCRIPTION INFO:
+   - Test account has premium active
+   - Real users: $9.99/month or $49.99/year
+   - Managed through Apple In-App Purchase
+
+NOTES:
+- All data is cloud-synced via Supabase
+- Works offline with cached data
+- Optimized for iPhone and iPad
+- Supports iOS 13.0+
+
+If you need assistance, contact: support@pit-box.com
+
+Thank you for reviewing My Pit-Box!</div>
+            <button class="copy-btn" onclick="copyNotes()">Copy All Notes</button>
+            <div class="success-msg" id="successMsg">✓ Copied to clipboard!</div>
+        </div>
+
+        <div class="checklist">
+            <h3>✅ Submission Checklist</h3>
+            <div class="checklist-item">□ Copy all credentials to App Store Connect</div>
+            <div class="checklist-item">□ Copy contact information to App Store Connect</div>
+            <div class="checklist-item">□ Copy notes section to App Store Connect</div>
+            <div class="checklist-item">□ Create the test account in your app</div>
+            <div class="checklist-item">□ Grant premium access to test account</div>
+            <div class="checklist-item">□ Test login yourself before submitting</div>
+            <div class="checklist-item">□ Run setup-review-account.sql in Supabase</div>
+        </div>
+
+        <div class="download-section">
+            <h3>📥 Download Files</h3>
+            <button class="download-btn" onclick="downloadMarkdown()">Download Markdown</button>
+            <button class="download-btn" onclick="downloadSQL()">Download SQL Script</button>
+        </div>
+    </div>
+
+    <script>
+        function copyToClipboard(element) {
+            const text = element.textContent.trim();
+            navigator.clipboard.writeText(text).then(() => {
+                showSuccess();
+            });
+        }
+
+        function copyText(text) {
+            navigator.clipboard.writeText(text).then(() => {
+                showSuccess();
+            });
+        }
+
+        function copyNotes() {
+            const notes = document.getElementById('notesBox').textContent;
+            navigator.clipboard.writeText(notes).then(() => {
+                showSuccess();
+            });
+        }
+
+        function showSuccess() {
+            const msg = document.getElementById('successMsg');
+            msg.style.display = 'block';
+            setTimeout(() => {
+                msg.style.display = 'none';
+            }, 2000);
+        }
+
+        function downloadMarkdown() {
+            window.location.href = '../APP_STORE_REVIEW_INFO.md';
+        }
+
+        function downloadSQL() {
+            window.location.href = '../setup-review-account.sql';
+        }
+    </script>
+</body>
+</html>

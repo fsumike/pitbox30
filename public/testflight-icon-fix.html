@@ -1,0 +1,419 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TestFlight Icon Fix - PitBox</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #000 0%, #1a1a1a 100%);
+            color: #fff;
+            padding: 20px;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        h1 {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, #FFD700 0%, #FFA500 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .subtitle {
+            text-align: center;
+            color: #aaa;
+            font-size: 1.2rem;
+            margin-bottom: 3rem;
+        }
+
+        .problem-box {
+            background: rgba(255, 0, 0, 0.1);
+            border-left: 4px solid #ff4444;
+            padding: 2rem;
+            border-radius: 10px;
+            margin-bottom: 2rem;
+        }
+
+        .problem-box h2 {
+            color: #ff6666;
+            margin-bottom: 1rem;
+        }
+
+        .solution-box {
+            background: rgba(0, 255, 0, 0.1);
+            border-left: 4px solid #44ff44;
+            padding: 2rem;
+            border-radius: 10px;
+            margin-bottom: 2rem;
+        }
+
+        .solution-box h2 {
+            color: #66ff66;
+            margin-bottom: 1rem;
+        }
+
+        .steps {
+            display: grid;
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+
+        .step {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 15px;
+            padding: 1.5rem;
+            border: 1px solid rgba(255, 215, 0, 0.2);
+            transition: transform 0.3s ease, border-color 0.3s ease;
+        }
+
+        .step:hover {
+            transform: translateX(10px);
+            border-color: rgba(255, 215, 0, 0.5);
+        }
+
+        .step-number {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, #FFD700 0%, #FFA500 100%);
+            border-radius: 50%;
+            color: #000;
+            font-weight: bold;
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .step h3 {
+            color: #FFD700;
+            margin-bottom: 0.5rem;
+            font-size: 1.3rem;
+        }
+
+        .step p {
+            color: #ccc;
+            margin-bottom: 1rem;
+        }
+
+        .code {
+            background: #1a1a1a;
+            border: 1px solid #333;
+            border-radius: 8px;
+            padding: 1rem;
+            font-family: 'Courier New', monospace;
+            color: #00ff00;
+            overflow-x: auto;
+            margin: 0.5rem 0;
+        }
+
+        .warning {
+            background: rgba(255, 165, 0, 0.1);
+            border-left: 4px solid #FFA500;
+            padding: 1rem;
+            border-radius: 8px;
+            margin: 1rem 0;
+            color: #ffcc66;
+        }
+
+        .tip {
+            background: rgba(100, 200, 255, 0.1);
+            border-left: 4px solid #64c8ff;
+            padding: 1rem;
+            border-radius: 8px;
+            margin: 1rem 0;
+            color: #99ddff;
+        }
+
+        .checklist {
+            list-style: none;
+            padding: 0;
+        }
+
+        .checklist li {
+            padding: 0.8rem;
+            margin: 0.5rem 0;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 8px;
+            padding-left: 3rem;
+            position: relative;
+        }
+
+        .checklist li:before {
+            content: "☐";
+            position: absolute;
+            left: 1rem;
+            font-size: 1.5rem;
+            color: #FFD700;
+        }
+
+        .button {
+            display: inline-block;
+            background: linear-gradient(135deg, #FFD700 0%, #FFA500 100%);
+            color: #000;
+            padding: 1rem 2rem;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: bold;
+            margin: 0.5rem;
+            transition: transform 0.3s ease;
+        }
+
+        .button:hover {
+            transform: scale(1.05);
+        }
+
+        .visual-guide {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 15px;
+            padding: 2rem;
+            margin: 2rem 0;
+        }
+
+        .visual-guide h3 {
+            color: #FFD700;
+            margin-bottom: 1.5rem;
+            text-align: center;
+        }
+
+        .icons-comparison {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .icon-box {
+            text-align: center;
+            padding: 2rem;
+            border-radius: 10px;
+        }
+
+        .icon-box.wrong {
+            background: rgba(255, 0, 0, 0.1);
+            border: 2px solid #ff4444;
+        }
+
+        .icon-box.right {
+            background: rgba(0, 255, 0, 0.1);
+            border: 2px solid #44ff44;
+        }
+
+        .icon-preview {
+            width: 120px;
+            height: 120px;
+            margin: 1rem auto;
+            border-radius: 27px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3rem;
+        }
+
+        .icon-box.wrong .icon-preview {
+            background: #fff;
+            color: #ddd;
+        }
+
+        .icon-box.right .icon-preview {
+            background: #fff;
+            color: #FFD700;
+        }
+
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2rem;
+            }
+
+            .icons-comparison {
+                grid-template-columns: 1fr;
+            }
+
+            .step {
+                padding: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🚨 TestFlight Icon Not Showing?</h1>
+        <p class="subtitle">Fix it in 3 minutes</p>
+
+        <div class="problem-box">
+            <h2>😞 The Problem</h2>
+            <p>When you install PitBox from TestFlight, you see this generic white icon on your iPhone instead of your cool PitBox logo.</p>
+        </div>
+
+        <div class="icons-comparison">
+            <div class="icon-box wrong">
+                <div class="icon-preview">⚪</div>
+                <h4 style="color: #ff6666;">❌ What You See Now</h4>
+                <p style="color: #999;">Generic white placeholder</p>
+            </div>
+            <div class="icon-box right">
+                <div class="icon-preview">🏁</div>
+                <h4 style="color: #66ff66;">✅ What You Want</h4>
+                <p style="color: #999;">Your custom PitBox icon</p>
+            </div>
+        </div>
+
+        <div class="solution-box">
+            <h2>😊 The Solution</h2>
+            <p>iOS needs your icons in a specific location. We'll copy them there automatically!</p>
+        </div>
+
+        <div class="steps">
+            <div class="step">
+                <div class="step-number">1</div>
+                <h3>Build iOS Project</h3>
+                <p>First, make sure your iOS project exists:</p>
+                <div class="code">npm run build</div>
+                <p style="margin-top: 1rem;">This generates the iOS folder if it doesn't exist yet.</p>
+            </div>
+
+            <div class="step">
+                <div class="step-number">2</div>
+                <h3>Run Icon Fix Script</h3>
+                <p>This automatically copies your icons to the right place:</p>
+                <div class="code">npm run fix:ios-icons</div>
+                <p style="margin-top: 1rem;">The script will:</p>
+                <ul style="color: #aaa; margin-left: 2rem; margin-top: 0.5rem;">
+                    <li>Copy all your icon files</li>
+                    <li>Configure Contents.json</li>
+                    <li>Set up all required sizes</li>
+                </ul>
+            </div>
+
+            <div class="step">
+                <div class="step-number">3</div>
+                <h3>Open in Xcode</h3>
+                <p>Open your project to verify the icons are there:</p>
+                <div class="code">npm run cap:open:ios</div>
+                <p style="margin-top: 1rem;">Then in Xcode:</p>
+                <ol style="color: #aaa; margin-left: 2rem; margin-top: 0.5rem;">
+                    <li>Click "App" in the left sidebar</li>
+                    <li>Click "App" under TARGETS</li>
+                    <li>Go to "General" tab</li>
+                    <li>Look for "App Icons and Launch Screen"</li>
+                    <li>You should see your icon now!</li>
+                </ol>
+            </div>
+
+            <div class="step">
+                <div class="step-number">4</div>
+                <h3>Archive & Upload</h3>
+                <p>Create a new build for TestFlight:</p>
+                <ol style="color: #aaa; margin-left: 2rem; margin-top: 0.5rem;">
+                    <li>In Xcode: Product → Archive</li>
+                    <li>Click "Distribute App"</li>
+                    <li>Choose "App Store Connect"</li>
+                    <li>Upload the build</li>
+                </ol>
+                <div class="tip">
+                    <strong>💡 Pro Tip:</strong> Wait about 5-10 minutes for TestFlight to process your build.
+                </div>
+            </div>
+
+            <div class="step">
+                <div class="step-number">5</div>
+                <h3>Test It!</h3>
+                <p>Install from TestFlight and check your home screen:</p>
+                <ul style="color: #aaa; margin-left: 2rem; margin-top: 0.5rem;">
+                    <li>Open TestFlight app</li>
+                    <li>Install the new build</li>
+                    <li>Look at your home screen</li>
+                    <li>Your PitBox icon should appear! 🎉</li>
+                </ul>
+                <div class="warning">
+                    <strong>⚠️ Icon still not showing?</strong><br>
+                    Delete the app completely, restart your phone, and reinstall from TestFlight. iOS sometimes caches the old icon.
+                </div>
+            </div>
+        </div>
+
+        <div class="visual-guide">
+            <h3>📋 Pre-Upload Checklist</h3>
+            <ul class="checklist">
+                <li>Ran <code style="color: #FFD700;">npm run build</code></li>
+                <li>Ran <code style="color: #FFD700;">npm run fix:ios-icons</code></li>
+                <li>Opened Xcode and verified icons are visible</li>
+                <li>No yellow warnings in Xcode</li>
+                <li>Icon is 1024x1024 pixels</li>
+                <li>Icon has NO transparency (no alpha channel)</li>
+                <li>Icon has square corners (iOS rounds them)</li>
+                <li>Archived successfully in Xcode</li>
+                <li>Uploaded to App Store Connect</li>
+                <li>Tested on real device via TestFlight</li>
+            </ul>
+        </div>
+
+        <div class="visual-guide">
+            <h3>🔍 Where to Check in Xcode</h3>
+            <div style="color: #aaa; margin-top: 1rem;">
+                <p>Navigate to:</p>
+                <div class="code">App → Assets.xcassets → AppIcon</div>
+                <p style="margin-top: 1rem;">You should see your icon in all these slots:</p>
+                <ul style="margin-left: 2rem; margin-top: 0.5rem;">
+                    <li>iPhone App (60pt) - 2x and 3x</li>
+                    <li>iPhone Settings (29pt) - 2x and 3x</li>
+                    <li>iPhone Spotlight (40pt) - 2x and 3x</li>
+                    <li>iPad App (76pt) - 1x and 2x</li>
+                    <li>App Store (1024pt) - 1x</li>
+                </ul>
+                <div class="tip" style="margin-top: 1rem;">
+                    <strong>✓ No yellow triangles!</strong> Yellow warnings mean something is wrong. All slots should have icons.
+                </div>
+            </div>
+        </div>
+
+        <div class="visual-guide">
+            <h3>🆘 Troubleshooting</h3>
+
+            <h4 style="color: #FFD700; margin-top: 1.5rem;">Problem: Script says "iOS project not found"</h4>
+            <p style="color: #aaa;">Solution: Run <code style="color: #FFD700;">npm run build</code> first to generate the iOS project.</p>
+
+            <h4 style="color: #FFD700; margin-top: 1.5rem;">Problem: Icon appears in Xcode but not TestFlight</h4>
+            <p style="color: #aaa;">Solution: Make sure you:</p>
+            <ul style="color: #aaa; margin-left: 2rem;">
+                <li>Archived AFTER running the icon fix script</li>
+                <li>Uploaded the new build (check build number)</li>
+                <li>Waited 5-10 minutes for processing</li>
+                <li>Installed the NEW build number in TestFlight</li>
+            </ul>
+
+            <h4 style="color: #FFD700; margin-top: 1.5rem;">Problem: Icon has white border or looks wrong</h4>
+            <p style="color: #aaa;">Your icon probably has transparency. iOS requires icons with NO alpha channel. Export your icon as RGB PNG without transparency.</p>
+
+            <h4 style="color: #FFD700; margin-top: 1.5rem;">Problem: Yellow warnings in Xcode</h4>
+            <p style="color: #aaa;">Some icon sizes are missing. Use an online tool to generate all sizes:</p>
+            <ul style="color: #aaa; margin-left: 2rem;">
+                <li><a href="https://appicon.co" style="color: #64c8ff;">appicon.co</a></li>
+                <li><a href="https://www.appicon.build" style="color: #64c8ff;">appicon.build</a></li>
+                <li><a href="https://makeappicon.com" style="color: #64c8ff;">makeappicon.com</a></li>
+            </ul>
+        </div>
+
+        <div style="text-align: center; margin: 3rem 0;">
+            <h3 style="color: #FFD700; margin-bottom: 1rem;">Need More Help?</h3>
+            <a href="../IOS_APP_ICON_SETUP_GUIDE.md" class="button">📖 Full Setup Guide</a>
+            <a href="../TESTFLIGHT_ICON_QUICK_FIX.md" class="button">📝 Quick Fix Text Version</a>
+        </div>
+    </div>
+</body>
+</html>

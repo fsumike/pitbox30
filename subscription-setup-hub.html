@@ -1,0 +1,460 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PitBox Subscription Setup Hub</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
+            color: #ffffff;
+            padding: 40px 20px;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 50px;
+            padding: 40px 20px;
+            background: linear-gradient(135deg, #FBB040 0%, #F59E0B 100%);
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(251, 176, 64, 0.3);
+        }
+
+        .header h1 {
+            font-size: 3em;
+            margin-bottom: 10px;
+            color: #000;
+        }
+
+        .header p {
+            font-size: 1.3em;
+            color: #1a1a1a;
+        }
+
+        .summary {
+            background: rgba(255, 255, 255, 0.05);
+            border: 2px solid #FBB040;
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 40px;
+        }
+
+        .summary h2 {
+            color: #FBB040;
+            margin-bottom: 20px;
+        }
+
+        .pricing-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin: 30px 0;
+        }
+
+        .pricing-card {
+            background: rgba(255, 255, 255, 0.05);
+            border: 2px solid #FBB040;
+            border-radius: 15px;
+            padding: 25px;
+        }
+
+        .pricing-card h3 {
+            color: #FBB040;
+            margin-bottom: 15px;
+            font-size: 1.5em;
+        }
+
+        .price {
+            font-size: 2.5em;
+            font-weight: bold;
+            color: #FBB040;
+            margin: 10px 0;
+        }
+
+        .price span {
+            font-size: 0.4em;
+            color: #ccc;
+        }
+
+        .features {
+            list-style: none;
+            margin: 20px 0;
+        }
+
+        .features li {
+            padding: 8px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .features li:before {
+            content: "✓ ";
+            color: #4ade80;
+            font-weight: bold;
+            margin-right: 8px;
+        }
+
+        .documents {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-top: 40px;
+        }
+
+        .doc-card {
+            background: rgba(255, 255, 255, 0.08);
+            border-radius: 15px;
+            padding: 30px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            border: 2px solid transparent;
+        }
+
+        .doc-card:hover {
+            border-color: #FBB040;
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(251, 176, 64, 0.2);
+        }
+
+        .doc-icon {
+            font-size: 3em;
+            margin-bottom: 15px;
+        }
+
+        .doc-card h3 {
+            color: #FBB040;
+            margin-bottom: 10px;
+            font-size: 1.3em;
+        }
+
+        .doc-card p {
+            color: #ccc;
+            font-size: 0.95em;
+        }
+
+        .doc-card .filename {
+            color: #666;
+            font-size: 0.85em;
+            margin-top: 10px;
+            font-family: monospace;
+        }
+
+        .free-features {
+            background: linear-gradient(135deg, rgba(74, 222, 128, 0.1) 0%, rgba(34, 197, 94, 0.1) 100%);
+            border: 2px solid #4ade80;
+            border-radius: 15px;
+            padding: 25px;
+            margin: 30px 0;
+        }
+
+        .free-features h3 {
+            color: #4ade80;
+            margin-bottom: 15px;
+        }
+
+        .free-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .free-item {
+            background: rgba(74, 222, 128, 0.1);
+            padding: 15px;
+            border-radius: 10px;
+            text-align: center;
+        }
+
+        .steps {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 15px;
+            padding: 30px;
+            margin: 30px 0;
+        }
+
+        .step {
+            display: flex;
+            align-items: start;
+            margin: 20px 0;
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 10px;
+        }
+
+        .step-number {
+            background: #FBB040;
+            color: #000;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 1.2em;
+            flex-shrink: 0;
+            margin-right: 20px;
+        }
+
+        .step-content h4 {
+            color: #FBB040;
+            margin-bottom: 5px;
+        }
+
+        .cta {
+            background: linear-gradient(135deg, #FBB040 0%, #F59E0B 100%);
+            color: #000;
+            padding: 20px 40px;
+            border-radius: 10px;
+            text-align: center;
+            font-size: 1.2em;
+            font-weight: bold;
+            margin: 40px 0;
+            box-shadow: 0 5px 20px rgba(251, 176, 64, 0.4);
+        }
+
+        .warning {
+            background: rgba(239, 68, 68, 0.1);
+            border: 2px solid #ef4444;
+            border-radius: 10px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+
+        .warning h4 {
+            color: #ef4444;
+            margin-bottom: 10px;
+        }
+
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 2em;
+            }
+
+            .pricing-grid,
+            .documents,
+            .free-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🏁 PitBox Subscription Setup Hub</h1>
+            <p>Everything you need to set up subscriptions for iOS and Android</p>
+        </div>
+
+        <div class="summary">
+            <h2>📋 What Users Are Paying For</h2>
+            <p style="font-size: 1.2em; margin-bottom: 20px;">
+                <strong>ONLY racing setup sheets require a subscription. Everything else is FREE!</strong>
+            </p>
+
+            <div class="free-features">
+                <h3>✅ Always FREE for Everyone</h3>
+                <div class="free-grid">
+                    <div class="free-item">🗣️ Racing Community</div>
+                    <div class="free-item">🏪 Swap Meet</div>
+                    <div class="free-item">🔧 All Racing Tools</div>
+                    <div class="free-item">📍 Track Locations</div>
+                    <div class="free-item">🎯 Events & Challenges</div>
+                    <div class="free-item">👥 Groups & Teams</div>
+                </div>
+            </div>
+
+            <div class="pricing-grid">
+                <div class="pricing-card">
+                    <h3>🥉 Basic</h3>
+                    <div class="price">$9.99<span>/month</span></div>
+                    <ul class="features">
+                        <li>Unlimited setup sheets</li>
+                        <li>Multi-device sync</li>
+                        <li>Setup comparison</li>
+                        <li>Cloud backup</li>
+                    </ul>
+                </div>
+
+                <div class="pricing-card">
+                    <h3>🏆 Premium</h3>
+                    <div class="price">$12.99<span>/month</span></div>
+                    <ul class="features">
+                        <li>All Basic features</li>
+                        <li>End-to-end encryption</li>
+                        <li>Advanced templates</li>
+                        <li>Priority support</li>
+                    </ul>
+                </div>
+            </div>
+
+            <p style="text-align: center; color: #4ade80; font-size: 1.2em; margin-top: 20px;">
+                🎁 7-Day Free Trial on All Plans
+            </p>
+        </div>
+
+        <div class="cta">
+            📚 Six comprehensive guides created for you below!
+        </div>
+
+        <div class="steps">
+            <h2 style="color: #FBB040; margin-bottom: 20px;">🚀 Quick Start Steps</h2>
+
+            <div class="step">
+                <div class="step-number">1</div>
+                <div class="step-content">
+                    <h4>Read START_HERE_SUBSCRIPTIONS.md</h4>
+                    <p>Get the quick overview (5 minutes)</p>
+                </div>
+            </div>
+
+            <div class="step">
+                <div class="step-number">2</div>
+                <div class="step-content">
+                    <h4>Follow COMPLETE_SUBSCRIPTION_SETUP_GUIDE.md</h4>
+                    <p>Detailed instructions for iOS and Android (60 minutes)</p>
+                </div>
+            </div>
+
+            <div class="step">
+                <div class="step-number">3</div>
+                <div class="step-content">
+                    <h4>Use SUBSCRIPTION_SETUP_CHECKLIST.md</h4>
+                    <p>Check off items as you complete them</p>
+                </div>
+            </div>
+
+            <div class="step">
+                <div class="step-number">4</div>
+                <div class="step-content">
+                    <h4>Test on Both Platforms</h4>
+                    <p>Verify subscriptions work correctly (30 minutes)</p>
+                </div>
+            </div>
+
+            <div class="step">
+                <div class="step-number">5</div>
+                <div class="step-content">
+                    <h4>Update Store Descriptions</h4>
+                    <p>Use templates from the guides</p>
+                </div>
+            </div>
+
+            <div class="step">
+                <div class="step-number">6</div>
+                <div class="step-content">
+                    <h4>Launch!</h4>
+                    <p>Your subscriptions are live 🎉</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="warning">
+            <h4>⚠️ Critical Reminders</h4>
+            <ul style="margin-left: 20px;">
+                <li>Product IDs must match EXACTLY between stores and code</li>
+                <li>Always mention "Community & Tools are FREE" in descriptions</li>
+                <li>Test with sandbox/test accounts before going live</li>
+                <li>Link subscription group to app in App Store Connect</li>
+                <li>Set up 7-day free trials on all subscriptions</li>
+            </ul>
+        </div>
+
+        <h2 style="color: #FBB040; margin: 40px 0 20px 0;">📖 All Documentation</h2>
+
+        <div class="documents">
+            <div class="doc-card">
+                <div class="doc-icon">🚀</div>
+                <h3>START HERE</h3>
+                <p>Quick overview and getting started guide. Read this first!</p>
+                <div class="filename">START_HERE_SUBSCRIPTIONS.md</div>
+            </div>
+
+            <div class="doc-card">
+                <div class="doc-icon">📚</div>
+                <h3>Complete Setup Guide</h3>
+                <p>Detailed step-by-step instructions for iOS and Android with exact settings.</p>
+                <div class="filename">COMPLETE_SUBSCRIPTION_SETUP_GUIDE.md</div>
+            </div>
+
+            <div class="doc-card">
+                <div class="doc-icon">✅</div>
+                <h3>Setup Checklist</h3>
+                <p>Print this and check off each item as you complete it.</p>
+                <div class="filename">SUBSCRIPTION_SETUP_CHECKLIST.md</div>
+            </div>
+
+            <div class="doc-card">
+                <div class="doc-icon">💬</div>
+                <h3>Messaging Guide</h3>
+                <p>Pre-written emails, social posts, FAQs, and support responses.</p>
+                <div class="filename">SUBSCRIPTION_MESSAGING_GUIDE.md</div>
+            </div>
+
+            <div class="doc-card">
+                <div class="doc-icon">📋</div>
+                <h3>Model Summary</h3>
+                <p>Clear explanation of what's free vs paid for sharing with users.</p>
+                <div class="filename">SUBSCRIPTION_MODEL_SUMMARY.md</div>
+            </div>
+
+            <div class="doc-card">
+                <div class="doc-icon">📄</div>
+                <h3>Quick Reference</h3>
+                <p>Print-friendly cheat sheet with all key information.</p>
+                <div class="filename">SUBSCRIPTION_QUICK_REFERENCE.txt</div>
+            </div>
+        </div>
+
+        <div style="background: rgba(255, 255, 255, 0.05); border-radius: 15px; padding: 30px; margin-top: 50px; text-align: center;">
+            <h2 style="color: #FBB040; margin-bottom: 20px;">💡 Key Messaging</h2>
+            <div style="font-size: 1.3em; line-height: 2;">
+                <p style="color: #4ade80; margin-bottom: 15px;">
+                    ✅ "Community, Swap Meet, and Tools are FREE"
+                </p>
+                <p style="color: #4ade80; margin-bottom: 15px;">
+                    ✅ "Subscriptions only for saving setup sheets"
+                </p>
+                <p style="color: #4ade80; margin-bottom: 15px;">
+                    ✅ "Try 7 days free, cancel anytime"
+                </p>
+                <hr style="border: 1px solid rgba(255, 255, 255, 0.1); margin: 30px 0;">
+                <p style="color: #ef4444; margin-bottom: 15px;">
+                    ❌ Don't say "unlock premium features" (too vague)
+                </p>
+                <p style="color: #ef4444;">
+                    ❌ Don't say "free trial of PitBox" (implies app isn't free)
+                </p>
+            </div>
+        </div>
+
+        <div style="text-align: center; margin: 50px 0; padding: 40px; background: linear-gradient(135deg, #FBB040 0%, #F59E0B 100%); border-radius: 20px;">
+            <h2 style="color: #000; font-size: 2.5em; margin-bottom: 10px;">You're All Set! 🏁</h2>
+            <p style="color: #1a1a1a; font-size: 1.2em;">
+                Follow the guides, set up your subscriptions, and launch with confidence!
+            </p>
+        </div>
+
+        <div style="text-align: center; color: #666; margin-top: 30px; padding-bottom: 30px;">
+            <p>Questions? Check the guides or reach out to Apple/Google developer support.</p>
+            <p style="margin-top: 10px;">
+                <a href="https://developer.apple.com/contact/" style="color: #FBB040; margin: 0 10px;">Apple Support</a> |
+                <a href="https://support.google.com/googleplay/android-developer" style="color: #FBB040; margin: 0 10px;">Google Support</a>
+            </p>
+        </div>
+    </div>
+</body>
+</html>

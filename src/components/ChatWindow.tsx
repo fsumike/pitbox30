@@ -1,8 +1,11 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { Send, X, Loader2, ChevronLeft } from 'lucide-react';
+import { Send, X, Loader2, ChevronLeft, ChevronDown } from 'lucide-react';
 import { useAuth } from '../contexts/AuthContext';
 import { supabase } from '../lib/supabase';
-import type { Message, Profile } from '../types';
+import type { Profile } from '../types';
+import EmojiPicker from './EmojiPicker';
+import GifPicker from './GifPicker';
+import { useMessages } from '../hooks/useMessages';
 
 interface ChatWindowProps {
   recipientId: string;
@@ -13,25 +16,46 @@ interface ChatWindowProps {
 
 function ChatWindow({ recipientId, onClose, isMinimized = false, onMinimize }: ChatWindowProps) {
   const { user } = useAuth();
-  const [messages, setMessages] = useState<Message[]>([]);
   const [newMessage, setNewMessage] = useState('');
-  const [loading, setLoading] = useState(true);
-  const [sending, setSending] = useState(false);
   const [recipient, setRecipient] = useState<Profile | null>(null);
+  const [showScrollButton, setShowScrollButton] = useState(false);
   const [notificationPermission, setNotificationPermission] = useState<NotificationPermission>('default');
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const messageInputRef = useRef<HTMLInputElement>(null);
+  const messagesContainerRef = useRef<HTMLDivElement>(null);
+  const isNearBottomRef = useRef(true);
+
+  const {
+    messages,
+    loading,
+    sending,
+    hasMore,
+    sendMessage,
+    loadMoreMessages,
+    markAsRead
+  } = useMessages({
+    recipientId,
+    userId: user?.id || '',
+    pageSize: 50
+  });
 
   useEffect(() => {
-    loadMessages();
     loadRecipientProfile();
-    subscribeToMessages();
     checkNotificationPermission();
   }, [recipientId]);
 
   useEffect(() => {
-    scrollToBottom();
-  }, [messages]);
+    if (isNearBottomRef.current) {
+      scrollToBottom();
+    }
+    markAsRead();
+  }, [messages, markAsRead]);
+
+  useEffect(() => {
+    if (!isMinimized) {
+      markAsRead();
+    }
+  }, [isMinimized, markAsRead]);
 
   const checkNotificationPermission = async () => {
     if ('Notification' in window) {
@@ -40,40 +64,14 @@ function ChatWindow({ recipientId, onClose, isMinimized = false, onMinimize }: C
     }
   };
 
-  const showNotification = (message: Message) => {
-    if (!('Notification' in window) || notificationPermission !== 'granted' || document.visibilityState === 'visible') {
-      return;
-    }
-
-    const notification = new Notification('New Message from ' + (recipient?.username || 'Someone'), {
-      body: message.content,
-      icon: '/android-icon-192-192.png',
-      badge: '/android-icon-96-96.png',
-      tag: 'chat-message',
-      vibrate: [200, 100, 200],
-      requireInteraction: false
-    });
-
-    notification.onclick = () => {
-      window.focus();
-      notification.close();
-      if (onMinimize && isMinimized) {
-        onMinimize();
-      }
-    };
-
-    // Auto close after 5 seconds
-    setTimeout(() => notification.close(), 5000);
-  };
-
   const loadRecipientProfile = async () => {
     try {
       const { data } = await supabase
         .from('profiles')
         .select('*')
         .eq('id', recipientId)
-        .single();
-      
+        .maybeSingle();
+
       if (data) {
         setRecipient(data);
       }
@@ -82,85 +80,52 @@ function ChatWindow({ recipientId, onClose, isMinimized = false, onMinimize }: C
     }
   };
 
-  const loadMessages = async () => {
-    if (!user) return;
-    
-    try {
-      const { data } = await supabase
-        .from('messages')
-        .select(`
-          *,
-          sender:profiles!messages_sender_id_fkey (
-            username,
-            avatar_url
-          )
-        `)
-        .or(`sender_id.eq.${user.id},receiver_id.eq.${user.id}`)
-        .or(`sender_id.eq.${recipientId},receiver_id.eq.${recipientId}`)
-        .order('created_at', { ascending: true });
+  const handleScroll = () => {
+    const container = messagesContainerRef.current;
+    if (!container) return;
 
-      if (data) {
-        setMessages(data);
-      }
-    } catch (err) {
-      console.error('Error loading messages:', err);
-    } finally {
-      setLoading(false);
+    const { scrollTop, scrollHeight, clientHeight } = container;
+    const distanceFromBottom = scrollHeight - scrollTop - clientHeight;
+
+    isNearBottomRef.current = distanceFromBottom < 100;
+    setShowScrollButton(distanceFromBottom > 300);
+
+    if (scrollTop < 100 && hasMore && !loading) {
+      loadMoreMessages();
     }
-  };
-
-  const subscribeToMessages = () => {
-    if (!user) return;
-
-    const subscription = supabase
-      .channel('messages')
-      .on(
-        'postgres_changes',
-        {
-          event: 'INSERT',
-          schema: 'public',
-          table: 'messages',
-          filter: `sender_id=eq.${recipientId},receiver_id=eq.${user.id}`
-        },
-        (payload) => {
-          const newMessage = payload.new as Message;
-          setMessages(prev => [...prev, newMessage]);
-          showNotification(newMessage);
-        }
-      )
-      .subscribe();
-
-    return () => {
-      subscription.unsubscribe();
-    };
   };
 
   const handleSendMessage = async (e?: React.FormEvent) => {
     if (e) e.preventDefault();
-    if (!user || !newMessage.trim()) return;
+    if (!user || !newMessage.trim() || sending) return;
 
-    setSending(true);
     try {
-      const { error } = await supabase
-        .from('messages')
-        .insert({
-          sender_id: user.id,
-          receiver_id: recipientId,
-          content: newMessage.trim()
-        });
-
-      if (error) throw error;
+      await sendMessage(newMessage);
       setNewMessage('');
       messageInputRef.current?.focus();
+      setTimeout(() => scrollToBottom(), 100);
     } catch (err) {
       console.error('Error sending message:', err);
-    } finally {
-      setSending(false);
     }
   };
 
-  const scrollToBottom = () => {
-    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+  const handleGifSelect = async (gifUrl: string) => {
+    if (!user || sending) return;
+
+    try {
+      await sendMessage(gifUrl);
+      setTimeout(() => scrollToBottom(), 100);
+    } catch (err) {
+      console.error('Error sending GIF:', err);
+    }
+  };
+
+  const isGifUrl = (text: string) => {
+    return text.match(/\.(gif|giphy\.com)/i) || text.includes('media.giphy.com');
+  };
+
+  const scrollToBottom = (smooth = true) => {
+    messagesEndRef.current?.scrollIntoView({ behavior: smooth ? 'smooth' : 'auto' });
   };
 
   const formatTime = (dateString: string) => {
@@ -177,7 +142,7 @@ function ChatWindow({ recipientId, onClose, isMinimized = false, onMinimize }: C
       <div className="fixed bottom-4 right-4 bg-white dark:bg-gray-800 rounded-lg shadow-lg p-4 cursor-pointer hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors"
         onClick={onMinimize}>
         <div className="flex items-center gap-3">
-          <div className="w-10 h-10 rounded-full bg-brand-gold/10 flex items-center justify-center overflow-hidden">
+          <div className="w-10 h-10 rounded-full bg-amber-100 dark:bg-amber-900/30 flex items-center justify-center overflow-hidden">
             {recipient?.avatar_url ? (
               <img
                 src={recipient.avatar_url}
@@ -185,12 +150,12 @@ function ChatWindow({ recipientId, onClose, isMinimized = false, onMinimize }: C
                 className="w-full h-full object-cover"
               />
             ) : (
-              <span className="text-lg font-semibold text-brand-gold">
+              <span className="text-lg font-semibold text-amber-700 dark:text-amber-400">
                 {recipient?.username?.[0]?.toUpperCase() || '?'}
               </span>
             )}
           </div>
-          <span className="font-medium">{recipient?.username || 'Chat'}</span>
+          <span className="font-medium text-gray-900 dark:text-white">{recipient?.username || 'Chat'}</span>
         </div>
       </div>
     );
@@ -205,9 +170,9 @@ function ChatWindow({ recipientId, onClose, isMinimized = false, onMinimize }: C
             onClick={onMinimize}
             className="p-1 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-full"
           >
-            <ChevronLeft className="w-5 h-5" />
+            <ChevronLeft className="w-5 h-5 text-gray-600 dark:text-gray-400" />
           </button>
-          <div className="w-10 h-10 rounded-full bg-brand-gold/10 flex items-center justify-center overflow-hidden">
+          <div className="w-10 h-10 rounded-full bg-amber-100 dark:bg-amber-900/30 flex items-center justify-center overflow-hidden">
             {recipient?.avatar_url ? (
               <img
                 src={recipient.avatar_url}
@@ -215,14 +180,14 @@ function ChatWindow({ recipientId, onClose, isMinimized = false, onMinimize }: C
                 className="w-full h-full object-cover"
               />
             ) : (
-              <span className="text-lg font-semibold text-brand-gold">
+              <span className="text-lg font-semibold text-amber-700 dark:text-amber-400">
                 {recipient?.username?.[0]?.toUpperCase() || '?'}
               </span>
             )}
           </div>
           <div>
-            <p className="font-semibold">{recipient?.username || 'Loading...'}</p>
-            <p className="text-xs text-gray-500">
+            <p className="font-semibold text-gray-900 dark:text-white">{recipient?.username || 'Loading...'}</p>
+            <p className="text-xs text-gray-600 dark:text-gray-400">
               {recipient?.full_name || recipient?.username}
             </p>
           </div>
@@ -231,61 +196,110 @@ function ChatWindow({ recipientId, onClose, isMinimized = false, onMinimize }: C
           onClick={onClose}
           className="p-1 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-full"
         >
-          <X className="w-5 h-5" />
+          <X className="w-5 h-5 text-gray-600 dark:text-gray-400" />
         </button>
       </div>
 
       {/* Messages */}
-      <div className="flex-1 overflow-y-auto p-4 space-y-4">
-        {loading ? (
+      <div
+        ref={messagesContainerRef}
+        onScroll={handleScroll}
+        className="flex-1 overflow-y-auto p-4 space-y-4 relative"
+      >
+        {hasMore && (
+          <div className="flex justify-center py-2">
+            <button
+              onClick={loadMoreMessages}
+              disabled={loading}
+              className="text-sm text-amber-600 dark:text-amber-400 hover:text-amber-700 dark:hover:text-amber-300 disabled:opacity-50"
+            >
+              {loading ? 'Loading...' : 'Load older messages'}
+            </button>
+          </div>
+        )}
+
+        {loading && messages.length === 0 ? (
           <div className="flex justify-center py-4">
-            <Loader2 className="w-6 h-6 animate-spin text-brand-gold" />
+            <Loader2 className="w-6 h-6 animate-spin text-amber-600 dark:text-amber-500" />
           </div>
         ) : messages.length === 0 ? (
-          <div className="text-center text-gray-500 py-4">
+          <div className="text-center text-gray-600 dark:text-gray-400 py-4">
             No messages yet. Start the conversation!
           </div>
         ) : (
-          messages.map((message) => (
-            <div
-              key={message.id}
-              className={`flex ${
-                message.sender_id === user?.id ? 'justify-end' : 'justify-start'
-              }`}
-            >
+          messages.map((message) => {
+            const isOptimistic = message.id.startsWith('optimistic_');
+            return (
               <div
-                className={`max-w-[75%] ${
-                  message.sender_id === user?.id
-                    ? 'bg-brand-gold text-white'
-                    : 'bg-gray-100 dark:bg-gray-700'
-                } rounded-lg px-4 py-2`}
+                key={message.id}
+                className={`flex ${
+                  message.sender_id === user?.id ? 'justify-end' : 'justify-start'
+                }`}
               >
-                <p>{message.content}</p>
-                <p className="text-xs opacity-75 mt-1">
-                  {formatTime(message.created_at)}
-                </p>
+                <div
+                  className={`max-w-[75%] ${
+                    message.sender_id === user?.id
+                      ? 'bg-amber-600 dark:bg-amber-700 text-white'
+                      : 'bg-gray-100 dark:bg-gray-700 text-gray-900 dark:text-gray-100'
+                  } rounded-lg ${isGifUrl(message.content) ? 'p-1' : 'px-4 py-2'} ${isOptimistic ? 'opacity-60' : ''}`}
+                >
+                  {isGifUrl(message.content) ? (
+                    <img
+                      src={message.content}
+                      alt="GIF"
+                      className="rounded-lg max-w-full max-h-64 object-contain"
+                    />
+                  ) : (
+                    <p className="break-words">{message.content}</p>
+                  )}
+                  <p className={`text-xs opacity-75 mt-1 flex items-center gap-1 ${isGifUrl(message.content) ? 'px-2 pb-1' : ''}`}>
+                    {formatTime(message.created_at)}
+                    {isOptimistic && (
+                      <Loader2 className="w-3 h-3 animate-spin inline-block" />
+                    )}
+                  </p>
+                </div>
               </div>
-            </div>
-          ))
+            );
+          })
         )}
         <div ref={messagesEndRef} />
+
+        {showScrollButton && (
+          <button
+            onClick={() => scrollToBottom()}
+            className="fixed bottom-24 right-8 bg-amber-600 dark:bg-amber-700 text-white p-2 rounded-full shadow-lg hover:bg-amber-700 dark:hover:bg-amber-600 transition-colors"
+            aria-label="Scroll to bottom"
+          >
+            <ChevronDown className="w-5 h-5" />
+          </button>
+        )}
       </div>
 
       {/* Message Input */}
       <form onSubmit={handleSendMessage} className="p-4 border-t border-gray-200 dark:border-gray-700">
-        <div className="flex gap-2">
+        <div className="flex gap-2 items-center">
           <input
             ref={messageInputRef}
             type="text"
             value={newMessage}
             onChange={(e) => setNewMessage(e.target.value)}
             placeholder="Type a message..."
-            className="flex-1 p-2 rounded-lg bg-gray-100 dark:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-brand-gold"
+            className="flex-1 p-2 rounded-lg border-2 border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-amber-500 dark:focus:ring-amber-600 focus:border-transparent"
+          />
+          <EmojiPicker
+            onEmojiSelect={(emoji) => setNewMessage(prev => prev + emoji)}
+            buttonClassName="bg-white dark:bg-gray-700 border-2 border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-600"
+            theme="auto"
+          />
+          <GifPicker
+            onGifSelect={handleGifSelect}
+            buttonClassName="bg-white dark:bg-gray-700 border-2 border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-600"
           />
           <button
             type="submit"
             disabled={!newMessage.trim() || sending}
-            className="p-2 bg-brand-gold text-white rounded-lg hover:bg-brand-gold-dark transition-colors disabled:opacity-50"
+            className="p-2 bg-amber-600 dark:bg-amber-700 text-white rounded-lg hover:bg-amber-700 dark:hover:bg-amber-600 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
           >
             {sending ? (
               <Loader2 className="w-5 h-5 animate-spin" />

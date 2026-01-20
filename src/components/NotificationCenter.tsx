@@ -70,10 +70,15 @@ function NotificationCenter({ className = '' }: NotificationCenterProps) {
     }
   };
 
+  const handleViewAll = () => {
+    navigate('/notifications');
+    setIsOpen(false);
+  };
+
   return (
-    <div className={`relative ${className}`} ref={dropdownRef}>
+    <div className={`${className}`}>
       <button
-        onClick={() => setIsOpen(!isOpen)}
+        onClick={handleViewAll}
         className="relative flex items-center gap-2 px-3 py-2 bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-600 hover:to-amber-700 text-white rounded-lg shadow-sm transition-all duration-200 hover:shadow-md"
         aria-label="Notifications"
       >
@@ -94,10 +99,10 @@ function NotificationCenter({ className = '' }: NotificationCenterProps) {
       <AnimatePresence>
         {isOpen && (
           <motion.div
-            className="absolute right-0 mt-2 w-80 bg-white dark:bg-gray-800 rounded-lg shadow-lg border border-gray-200 dark:border-gray-700 z-50 overflow-hidden"
-            initial={{ opacity: 0, y: -10 }}
+            className="hidden"
+            initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -10 }}
+            exit={{ opacity: 0, y: 10 }}
             transition={{ duration: 0.2 }}
           >
             <div className="p-3 border-b border-gray-200 dark:border-gray-700 flex justify-between items-center">

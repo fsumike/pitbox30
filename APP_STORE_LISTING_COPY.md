@@ -204,21 +204,18 @@ racing setup,sprint car,dirt track,late model,racing community,motor sports,setu
 
 **Support URL:**
 ```
-mailto:pitboxcom@gmail.com
+https://pitbox.app/contact
 ```
-*Note: Apple requires a URL. Use your deployed web app URL with /contact page. Example: https://yourapp.com/contact*
 
 **Marketing URL:**
 ```
-https://yourdeployedapp.com
+https://pitbox.app
 ```
-*Use your actual deployed web app URL*
 
 **Privacy Policy URL:**
 ```
-https://yourdeployedapp.com/privacy
+https://pitbox.app/privacy
 ```
-*Your privacy page is already built at /privacy in the app*
 
 ---
 

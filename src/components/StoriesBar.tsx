@@ -286,7 +286,7 @@ export default function StoriesBar() {
   if (storyGroups.length === 0 && user) {
     return (
       <>
-        <div className="bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700 px-4 py-3">
+        <div className="relative z-0 bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700 px-4 py-3">
           <div className="flex items-center gap-4 overflow-x-auto scrollbar-hide">
             <button
               type="button"
@@ -320,7 +320,7 @@ export default function StoriesBar() {
 
   return (
     <>
-      <div className="bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700 px-4 py-3">
+      <div className="relative z-0 bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700 px-4 py-3">
         <div className="flex items-center gap-4 overflow-x-auto scrollbar-hide">
           {user && (
             <button

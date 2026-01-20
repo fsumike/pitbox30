@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PitBox App Icon Generator</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            background: #1a1a1a;
+            color: white;
+        }
+        .preview-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            gap: 20px;
+            margin: 30px 0;
+        }
+        .preview-item {
+            text-align: center;
+        }
+        .preview-item canvas {
+            width: 100%;
+            max-width: 150px;
+            height: auto;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+        }
+        .preview-item p {
+            margin-top: 10px;
+            font-size: 12px;
+            color: #999;
+        }
+        canvas {
+            image-rendering: -webkit-optimize-contrast;
+            image-rendering: crisp-edges;
+        }
+        .controls {
+            background: #2a2a2a;
+            padding: 20px;
+            border-radius: 12px;
+            margin-bottom: 30px;
+        }
+        button {
+            background: linear-gradient(135deg, #d4af37 0%, #f4d03f 100%);
+            color: #000;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            margin-right: 10px;
+            margin-bottom: 10px;
+        }
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(212, 175, 55, 0.3);
+        }
+        .section {
+            margin: 40px 0;
+        }
+        h2 {
+            color: #d4af37;
+            border-bottom: 2px solid #d4af37;
+            padding-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+    <h1>PitBox App Icon Generator</h1>
+
+    <div class="controls">
+        <h3>Generate Icons</h3>
+        <button onclick="generateAllIcons()">Generate All Icons</button>
+        <button onclick="downloadAllIcons()">Download All Icons (ZIP)</button>
+        <p style="color: #999; margin-top: 10px;">Dark background with premium gold logo styling</p>
+    </div>
+
+    <div class="section">
+        <h2>iOS Icons</h2>
+        <div id="ios-preview" class="preview-grid"></div>
+    </div>
+
+    <div class="section">
+        <h2>Android Icons</h2>
+        <div id="android-preview" class="preview-grid"></div>
+    </div>
+
+    <script>
+        const iosSizes = [
+            { size: 1024, name: 'AppIcon-1024.png', desc: 'App Store' },
+            { size: 180, name: 'AppIcon-180.png', desc: 'iPhone (@3x)' },
+            { size: 167, name: 'AppIcon-167.png', desc: 'iPad Pro' },
+            { size: 152, name: 'AppIcon-152.png', desc: 'iPad (@2x)' },
+            { size: 120, name: 'AppIcon-120.png', desc: 'iPhone (@2x)' },
+            { size: 87, name: 'AppIcon-87.png', desc: 'iPhone (@3x)' },
+            { size: 80, name: 'AppIcon-80.png', desc: 'iPad (@2x)' },
+            { size: 76, name: 'AppIcon-76.png', desc: 'iPad' },
+            { size: 60, name: 'AppIcon-60.png', desc: 'iPhone' },
+            { size: 58, name: 'AppIcon-58.png', desc: 'Settings (@2x)' },
+            { size: 40, name: 'AppIcon-40.png', desc: 'Spotlight' },
+            { size: 29, name: 'AppIcon-29.png', desc: 'Settings' },
+            { size: 20, name: 'AppIcon-20.png', desc: 'Notification' }
+        ];
+
+        const androidSizes = [
+            { size: 512, name: 'ic_launcher-512.png', desc: 'Play Store' },
+            { size: 192, name: 'ic_launcher-192.png', desc: 'xxxhdpi' },
+            { size: 144, name: 'ic_launcher-144.png', desc: 'xxhdpi' },
+            { size: 96, name: 'ic_launcher-96.png', desc: 'xhdpi' },
+            { size: 72, name: 'ic_launcher-72.png', desc: 'hdpi' },
+            { size: 48, name: 'ic_launcher-48.png', desc: 'mdpi' }
+        ];
+
+        let logoImage = null;
+        const generatedIcons = {};
+
+        // Load the logo
+        function loadLogo() {
+            return new Promise((resolve, reject) => {
+                const img = new Image();
+                img.onload = () => {
+                    logoImage = img;
+                    resolve();
+                };
+                img.onerror = reject;
+                img.src = '/logo.png';
+            });
+        }
+
+        function createIcon(size, withGlass = true) {
+            const canvas = document.createElement('canvas');
+            canvas.width = size;
+            canvas.height = size;
+            const ctx = canvas.getContext('2d');
+
+            // Dark background with subtle gradient
+            const gradient = ctx.createLinearGradient(0, 0, 0, size);
+            gradient.addColorStop(0, '#0a0a0a');
+            gradient.addColorStop(1, '#000000');
+            ctx.fillStyle = gradient;
+            ctx.fillRect(0, 0, size, size);
+
+            // Add subtle radial glow
+            const glowGradient = ctx.createRadialGradient(size/2, size/2, 0, size/2, size/2, size/2);
+            glowGradient.addColorStop(0, 'rgba(212, 175, 55, 0.1)');
+            glowGradient.addColorStop(1, 'rgba(0, 0, 0, 0)');
+            ctx.fillStyle = glowGradient;
+            ctx.fillRect(0, 0, size, size);
+
+            // Draw logo (centered with padding)
+            const padding = size * 0.15; // 15% padding
+            const logoSize = size - (padding * 2);
+            const logoX = padding;
+            const logoY = padding;
+
+            ctx.drawImage(logoImage, logoX, logoY, logoSize, logoSize);
+
+            // Add subtle glass effect for larger icons
+            if (withGlass && size >= 96) {
+                const glassGradient = ctx.createLinearGradient(0, 0, 0, size * 0.5);
+                glassGradient.addColorStop(0, 'rgba(255, 255, 255, 0.1)');
+                glassGradient.addColorStop(1, 'rgba(255, 255, 255, 0)');
+                ctx.fillStyle = glassGradient;
+                ctx.fillRect(0, 0, size, size * 0.5);
+            }
+
+            return canvas;
+        }
+
+        function displayIcon(canvas, container, name, desc) {
+            const item = document.createElement('div');
+            item.className = 'preview-item';
+
+            const previewCanvas = canvas.cloneNode(true);
+            previewCanvas.getContext('2d').drawImage(canvas, 0, 0);
+
+            item.appendChild(previewCanvas);
+
+            const text = document.createElement('p');
+            text.innerHTML = `<strong>${name}</strong><br>${desc}<br>${canvas.width}x${canvas.height}`;
+            item.appendChild(text);
+
+            container.appendChild(item);
+        }
+
+        async function generateAllIcons() {
+            if (!logoImage) {
+                await loadLogo();
+            }
+
+            const iosContainer = document.getElementById('ios-preview');
+            const androidContainer = document.getElementById('android-preview');
+
+            iosContainer.innerHTML = '';
+            androidContainer.innerHTML = '';
+
+            // Generate iOS icons
+            iosSizes.forEach(icon => {
+                const canvas = createIcon(icon.size, true);
+                displayIcon(canvas, iosContainer, icon.name, icon.desc);
+                generatedIcons[icon.name] = canvas;
+            });
+
+            // Generate Android icons
+            androidSizes.forEach(icon => {
+                const canvas = createIcon(icon.size, true);
+                displayIcon(canvas, androidContainer, icon.name, icon.desc);
+                generatedIcons[icon.name] = canvas;
+            });
+
+            console.log('All icons generated!');
+        }
+
+        function downloadCanvas(canvas, filename) {
+            canvas.toBlob(blob => {
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = filename;
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+                URL.revokeObjectURL(url);
+            }, 'image/png');
+        }
+
+        function downloadAllIcons() {
+            if (Object.keys(generatedIcons).length === 0) {
+                alert('Please generate icons first!');
+                return;
+            }
+
+            // Download each icon individually
+            Object.entries(generatedIcons).forEach(([name, canvas], index) => {
+                setTimeout(() => {
+                    downloadCanvas(canvas, name);
+                }, index * 100); // Stagger downloads
+            });
+
+            alert('Downloading all icons... Check your downloads folder!');
+        }
+
+        // Generate icons on page load
+        window.onload = () => {
+            loadLogo().then(() => {
+                generateAllIcons();
+            }).catch(err => {
+                console.error('Failed to load logo:', err);
+                alert('Failed to load logo. Make sure logo.png exists in /public/');
+            });
+        };
+    </script>
+</body>
+</html>

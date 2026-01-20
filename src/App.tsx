@@ -12,6 +12,8 @@ import { TrackDetectionBanner } from './components/TrackDetectionBanner';
 import { usePushNotifications } from './hooks/usePushNotifications';
 import VideoSplash from './components/VideoSplash';
 import { liveUpdateService } from './lib/capawesome-live-update';
+import { useShareTarget } from './hooks/useShareTarget';
+import ShareTargetHandler from './components/ShareTargetHandler';
 
 // Critical pages loaded immediately
 import Landing from './pages/Landing';
@@ -57,6 +59,8 @@ const RacingCommunity = lazy(() => import('./pages/RacingCommunity'));
 const PostView = lazy(() => import('./pages/PostView'));
 const TireTool = lazy(() => import('./pages/TireTool'));
 const Friends = lazy(() => import('./pages/Friends'));
+const Messages = lazy(() => import('./pages/Messages'));
+const Notifications = lazy(() => import('./pages/Notifications'));
 const SavedSetups = lazy(() => import('./pages/SavedSetups'));
 const Subscription = lazy(() => import('./pages/Subscription'));
 const SubscriptionSuccess = lazy(() => import('./pages/SubscriptionSuccess'));
@@ -102,59 +106,59 @@ export const vehicleCategories = {
     {
       name: 'Sprint Cars',
       subcategories: [
-        { name: 'Wingless Sprints', path: '/wingless' },
-        { name: 'Crate Sprints', path: '/crate' },
-        { name: '360 Sprints', path: '/360' },
-        { name: '410 Sprints', path: '/410' },
-        { name: 'Non-Winged 410 Sprints', path: '/nonwinged410' },
-        { name: '600 Micro', path: '/600' },
-        { name: 'Mini Sprint', path: '/mini' },
-        { name: 'Jr Sprint', path: '/jr' }
+        { name: 'Wingless Sprints (National - Various engines)', path: '/wingless' },
+        { name: '305 / Crate Sprints (RaceSaver/602/604)', path: '/crate' },
+        { name: '360 Sprints (National - All regions)', path: '/360' },
+        { name: '410 Sprints (High Limit - PA/OH/National - WoO)', path: '/410' },
+        { name: 'Non-Winged 410 Sprints (Midwest/Southwest - USAC)', path: '/nonwinged410' },
+        { name: '600 Micro (National - Winged and Non-Winged)', path: '/600' },
+        { name: 'Mini Sprint (West Coast/Midwest)', path: '/mini' },
+        { name: 'Jr Sprint (National - Youth 8-15)', path: '/jr' }
       ]
     },
     {
       name: 'Midget Cars',
       subcategories: [
-        { name: 'Quarter Midget', path: '/quarter' },
-        { name: 'Focus Midget', path: '/focus' }
+        { name: 'Quarter Midget (National - Youth ages 5-16)', path: '/quarter' },
+        { name: 'Focus Midget (National - 1000cc Honda)', path: '/focus' }
       ]
     },
     {
       name: 'Modifieds',
       subcategories: [
-        { name: 'Dirt Modified 2', path: '/modified2' },
-        { name: 'UMP Modifieds', path: '/ump-modified' },
-        { name: 'IMCA Modifieds', path: '/imca-modified' },
-        { name: 'IMCA SportMods', path: '/imca-sportmod' },
-        { name: 'B-Modifieds', path: '/b-modified' }
+        { name: 'Big Block Modified (Northeast - 480ci, 4-link)', path: '/modified2' },
+        { name: 'UMP / USMTS Modified (Southern/National Open)', path: '/ump-modified' },
+        { name: 'IMCA Modifieds (Midwest/Western - 365ci sealed)', path: '/imca-modified' },
+        { name: 'IMCA SportMods (Midwest/Western - Crate)', path: '/imca-sportmod' },
+        { name: 'B-Modifieds (Regional - Budget Class)', path: '/b-modified' }
       ]
     },
     {
       name: 'Late Models',
       subcategories: [
-        { name: 'Late Model Dirt', path: '/latemodel' },
-        { name: 'Crate Late Models', path: '/crate-latemodel' },
-        { name: 'Super Late Model', path: '/super-latemodel' }
+        { name: 'Late Model Dirt (Regional - Open motor)', path: '/latemodel' },
+        { name: 'Crate Late Models (Southeast/Midwest - 604/525)', path: '/crate-latemodel' },
+        { name: 'Super Late Model (National - WoO/Lucas Oil)', path: '/super-latemodel' }
       ]
     },
     {
       name: 'Stock Cars',
       subcategories: [
-        { name: 'Street Stocks', path: '/street-stock' }
+        { name: 'Street Stocks (Regional - Factory frame)', path: '/street-stock' }
       ]
     },
     {
       name: 'Youth Racing / Kart',
       subcategories: [
-        { name: 'Outlaw Kart', path: '/outlaw' },
-        { name: 'LO206 Kart', path: '/lo206-kart' },
-        { name: 'Restricted Box Stock', path: '/restricted-boxstock' },
-        { name: 'Box Stock Class', path: '/boxstock' },
-        { name: '250 Intermediate', path: '/intermediate250' },
-        { name: 'Open Intermediate', path: '/open-intermediate' },
-        { name: 'Open Class', path: '/open-class' },
-        { name: 'Sportsman Class', path: '/sportsman' },
-        { name: 'Caged Clone Class', path: '/caged-clone' }
+        { name: 'Outlaw Kart (National - Various classes)', path: '/outlaw' },
+        { name: 'LO206 Kart (National - Spec motor)', path: '/lo206-kart' },
+        { name: 'Restricted Box Stock (Regional - Ages 5-7)', path: '/restricted-boxstock' },
+        { name: 'Box Stock Class (Regional - Clone/Predator)', path: '/boxstock' },
+        { name: '250 Intermediate (Regional - Ages 12-15)', path: '/intermediate250' },
+        { name: 'Open Intermediate (Regional)', path: '/open-intermediate' },
+        { name: 'Open Class (Regional - Unrestricted)', path: '/open-class' },
+        { name: 'Sportsman Class (Regional - Entry level)', path: '/sportsman' },
+        { name: 'Caged Clone Class (Regional - Clone motor)', path: '/caged-clone' }
       ]
     }
   ]
@@ -179,6 +183,7 @@ function App() {
   const { user, userProfile } = useAuth();
   const { showNav } = useNavVisibility();
   const isLandingPage = location.pathname === '/';
+  const { sharedContent, clearSharedContent, hasSharedContent } = useShareTarget();
 
   usePushNotifications();
 
@@ -260,7 +265,7 @@ function App() {
   }
 
   return (
-    <div className={`min-h-screen ${darkMode ? 'dark' : 'light'}`}>
+    <div className={`min-h-screen overflow-x-hidden ${darkMode ? 'dark' : 'light'}`} style={{ touchAction: 'pan-y', maxWidth: '100vw' }}>
       <div className="bg-pattern-wrapper">
         <div className="bg-pattern"></div>
         <div className="bg-pattern-overlay"></div>
@@ -513,7 +518,7 @@ function App() {
         </nav>
       )}
 
-      <main className="pt-24 pb-32 lg:pb-8 px-4 max-w-7xl mx-auto">
+      <main className="pt-24 pb-32 lg:pb-8 px-4 max-w-7xl mx-auto overflow-x-hidden" style={{ touchAction: 'pan-y' }}>
         <Suspense fallback={<LoadingFallback />}>
           <Routes>
           <Route path="/signin" element={<SignIn />} />
@@ -527,6 +532,8 @@ function App() {
           <Route path="/profile" element={<Profile />} />
           <Route path="/user/:userId" element={<UserProfile />} />
           <Route path="/friends" element={<Friends />} />
+          <Route path="/messages" element={<Messages />} />
+          <Route path="/notifications" element={<Notifications />} />
           <Route path="/my-advertisements" element={<MyAdvertisements />} />
           <Route path="/terms" element={<TermsOfService />} />
           <Route path="/privacy" element={<Privacy />} />
@@ -588,6 +595,19 @@ function App() {
           </Routes>
         </Suspense>
       </main>
+
+      {/* Share Target Handler */}
+      {hasSharedContent && sharedContent && (
+        <ShareTargetHandler
+          sharedContent={sharedContent}
+          onClose={clearSharedContent}
+          onSuccess={() => {
+            clearSharedContent();
+            // Optionally navigate to community page
+            window.location.href = '/community';
+          }}
+        />
+      )}
 
       <PWAUpdate />
     </div>

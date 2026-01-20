@@ -162,6 +162,7 @@ export interface Post {
   user_id: string;
   content: string;
   image_url?: string;
+  image_urls?: string[];
   video_url?: string;
   is_pinned?: boolean;
   latitude?: number;
