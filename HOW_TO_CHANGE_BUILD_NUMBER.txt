@@ -1,0 +1,66 @@
+================================================================
+  HOW TO CHANGE BUILD NUMBER MANUALLY - SIMPLE GUIDE
+================================================================
+
+CURRENT BUILD: 101
+NEXT BUILD: 102 (change this before your next upload)
+
+================================================================
+STEP-BY-STEP INSTRUCTIONS
+================================================================
+
+1. Open this file:
+   capawesome.config.json
+
+2. Go to LINE 13
+
+3. You'll see this:
+   "buildNumber": "101",
+
+4. Change the number to your next build:
+   "buildNumber": "102",
+
+5. Save the file
+
+6. Upload:
+   npm run capawesome:build:ios
+
+================================================================
+QUICK REFERENCE
+================================================================
+
+File Location:
+/tmp/cc-agent/41299875/project/capawesome.config.json
+
+Line Number: 13
+
+What to Change:
+"buildNumber": "101",  ← Change this number
+
+Example Changes:
+Before upload 1: "buildNumber": "101",
+Before upload 2: "buildNumber": "102",
+Before upload 3: "buildNumber": "103",
+Before upload 4: "buildNumber": "104",
+
+================================================================
+RULES
+================================================================
+
+1. Always increment by 1 (101 → 102 → 103 → 104...)
+2. Never reuse a number
+3. Never go backwards
+4. Change it BEFORE you run the upload command
+5. Save the file after changing
+
+================================================================
+YOUR BUILD HISTORY
+================================================================
+
+Keep track of your builds here:
+
+Build 101 - [Date] - [What you changed]
+Build 102 - [Date] - [What you changed]
+Build 103 - [Date] - [What you changed]
+
+================================================================
