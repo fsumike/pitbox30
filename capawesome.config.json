@@ -12,7 +12,7 @@
           "build/App.xcarchive"
         ],
         "version": "3.0.0",
-        "buildNumber": "111",
+        "buildNumber": "112",
         "infoPlist": {
           "NSPhotoLibraryUsageDescription": "PitBox needs photo library access to save and share your racing photos and setup sheets.",
           "NSPhotoLibraryAddUsageDescription": "PitBox saves photos to your library so you can keep your racing memories.",
