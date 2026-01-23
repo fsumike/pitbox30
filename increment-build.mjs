@@ -25,6 +25,11 @@ try {
     `CFBundleVersion ${newBuild}`
   );
 
+  // Update infoPlist values
+  if (config.build.platforms.ios.infoPlist) {
+    config.build.platforms.ios.infoPlist.CFBundleVersion = newBuild.toString();
+  }
+
   writeFileSync(configPath, JSON.stringify(config, null, 2) + '\n', 'utf-8');
 
   console.log(`✅ Build number updated!`);

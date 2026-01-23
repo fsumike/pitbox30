@@ -36,6 +36,8 @@
           "NSHealthUpdateUsageDescription": "PitBox saves your racing activity data to Apple Health for comprehensive fitness tracking.",
           "NSHomeKitUsageDescription": "PitBox can integrate with your smart garage and workshop equipment.",
           "NFCReaderUsageDescription": "PitBox uses NFC to read data from racing equipment tags and sensors.",
+          "CFBundleShortVersionString": "3.0.0",
+          "CFBundleVersion": "122",
           "ITSAppUsesNonExemptEncryption": false
         }
       },
