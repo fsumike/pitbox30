@@ -1,0 +1,136 @@
+# Capawesome Configuration with Environment Variables
+# This file shows how to use environment variables for version management
+
+# Basic App Configuration
+appId: 8251f381-4aed-4b20-ac20-a3aad250cbb8
+appName: PitBox
+webDir: dist
+
+# Build Configuration
+build:
+  # Web build command
+  webBuildCommand: npm run build:ci:all
+
+  # Platform-specific builds
+  platforms:
+    # iOS Configuration
+    ios:
+      # Use environment variables for version (fallback to defaults)
+      version: ${APP_VERSION:-1.1.0}
+      buildNumber: ${BUILD_NUMBER:-126}
+
+      # Build command with dynamic version injection
+      buildCommand: |
+        /usr/libexec/PlistBuddy -c "Set :CFBundleVersion ${BUILD_NUMBER:-126}" ios/App/App/Info.plist && \
+        /usr/libexec/PlistBuddy -c "Set :CFBundleShortVersionString ${APP_VERSION:-1.1.0}" ios/App/App/Info.plist && \
+        xcodebuild -workspace ios/App/App.xcworkspace \
+                   -scheme App \
+                   -configuration Release \
+                   -archivePath build/App.xcarchive \
+                   archive
+
+      buildArtifacts:
+        - build/App.xcarchive
+
+      # Info.plist configurations (permissions)
+      infoPlist:
+        CFBundleShortVersionString: ${APP_VERSION:-1.1.0}
+        CFBundleVersion: ${BUILD_NUMBER:-126}
+        ITSAppUsesNonExemptEncryption: false
+
+        # Camera & Photos
+        NSCameraUsageDescription: "PitBox needs camera access to capture dyno sheets, track conditions, and share race day moments."
+        NSPhotoLibraryUsageDescription: "PitBox needs photo library access to save and share your racing photos and setup sheets."
+        NSPhotoLibraryAddUsageDescription: "PitBox saves photos to your library so you can keep your racing memories."
+        NSMicrophoneUsageDescription: "PitBox uses the microphone to record voice notes about your setup and race conditions."
+
+        # Location
+        NSLocationWhenInUseUsageDescription: "PitBox uses your location to find nearby tracks and automatically tag your setups with track information."
+        NSLocationAlwaysAndWhenInUseUsageDescription: "PitBox uses your location to find nearby tracks and auto-tag your setups with track data."
+        NSLocationAlwaysUsageDescription: "PitBox uses your location to automatically detect when you arrive at a track."
+
+        # Motion & Sensors
+        NSMotionUsageDescription: "PitBox uses motion data to analyze your driving performance and track session metrics."
+
+        # Bluetooth
+        NSBluetoothAlwaysUsageDescription: "PitBox uses Bluetooth to connect to racing sensors and track data equipment."
+        NSBluetoothPeripheralUsageDescription: "PitBox uses Bluetooth to connect to racing sensors and track data equipment."
+
+        # Calendar & Reminders
+        NSCalendarsUsageDescription: "PitBox needs access to your calendar to add race events and track days."
+        NSRemindersUsageDescription: "PitBox needs access to reminders to help you stay on top of vehicle maintenance."
+
+        # Face ID / Biometrics
+        NSFaceIDUsageDescription: "PitBox uses Face ID to securely protect your racing data and account information."
+
+    # Android Configuration
+    android:
+      # Use environment variables for version (fallback to defaults)
+      version: ${APP_VERSION:-1.1.0}
+      versionCode: ${BUILD_NUMBER:-126}
+
+      # Build command
+      buildCommand: cd android && ./gradlew assembleRelease bundleRelease
+
+      buildArtifacts:
+        - android/app/build/outputs/apk/release/app-release.apk
+        - android/app/build/outputs/bundle/release/app-release.aab
+
+# Publishing Configuration
+publish:
+  ios:
+    bundleId: com.pitbox.app
+    destinationId: 5cea5914-4a94-4f14-82f8-15b65c9275b7
+    destinations:
+      - type: testflight
+        enabled: true
+      - type: app-store
+        enabled: true
+
+  android:
+    packageName: com.pitbox.app
+    destinations:
+      - type: google-play
+        track: internal
+        enabled: true
+      - type: google-play
+        track: production
+        enabled: false
+
+# Live Updates Configuration (Optional)
+liveUpdate:
+  enabled: true
+  channel: production
+
+# Environment Variables Documentation
+#
+# You can override these variables when triggering builds:
+#
+# Via Capawesome Dashboard:
+#   1. Go to Builds → Build from Git
+#   2. Add Ad-hoc Environment Variables:
+#      - APP_VERSION: 1.2.0
+#      - BUILD_NUMBER: 127
+#      - IOS_BUILD_NUMBER: 127 (optional, separate iOS build)
+#      - ANDROID_VERSION_CODE: 127 (optional, separate Android version)
+#
+# Via Capawesome CLI:
+#   npx @capawesome/cli apps:builds:create \
+#     --app-id 8251f381-4aed-4b20-ac20-a3aad250cbb8 \
+#     --platform ios \
+#     --env APP_VERSION=1.2.0 \
+#     --env BUILD_NUMBER=127
+#
+# Via GitHub Actions:
+#   - name: Build iOS
+#     run: |
+#       npx @capawesome/cli apps:builds:create \
+#         --app-id 8251f381-4aed-4b20-ac20-a3aad250cbb8 \
+#         --platform ios \
+#         --env APP_VERSION=${{ github.ref_name }} \
+#         --env BUILD_NUMBER=${{ github.run_number }}
+#
+# Default Values:
+#   - APP_VERSION: 1.1.0 (from package.json)
+#   - BUILD_NUMBER: 126 (current build)
+#   - ${VAR:-default} syntax provides fallback if variable not set

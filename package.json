@@ -46,7 +46,14 @@
     "capawesome:deploy:ios": "npx @capawesome/cli apps:deployments:create --app-id 8251f381-4aed-4b20-ac20-a3aad250cbb8",
     "pre-build-check": "node scripts/pre-build-check.mjs",
     "increment-build": "node increment-build.mjs",
-    "build-ios-next": "node increment-build.mjs && npm run capawesome:build:ios"
+    "build-ios-next": "node increment-build.mjs && npm run capawesome:build:ios",
+    "version:get": "npx @capawesome/capver get",
+    "version:set": "npx @capawesome/capver set",
+    "version:bump:patch": "npx @capawesome/capver bump patch",
+    "version:bump:minor": "npx @capawesome/capver bump minor",
+    "version:bump:major": "npx @capawesome/capver bump major",
+    "version:status": "node version-manager.mjs status",
+    "version:help": "node version-manager.mjs help"
   },
   "dependencies": {
     "@capacitor/android": "^5.7.0",
