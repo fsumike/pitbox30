@@ -7,7 +7,7 @@
   "build": {
     "platforms": {
       "ios": {
-        "buildCommand": "/usr/libexec/PlistBuddy -c 'Set :CFBundleVersion 119' ios/App/App/Info.plist && /usr/libexec/PlistBuddy -c 'Set :CFBundleShortVersionString 3.0.0' ios/App/App/Info.plist && xcodebuild -workspace ios/App/App.xcworkspace -scheme App -configuration Release -archivePath build/App.xcarchive archive",
+        "buildCommand": "/usr/libexec/PlistBuddy -c 'Set :CFBundleVersion 120' ios/App/App/Info.plist && /usr/libexec/PlistBuddy -c 'Set :CFBundleShortVersionString 3.0.0' ios/App/App/Info.plist && xcodebuild -workspace ios/App/App.xcworkspace -scheme App -configuration Release -archivePath build/App.xcarchive archive",
         "buildArtifacts": [
           "build/App.xcarchive"
         ],
