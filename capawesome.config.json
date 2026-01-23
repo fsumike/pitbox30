@@ -7,12 +7,12 @@
   "build": {
     "platforms": {
       "ios": {
-        "buildCommand": "/usr/libexec/PlistBuddy -c 'Set :CFBundleVersion 126' ios/App/App/Info.plist && /usr/libexec/PlistBuddy -c 'Set :CFBundleShortVersionString 1.1.0' ios/App/App/Info.plist && xcodebuild -workspace ios/App/App.xcworkspace -scheme App -configuration Release -archivePath build/App.xcarchive archive",
+        "buildCommand": "/usr/libexec/PlistBuddy -c 'Set :CFBundleVersion 125' ios/App/App/Info.plist && /usr/libexec/PlistBuddy -c 'Set :CFBundleShortVersionString 1.1.0' ios/App/App/Info.plist && xcodebuild -workspace ios/App/App.xcworkspace -scheme App -configuration Release -archivePath build/App.xcarchive archive",
         "buildArtifacts": [
           "build/App.xcarchive"
         ],
         "version": "1.1.0",
-        "buildNumber": "126",
+        "buildNumber": "125",
         "infoPlist": {
           "NSPhotoLibraryUsageDescription": "PitBox needs photo library access to save and share your racing photos and setup sheets.",
           "NSPhotoLibraryAddUsageDescription": "PitBox saves photos to your library so you can keep your racing memories.",
@@ -48,7 +48,7 @@
           "android/app/build/outputs/bundle/release/app-release.aab"
         ],
         "version": "1.1.0",
-        "versionCode": 126
+        "versionCode": 125
       }
     }
   },
