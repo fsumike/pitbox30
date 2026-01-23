@@ -20,6 +20,11 @@ try {
 
   config.build.platforms.ios.buildNumber = newBuild.toString();
 
+  config.build.platforms.ios.buildCommand = config.build.platforms.ios.buildCommand.replace(
+    /CFBundleVersion \d+/,
+    `CFBundleVersion ${newBuild}`
+  );
+
   writeFileSync(configPath, JSON.stringify(config, null, 2) + '\n', 'utf-8');
 
   console.log(`✅ Build number updated!`);
