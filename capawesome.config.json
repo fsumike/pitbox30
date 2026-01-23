@@ -7,11 +7,11 @@
   "build": {
     "platforms": {
       "ios": {
-        "buildCommand": "/usr/libexec/PlistBuddy -c 'Set :CFBundleVersion 126' ios/App/App/Info.plist && /usr/libexec/PlistBuddy -c 'Set :CFBundleShortVersionString 1.1.0' ios/App/App/Info.plist && xcodebuild -workspace ios/App/App.xcworkspace -scheme App -configuration Release -archivePath build/App.xcarchive archive",
+        "buildCommand": "/usr/libexec/PlistBuddy -c 'Set :CFBundleVersion 126' ios/App/App/Info.plist && /usr/libexec/PlistBuddy -c 'Set :CFBundleShortVersionString 1.1.1' ios/App/App/Info.plist && xcodebuild -workspace ios/App/App.xcworkspace -scheme App -configuration Release -archivePath build/App.xcarchive archive",
         "buildArtifacts": [
           "build/App.xcarchive"
         ],
-        "version": "1.1.0",
+        "version": "1.1.1",
         "buildNumber": "126",
         "infoPlist": {
           "NSPhotoLibraryUsageDescription": "PitBox needs photo library access to save and share your racing photos and setup sheets.",
@@ -36,7 +36,7 @@
           "NSHealthUpdateUsageDescription": "PitBox saves your racing activity data to Apple Health for comprehensive fitness tracking.",
           "NSHomeKitUsageDescription": "PitBox can integrate with your smart garage and workshop equipment.",
           "NFCReaderUsageDescription": "PitBox uses NFC to read data from racing equipment tags and sensors.",
-          "CFBundleShortVersionString": "1.1.0",
+          "CFBundleShortVersionString": "1.1.1",
           "CFBundleVersion": "126",
           "ITSAppUsesNonExemptEncryption": false
         }
@@ -47,7 +47,7 @@
           "android/app/build/outputs/apk/release/app-release.apk",
           "android/app/build/outputs/bundle/release/app-release.aab"
         ],
-        "version": "1.1.0",
+        "version": "1.1.1",
         "versionCode": 126
       }
     }
