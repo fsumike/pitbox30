@@ -1,4 +1,4 @@
-where to change the version numbers {
+{
   "$schema": "https://cloud.capawesome.io/schemas/config.json",
   "appId": "8251f381-4aed-4b20-ac20-a3aad250cbb8",
   "appName": "PitBox",
@@ -7,12 +7,12 @@ where to change the version numbers {
   "build": {
     "platforms": {
       "ios": {
-        "buildCommand": "/usr/libexec/PlistBuddy -c 'Set :CFBundleVersion 1.1.0' ios/App/App/Info.plist && /usr/libexec/PlistBuddy -c 'Set :CFBundleShortVersionString 1.1.0' ios/App/App/Info.plist && xcodebuild -workspace ios/App/App.xcworkspace -scheme App -configuration Release -archivePath build/App.xcarchive archive",
+        "buildCommand": "/usr/libexec/PlistBuddy -c 'Set :CFBundleVersion 125' ios/App/App/Info.plist && /usr/libexec/PlistBuddy -c 'Set :CFBundleShortVersionString 1.1.0' ios/App/App/Info.plist && xcodebuild -workspace ios/App/App.xcworkspace -scheme App -configuration Release -archivePath build/App.xcarchive archive",
         "buildArtifacts": [
           "build/App.xcarchive"
         ],
         "version": "1.1.0",
-        "buildNumber": "123",
+        "buildNumber": "125",
         "infoPlist": {
           "NSPhotoLibraryUsageDescription": "PitBox needs photo library access to save and share your racing photos and setup sheets.",
           "NSPhotoLibraryAddUsageDescription": "PitBox saves photos to your library so you can keep your racing memories.",
@@ -37,7 +37,7 @@ where to change the version numbers {
           "NSHomeKitUsageDescription": "PitBox can integrate with your smart garage and workshop equipment.",
           "NFCReaderUsageDescription": "PitBox uses NFC to read data from racing equipment tags and sensors.",
           "CFBundleShortVersionString": "1.1.0",
-          "CFBundleVersion": "122",
+          "CFBundleVersion": "125",
           "ITSAppUsesNonExemptEncryption": false
         }
       },
@@ -48,7 +48,7 @@ where to change the version numbers {
           "android/app/build/outputs/bundle/release/app-release.aab"
         ],
         "version": "1.1.0",
-        "versionCode": 123
+        "versionCode": 125
       }
     }
   },
