@@ -2,7 +2,7 @@ import { CapacitorConfig } from '@capacitor/cli';
 
 const config: CapacitorConfig = {
   appId: 'com.pitbox.app',
-  appName: 'PitBox',
+  appName: 'Pitbox Racing Technology',
   webDir: 'dist',
   server: {
     androidScheme: 'https',
