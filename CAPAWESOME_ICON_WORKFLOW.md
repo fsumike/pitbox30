@@ -2,7 +2,7 @@
 
 ## Overview
 
-Your PitBox branding icons are **automatically configured** and deployed using Capawesome Cloud. No Mac, Xcode, or Android Studio required!
+Your PitBox branding **automatically configured** and deployed using Capawesome Cloud. No Mac, Xcode, or Android Studio required!
 
 ## ✅ How It Works
 
