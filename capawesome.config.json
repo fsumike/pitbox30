@@ -1,7 +1,7 @@
 {
   "$schema": "https://cloud.capawesome.io/schemas/config.json",
   "appId": "8251f381-4aed-4b20-ac20-a3aad250cbb8",
-  "appName": "PitBox",
+  "appName": "Pitbox Racing Technology",
   "webDir": "dist",
   "webBuildCommand": "npm run build:ci:all",
   "build": {
@@ -14,7 +14,7 @@
         "version": "1.0",
         "buildNumber": "2",
         "infoPlist": {
-          "CFBundleDisplayName": "PitBox",
+          "CFBundleDisplayName": "Pitbox Racing Technology",
           "NSPhotoLibraryUsageDescription": "PitBox needs access to save racing photos and setup sheets.",
           "NSPhotoLibraryAddUsageDescription": "PitBox saves photos to your library.",
           "NSCameraUsageDescription": "PitBox needs camera access to capture dyno sheets and track conditions.",
