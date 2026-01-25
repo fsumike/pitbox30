@@ -7,37 +7,21 @@
   "build": {
     "platforms": {
       "ios": {
-        "buildCommand": "/usr/libexec/PlistBuddy -c 'Set :CFBundleVersion 130' ios/App/App/Info.plist && /usr/libexec/PlistBuddy -c 'Set :CFBundleShortVersionString 1.1.3' ios/App/App/Info.plist && xcodebuild -workspace ios/App/App.xcworkspace -scheme App -configuration Release -archivePath build/App.xcarchive archive",
+        "buildCommand": "/usr/libexec/PlistBuddy -c 'Set :CFBundleVersion 2' ios/App/App/Info.plist && /usr/libexec/PlistBuddy -c 'Set :CFBundleShortVersionString 1.0' ios/App/App/Info.plist && xcodebuild -workspace ios/App/App.xcworkspace -scheme App -configuration Release -archivePath build/App.xcarchive archive",
         "buildArtifacts": [
           "build/App.xcarchive"
         ],
-        "version": "1.1.3",
-        "buildNumber": "130",
+        "version": "1.0",
+        "buildNumber": "2",
         "infoPlist": {
-          "NSPhotoLibraryUsageDescription": "PitBox needs photo library access to save and share your racing photos and setup sheets.",
-          "NSPhotoLibraryAddUsageDescription": "PitBox saves photos to your library so you can keep your racing memories.",
-          "NSCameraUsageDescription": "PitBox needs camera access to capture dyno sheets, track conditions, and share race day moments with the racing community.",
-          "NSMicrophoneUsageDescription": "PitBox uses the microphone to record voice notes about your setup and race conditions.",
-          "NSLocationWhenInUseUsageDescription": "PitBox uses your location to find nearby tracks and automatically tag your setups with track information.",
-          "NSLocationAlwaysAndWhenInUseUsageDescription": "PitBox uses your location to find nearby tracks and auto-tag your setups with track data.",
-          "NSLocationAlwaysUsageDescription": "PitBox uses your location to automatically detect when you arrive at a track and help you find racing events near you.",
-          "NSMotionUsageDescription": "PitBox uses motion data to analyze your driving performance and track session metrics.",
-          "NSBluetoothAlwaysUsageDescription": "PitBox uses Bluetooth to connect to racing sensors and track data equipment.",
-          "NSBluetoothPeripheralUsageDescription": "PitBox uses Bluetooth to connect to racing sensors and track data equipment.",
-          "NSCalendarsUsageDescription": "PitBox needs access to your calendar to add race events, track days, and maintenance reminders.",
-          "NSRemindersUsageDescription": "PitBox needs access to reminders to help you stay on top of vehicle maintenance and race prep.",
-          "NSContactsUsageDescription": "PitBox needs access to your contacts to help you find and connect with other racers you know.",
-          "NSSpeechRecognitionUsageDescription": "PitBox uses speech recognition to let you add voice notes and dictate setup information hands-free.",
-          "NSLocalNetworkUsageDescription": "PitBox uses the local network to sync data with other devices and racing equipment.",
-          "NSAppleMusicUsageDescription": "PitBox needs access to your media library to let you add music to your racing videos.",
-          "NSFaceIDUsageDescription": "PitBox uses Face ID to securely protect your racing data and account information.",
-          "NSSiriUsageDescription": "PitBox uses Siri to let you access your racing data and setups with voice commands.",
-          "NSHealthShareUsageDescription": "PitBox uses health data to track your physical performance during racing sessions.",
-          "NSHealthUpdateUsageDescription": "PitBox saves your racing activity data to Apple Health for comprehensive fitness tracking.",
-          "NSHomeKitUsageDescription": "PitBox can integrate with your smart garage and workshop equipment.",
-          "NFCReaderUsageDescription": "PitBox uses NFC to read data from racing equipment tags and sensors.",
-          "CFBundleShortVersionString": "1.1.1",
-          "CFBundleVersion": "127",
+          "CFBundleDisplayName": "PitBox",
+          "NSPhotoLibraryUsageDescription": "PitBox needs access to save racing photos and setup sheets.",
+          "NSPhotoLibraryAddUsageDescription": "PitBox saves photos to your library.",
+          "NSCameraUsageDescription": "PitBox needs camera access to capture dyno sheets and track conditions.",
+          "NSLocationWhenInUseUsageDescription": "PitBox uses your location to find nearby tracks.",
+          "NSMicrophoneUsageDescription": "PitBox uses the microphone to record voice notes.",
+          "CFBundleShortVersionString": "1.0",
+          "CFBundleVersion": "2",
           "ITSAppUsesNonExemptEncryption": false
         }
       },
@@ -47,22 +31,17 @@
           "android/app/build/outputs/apk/release/app-release.apk",
           "android/app/build/outputs/bundle/release/app-release.aab"
         ],
-        "version": "1.1.3",
-        "versionCode": 130
+        "version": "1.0",
+        "versionCode": 2
       }
     }
   },
   "publish": {
     "ios": {
       "bundleId": "com.pitbox.app",
-      "destinationId": "5cea5914-4a94-4f14-82f8-15b65c9275b7",
       "destinations": [
         {
           "type": "testflight",
-          "enabled": true
-        },
-        {
-          "type": "app-store",
           "enabled": true
         }
       ]
@@ -74,11 +53,6 @@
           "type": "google-play",
           "track": "internal",
           "enabled": true
-        },
-        {
-          "type": "google-play",
-          "track": "production",
-          "enabled": false
         }
       ]
     }
