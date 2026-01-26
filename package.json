@@ -1,7 +1,7 @@
 {
   "name": "pitbox-pwa",
   "private": true,
-  "version": "3.0.0",
+  "version": "1.2.3",
   "type": "module",
   "homepage": "https://pitbox.app",
   "repository": {
@@ -14,10 +14,10 @@
   },
   "scripts": {
     "dev": "vite",
-    "build": "npx cap add android || true && npx cap add ios || true && node scripts/fix-gradle.mjs && vite build && npx cap sync && node scripts/fix-ios-permissions.mjs && node scripts/fix-all-icons.mjs",
+    "build": "npx cap add android || true && npx cap add ios || true && node scripts/fix-gradle.mjs && vite build && npx cap sync && node scripts/fix-ios-permissions.mjs && node scripts/fix-all-icons.mjs && node scripts/setup-store-icons.mjs",
     "build:ci": "npx cap add android || true && node scripts/fix-gradle.mjs && vite build && npx cap sync android && node scripts/fix-android-icons.mjs",
     "build:ci:ios": "npx cap add ios || true && vite build && npx cap sync ios && node scripts/fix-ios-permissions.mjs && node scripts/fix-ios-icons.mjs",
-    "build:ci:all": "npx cap add android || true && npx cap add ios || true && node scripts/fix-gradle.mjs && vite build && npx cap sync && node scripts/fix-ios-permissions.mjs && node scripts/fix-all-icons.mjs",
+    "build:ci:all": "npx cap add android || true && npx cap add ios || true && node scripts/fix-gradle.mjs && vite build && npx cap sync && node scripts/fix-ios-permissions.mjs && node scripts/fix-all-icons.mjs && node scripts/setup-store-icons.mjs",
     "lint": "eslint .",
     "preview": "vite preview",
     "cap:init": "cap init PitBox com.pitbox.app --web-dir=dist",
@@ -36,15 +36,24 @@
     "fix:android-icons": "node scripts/fix-android-icons.mjs",
     "fix:all-icons": "node scripts/fix-all-icons.mjs",
     "setup:share-target": "node scripts/setup-share-target.mjs",
+    "setup:store-icons": "node scripts/setup-store-icons.mjs",
     "deploy:bundle": "npm run build && npx @capawesome/cli apps:bundles:create --app-id 8251f381-4aed-4b20-ac20-a3aad250cbb8 --path dist",
     "deploy:bundle:unsigned": "npm run build && npx @capawesome/cli apps:bundles:create --app-id 8251f381-4aed-4b20-ac20-a3aad250cbb8 --path dist",
     "capawesome:login": "npx @capawesome/cli login",
     "capawesome:whoami": "npx @capawesome/cli whoami",
-    "capawesome:build:ios": "npx @capawesome/cli apps:builds:create --app-id 8251f381-4aed-4b20-ac20-a3aad250cbb8 --platform ios",
+    "capawesome:build:ios": "npx @capawesome/cli apps:builds:create --app-id 8251f381-4aed-4b20-ac20-a3aad250cbb8 --platform ios --type app-store",
     "capawesome:build:android": "npx @capawesome/cli apps:builds:create --app-id 8251f381-4aed-4b20-ac20-a3aad250cbb8 --platform android",
+    "capawesome:deploy:ios": "npx @capawesome/cli apps:deployments:create --app-id 8251f381-4aed-4b20-ac20-a3aad250cbb8",
     "pre-build-check": "node scripts/pre-build-check.mjs",
     "increment-build": "node increment-build.mjs",
-    "build-ios-next": "node increment-build.mjs && npm run capawesome:build:ios"
+    "build-ios-next": "node increment-build.mjs && npm run capawesome:build:ios",
+    "version:get": "npx @capawesome/capver get",
+    "version:set": "npx @capawesome/capver set",
+    "version:bump:patch": "npx @capawesome/capver bump patch",
+    "version:bump:minor": "npx @capawesome/capver bump minor",
+    "version:bump:major": "npx @capawesome/capver bump major",
+    "version:status": "node version-manager.mjs status",
+    "version:help": "node version-manager.mjs help"
   },
   "dependencies": {
     "@capacitor/android": "^5.7.0",

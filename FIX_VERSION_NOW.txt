@@ -1,0 +1,87 @@
+═══════════════════════════════════════════════════════════════
+   WHY YOU'RE STILL SEEING VERSION 1.0(1) - THE REAL ANSWER
+═══════════════════════════════════════════════════════════════
+
+CAPAWESOME CLOUD BUILDS FROM YOUR GIT REPOSITORY.
+
+You DON'T have a Git repository yet!
+
+═══════════════════════════════════════════════════════════════
+   WHAT YOU NEED TO DO RIGHT NOW - 3 SIMPLE STEPS
+═══════════════════════════════════════════════════════════════
+
+STEP 1: Create Git Repository on GitHub
+────────────────────────────────────────
+1. Go to https://github.com/new
+2. Create repository named: pitbox-app
+3. Copy the URL (looks like: https://github.com/YOUR_USERNAME/pitbox-app.git)
+
+
+STEP 2: Push Your Code to GitHub
+────────────────────────────────────────
+Run these commands in your project folder:
+
+git init
+git add .
+git commit -m "PitBox v1.1.0 build 126"
+git branch -M main
+git remote add origin YOUR_GITHUB_URL_HERE
+git push -u origin main
+
+
+STEP 3: Connect Capawesome to Your GitHub
+────────────────────────────────────────
+1. Go to https://cloud.capawesome.io
+2. Click on your PitBox app
+3. Go to Settings → Git Integration
+4. Connect your GitHub account
+5. Select the pitbox-app repository
+6. Set branch to "main"
+7. Save
+
+
+NOW BUILD:
+────────────────────────────────────────
+npm run capawesome:build:ios
+
+
+═══════════════════════════════════════════════════════════════
+   WHAT I'VE ALREADY FIXED FOR YOU
+═══════════════════════════════════════════════════════════════
+
+✅ capawesome.config.json → buildNumber: "126"
+✅ capawesome.config.json → versionCode: 126
+✅ capawesome.config.json → buildCommand uses 126
+✅ .gitignore → ios/ and android/ will be committed
+✅ package.json → version "1.1.0"
+
+═══════════════════════════════════════════════════════════════
+   WHY THIS WAS HAPPENING
+═══════════════════════════════════════════════════════════════
+
+When you run: npm run capawesome:build:ios
+
+Capawesome Cloud:
+  1. Clones YOUR Git repository ← YOU DON'T HAVE ONE YET
+  2. Reads capawesome.config.json
+  3. Builds the app
+  4. Uploads to App Store
+
+Since you have NO Git repository:
+  → Capawesome can't find your code
+  → It uses default settings
+  → Version stays at 1.0 (1)
+
+═══════════════════════════════════════════════════════════════
+   AFTER SETUP - FOR NEXT BUILDS
+═══════════════════════════════════════════════════════════════
+
+To increment to build 127, 128, etc.:
+
+1. Edit capawesome.config.json (change 126 → 127)
+2. git add capawesome.config.json
+3. git commit -m "Bump to 127"
+4. git push
+5. npm run capawesome:build:ios
+
+═══════════════════════════════════════════════════════════════

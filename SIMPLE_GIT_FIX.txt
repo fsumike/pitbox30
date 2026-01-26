@@ -1,0 +1,66 @@
+╔═══════════════════════════════════════════════════════════╗
+║         QUICK FIX FOR GIT PUSH REJECTION                  ║
+╚═══════════════════════════════════════════════════════════╝
+
+YOUR ERROR:
+  ! [rejected] main -> main (fetch first)
+  error: failed to push some refs
+
+WHAT IT MEANS:
+  The remote (GitHub) has changes you don't have locally.
+  You need to pull those changes first.
+
+═══════════════════════════════════════════════════════════
+
+OPTION 1 - SAFE (Use Rebase):
+─────────────────────────────────────
+
+git pull origin main --rebase
+git push origin main
+
+This replays your changes on top of remote changes.
+Keeps history clean and linear.
+
+═══════════════════════════════════════════════════════════
+
+OPTION 2 - SAFEST (Use Script):
+─────────────────────────────────────
+
+chmod +x FIX_GIT_CONFLICT_AND_DEPLOY.sh
+./FIX_GIT_CONFLICT_AND_DEPLOY.sh
+
+This script handles everything automatically:
+1. Pulls remote changes
+2. Resolves conflicts (if any)
+3. Commits your iOS fixes
+4. Pushes to GitHub
+5. Tells you to build with Capawesome
+
+═══════════════════════════════════════════════════════════
+
+OPTION 3 - Manual:
+─────────────────────────────────────
+
+git pull origin main
+# Fix any conflicts if prompted
+git add .
+git commit -m "Merge remote changes"
+git push origin main
+
+═══════════════════════════════════════════════════════════
+
+WHAT'S BEING PUSHED:
+  • ios/ folder with Info.plist (22 permissions) ✅
+  • Updated .gitignore (tracks iOS files) ✅
+  • Deploy scripts and documentation ✅
+
+WHY THIS MATTERS:
+  This fixes the root cause of your 60 failed builds.
+  Build #61 will reach App Store Connect!
+
+═══════════════════════════════════════════════════════════
+
+AFTER PUSHING:
+  npm run capawesome:build:ios
+
+═══════════════════════════════════════════════════════════

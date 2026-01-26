@@ -1,0 +1,94 @@
+═══════════════════════════════════════════════════════════════
+   PUSH VERSION 126 TO YOUR GITHUB NOW
+═══════════════════════════════════════════════════════════════
+
+Your GitHub: https://github.com/fsumike/pitbox30
+
+I've prepared all the files with version 126. Now YOU need to push
+them from YOUR computer (where you have GitHub access).
+
+═══════════════════════════════════════════════════════════════
+   OPTION 1: If This Is Your Local Computer (EASIEST)
+═══════════════════════════════════════════════════════════════
+
+cd /tmp/cc-agent/41299875/project
+
+git remote -v
+# Should show: origin  https://github.com/fsumike/pitbox30.git
+
+git push -u origin main
+
+# If it asks for credentials, use your GitHub username and password
+# (Or Personal Access Token if you have 2FA enabled)
+
+
+═══════════════════════════════════════════════════════════════
+   OPTION 2: If You're Working Remotely (Download & Push)
+═══════════════════════════════════════════════════════════════
+
+1. Download your entire project folder
+2. On your local computer where you have GitHub access:
+
+cd /path/to/downloaded/project
+git status
+# Should show: On branch main
+
+git push -u origin main --force
+
+
+═══════════════════════════════════════════════════════════════
+   AFTER PUSHING: Connect Capawesome to GitHub
+═══════════════════════════════════════════════════════════════
+
+1. Go to https://cloud.capawesome.io
+2. Log in
+3. Click on your PitBox app
+4. Go to Settings → Git Integration
+5. Connect GitHub if not already connected
+6. Select repository: fsumike/pitbox30
+7. Set branch: main
+8. Save
+
+
+═══════════════════════════════════════════════════════════════
+   THEN BUILD
+═══════════════════════════════════════════════════════════════
+
+npm run capawesome:build:ios
+
+Capawesome will now:
+✅ Pull from https://github.com/fsumike/pitbox30
+✅ Use version 1.1.0 (126) from capawesome.config.json
+✅ Build with your custom PitBox icons
+✅ Upload to App Store with version 126
+
+
+═══════════════════════════════════════════════════════════════
+   WHY IT KEPT SHOWING 1.0(1)
+═══════════════════════════════════════════════════════════════
+
+Capawesome was pulling OLD code from your GitHub repo that had:
+- Old version numbers (1.0.1)
+- Default icons
+- Incomplete ios/android folders
+
+Now that we've set everything to 126 and you're about to push,
+Capawesome will pull the NEW code with version 126.
+
+
+═══════════════════════════════════════════════════════════════
+   VERIFY IT WORKED
+═══════════════════════════════════════════════════════════════
+
+After pushing, check your GitHub:
+https://github.com/fsumike/pitbox30
+
+You should see:
+✅ ios/ folder with App.xcodeproj
+✅ android/ folder with build.gradle
+✅ capawesome.config.json showing "buildNumber": "126"
+✅ Latest commit: "Set version to 1.1.0 build 126 with custom icons"
+
+Then build with Capawesome and it will use 126!
+
+═══════════════════════════════════════════════════════════════
