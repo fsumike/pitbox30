@@ -7,11 +7,11 @@
   "build": {
     "platforms": {
       "ios": {
-        "buildCommand": "/usr/libexec/PlistBuddy -c 'Set :CFBundleVersion 2' ios/App/App/Info.plist && /usr/libexec/PlistBuddy -c 'Set :CFBundleShortVersionString 1.0' ios/App/App/Info.plist && xcodebuild -workspace ios/App/App.xcworkspace -scheme App -configuration Release -archivePath build/App.xcarchive archive",
+        "buildCommand": "/usr/libexec/PlistBuddy -c 'Set :CFBundleVersion 2' ios/App/App/Info.plist && /usr/libexec/PlistBuddy -c 'Set :CFBundleShortVersionString 1.0.1' ios/App/App/Info.plist && xcodebuild -workspace ios/App/App.xcworkspace -scheme App -configuration Release -archivePath build/App.xcarchive archive",
         "buildArtifacts": [
           "build/App.xcarchive"
         ],
-        "version": "1.0",
+        "version": "1.0.1",
         "buildNumber": "2",
         "infoPlist": {
           "CFBundleDisplayName": "Pitbox Racing Technology",
@@ -20,7 +20,7 @@
           "NSCameraUsageDescription": "PitBox needs camera access to capture dyno sheets and track conditions.",
           "NSLocationWhenInUseUsageDescription": "PitBox uses your location to find nearby tracks.",
           "NSMicrophoneUsageDescription": "PitBox uses the microphone to record voice notes.",
-          "CFBundleShortVersionString": "1.0",
+          "CFBundleShortVersionString": "1.0.1",
           "CFBundleVersion": "2",
           "ITSAppUsesNonExemptEncryption": false
         }
@@ -31,7 +31,7 @@
           "android/app/build/outputs/apk/release/app-release.apk",
           "android/app/build/outputs/bundle/release/app-release.aab"
         ],
-        "version": "1.0",
+        "version": "1.0.1",
         "versionCode": 2
       }
     }
