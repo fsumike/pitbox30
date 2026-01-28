@@ -294,43 +294,17 @@ function App() {
             <div className="glass-nav rounded-2xl backdrop-blur-lg border border-white/10 shadow-lg transition-all duration-300">
               <div className="flex items-center justify-between h-16 px-4">
                 <div className="flex items-center">
-                  {showBackButton ? (
-                    <button
-                      onClick={handleBack}
-                      className="flex items-center gap-2 px-3 py-2 rounded-lg bg-brand-gold/10 hover:bg-brand-gold/20 text-brand-gold transition-all duration-200"
-                      aria-label="Go back"
-                    >
-                      <Undo2 className="w-5 h-5" />
-                      <span className="font-medium">Back</span>
-                    </button>
-                  ) : (
-                    <NavLink
-                      to="/home"
-                      className="flex items-center transition-transform hover:scale-105"
-                    >
-                      <img
-                        src="/android-icon-192-192.png"
-                        alt="PIT-BOX.COM Logo"
-                        className="h-10 w-auto drop-shadow-lg"
-                      />
-                    </NavLink>
-                  )}
+                  <NavLink
+                    to="/home"
+                    className="flex items-center transition-transform hover:scale-105"
+                  >
+                    <img
+                      src="/android-icon-192-192.png"
+                      alt="PIT-BOX.COM Logo"
+                      className="h-10 w-auto drop-shadow-lg"
+                    />
+                  </NavLink>
                 </div>
-
-                {showBackButton && (
-                  <div className="absolute left-1/2 transform -translate-x-1/2">
-                    <NavLink
-                      to="/home"
-                      className="flex items-center transition-transform hover:scale-105"
-                    >
-                      <img
-                        src="/android-icon-192-192.png"
-                        alt="PIT-BOX.COM Logo"
-                        className="h-10 w-auto drop-shadow-lg"
-                      />
-                    </NavLink>
-                  </div>
-                )}
 
                 <div className="hidden lg:flex lg:items-center lg:space-x-1">
                   <NavLink
