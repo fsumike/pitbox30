@@ -414,6 +414,16 @@ function App() {
                 </div>
 
                 <div className="lg:hidden flex items-center gap-2">
+                  {showBackButton && (
+                    <button
+                      onClick={handleBack}
+                      className="flex items-center gap-1.5 px-3 py-2 rounded-lg bg-brand-gold/10 hover:bg-brand-gold/20 text-brand-gold transition-all duration-200"
+                      aria-label="Go back"
+                    >
+                      <Undo2 className="w-5 h-5" />
+                      <span className="font-medium text-sm">Back</span>
+                    </button>
+                  )}
                   <SignInButton className="nav-link" />
                   <button
                     onClick={() => setMenuOpen(!menuOpen)}
@@ -439,18 +449,6 @@ function App() {
             >
               <div className="glass-nav rounded-2xl backdrop-blur-lg border border-white/10 shadow-lg overflow-hidden">
                 <div className="p-4 space-y-1">
-                  {showBackButton && (
-                    <button
-                      onClick={() => {
-                        handleBack();
-                        closeMenu();
-                      }}
-                      className="w-full flex items-center gap-2 px-4 py-3 rounded-lg bg-brand-gold/10 hover:bg-brand-gold/20 text-brand-gold transition-all duration-200 font-medium"
-                    >
-                      <Undo2 className="w-5 h-5" />
-                      Back
-                    </button>
-                  )}
                   <NavLink
                     to="/home"
                     className={({ isActive }) => `
