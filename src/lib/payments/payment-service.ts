@@ -1,60 +1,14 @@
-import { getPaymentProvider, isMobileApp } from './payment-router';
-import { appleIAP } from './apple-iap';
-import { googleBilling } from './google-billing';
 import { supabase } from '../supabase';
 
 export interface PaymentService {
   initialize(): Promise<void>;
-  purchase(planId: string): Promise<void>;
-  restorePurchases(): Promise<void>;
   checkSubscriptionStatus(): Promise<boolean>;
+  getActiveSubscription(): Promise<any>;
 }
 
-class UnifiedPaymentService implements PaymentService {
+class StripePaymentService implements PaymentService {
   async initialize(): Promise<void> {
-    if (!isMobileApp()) {
-      return;
-    }
-
-    const provider = getPaymentProvider();
-
-    try {
-      if (provider === 'apple') {
-        await appleIAP.initialize();
-      } else if (provider === 'google') {
-        await googleBilling.initialize();
-      }
-    } catch (error) {
-      console.error('Failed to initialize payment service:', error);
-    }
-  }
-
-  async purchase(planId: string): Promise<void> {
-    const provider = getPaymentProvider();
-
-    if (provider === 'stripe') {
-      throw new Error('Use Stripe checkout for web purchases');
-    }
-
-    if (provider === 'apple') {
-      await appleIAP.purchase(planId);
-    } else if (provider === 'google') {
-      await googleBilling.purchase(planId);
-    }
-  }
-
-  async restorePurchases(): Promise<void> {
-    const provider = getPaymentProvider();
-
-    if (provider === 'stripe') {
-      return;
-    }
-
-    if (provider === 'apple') {
-      await appleIAP.restorePurchases();
-    } else if (provider === 'google') {
-      await googleBilling.restorePurchases();
-    }
+    return;
   }
 
   async checkSubscriptionStatus(): Promise<boolean> {
@@ -104,4 +58,4 @@ class UnifiedPaymentService implements PaymentService {
   }
 }
 
-export const paymentService = new UnifiedPaymentService();
+export const paymentService = new StripePaymentService();

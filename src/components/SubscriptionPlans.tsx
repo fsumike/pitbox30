@@ -1,10 +1,9 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { CheckCircle, Shield, Zap, Clock, Database, Settings, Loader2, AlertCircle, Smartphone, Globe } from 'lucide-react';
+import { CheckCircle, Loader2, AlertCircle, Globe } from 'lucide-react';
 import { useStripe, tiers } from '../contexts/StripeContext';
 import { useAuth } from '../contexts/AuthContext';
-import { getPaymentProvider, isMobileApp, getPlatformName, SUBSCRIPTION_PLANS } from '../lib/payments/payment-router';
-import { paymentService } from '../lib/payments/payment-service';
+import { isMobileApp, getPlatformName } from '../lib/payments/payment-router';
 
 interface PricingOptionProps {
   title: string;
@@ -37,20 +36,10 @@ export default function SubscriptionPlans() {
   const [selectedTier, setSelectedTier] = useState<'basic' | 'premium'>('basic');
   const [selectedInterval, setSelectedInterval] = useState<'monthly' | 'yearly' | 'quarterly'>('monthly');
   const [checkoutLoading, setCheckoutLoading] = useState(false);
-  const [mobileError, setMobileError] = useState<string>('');
+  const [subscribeError, setSubscribeError] = useState<string>('');
 
-  const paymentProvider = getPaymentProvider();
   const platformName = getPlatformName();
   const isNativeMobile = isMobileApp();
-
-  useEffect(() => {
-    if (isNativeMobile) {
-      paymentService.initialize().catch(err => {
-        console.error('Failed to initialize payment service:', err);
-        setMobileError('Payment system initialization failed. Please try again.');
-      });
-    }
-  }, [isNativeMobile]);
 
   const handleSubscribe = async () => {
     if (!user) {
@@ -59,59 +48,31 @@ export default function SubscriptionPlans() {
     }
 
     setCheckoutLoading(true);
-    setMobileError('');
+    setSubscribeError('');
 
     try {
-      if (isNativeMobile) {
-        const planId = `${selectedTier}_${selectedInterval}`;
-        await paymentService.purchase(planId);
+      const tier = tiers.find(t => t.id === selectedTier);
+      if (!tier) {
+        console.error('Invalid tier selected');
+        setCheckoutLoading(false);
+        return;
+      }
+
+      let priceId;
+      if (selectedInterval === 'monthly') {
+        priceId = tier.stripePriceIdMonthly;
+      } else if (selectedInterval === 'yearly') {
+        priceId = tier.stripePriceIdYearly;
       } else {
-        const tier = tiers.find(t => t.id === selectedTier);
-        if (!tier) {
-          console.error('Invalid tier selected');
-          setCheckoutLoading(false);
-          return;
-        }
+        priceId = tier.stripePriceIdQuarterly;
+      }
 
-        let priceId;
-        if (selectedInterval === 'monthly') {
-          priceId = tier.stripePriceIdMonthly;
-        } else if (selectedInterval === 'yearly') {
-          priceId = tier.stripePriceIdYearly;
-        } else {
-          priceId = tier.stripePriceIdQuarterly;
-        }
-
-        const url = await createCheckoutSession(priceId);
-        if (url) {
-          window.location.href = url;
-        }
+      const url = await createCheckoutSession(priceId);
+      if (url) {
+        window.location.href = url;
       }
     } catch (err: any) {
-      setMobileError(err?.message || 'Payment failed. Please try again.');
-    } finally {
-      setCheckoutLoading(false);
-    }
-  };
-
-  const handleRestorePurchases = async () => {
-    if (!isNativeMobile) return;
-
-    setCheckoutLoading(true);
-    setMobileError('');
-
-    try {
-      await paymentService.restorePurchases();
-      const isPremium = await paymentService.checkSubscriptionStatus();
-
-      if (isPremium) {
-        alert('Purchases restored successfully!');
-        window.location.reload();
-      } else {
-        setMobileError('No previous purchases found.');
-      }
-    } catch (err: any) {
-      setMobileError(err?.message || 'Failed to restore purchases.');
+      setSubscribeError(err?.message || 'Payment failed. Please try again.');
     } finally {
       setCheckoutLoading(false);
     }
@@ -141,22 +102,24 @@ export default function SubscriptionPlans() {
   return (
     <div className="glass-panel p-8">
       <div className="flex items-center justify-center gap-2 mb-2">
-        {isNativeMobile ? (
-          <Smartphone className="w-6 h-6 text-brand-gold" />
-        ) : (
-          <Globe className="w-6 h-6 text-brand-gold" />
-        )}
+        <Globe className="w-6 h-6 text-brand-gold" />
         <span className="text-sm text-gray-600 dark:text-gray-400">
-          Paying via {platformName}
+          Secure payment via {platformName}
         </span>
       </div>
 
+      {isNativeMobile && (
+        <div className="mb-4 p-4 rounded-lg bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300 text-sm text-center">
+          Subscriptions are managed via our website. You'll be redirected to complete your purchase.
+        </div>
+      )}
+
       <h2 className="text-2xl font-bold mb-6 text-center">Choose Your Subscription Plan</h2>
 
-      {(error || mobileError) && (
+      {(error || subscribeError) && (
         <div className="mb-6 p-4 rounded-lg bg-red-100 dark:bg-red-900/30 text-red-700 dark:text-red-300 flex items-center gap-2">
           <AlertCircle className="w-5 h-5 flex-shrink-0" />
-          {mobileError || error}
+          {subscribeError || error}
         </div>
       )}
       
@@ -247,31 +210,17 @@ export default function SubscriptionPlans() {
         {checkoutLoading ? (
           <>
             <Loader2 className="w-5 h-5 animate-spin" />
-            Processing...
+            {isNativeMobile ? 'Redirecting to checkout...' : 'Processing...'}
           </>
         ) : (
           <>
-            Subscribe Now
+            {isNativeMobile ? 'Continue to Checkout' : 'Subscribe Now'}
           </>
         )}
       </button>
 
-      {isNativeMobile && (
-        <button
-          onClick={handleRestorePurchases}
-          disabled={isLoading || checkoutLoading}
-          className="w-full mt-3 px-4 py-2 rounded-lg border-2 border-gray-300 dark:border-gray-600 hover:border-brand-gold transition-colors"
-        >
-          Restore Purchases
-        </button>
-      )}
-
       <p className="text-sm text-center text-gray-500 mt-4">
-        {isNativeMobile ? (
-          <>Secure payment processed by {platformName}. Cancel anytime.</>
-        ) : (
-          <>Secure payment processed by Stripe. Cancel anytime.</>
-        )}
+        Secure payment processed by Stripe. Cancel anytime via your profile.
       </p>
     </div>
   );
