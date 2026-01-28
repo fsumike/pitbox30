@@ -14,6 +14,7 @@ import VideoSplash from './components/VideoSplash';
 import { liveUpdateService } from './lib/capawesome-live-update';
 import { useShareTarget } from './hooks/useShareTarget';
 import ShareTargetHandler from './components/ShareTargetHandler';
+import { RouteErrorBoundary } from './components/RouteErrorBoundary';
 
 // Critical pages loaded immediately
 import Landing from './pages/Landing';
@@ -540,7 +541,8 @@ function App() {
       )}
 
       <main className="pt-24 pb-32 lg:pb-8 px-4 max-w-7xl mx-auto overflow-x-hidden" style={{ touchAction: 'pan-y' }}>
-        <Suspense fallback={<LoadingFallback />}>
+        <RouteErrorBoundary>
+          <Suspense fallback={<LoadingFallback />}>
           <Routes>
           <Route path="/signin" element={<SignIn />} />
           <Route path="/home" element={<Home />} />
@@ -557,6 +559,7 @@ function App() {
           <Route path="/notifications" element={<Notifications />} />
           <Route path="/my-advertisements" element={<MyAdvertisements />} />
           <Route path="/terms" element={<TermsOfService />} />
+          <Route path="/terms-of-service" element={<TermsOfService />} />
           <Route path="/privacy" element={<Privacy />} />
           <Route path="/advertiser-terms" element={<AdvertiserTerms />} />
           <Route path="/motor-wear" element={<MotorWear />} />
@@ -614,7 +617,8 @@ function App() {
 
           <Route path="/" element={<Navigate to="/home" replace />} />
           </Routes>
-        </Suspense>
+          </Suspense>
+        </RouteErrorBoundary>
       </main>
 
       {/* Share Target Handler */}
