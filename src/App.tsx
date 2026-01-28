@@ -1,6 +1,6 @@
 import React, { useState, useEffect, lazy, Suspense } from 'react';
 import { BrowserRouter as Router, Routes, Route, NavLink, useLocation, Navigate, useNavigate } from 'react-router-dom';
-import { Sun, Moon, Menu, X as MenuX, Loader2, ArrowLeft } from 'lucide-react';
+import { Sun, Moon, Menu, X as MenuX, Loader2, Undo2 } from 'lucide-react';
 import { AuthProvider } from './contexts/AuthContext';
 import { ChatProvider } from './contexts/ChatContext';
 import { StripeProvider } from './contexts/StripeContext';
@@ -300,7 +300,7 @@ function App() {
                       className="flex items-center gap-2 px-3 py-2 rounded-lg bg-brand-gold/10 hover:bg-brand-gold/20 text-brand-gold transition-all duration-200"
                       aria-label="Go back"
                     >
-                      <ArrowLeft className="w-5 h-5" />
+                      <Undo2 className="w-5 h-5" />
                       <span className="font-medium">Back</span>
                     </button>
                   ) : (
@@ -473,7 +473,7 @@ function App() {
                       }}
                       className="w-full flex items-center gap-2 px-4 py-3 rounded-lg bg-brand-gold/10 hover:bg-brand-gold/20 text-brand-gold transition-all duration-200 font-medium"
                     >
-                      <ArrowLeft className="w-5 h-5" />
+                      <Undo2 className="w-5 h-5" />
                       Back
                     </button>
                   )}

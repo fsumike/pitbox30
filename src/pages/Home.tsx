@@ -87,7 +87,7 @@ function Home() {
         <div className="relative px-4 py-8 sm:px-8 sm:py-16 md:px-12 md:py-20">
           <div className="mx-auto max-w-6xl">
             <div className="flex flex-col md:flex-row items-center justify-center gap-6 md:gap-10 lg:gap-12">
-              <div className="flex-shrink-0 order-2 md:order-2 -mt-2 sm:-mt-4 md:-mt-6 lg:-mt-8 md:mr-2 lg:mr-4">
+              <div className="flex-shrink-0 order-2 md:order-2 -mt-2 sm:-mt-4 md:-mt-6 lg:-mt-8 md:mr-6 lg:mr-8">
                 <img
                   src="/android-icon-512-512.png"
                   alt="PIT-BOX.COM Logo"
