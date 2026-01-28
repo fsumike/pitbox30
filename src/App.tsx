@@ -14,6 +14,7 @@ import VideoSplash from './components/VideoSplash';
 import { liveUpdateService } from './lib/capawesome-live-update';
 import { useShareTarget } from './hooks/useShareTarget';
 import ShareTargetHandler from './components/ShareTargetHandler';
+import FloatingBackButton from './components/FloatingBackButton';
 
 // Critical pages loaded immediately
 import Landing from './pages/Landing';
@@ -608,6 +609,9 @@ function App() {
           }}
         />
       )}
+
+      {/* Floating Back Button for Mobile */}
+      <FloatingBackButton />
 
       <PWAUpdate />
     </div>
