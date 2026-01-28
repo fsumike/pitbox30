@@ -3,7 +3,6 @@ import { useNavigate } from 'react-router-dom';
 import { ArrowLeft, Wrench, Activity, Gauge, Calculator, BookOpen, Droplet, Weight, Settings, Ruler, ChevronDown, Zap, Camera, Axis3d } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import LoadingSpinner from '../components/LoadingSpinner';
-import DirtTrackSetupGuide from '../components/DirtTrackSetupGuide';
 import { Capacitor } from '@capacitor/core';
 
 const MotorHealthTool = React.lazy(() => import('../components/tools/MotorHealthTool'));
@@ -229,9 +228,6 @@ export default function Tools() {
             transition={{ duration: 0.2 }}
             className="space-y-6 relative z-10"
           >
-            {/* Interactive Dirt Track Setup Guide - Crown Jewel Feature */}
-            <DirtTrackSetupGuide />
-
             {/* Hero Promo Section */}
             <div className="liquid-glass-hero p-8 text-center relative">
               <div className="mb-6 relative z-10">

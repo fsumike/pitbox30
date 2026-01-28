@@ -1,6 +1,6 @@
 import React, { useState, useEffect, lazy, Suspense } from 'react';
-import { BrowserRouter as Router, Routes, Route, NavLink, useLocation, Navigate } from 'react-router-dom';
-import { Sun, Moon, Menu, X as MenuX, Loader2 } from 'lucide-react';
+import { BrowserRouter as Router, Routes, Route, NavLink, useLocation, Navigate, useNavigate } from 'react-router-dom';
+import { Sun, Moon, Menu, X as MenuX, Loader2, Undo2 } from 'lucide-react';
 import { AuthProvider } from './contexts/AuthContext';
 import { ChatProvider } from './contexts/ChatContext';
 import { StripeProvider } from './contexts/StripeContext';
@@ -14,6 +14,7 @@ import VideoSplash from './components/VideoSplash';
 import { liveUpdateService } from './lib/capawesome-live-update';
 import { useShareTarget } from './hooks/useShareTarget';
 import ShareTargetHandler from './components/ShareTargetHandler';
+import { RouteErrorBoundary } from './components/RouteErrorBoundary';
 
 // Critical pages loaded immediately
 import Landing from './pages/Landing';
@@ -180,6 +181,7 @@ function App() {
     return seen === 'true';
   });
   const location = useLocation();
+  const navigate = useNavigate();
   const { user, userProfile } = useAuth();
   const { showNav } = useNavVisibility();
   const isLandingPage = location.pathname === '/';
@@ -234,14 +236,24 @@ function App() {
 
   const onTouchEnd = () => {
     if (!touchStartY || !touchEndY) return;
-    
+
     const distance = touchStartY - touchEndY;
     const isUpSwipe = distance > minSwipeDistance;
-    
+
     if (isUpSwipe) {
       closeMenu();
     }
   };
+
+  const handleBack = () => {
+    if (window.history.length > 1) {
+      navigate(-1);
+    } else {
+      navigate('/home');
+    }
+  };
+
+  const showBackButton = !['/', '/home', '/signin'].includes(location.pathname);
 
   // Show video splash on first load (only once per session)
   if (showVideoSplash && !hasSeenVideo) {
@@ -283,13 +295,13 @@ function App() {
             <div className="glass-nav rounded-2xl backdrop-blur-lg border border-white/10 shadow-lg transition-all duration-300">
               <div className="flex items-center justify-between h-16 px-4">
                 <div className="flex items-center">
-                  <NavLink 
-                    to="/home" 
+                  <NavLink
+                    to="/home"
                     className="flex items-center transition-transform hover:scale-105"
                   >
-                    <img 
-                      src="/android-icon-192-192.png" 
-                      alt="PIT-BOX.COM Logo" 
+                    <img
+                      src="/android-icon-192-192.png"
+                      alt="PIT-BOX.COM Logo"
                       className="h-10 w-auto drop-shadow-lg"
                     />
                   </NavLink>
@@ -403,6 +415,16 @@ function App() {
                 </div>
 
                 <div className="lg:hidden flex items-center gap-2">
+                  {showBackButton && (
+                    <button
+                      onClick={handleBack}
+                      className="flex items-center gap-1.5 px-3 py-2 rounded-lg bg-brand-gold/10 hover:bg-brand-gold/20 text-brand-gold transition-all duration-200"
+                      aria-label="Go back"
+                    >
+                      <Undo2 className="w-5 h-5" />
+                      <span className="font-medium text-sm">Back</span>
+                    </button>
+                  )}
                   <SignInButton className="nav-link" />
                   <button
                     onClick={() => setMenuOpen(!menuOpen)}
@@ -519,7 +541,8 @@ function App() {
       )}
 
       <main className="pt-24 pb-32 lg:pb-8 px-4 max-w-7xl mx-auto overflow-x-hidden" style={{ touchAction: 'pan-y' }}>
-        <Suspense fallback={<LoadingFallback />}>
+        <RouteErrorBoundary>
+          <Suspense fallback={<LoadingFallback />}>
           <Routes>
           <Route path="/signin" element={<SignIn />} />
           <Route path="/home" element={<Home />} />
@@ -536,6 +559,7 @@ function App() {
           <Route path="/notifications" element={<Notifications />} />
           <Route path="/my-advertisements" element={<MyAdvertisements />} />
           <Route path="/terms" element={<TermsOfService />} />
+          <Route path="/terms-of-service" element={<TermsOfService />} />
           <Route path="/privacy" element={<Privacy />} />
           <Route path="/advertiser-terms" element={<AdvertiserTerms />} />
           <Route path="/motor-wear" element={<MotorWear />} />
@@ -593,7 +617,8 @@ function App() {
 
           <Route path="/" element={<Navigate to="/home" replace />} />
           </Routes>
-        </Suspense>
+          </Suspense>
+        </RouteErrorBoundary>
       </main>
 
       {/* Share Target Handler */}

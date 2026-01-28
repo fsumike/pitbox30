@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Capacitor } from '@capacitor/core';
 import { Device } from '@capacitor/device';
+import { Preferences } from '@capacitor/preferences';
 
 interface BiometricResult {
   available: boolean;
@@ -48,7 +49,7 @@ export const useBiometricAuth = () => {
 
     try {
       const info = await Device.getInfo();
-      const storedCredentials = localStorage.getItem('biometric_credentials');
+      const { value: storedCredentials } = await Preferences.get({ key: 'biometric_credentials' });
 
       if (!storedCredentials) {
         return {
@@ -58,22 +59,10 @@ export const useBiometricAuth = () => {
       }
 
       if (info.platform === 'ios' || info.platform === 'android') {
-        const promptMessage =
-          info.platform === 'ios' ? 'Authenticate with Face ID' : 'Authenticate with Fingerprint';
-
-        const mockAuthentication = confirm(promptMessage);
-
-        if (mockAuthentication) {
-          return {
-            available: true,
-            biometricType: info.platform === 'ios' ? 'face' : 'fingerprint',
-          };
-        } else {
-          return {
-            available: false,
-            error: 'Authentication cancelled',
-          };
-        }
+        return {
+          available: false,
+          error: 'Biometric authentication requires @capacitor-community/biometric-auth plugin. Please install and configure the plugin for production use.',
+        };
       }
 
       return {
@@ -101,7 +90,10 @@ export const useBiometricAuth = () => {
         timestamp: new Date().toISOString(),
       };
 
-      localStorage.setItem('biometric_credentials', JSON.stringify(credentials));
+      await Preferences.set({
+        key: 'biometric_credentials',
+        value: JSON.stringify(credentials),
+      });
       return true;
     } catch (error) {
       console.error('Error saving biometric credentials:', error);
@@ -109,8 +101,8 @@ export const useBiometricAuth = () => {
     }
   };
 
-  const getBiometricCredentials = () => {
-    const stored = localStorage.getItem('biometric_credentials');
+  const getBiometricCredentials = async () => {
+    const { value: stored } = await Preferences.get({ key: 'biometric_credentials' });
     if (!stored) return null;
 
     try {
@@ -120,8 +112,8 @@ export const useBiometricAuth = () => {
     }
   };
 
-  const removeBiometricCredentials = () => {
-    localStorage.removeItem('biometric_credentials');
+  const removeBiometricCredentials = async () => {
+    await Preferences.remove({ key: 'biometric_credentials' });
   };
 
   const getBiometricLabel = () => {

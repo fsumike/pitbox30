@@ -8,6 +8,8 @@ import ReactPlayer from 'react-player';
 import { useLocation } from '../hooks/useLocation';
 import { motion, AnimatePresence } from 'framer-motion';
 import { compressImage } from '../utils/imageCompression';
+import { takePhoto, selectPhoto, convertPhotoToFile } from '../utils/nativeCamera';
+import { Capacitor } from '@capacitor/core';
 
 interface Post {
   id: string;
@@ -82,6 +84,86 @@ function CreatePostModal({ isOpen, onClose, post, onSuccess }: CreatePostModalPr
       resetForm();
     }
   }, [isOpen, post]);
+
+  const handleNativeCamera = async () => {
+    if (!Capacitor.isNativePlatform()) {
+      return;
+    }
+
+    const remainingSlots = 4 - images.length;
+    if (remainingSlots <= 0) {
+      setError('Maximum 4 images allowed');
+      return;
+    }
+
+    if (video) {
+      setError('Cannot add images when video is selected. Remove video first.');
+      return;
+    }
+
+    setUploading(true);
+    setError(null);
+
+    try {
+      const photo = await takePhoto();
+      if (photo) {
+        const file = await convertPhotoToFile(photo);
+        if (file) {
+          const compressed = await compressImage(file, {
+            maxWidth: 1200,
+            maxHeight: 1200,
+            quality: 0.8
+          });
+          setImages(prev => [...prev, compressed]);
+        }
+      }
+    } catch (err) {
+      console.error('Native camera error:', err);
+      setError('Failed to capture photo');
+    } finally {
+      setUploading(false);
+    }
+  };
+
+  const handleNativeGallery = async () => {
+    if (!Capacitor.isNativePlatform()) {
+      return;
+    }
+
+    const remainingSlots = 4 - images.length;
+    if (remainingSlots <= 0) {
+      setError('Maximum 4 images allowed');
+      return;
+    }
+
+    if (video) {
+      setError('Cannot add images when video is selected. Remove video first.');
+      return;
+    }
+
+    setUploading(true);
+    setError(null);
+
+    try {
+      const photo = await selectPhoto();
+      if (photo) {
+        const file = await convertPhotoToFile(photo);
+        if (file) {
+          const compressed = await compressImage(file, {
+            maxWidth: 1200,
+            maxHeight: 1200,
+            quality: 0.8
+          });
+          setImages(prev => [...prev, compressed]);
+        }
+      }
+    } catch (err) {
+      console.error('Native gallery error:', err);
+      setError('Failed to select photo');
+    } finally {
+      setUploading(false);
+    }
+  };
 
   const handleImageUpload = async (event: React.ChangeEvent<HTMLInputElement>) => {
     const files = event.target.files;
@@ -668,51 +750,115 @@ function CreatePostModal({ isOpen, onClose, post, onSuccess }: CreatePostModalPr
 
             {/* Add Media Buttons */}
             {images.length === 0 && !video && (
-              <div className="grid grid-cols-2 gap-4">
-                <div>
-                  <button
-                    type="button"
-                    onClick={() => {
-                      triggerHaptic(ImpactStyle.Light);
-                      fileInputRef.current?.click();
-                    }}
-                    disabled={uploading}
-                    className="w-full p-4 min-h-[88px] border-2 border-dashed border-gray-600 rounded-lg active:border-brand-gold transition-colors flex flex-col items-center gap-2 touch-manipulation disabled:opacity-50"
-                    style={{ WebkitTapHighlightColor: 'transparent' }}
-                  >
-                    {uploading ? (
-                      <Loader2 className="w-8 h-8 animate-spin text-brand-gold" />
-                    ) : (
-                      <>
-                        <ImageIcon className="w-8 h-8 text-gray-400" />
-                        <span className="text-gray-400 text-sm">Add Photos (1-4)</span>
-                      </>
-                    )}
-                  </button>
-                </div>
+              <>
+                {Capacitor.isNativePlatform() ? (
+                  <div className="grid grid-cols-3 gap-2">
+                    <button
+                      type="button"
+                      onClick={() => {
+                        triggerHaptic(ImpactStyle.Light);
+                        handleNativeCamera();
+                      }}
+                      disabled={uploading}
+                      className="p-3 border-2 border-dashed border-gray-600 rounded-lg active:border-brand-gold transition-colors flex flex-col items-center gap-1.5 touch-manipulation disabled:opacity-50"
+                      style={{ WebkitTapHighlightColor: 'transparent' }}
+                    >
+                      {uploading ? (
+                        <Loader2 className="w-6 h-6 animate-spin text-brand-gold" />
+                      ) : (
+                        <>
+                          <ImageIcon className="w-6 h-6 text-gray-400" />
+                          <span className="text-gray-400 text-xs">Camera</span>
+                        </>
+                      )}
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => {
+                        triggerHaptic(ImpactStyle.Light);
+                        handleNativeGallery();
+                      }}
+                      disabled={uploading}
+                      className="p-3 border-2 border-dashed border-gray-600 rounded-lg active:border-brand-gold transition-colors flex flex-col items-center gap-1.5 touch-manipulation disabled:opacity-50"
+                      style={{ WebkitTapHighlightColor: 'transparent' }}
+                    >
+                      {uploading ? (
+                        <Loader2 className="w-6 h-6 animate-spin text-brand-gold" />
+                      ) : (
+                        <>
+                          <ImageIcon className="w-6 h-6 text-gray-400" />
+                          <span className="text-gray-400 text-xs">Gallery</span>
+                        </>
+                      )}
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => {
+                        triggerHaptic(ImpactStyle.Light);
+                        videoInputRef.current?.click();
+                      }}
+                      disabled={uploading}
+                      className="p-3 border-2 border-dashed border-gray-600 rounded-lg active:border-brand-gold transition-colors flex flex-col items-center gap-1.5 touch-manipulation disabled:opacity-50"
+                      style={{ WebkitTapHighlightColor: 'transparent' }}
+                    >
+                      {uploading ? (
+                        <Loader2 className="w-6 h-6 animate-spin text-brand-gold" />
+                      ) : (
+                        <>
+                          <Film className="w-6 h-6 text-gray-400" />
+                          <span className="text-gray-400 text-xs">Video</span>
+                        </>
+                      )}
+                    </button>
+                  </div>
+                ) : (
+                  <div className="grid grid-cols-2 gap-4">
+                    <div>
+                      <button
+                        type="button"
+                        onClick={() => {
+                          triggerHaptic(ImpactStyle.Light);
+                          fileInputRef.current?.click();
+                        }}
+                        disabled={uploading}
+                        className="w-full p-4 min-h-[88px] border-2 border-dashed border-gray-600 rounded-lg active:border-brand-gold transition-colors flex flex-col items-center gap-2 touch-manipulation disabled:opacity-50"
+                        style={{ WebkitTapHighlightColor: 'transparent' }}
+                      >
+                        {uploading ? (
+                          <Loader2 className="w-8 h-8 animate-spin text-brand-gold" />
+                        ) : (
+                          <>
+                            <ImageIcon className="w-8 h-8 text-gray-400" />
+                            <span className="text-gray-400 text-sm">Add Photos (1-4)</span>
+                          </>
+                        )}
+                      </button>
+                    </div>
 
-                <div>
-                  <button
-                    type="button"
-                    onClick={() => {
-                      triggerHaptic(ImpactStyle.Light);
-                      videoInputRef.current?.click();
-                    }}
-                    disabled={uploading}
-                    className="w-full p-4 min-h-[88px] border-2 border-dashed border-gray-600 rounded-lg active:border-brand-gold transition-colors flex flex-col items-center gap-2 touch-manipulation disabled:opacity-50"
-                    style={{ WebkitTapHighlightColor: 'transparent' }}
-                  >
-                    {uploading ? (
-                      <Loader2 className="w-8 h-8 animate-spin text-brand-gold" />
-                    ) : (
-                      <>
-                        <Film className="w-8 h-8 text-gray-400" />
-                        <span className="text-gray-400 text-sm">Add Video</span>
-                      </>
-                    )}
-                  </button>
-                </div>
-              </div>
+                    <div>
+                      <button
+                        type="button"
+                        onClick={() => {
+                          triggerHaptic(ImpactStyle.Light);
+                          videoInputRef.current?.click();
+                        }}
+                        disabled={uploading}
+                        className="w-full p-4 min-h-[88px] border-2 border-dashed border-gray-600 rounded-lg active:border-brand-gold transition-colors flex flex-col items-center gap-2 touch-manipulation disabled:opacity-50"
+                        style={{ WebkitTapHighlightColor: 'transparent' }}
+                      >
+                        {uploading ? (
+                          <Loader2 className="w-8 h-8 animate-spin text-brand-gold" />
+                        ) : (
+                          <>
+                            <Film className="w-8 h-8 text-gray-400" />
+                            <span className="text-gray-400 text-sm">Add Video</span>
+                          </>
+                        )}
+                      </button>
+                    </div>
+                  </div>
+                )}
+              </>
             )}
 
             {/* Hidden file inputs */}

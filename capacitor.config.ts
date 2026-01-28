@@ -7,8 +7,7 @@ const config: CapacitorConfig = {
   server: {
     androidScheme: 'https',
     iosScheme: 'https',
-    hostname: 'pitbox.app',
-    cleartext: true
+    hostname: 'pitbox.app'
   },
   ios: {
     contentInset: 'always'
