@@ -1,6 +1,6 @@
 import React from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
-import { ArrowLeft } from 'lucide-react';
+import { Undo2 } from 'lucide-react';
 import { triggerHaptic } from '../utils/haptics';
 import { Capacitor } from '@capacitor/core';
 
@@ -27,15 +27,16 @@ export default function FloatingBackButton() {
   return (
     <button
       onClick={handleBack}
-      className="fixed left-4 bottom-24 z-[999] w-14 h-14 rounded-full bg-brand-gold/90 hover:bg-brand-gold shadow-lg hover:shadow-xl transition-all duration-200 flex items-center justify-center backdrop-blur-sm border-2 border-white/20 active:scale-95"
+      className="fixed left-4 bottom-24 z-[999] flex flex-col items-center justify-center gap-1 rounded-full bg-brand-gold/90 hover:bg-brand-gold shadow-lg hover:shadow-xl transition-all duration-200 backdrop-blur-sm border-2 border-white/20 active:scale-95 px-4 py-3"
       style={{
-        minWidth: '56px',
-        minHeight: '56px',
+        minWidth: '64px',
+        minHeight: '64px',
         bottom: isNative ? '100px' : '96px',
       }}
       aria-label="Go back to previous page"
     >
-      <ArrowLeft className="w-6 h-6 text-white" strokeWidth={2.5} />
+      <Undo2 className="w-6 h-6 text-white" strokeWidth={2.5} />
+      <span className="text-[10px] font-semibold text-white uppercase tracking-wide">Back</span>
     </button>
   );
 }
