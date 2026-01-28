@@ -15,16 +15,6 @@ export interface SubscriptionPlan {
 }
 
 export function getPaymentProvider(): PaymentProvider {
-  const platform = Capacitor.getPlatform();
-
-  if (platform === 'ios') {
-    return 'apple';
-  }
-
-  if (platform === 'android') {
-    return 'google';
-  }
-
   return 'stripe';
 }
 

@@ -117,19 +117,22 @@ Performed a complete top-to-bottom audit of the PitBox mobile app for iOS and An
 
 ---
 
-### 2. 🔴 In-App Purchase Not Validated (CRITICAL)
-**Issue**: Client-side receipt handling only. No server-side validation means purchases can be spoofed.
+### 2. ✅ Payment System Configuration (UPDATED)
+**Status**: ✅ Configured correctly for Supabase + Stripe
 
-**Action Required**:
-1. Create Supabase Edge Functions for receipt validation:
-   - iOS: Validate with Apple's App Store Server API
-   - Android: Validate with Google Play Developer API
-2. Never trust client-side purchase confirmations
-3. Update `src/lib/payments/apple-iap.ts` and `google-billing.ts` to call validation endpoints
+**Update**: App now uses Stripe (via Supabase) for all platforms (web, iOS, Android). This simplifies payment handling and avoids Apple IAP and Google Play Billing complexities.
+
+**Configuration**:
+- All platforms route to Stripe checkout
+- Subscription management handled via Supabase
+- No native payment systems required
+- Existing Stripe product IDs configured in `payment-router.ts`
+
+**Note**: You can submit to App Store and Play Store using Stripe as the payment provider since the app is primarily a setup sheet/community tool and subscriptions are handled through your website/Supabase.
 
 ---
 
-### 3. 🟡 Missing Deep Link Configuration (HIGH)
+### 2. 🟡 Missing Deep Link Configuration (HIGH)
 **Issue**: No URL schemes configured for app linking (can't open app from web links or notifications).
 
 **Action Required**:
@@ -140,7 +143,7 @@ Performed a complete top-to-bottom audit of the PitBox mobile app for iOS and An
 
 ---
 
-### 4. 🟡 Push Notification Handlers Empty (HIGH)
+### 3. 🟡 Push Notification Handlers Empty (HIGH)
 **Issue**: Event listeners registered but handlers are empty (line 45-49 in `usePushNotifications.ts`).
 
 **Action Required**:
@@ -153,7 +156,7 @@ Performed a complete top-to-bottom audit of the PitBox mobile app for iOS and An
 
 ---
 
-### 5. 🟡 No Offline Queue Implementation (MEDIUM)
+### 4. 🟡 No Offline Queue Implementation (MEDIUM)
 **Issue**: Failed requests while offline are not queued for retry. User actions lost when offline.
 
 **Action Required**:
@@ -237,10 +240,10 @@ Before deploying to App Store/Play Store, verify:
 
 ### Subscriptions & Payments
 - [ ] Subscription plans display correctly
-- [ ] Stripe checkout works (web)
-- [ ] Apple IAP works (iOS, after receipt validation)
-- [ ] Google Billing works (Android, after receipt validation)
+- [ ] Stripe checkout works on all platforms (web, iOS, Android)
+- [ ] Supabase subscription status syncs correctly
 - [ ] Premium features unlock correctly
+- [ ] Promo codes validate through edge function
 
 ### Push Notifications
 - [ ] Notifications received on iOS
@@ -300,13 +303,13 @@ npm run capawesome:build:android
 ### Do IMMEDIATELY (Before Any Deployment):
 1. 🔴 Rotate all exposed API keys in `.env`
 2. 🔴 Remove `.env` from git history
-3. 🔴 Implement server-side receipt validation
-4. 🔴 Test authentication flows thoroughly
+3. 🔴 Test authentication flows thoroughly
+4. 🔴 Deploy validate-promo-code edge function
 
 ### Do Before App Store Submission:
 5. 🟡 Configure deep linking
 6. 🟡 Implement push notification handlers
-7. 🟡 Implement real biometric auth plugin
+7. 🟡 Implement real biometric auth plugin (optional)
 8. 🟡 Add offline queue functionality
 9. 🟡 Complete all testing checklist items
 
