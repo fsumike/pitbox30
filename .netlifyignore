@@ -1,0 +1,3 @@
+# Ignore mobile build folders
+ios/
+android/
