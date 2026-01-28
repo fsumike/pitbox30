@@ -39,6 +39,7 @@
   "publish": {
     "ios": {
       "bundleId": "com.pitbox.app",
+      "destinationId": "97f0f08c-9452-4b9e-94af-db752f3ffa00",
       "destinations": [
         {
           "type": "testflight",
