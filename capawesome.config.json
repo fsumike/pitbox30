@@ -7,11 +7,12 @@
   "build": {
     "platforms": {
       "ios": {
-        "buildCommand": "/usr/libexec/PlistBuddy -c 'Set :CFBundleShortVersionString 2.0.0' ios/App/App/Info.plist && xcodebuild -workspace ios/App/App.xcworkspace -scheme App -configuration Release -archivePath build/App.xcarchive archive",
+        "buildCommand": "/usr/libexec/PlistBuddy -c 'Set :CFBundleVersion 3' ios/App/App/Info.plist && /usr/libexec/PlistBuddy -c 'Set :CFBundleShortVersionString 2.0.0' ios/App/App/Info.plist && xcodebuild -workspace ios/App/App.xcworkspace -scheme App -configuration Release -archivePath build/App.xcarchive archive",
         "buildArtifacts": [
           "build/App.xcarchive"
         ],
         "version": "2.0.0",
+        "buildNumber": "3",
         "infoPlist": {
           "CFBundleDisplayName": "Pitbox Racing Technology",
           "NSPhotoLibraryUsageDescription": "PitBox needs access to save racing photos and setup sheets.",
@@ -30,7 +31,8 @@
           "android/app/build/outputs/apk/release/app-release.apk",
           "android/app/build/outputs/bundle/release/app-release.aab"
         ],
-        "version": "2.0.0"
+        "version": "2.0.0",
+        "versionCode": 3
       }
     }
   },
@@ -56,4 +58,3 @@
     }
   }
 }
-
