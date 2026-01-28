@@ -1,6 +1,6 @@
 import React, { useState, useEffect, lazy, Suspense } from 'react';
-import { BrowserRouter as Router, Routes, Route, NavLink, useLocation, Navigate } from 'react-router-dom';
-import { Sun, Moon, Menu, X as MenuX, Loader2 } from 'lucide-react';
+import { BrowserRouter as Router, Routes, Route, NavLink, useLocation, Navigate, useNavigate } from 'react-router-dom';
+import { Sun, Moon, Menu, X as MenuX, Loader2, ArrowLeft } from 'lucide-react';
 import { AuthProvider } from './contexts/AuthContext';
 import { ChatProvider } from './contexts/ChatContext';
 import { StripeProvider } from './contexts/StripeContext';
@@ -14,7 +14,6 @@ import VideoSplash from './components/VideoSplash';
 import { liveUpdateService } from './lib/capawesome-live-update';
 import { useShareTarget } from './hooks/useShareTarget';
 import ShareTargetHandler from './components/ShareTargetHandler';
-import FloatingBackButton from './components/FloatingBackButton';
 
 // Critical pages loaded immediately
 import Landing from './pages/Landing';
@@ -181,6 +180,7 @@ function App() {
     return seen === 'true';
   });
   const location = useLocation();
+  const navigate = useNavigate();
   const { user, userProfile } = useAuth();
   const { showNav } = useNavVisibility();
   const isLandingPage = location.pathname === '/';
@@ -235,14 +235,24 @@ function App() {
 
   const onTouchEnd = () => {
     if (!touchStartY || !touchEndY) return;
-    
+
     const distance = touchStartY - touchEndY;
     const isUpSwipe = distance > minSwipeDistance;
-    
+
     if (isUpSwipe) {
       closeMenu();
     }
   };
+
+  const handleBack = () => {
+    if (window.history.length > 1) {
+      navigate(-1);
+    } else {
+      navigate('/home');
+    }
+  };
+
+  const showBackButton = !['/', '/home', '/signin'].includes(location.pathname);
 
   // Show video splash on first load (only once per session)
   if (showVideoSplash && !hasSeenVideo) {
@@ -284,17 +294,43 @@ function App() {
             <div className="glass-nav rounded-2xl backdrop-blur-lg border border-white/10 shadow-lg transition-all duration-300">
               <div className="flex items-center justify-between h-16 px-4">
                 <div className="flex items-center">
-                  <NavLink 
-                    to="/home" 
-                    className="flex items-center transition-transform hover:scale-105"
-                  >
-                    <img 
-                      src="/android-icon-192-192.png" 
-                      alt="PIT-BOX.COM Logo" 
-                      className="h-10 w-auto drop-shadow-lg"
-                    />
-                  </NavLink>
+                  {showBackButton ? (
+                    <button
+                      onClick={handleBack}
+                      className="flex items-center gap-2 px-3 py-2 rounded-lg bg-brand-gold/10 hover:bg-brand-gold/20 text-brand-gold transition-all duration-200"
+                      aria-label="Go back"
+                    >
+                      <ArrowLeft className="w-5 h-5" />
+                      <span className="font-medium">Back</span>
+                    </button>
+                  ) : (
+                    <NavLink
+                      to="/home"
+                      className="flex items-center transition-transform hover:scale-105"
+                    >
+                      <img
+                        src="/android-icon-192-192.png"
+                        alt="PIT-BOX.COM Logo"
+                        className="h-10 w-auto drop-shadow-lg"
+                      />
+                    </NavLink>
+                  )}
                 </div>
+
+                {showBackButton && (
+                  <div className="absolute left-1/2 transform -translate-x-1/2">
+                    <NavLink
+                      to="/home"
+                      className="flex items-center transition-transform hover:scale-105"
+                    >
+                      <img
+                        src="/android-icon-192-192.png"
+                        alt="PIT-BOX.COM Logo"
+                        className="h-10 w-auto drop-shadow-lg"
+                      />
+                    </NavLink>
+                  </div>
+                )}
 
                 <div className="hidden lg:flex lg:items-center lg:space-x-1">
                   <NavLink
@@ -429,6 +465,18 @@ function App() {
             >
               <div className="glass-nav rounded-2xl backdrop-blur-lg border border-white/10 shadow-lg overflow-hidden">
                 <div className="p-4 space-y-1">
+                  {showBackButton && (
+                    <button
+                      onClick={() => {
+                        handleBack();
+                        closeMenu();
+                      }}
+                      className="w-full flex items-center gap-2 px-4 py-3 rounded-lg bg-brand-gold/10 hover:bg-brand-gold/20 text-brand-gold transition-all duration-200 font-medium"
+                    >
+                      <ArrowLeft className="w-5 h-5" />
+                      Back
+                    </button>
+                  )}
                   <NavLink
                     to="/home"
                     className={({ isActive }) => `
@@ -609,9 +657,6 @@ function App() {
           }}
         />
       )}
-
-      {/* Floating Back Button for Mobile */}
-      <FloatingBackButton />
 
       <PWAUpdate />
     </div>
