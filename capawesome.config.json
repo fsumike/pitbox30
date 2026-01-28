@@ -20,6 +20,7 @@
           "NSLocationWhenInUseUsageDescription": "PitBox uses your location to find nearby tracks.",
           "NSMicrophoneUsageDescription": "PitBox uses the microphone to record voice notes.",
           "CFBundleShortVersionString": "2.0.0",
+          "CFBundleVersion": "3",
           "ITSAppUsesNonExemptEncryption": false
         }
       },
@@ -55,3 +56,4 @@
     }
   }
 }
+
