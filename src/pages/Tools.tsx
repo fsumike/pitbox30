@@ -1,6 +1,6 @@
 import React, { useState, Suspense } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { ArrowLeft, Wrench, Activity, Gauge, Calculator, BookOpen, Droplet, Weight, Settings, Ruler, ChevronDown, Zap, Camera, Axis3d } from 'lucide-react';
+import { ArrowLeft, Wrench, Activity, Gauge, Calculator, BookOpen, Droplet, Weight, Settings, Ruler, ChevronDown, Zap, Camera, Axis3d, MapPin } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import LoadingSpinner from '../components/LoadingSpinner';
 import { Capacitor } from '@capacitor/core';
@@ -301,6 +301,18 @@ export default function Tools() {
                     </div>
                   </div>
                 ))}
+                <div
+                  className="flex items-center gap-3 p-4 rounded-2xl bg-gradient-to-br from-brand-gold/20 to-amber-500/20 border-2 border-brand-gold/50 hover:scale-102 transition-all cursor-pointer"
+                  onClick={() => navigate('/location-demo')}
+                >
+                  <MapPin className="w-6 h-6 text-brand-gold flex-shrink-0" />
+                  <div className="flex-1 min-w-0">
+                    <h4 className="font-semibold truncate">📍 Location Demo (NEW)</h4>
+                    <p className="text-sm text-gray-600 dark:text-gray-400 line-clamp-1">
+                      Test GPS, maps, track detection & location features
+                    </p>
+                  </div>
+                </div>
               </div>
             </div>
 

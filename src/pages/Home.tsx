@@ -121,6 +121,12 @@ function Home() {
                   >
                     Explore Tools
                   </button>
+                  <button
+                    onClick={() => navigate('/location-demo')}
+                    className="bg-brand-gold/90 backdrop-blur-sm text-gray-900 border border-brand-gold px-6 sm:px-8 py-2 sm:py-3 rounded-lg hover:bg-brand-gold transition-all text-base sm:text-lg font-bold w-full sm:w-auto"
+                  >
+                    📍 Location Demo
+                  </button>
                 </div>
               </div>
             </div>
