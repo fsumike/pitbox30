@@ -76,6 +76,7 @@ const SocialMedia = lazy(() => import('./pages/SocialMedia'));
 const QRCodeDownload = lazy(() => import('./pages/QRCodeDownload'));
 const MyAdvertisements = lazy(() => import('./pages/MyAdvertisements'));
 const AdminAdvertisements = lazy(() => import('./pages/AdminAdvertisements'));
+const LocationDemo = lazy(() => import('./pages/LocationDemo'));
 
 import { AdminRoute } from './components/AdminRoute';
 import { isDesktopWeb } from './utils/platform';
@@ -574,6 +575,7 @@ function App() {
           <Route path="/tools" element={<Tools />} />
           <Route path="/social" element={<SocialMedia />} />
           <Route path="/qr-download" element={<QRCodeDownload />} />
+          <Route path="/location-demo" element={<LocationDemo />} />
           
           <Route path="/wingless" element={<WinglessSprints />} />
           <Route path="/crate" element={<CrateSprints />} />
