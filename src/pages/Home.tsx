@@ -98,7 +98,7 @@ function Home() {
               </div>
               <div className="text-center md:text-left flex-1 order-1 md:order-1 max-w-2xl">
                 <p className="text-amber-400 dark:text-amber-400 font-black text-2xl sm:text-3xl md:text-4xl lg:text-5xl mb-3 tracking-wider uppercase animate-gold-glow leading-tight">
-                  Setup Management Tool
+                  Setup Management App
                 </p>
                 <h1 className="text-3xl font-bold tracking-tight text-white sm:text-4xl md:text-5xl mb-4 leading-tight">
                   Save and Track Every Racing Setup
