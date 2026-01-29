@@ -1,1 +1,0 @@
-import{j as r}from"./ui-a5pT2S0L.js";import{T as t}from"./TireManagement-C7vST0po.js";import"./react-CLW9qjVv.js";import"./index-DMaHBciH.js";import"./supabase-Dols_XF-.js";import"./router-CsjlwGXH.js";import"./NumberInput-CV0vNO3q.js";function s(){return r.jsx(t,{})}export{s as default};
