@@ -439,17 +439,17 @@ function App() {
               </div>
             </div>
 
-            <div 
+            <div
               className={`
-                fixed inset-x-4 top-24 z-50 transform transition-all duration-300 origin-top
-                ${menuOpen ? 'scale-y-100 opacity-100' : 'scale-y-95 opacity-0 pointer-events-none'}
+                fixed inset-x-4 z-50 transition-all duration-300
+                ${menuOpen ? 'opacity-100 translate-y-0' : 'opacity-0 -translate-y-4 pointer-events-none'}
               `}
-              onTouchStart={onTouchStart}
-              onTouchMove={onTouchMove}
-              onTouchEnd={onTouchEnd}
+              style={{
+                top: 'calc(env(safe-area-inset-top, 0px) + 6rem)'
+              }}
             >
               <div className="glass-nav rounded-2xl backdrop-blur-lg border border-white/10 shadow-lg overflow-hidden">
-                <div className="p-4 space-y-1">
+                <div className="p-4 space-y-1" style={{ WebkitTapHighlightColor: 'transparent' }}>
                   <NavLink
                     to="/home"
                     className={({ isActive }) => `
@@ -457,6 +457,7 @@ function App() {
                       ${isActive ? 'bg-brand-gold/20 text-brand-gold' : 'hover:bg-white/10'}
                     `}
                     onClick={closeMenu}
+                    style={{ touchAction: 'manipulation', WebkitTapHighlightColor: 'transparent' }}
                   >
                     Home
                   </NavLink>
@@ -467,6 +468,7 @@ function App() {
                       ${isActive ? 'bg-brand-gold/20 text-brand-gold' : 'hover:bg-white/10'}
                     `}
                     onClick={closeMenu}
+                    style={{ touchAction: 'manipulation', WebkitTapHighlightColor: 'transparent' }}
                   >
                     Pit Community
                   </NavLink>
@@ -477,6 +479,7 @@ function App() {
                       ${isActive ? 'bg-brand-gold/20 text-brand-gold' : 'hover:bg-white/10'}
                     `}
                     onClick={closeMenu}
+                    style={{ touchAction: 'manipulation', WebkitTapHighlightColor: 'transparent' }}
                   >
                     Swap Meet
                   </NavLink>
@@ -487,6 +490,7 @@ function App() {
                       ${isActive ? 'bg-brand-gold/20 text-brand-gold' : 'hover:bg-white/10'}
                     `}
                     onClick={closeMenu}
+                    style={{ touchAction: 'manipulation', WebkitTapHighlightColor: 'transparent' }}
                   >
                     Racing Tools
                   </NavLink>
@@ -497,6 +501,7 @@ function App() {
                       ${isActive ? 'bg-brand-gold/20 text-brand-gold' : 'hover:bg-white/10'}
                     `}
                     onClick={closeMenu}
+                    style={{ touchAction: 'manipulation', WebkitTapHighlightColor: 'transparent' }}
                   >
                     Contact
                   </NavLink>
@@ -507,6 +512,7 @@ function App() {
                       ${isActive ? 'bg-brand-gold/20 text-brand-gold' : 'hover:bg-white/10'}
                     `}
                     onClick={closeMenu}
+                    style={{ touchAction: 'manipulation', WebkitTapHighlightColor: 'transparent' }}
                   >
                     Affiliates
                   </NavLink>
@@ -517,6 +523,7 @@ function App() {
                       ${isActive ? 'bg-brand-gold/20 text-brand-gold' : 'hover:bg-white/10'}
                     `}
                     onClick={closeMenu}
+                    style={{ touchAction: 'manipulation', WebkitTapHighlightColor: 'transparent' }}
                   >
                     Follow Us
                   </NavLink>
@@ -529,6 +536,7 @@ function App() {
                       closeMenu();
                     }}
                     className="w-full flex items-center gap-3 px-4 py-3 rounded-lg hover:bg-white/10 transition-colors text-white font-medium"
+                    style={{ touchAction: 'manipulation', WebkitTapHighlightColor: 'transparent' }}
                   >
                     {darkMode ? <Sun className="w-5 h-5" /> : <Moon className="w-5 h-5" />}
                     {darkMode ? 'Light Mode' : 'Dark Mode'}
