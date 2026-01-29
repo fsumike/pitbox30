@@ -12,7 +12,7 @@
           "build/App.xcarchive"
         ],
         "version": "1.0.1",
-        "buildNumber": "5",
+        "buildNumber": "7",
         "infoPlist": {
           "CFBundleDisplayName": "Pitbox Racing Technology",
           "NSPhotoLibraryUsageDescription": "PitBox needs access to save racing photos and setup sheets.",
@@ -21,7 +21,7 @@
           "NSLocationWhenInUseUsageDescription": "PitBox uses your location to find nearby tracks.",
           "NSMicrophoneUsageDescription": "PitBox uses the microphone to record voice notes.",
           "CFBundleShortVersionString": "1.0.1",
-          "CFBundleVersion": "5",
+          "CFBundleVersion": "7",
           "ITSAppUsesNonExemptEncryption": false
         }
       },
@@ -59,3 +59,4 @@
     }
   }
 }
+
